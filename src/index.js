@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'mobx-react'
 
+import 'bootstrap/dist/css/bootstrap.css'
+
 import eosAgent from './EosAgent'
 import eosioStore from './stores/eosioStore'
 import accountStore from './stores/accountStore'
