@@ -2,16 +2,16 @@ import { decorate, observable, action } from 'mobx'
 import axios from 'axios'
 
 class MarketStore {
-  coins = []
+  tokens = []
 
-  getCoinList = async () => {
-    const coins = await axios('http://localhost:3000/coins')
+  getTokenList = async () => {
+    const tokens = await axios('http://localhost:3000/tokens')
   }
 }
 
 decorate(MarketStore, {
-  coins: observable,
-  getCoinList: action
+  tokens: observable,
+  getTokenList: action
 })
 
 export default new MarketStore()

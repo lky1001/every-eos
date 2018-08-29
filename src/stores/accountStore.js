@@ -46,9 +46,7 @@ class AccountStore {
     const loginAccountInfo = await eosAgent.getAccount(scatterAccount.name)
 
     if (loginAccountInfo) {
-      this.liquid = loginAccountInfo.core_liquid_balance
-        ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0])
-        : 0
+      this.liquid = loginAccountInfo.core_liquid_balance ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0]) : 0
       this.cpuMax = parseFloat(loginAccountInfo.cpu_limit.max)
       this.netMax = parseFloat(loginAccountInfo.net_limit.max)
       let refundingCpuAmount = 0.0
@@ -92,6 +90,8 @@ class AccountStore {
       this.loginAccountInfo = loginAccountInfo
     }
   }
+
+  getAccountTokenBalance = async tokens => {}
 }
 
 decorate(AccountStore, {
