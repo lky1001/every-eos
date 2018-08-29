@@ -1,6 +1,14 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import { Provider } from 'mobx-react'
+import { IntlProvider, addLocaleData } from 'react-intl'
+import initLocale, { getUserLocale } from 'react-intl-locale'
+import en from 'react-intl/locale-data/en'
+import ko from 'react-intl/locale-data/ko'
+import locale from './locales/locale'
+
+import * as Utils from './utils/Utils'
+import * as Values from './constants/Values'
 
 import 'bootstrap/dist/css/bootstrap.css'
 
@@ -10,6 +18,29 @@ import accountStore from './stores/accountStore'
 
 import App from './App'
 import registerServiceWorker from './registerServiceWorker'
+
+initLocale('en-US', Values.supportLanguage.slice())
+addLocaleData([...en, ...ko])
+
+const lang = Utils.getJsonFromUrl().lang
+
+console.log(lang)
+
+let i18nLang
+
+if (lang) {
+  i18nLang = lang.split('-')[0]
+  localStorage.setItem('locale', lang)
+} else {
+  const savedLocale = localStorage.getItem('locale')
+
+  if (savedLocale) {
+    i18nLang = savedLocale.split('-')[0]
+  } else {
+    const userLocale = getUserLocale()
+    i18nLang = userLocale.split('-')[0]
+  }
+}
 
 const stores = {
   eosioStore,
@@ -31,7 +62,9 @@ document.addEventListener('scatterLoaded', async scatterExtension => {
 
 ReactDOM.render(
   <Provider {...stores}>
-    <App />
+    <IntlProvider key={i18nLang} locale={i18nLang} messages={locale[i18nLang]}>
+      <App />
+    </IntlProvider>
   </Provider>,
   document.getElementById('root')
 )
