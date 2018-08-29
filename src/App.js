@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import componentQueries from 'react-component-queries'
-import { BrowserRouter, Redirect, Switch, Route } from 'react-router-dom'
-import { EmptyLayout, LayoutRoute, MainLayout } from './components/Layout'
+import { BrowserRouter, Switch } from 'react-router-dom'
+import { LayoutRoute, MainLayout } from './components/Layout'
 
 import { Home } from './pages'
 
