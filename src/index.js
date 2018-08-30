@@ -17,7 +17,6 @@ import eosioStore from './stores/eosioStore'
 import accountStore from './stores/accountStore'
 
 import App from './App'
-import registerServiceWorker from './registerServiceWorker'
 
 initLocale('en-US', Values.supportLanguage.slice())
 addLocaleData([...en, ...ko])
@@ -68,4 +67,3 @@ ReactDOM.render(
   </Provider>,
   document.getElementById('root')
 )
-registerServiceWorker()
