@@ -1,2 +1,5 @@
 export { default as Home } from './Home'
 export { default as Trade } from './Trade'
+export { default as Market } from './Market'
+export { default as Order } from './Order'
+export { default as Wallet } from './Wallet'

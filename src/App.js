@@ -3,7 +3,7 @@ import componentQueries from 'react-component-queries'
 import { BrowserRouter, Switch } from 'react-router-dom'
 import { LayoutRoute, MainLayout } from './components/Layout'
 
-import { Home, Trade } from './pages'
+import { Home, Trade, Market, Order, Wallet } from './pages'
 
 const getBasename = () => {
   return `/${process.env.PUBLIC_URL.split('/').pop()}`
@@ -15,6 +15,9 @@ class App extends Component {
       <BrowserRouter basename={getBasename()}>
         <Switch>
           <LayoutRoute exact path="/" layout={MainLayout} component={Home} />
+          <LayoutRoute exact path="/markets" layout={MainLayout} component={Market} />
+          <LayoutRoute exact path="/orders" layout={MainLayout} component={Order} />
+          <LayoutRoute exact path="/wallets" layout={MainLayout} component={Wallet} />
           <LayoutRoute exact path="/trades/:token" layout={MainLayout} component={Trade} />
         </Switch>
       </BrowserRouter>
