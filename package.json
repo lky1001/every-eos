@@ -47,6 +47,7 @@
     "react-intl-locale": "^0.5.3",
     "react-router-dom": "^4.3.1",
     "react-sizeme": "^2.5.2",
+    "react-stockcharts": "^0.7.7",
     "reactstrap": "^6.4.0",
     "recompose": "^0.28.2",
     "resolve": "1.6.0",
