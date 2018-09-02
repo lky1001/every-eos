@@ -1,6 +1,6 @@
 # Every EOS
 
-Decentralized exchange based on eos.io
+Decentralized exchange based on [eos.io](http://developers.eos.io/)
 
 Create react project by create-react-app
 
@@ -12,7 +12,9 @@ Create react project by create-react-app
 
 ## Required
 
-- npm or yarn
+- Node.js
+- NPM or YARN
+- Any code editor
 
 ## Install dependencies
 
@@ -39,3 +41,7 @@ $ npm run build or yarn build
 - Market Token List
 - Trade
 - Order History
+
+## License
+
+everyeos is licensed under the MIT License, also included in our repository in the LICENSE file.
