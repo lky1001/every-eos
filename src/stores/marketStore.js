@@ -1,12 +1,37 @@
 import { decorate, observable, action } from 'mobx'
-import axios from 'axios'
+import { ApolloClient } from 'apollo-mobx'
+import gql from 'graphql-tag'
 
+const client = new ApolloClient({ uri: 'http://localhost:4000' })
+
+const tokenFragment = gql`
+  fragment token on Token {
+    id
+    name
+    symbol
+    market
+    precision
+    contrat
+    last_price
+    volume_24h
+    high_price_24h
+    low_price_24h
+    status
+  }
+`
+
+const allTokensQuery = gql`
+  {
+    allTokens {
+      ...token
+    }
+  }
+  ${tokenFragment}
+`
 class MarketStore {
   tokens = []
 
-  getTokenList = async () => {
-    const tokens = await axios('http://localhost:3000/tokens')
-  }
+  getTokenList = async () => {}
 
   /**
    * symbol : IQ
