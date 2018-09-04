@@ -12,16 +12,16 @@ const Text = styled.span`
 class MarketRow extends Component {
   render() {
     const { token } = this.props
+    const todayChanged = token.last_day_price - token.last_price
 
     return (
       <Row classNam="show-grid">
         <Col xs={2}>{token.name}</Col>
         <Col xs={2}>
-          <Text>{token.last_price}</Text>
+          <Text color={todayChanged > 0 ? 'Blue' : 'Red'}>{token.last_price}</Text>
         </Col>
         <Col xs={2}>
-          {/* todo - last_day_price + last_price */}
-          <Text>{token.last_price}</Text>
+          <Text>{todayChanged}</Text>
         </Col>
         <Col xs={2}>{token.high_price_24h}</Col>
         <Col xs={2}>{token.low_price_24h}</Col>
