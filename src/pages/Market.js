@@ -11,8 +11,19 @@ class Market extends Component {
 
   render() {
     const { marketStore } = this.props
+    const { error, loading, count, currenttokens } = marketStore
 
-    return <Fragment>{marketStore.tokens ? JSON.stringify(marketStore.tokens) : 'null'}</Fragment>
+    if (error) {
+      console.log('에러냥')
+      console.error(error)
+    } else if (loading) console.warn('Loading ..')
+    else if (count === 0) console.warn('No data :(')
+    else {
+      console.log('여긴 오냐')
+      console.log(currenttokens)
+    }
+
+    return <div>{currenttokens}</div>
   }
 }
 
