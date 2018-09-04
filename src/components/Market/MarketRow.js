@@ -15,7 +15,7 @@ class MarketRow extends Component {
     const todayChanged = token.last_day_price - token.last_price
 
     return (
-      <Row classNam="show-grid">
+      <Row className="show-grid">
         <Col xs={2}>{token.name}</Col>
         <Col xs={2}>
           <Text color={todayChanged > 0 ? 'Blue' : 'Red'}>{token.last_price}</Text>

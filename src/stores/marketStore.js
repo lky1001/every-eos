@@ -1,4 +1,4 @@
-import { decorate, observable, set, toJS, action } from 'mobx'
+import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset'
 import gql from 'graphql-tag'
@@ -12,7 +12,15 @@ const client = new ApolloClient({
 const tokenFragment = gql`
   fragment token on Token {
     id
+    name
     symbol
+    market
+    precision
+    contract
+    last_price
+    volume_24h
+    high_price_24h
+    low_price_24h
   }
 `
 
@@ -26,32 +34,28 @@ const tokensQuery = gql`
 `
 
 class MarketStore {
-  tokens = []
-
   constructor() {
     set(this, {
       get tokens() {
         return graphql({ client, query: tokensQuery })
-      },
-      get error() {
-        return (this.tokens.error && this.tokens.error.message) || null
-      },
-      get loading() {
-        return this.tokens.loading
-      },
-      get currenttokens() {
-        return (this.tokens.data && toJS(this.tokens.data.tokens)) || []
-      },
-      get count() {
-        return this.tokens.length
       }
     })
   }
 
-  getTokenList = async () => {
-    // const result = await graphql({ client, query: tokenFragment })
-    // console.log(JSON.stringify(result.data))
-    // this.tokens = result.data.tokens
+  get error() {
+    return (this.tokens.error && this.tokens.error.message) || null
+  }
+
+  get loading() {
+    return this.tokens.loading
+  }
+
+  get tokenList() {
+    return (this.tokens.data && toJS(this.tokens.data.tokens)) || []
+  }
+
+  get count() {
+    return this.tokens.data.tokens ? this.tokens.data.tokens.length : 0
   }
 
   /**
@@ -77,7 +81,10 @@ class MarketStore {
 
 decorate(MarketStore, {
   tokens: observable,
-  getTokenList: action
+  error: computed,
+  loading: computed,
+  tokenList: computed,
+  count: computed
 })
 
 export default new MarketStore()

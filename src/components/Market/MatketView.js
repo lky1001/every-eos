@@ -7,8 +7,8 @@ import MarketRow from './MarketRow'
 
 class Market extends Component {
   render() {
-    const { tokens } = this.props
-    console.log(tokens)
+    const { tokenList } = this.props
+
     return (
       <Grid>
         <Row className="show-grid">
@@ -31,8 +31,8 @@ class Market extends Component {
             <FormattedMessage id="24h Volume" />
           </Col>
         </Row>
-        {tokens.map((token, idx) => {
-          return <MarketRow token={token} />
+        {tokenList.map(token => {
+          return <MarketRow key={token.id} token={token} />
         })}
       </Grid>
     )
