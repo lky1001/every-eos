@@ -1,22 +1,22 @@
 import { decorate, observable, action } from 'mobx'
-import { ApolloClient } from 'apollo-mobx'
+import graphql from 'mobx-apollo'
+import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset'
 import gql from 'graphql-tag'
 
-const client = new ApolloClient({ uri: 'http://localhost:4000' })
+const uri = 'http://localhost:4000'
+const client = new ApolloClient({
+  link: new HttpLink({ uri }),
+  cache: new InMemoryCache()
+})
 
 const tokenFragment = gql`
-  fragment token on Token {
-    id
-    name
-    symbol
-    market
-    precision
-    contrat
-    last_price
-    volume_24h
-    high_price_24h
-    low_price_24h
-    status
+  {
+    tokens {
+      name
+      symbol
+      market
+      created
+    }
   }
 `
 
@@ -28,10 +28,15 @@ const allTokensQuery = gql`
   }
   ${tokenFragment}
 `
+
 class MarketStore {
   tokens = []
 
-  getTokenList = async () => {}
+  getTokenList = async () => {
+    const result = await graphql({ client, query: tokenFragment })
+    console.log(JSON.stringify(result.data))
+    this.tokens = result.data.tokens
+  }
 
   /**
    * symbol : IQ
@@ -50,6 +55,8 @@ class MarketStore {
   getOrderHistory = async accountName => {}
 
   cancelOrder = async (accountName, id) => {}
+
+  getChart = async (tokenId, group) => {}
 }
 
 decorate(MarketStore, {

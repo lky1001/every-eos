@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react"
-import { inject, observer } from "mobx-react"
-import { compose } from "recompose"
+import React, { Component, Fragment } from 'react'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 
 class Trade extends Component {
   constructor(props) {
@@ -18,6 +18,6 @@ class Trade extends Component {
 }
 
 export default compose(
-  inject("eosioStore"),
+  inject('eosioStore'),
   observer
 )(Trade)
