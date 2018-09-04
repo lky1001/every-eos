@@ -12,7 +12,15 @@ const client = new ApolloClient({
 const tokenFragment = gql`
   fragment token on Token {
     id
+    name
     symbol
+    market
+    precision
+    contract
+    last_day_price
+    volume_24h
+    high_price_24h
+    low_price_24h
   }
 `
 
