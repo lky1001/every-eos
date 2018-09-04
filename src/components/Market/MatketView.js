@@ -19,7 +19,7 @@ class Market extends Component {
             <FormattedMessage id="Last Price" />
           </Col>
           <Col xs={2}>
-            <FormattedMessage id="24h Change" />
+            <FormattedMessage id="Today Change" />
           </Col>
           <Col xs={2}>
             <FormattedMessage id="24h High" />

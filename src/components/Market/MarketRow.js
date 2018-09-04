@@ -20,7 +20,8 @@ class MarketRow extends Component {
           <Text>{token.last_price}</Text>
         </Col>
         <Col xs={2}>
-          <FormattedMessage id="24h Change" />
+          {/* todo - last_day_price + last_price */}
+          <Text>{token.last_price}</Text>
         </Col>
         <Col xs={2}>{token.high_price_24h}</Col>
         <Col xs={2}>{token.low_price_24h}</Col>
