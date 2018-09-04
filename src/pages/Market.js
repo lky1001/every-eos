@@ -9,14 +9,14 @@ import { ProgressBar } from 'react-bootstrap'
 class Market extends Component {
   render() {
     const { marketStore } = this.props
-    const { error, loading, count, tokenList } = marketStore
+    const { error, loading, tokens } = marketStore
 
     return (
       <div>
         {loading ? (
           <ProgressBar striped bsStyle="success" now={40} />
         ) : (
-          <MarketView tokenList={tokenList} />
+          <MarketView tokens={tokens} />
         )}
       </div>
     )
