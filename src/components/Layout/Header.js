@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 import {
   Collapse,
   Navbar,
@@ -29,6 +31,22 @@ class Header extends Component {
     })
   }
 
+  onLoginClick = async () => {
+    try {
+      const { accountStore } = this.props
+
+      const result = await accountStore.login()
+
+      if (!result) {
+        alert('need install scatter')
+      }
+    } catch (e) {
+      // todo - error handle
+      // 423 Locked
+      console.log(e)
+    }
+  }
+
   render() {
     return (
       <header>
@@ -37,6 +55,9 @@ class Header extends Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
+              <NavItem>
+                <NavLink onClick={this.onLoginClick}>Login with Scatter</NavLink>
+              </NavItem>
               <NavItem>
                 <NavLink href="/components/">Components</NavLink>
               </NavItem>
@@ -62,4 +83,7 @@ class Header extends Component {
   }
 }
 
-export default Header
+export default compose(
+  inject('accountStore'),
+  observer
+)(Header)

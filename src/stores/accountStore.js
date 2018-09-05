@@ -10,9 +10,17 @@ class AccountStore {
   liquid = 0.0
   cpuMax = 0.0
   netMax = 0.0
-  cpuStaked = 0.0
-  netStaked = 0.0
-  staked = 0
+  totalResource = {
+    cpuWeight: 0.0,
+    netWeight: 0.0
+  }
+  selfDelegatedResource = {
+    cpuWeight: 0.0,
+    netWeight: 0.0
+  }
+  selfStake = 0.0
+  delegatedStake = 0.0
+  totalStake = 0.0
   permissions = null
   myVoteProducers = []
   isProxy = 0
@@ -58,10 +66,24 @@ class AccountStore {
       }
 
       this.totalRefund = refundingCpuAmount + refundingNetAmount
-      this.cpuStaked = parseFloat(loginAccountInfo.total_resources.cpu_weight.split(' ')[0])
-      this.netStaked = parseFloat(loginAccountInfo.total_resources.net_weight.split(' ')[0])
+      this.totalCpuStaked = parseFloat(loginAccountInfo.total_resources.cpu_weight.split(' ')[0])
+      this.totalNetStaked = parseFloat(loginAccountInfo.total_resources.net_weight.split(' ')[0])
+      this.selfCpuStaked = parseFloat(loginAccountInfo.self_delegated_bandwidth.cpu_weight.split(' ')[0])
+      this.selfNetStaked = parseFloat(loginAccountInfo.self_delegated_bandwidth.cpu_weight.net_weight(' ')[0])
 
-      this.staked = this.netStaked + this.cpuStaked
+      this.totalResource = {
+        cpuWeight: this.totalCpuStaked,
+        netWeight: this.totalNetStaked
+      }
+
+      this.selfDelegatedResource = {
+        cpuWeight: this.selfCpuStaked,
+        netWeight: this.selfNetStaked
+      }
+
+      this.totalStake = this.totalCpuStaked + this.totalNetStaked
+      this.selfStake = this.selfCpuStaked + this.selfNetStaked
+      // todo - 토탈 발란스에 델리게이트도 포함해야 하는가?
       this.totalBalance = this.netStaked + this.cpuStaked + this.totalRefund + this.liquid
       this.permissions = loginAccountInfo.permissions
 
