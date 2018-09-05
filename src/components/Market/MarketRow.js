@@ -18,7 +18,7 @@ class MarketRow extends Component {
       <Row className="show-grid">
         <Col xs={2}>{token.name}</Col>
         <Col xs={2}>
-          <Text color={todayChanged > 0 ? 'Blue' : 'Red'}>{token.last_price}</Text>
+          <Text color={todayChanged > 0 ? 'Red' : 'Blue'}>{token.last_price}</Text>
         </Col>
         <Col xs={2}>
           <Text>{todayChanged}</Text>
