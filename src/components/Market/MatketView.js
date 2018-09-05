@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 
 import { Grid, Row, Col } from 'react-bootstrap'
 
+import RecourceView from '../ResourceView'
 import MarketRow from './MarketRow'
 
 class Market extends Component {
@@ -11,6 +12,8 @@ class Market extends Component {
 
     return (
       <Grid>
+        {/* test */}
+        <RecourceView />
         <Row className="show-grid">
           <Col xs={2}>
             <FormattedMessage id="Name" />

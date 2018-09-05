@@ -2,6 +2,8 @@ import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 
+import TokenInfo from '../components/Trade/TokenInfo'
+
 class Trade extends Component {
   constructor(props) {
     super(props)
@@ -13,7 +15,11 @@ class Trade extends Component {
   }
 
   render() {
-    return <Fragment>{this.state.token}</Fragment>
+    return (
+      <Fragment>
+        <TokenInfo token={this.state.token} />
+      </Fragment>
+    )
   }
 }
 

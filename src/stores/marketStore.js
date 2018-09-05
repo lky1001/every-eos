@@ -34,11 +34,20 @@ const tokensQuery = gql`
   ${tokenFragment}
 `
 
+const findTokenQuery = gql`
+  query($id: Int!) {
+    token(id: $id) {
+      id
+      name
+    }
+  }
+`
+
 class MarketStore {
   constructor() {
     set(this, {
       get tokens() {
-        return graphql({ client, query: tokensQuery })
+        return graphql({ client, query: tokensQuery, variables: { id: 1 } })
       }
     })
   }

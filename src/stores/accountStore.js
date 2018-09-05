@@ -8,8 +8,21 @@ class AccountStore {
   totalRefund = 0.0
   eosBalance = 0.0
   liquid = 0.0
-  cpuMax = 0.0
-  netMax = 0.0
+  cpu = {
+    max: 0,
+    used: 0,
+    avaiable: 0
+  }
+  net = {
+    max: 0,
+    used: 0,
+    avaiable: 0
+  }
+  ram = {
+    max: 0,
+    used: 0,
+    avaiable: 0
+  }
   totalResource = {
     cpuWeight: 0.0,
     netWeight: 0.0
@@ -55,8 +68,22 @@ class AccountStore {
 
     if (loginAccountInfo) {
       this.liquid = loginAccountInfo.core_liquid_balance ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0]) : 0
-      this.cpuMax = parseFloat(loginAccountInfo.cpu_limit.max)
-      this.netMax = parseFloat(loginAccountInfo.net_limit.max)
+      this.cpu = {
+        max: parseFloat(loginAccountInfo.cpu_limit.max),
+        used: parseFloat(loginAccountInfo.cpu_limit.used),
+        available: parseFloat(loginAccountInfo.cpu_limit.available)
+      }
+      this.net = {
+        max: parseFloat(loginAccountInfo.net_limit.max),
+        used: parseFloat(loginAccountInfo.net_limit.used),
+        available: parseFloat(loginAccountInfo.net_limit.available)
+      }
+      this.ram = {
+        max: loginAccountInfo.ram_quota,
+        used: loginAccountInfo.ram_usage,
+        available: loginAccountInfo.ram_quota - loginAccountInfo.ram_usage
+      }
+
       let refundingCpuAmount = 0.0
       let refundingNetAmount = 0.0
 
@@ -68,13 +95,15 @@ class AccountStore {
       this.totalRefund = refundingCpuAmount + refundingNetAmount
       this.totalCpuStaked = parseFloat(loginAccountInfo.total_resources.cpu_weight.split(' ')[0])
       this.totalNetStaked = parseFloat(loginAccountInfo.total_resources.net_weight.split(' ')[0])
-      this.selfCpuStaked = parseFloat(loginAccountInfo.self_delegated_bandwidth.cpu_weight.split(' ')[0])
-      this.selfNetStaked = parseFloat(loginAccountInfo.self_delegated_bandwidth.cpu_weight.net_weight(' ')[0])
-
-      this.totalResource = {
-        cpuWeight: this.totalCpuStaked,
-        netWeight: this.totalNetStaked
-      }
+      this.selfCpuStaked = loginAccountInfo.self_delegated_bandwidth
+        ? parseFloat(loginAccountInfo.self_delegated_bandwidth.cpu_weight.split(' ')[0])
+        : 0
+      this.selfNetStaked = loginAccountInfo.self_delegated_bandwidth
+        ? parseFloat(loginAccountInfo.self_delegated_bandwidth.net_weight(' ')[0])
+        : (this.totalResource = {
+          cpuWeight: this.totalCpuStaked,
+          netWeight: this.totalNetStaked
+        })
 
       this.selfDelegatedResource = {
         cpuWeight: this.selfCpuStaked,
@@ -123,8 +152,11 @@ decorate(AccountStore, {
   totalRefund: observable,
   eosBalance: observable,
   liquid: observable,
-  cpuMax: observable,
-  netMax: observable,
+  cpu: observable,
+  net: observable,
+  ram: observable,
+  totalResource: observable,
+  selfDelegatedResource: observable,
   cpuStaked: observable,
   netStaked: observable,
   staked: observable,
