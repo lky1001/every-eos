@@ -67,7 +67,9 @@ class AccountStore {
     const loginAccountInfo = await eosAgent.getAccount(scatterAccount.name)
 
     if (loginAccountInfo) {
-      this.liquid = loginAccountInfo.core_liquid_balance ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0]) : 0
+      this.liquid = loginAccountInfo.core_liquid_balance
+        ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0])
+        : 0
       this.cpu = {
         max: parseFloat(loginAccountInfo.cpu_limit.max),
         used: parseFloat(loginAccountInfo.cpu_limit.used),
@@ -98,8 +100,9 @@ class AccountStore {
       this.selfCpuStaked = loginAccountInfo.self_delegated_bandwidth
         ? parseFloat(loginAccountInfo.self_delegated_bandwidth.cpu_weight.split(' ')[0])
         : 0
+
       this.selfNetStaked = loginAccountInfo.self_delegated_bandwidth
-        ? parseFloat(loginAccountInfo.self_delegated_bandwidth.net_weight(' ')[0])
+        ? parseFloat(loginAccountInfo.self_delegated_bandwidth.net_weight.split(' ')[0])
         : (this.totalResource = {
           cpuWeight: this.totalCpuStaked,
           netWeight: this.totalNetStaked

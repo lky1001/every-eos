@@ -37,7 +37,15 @@ class Market extends Component {
     const { marketStore } = this.props
     const { tokenList } = marketStore
 
-    return <div>{!tokenList ? <ProgressBar striped bsStyle="success" now={40} /> : <MarketView tokenList={tokenList} />}</div>
+    return (
+      <div>
+        {!tokenList ? (
+          <ProgressBar striped bsStyle="success" now={40} />
+        ) : (
+          <MarketView tokenList={tokenList} />
+        )}
+      </div>
+    )
   }
 }
 

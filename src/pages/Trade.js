@@ -45,12 +45,17 @@ class Trade extends Component {
                 <Chart tradeStore={tradeStore} />
               </Col>
               <Col xs={12} md={4} style={{ background: '#a9a909' }}>
-                <Market tradeStore={tradeStore} />
+                <Market marketStore={marketStore} />
               </Col>
             </Row>
             <Row>
               <Col xs={12} style={{ background: '#aaff88' }}>
-                <Order token={token} accountStore={accountStore} tradeStore={tradeStore} eosioStore={eosioStore} />
+                <Order
+                  token={token}
+                  accountStore={accountStore}
+                  tradeStore={tradeStore}
+                  eosioStore={eosioStore}
+                />
               </Col>
             </Row>
           </Col>
