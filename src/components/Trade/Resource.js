@@ -1,27 +1,26 @@
 import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
-import { FormattedMessage } from 'react-intl'
-
-import styled from 'styled-components'
 
 import { Grid, Row, Col } from 'react-bootstrap'
 
-class ResourceView extends Component {
+class Resource extends Component {
+  constructor(props) {
+    super(props)
+  }
+
   render() {
     const { accountStore } = this.props
 
     return (
       <Fragment>
         {!accountStore.isLogin && (
-          <Grid>
-            <Row className="show-grid">
-              <Col xs={12}>Please Login</Col>
-            </Row>
-          </Grid>
+          <Row className="show-grid">
+            <Col xs={12}>Please Login</Col>
+          </Row>
         )}
         {accountStore.isLogin && (
-          <Grid>
+          <Fragment>
             <Row className="show-grid">
               <Col xs={2}>EOS</Col>
               <Col xs={2}>Cpu</Col>
@@ -40,7 +39,7 @@ class ResourceView extends Component {
                 {accountStore.ram.available}/{accountStore.ram.max}
               </Col>
             </Row>
-          </Grid>
+          </Fragment>
         )}
       </Fragment>
     )
@@ -50,4 +49,4 @@ class ResourceView extends Component {
 export default compose(
   inject('accountStore'),
   observer
-)(ResourceView)
+)(Resource)

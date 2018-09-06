@@ -1,6 +1,6 @@
-import React, { Component, Fragment } from "react"
-import { inject, observer } from "mobx-react"
-import { compose } from "recompose"
+import React, { Component, Fragment } from 'react'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 
 class Order extends Component {
   constructor(props) {
@@ -8,11 +8,11 @@ class Order extends Component {
   }
 
   render() {
-    return <Fragment />
+    return <Fragment>Order</Fragment>
   }
 }
 
 export default compose(
-  inject("marketStore"),
+  inject('marketStore'),
   observer
 )(Order)
