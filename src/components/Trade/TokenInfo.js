@@ -1,7 +1,4 @@
 import React, { Component, Fragment } from 'react'
-import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
-import marketStore from '../../stores/marketStore'
 
 class TokenInfo extends Component {
   componentDidMount = async () => {
@@ -16,7 +13,4 @@ class TokenInfo extends Component {
   }
 }
 
-export default compose(
-  inject('marketStore'),
-  observer
-)(TokenInfo)
+export default TokenInfo

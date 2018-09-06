@@ -52,12 +52,27 @@ const findTokenQuery = gql`
     token(symbol: $symbol) {
       id
       name
+      symbol
+      market
+      precision
+      contract
+      last_price
+      last_day_price
+      volume_24h
+      high_price_24h
+      low_price_24h
     }
   }
 `
 
 class MarketStore {
-  token = null
+  token = {
+    data: {
+      token: {}
+    },
+    loading: false,
+    error: null
+  }
   tokens = {
     data: {
       tokens: []

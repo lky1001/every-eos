@@ -2,7 +2,7 @@ import { decorate, observable, action } from 'mobx'
 import eosAgent from '../EosAgent'
 
 class EosioStore {
-  everyeoswalletAccount = null
+  everyeoswalletAccount = 'dev323band21'
   info = null
 
   getInfo = async () => {
@@ -14,7 +14,7 @@ class EosioStore {
   }
 
   buyToken = async (contract, data) => {
-    //memo : {"type":"buy-limit","symbol": "IQ","market":"IQ_EOS","price":0.00101,"qty":100,"amount":0.101}
+    //memo : {"type":"buyLimit","symbol": "IQ","market":"IQ_EOS","price":0.00101,"qty":100,"amount":0.101}
     const cb = tr => {
       const options = { authorization: [`${data.accountName}@${data.authority}`] }
 
@@ -35,7 +35,7 @@ class EosioStore {
   }
 
   sellToken = async (contract, data) => {
-    //memo : {"type":"sell-limit","symbol": "IQ","market":"IQ_EOS","price":0.00255,"qty":44.89,"amount":0.1144}
+    //memo : {"type":"sellSimit","symbol": "IQ","market":"IQ_EOS","price":0.00255,"qty":44.89,"amount":0.1144}
     const cb = tr => {
       const options = { authorization: [`${data.accountName}@${data.authority}`] }
 

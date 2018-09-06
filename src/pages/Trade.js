@@ -22,13 +22,14 @@ class Trade extends Component {
   }
 
   render() {
-    const { tradeStore, eosioStore } = this.props
+    const { accountStore, marketStore, tradeStore, eosioStore } = this.props
+    const token = marketStore.token.data.token
 
     return (
       <Grid>
         <Row>
           <Col xs={12} md={8} style={{ background: '#a9a9a9' }}>
-            <TokenInfo token={this.state.token} />
+            <TokenInfo marketStore={marketStore} token={this.state.token} />
           </Col>
           <Col xs={12} md={4} style={{ background: '#90bab9' }}>
             <Resource />
@@ -49,7 +50,7 @@ class Trade extends Component {
             </Row>
             <Row>
               <Col xs={12} style={{ background: '#aaff88' }}>
-                <Order tradeStore={tradeStore} eosioStore={eosioStore} />
+                <Order token={token} accountStore={accountStore} tradeStore={tradeStore} eosioStore={eosioStore} />
               </Col>
             </Row>
           </Col>
@@ -77,6 +78,6 @@ class Trade extends Component {
 }
 
 export default compose(
-  inject('eosioStore', 'tradeStore'),
+  inject('marketStore', 'eosioStore', 'tradeStore', 'accountStore'),
   observer
 )(Trade)

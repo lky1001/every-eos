@@ -33,3 +33,9 @@ export const CONFIG = {
 }
 
 export const supportLanguage = ['ko-KR', 'en-US']
+
+export const EOS_TOKEN = {
+  symbol: 'EOS',
+  precision: 4,
+  contract: 'eosio.token'
+}
