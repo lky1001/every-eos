@@ -4,9 +4,22 @@ import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset'
 import gql from 'graphql-tag'
 
 const uri = 'http://localhost:4000'
+
+const defaultOptions = {
+  watchQuery: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'ignore'
+  },
+  query: {
+    fetchPolicy: 'network-only',
+    errorPolicy: 'all'
+  }
+}
+
 const client = new ApolloClient({
   link: new HttpLink({ uri }),
-  cache: new InMemoryCache()
+  cache: new InMemoryCache(),
+  defaultOptions: defaultOptions
 })
 
 const tokenFragment = gql`
@@ -45,6 +58,13 @@ const findTokenQuery = gql`
 
 class MarketStore {
   token = null
+  tokens = {
+    data: {
+      tokens: []
+    },
+    loading: false,
+    error: null
+  }
 
   constructor() {
     set(this, {
@@ -52,6 +72,10 @@ class MarketStore {
         return graphql({ client, query: tokensQuery })
       }
     })
+  }
+
+  getTokens = async () => {
+    this.tokens = await graphql({ client, query: tokensQuery })
   }
 
   getTokensBySymbol = async symbol => {
