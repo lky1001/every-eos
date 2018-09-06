@@ -16,6 +16,7 @@ import eosAgent from './EosAgent'
 import eosioStore from './stores/eosioStore'
 import accountStore from './stores/accountStore'
 import marketStore from './stores/marketStore'
+import tradeStore from './stores/tradeStore'
 
 import App from './App'
 
@@ -45,7 +46,8 @@ if (lang) {
 const stores = {
   eosioStore,
   accountStore,
-  marketStore
+  marketStore,
+  tradeStore
 }
 
 document.addEventListener('scatterLoaded', async scatterExtension => {

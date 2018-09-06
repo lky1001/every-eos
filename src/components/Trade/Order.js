@@ -7,8 +7,18 @@ class Order extends Component {
     super(props)
   }
 
+  onTestClick = () => {
+    const { tradeStore } = this.props
+    tradeStore.test()
+  }
+
   render() {
-    return <Fragment>Order</Fragment>
+    return (
+      <Fragment>
+        Order
+        <button onClick={this.onTestClick}>Test/</button>
+      </Fragment>
+    )
   }
 }
 

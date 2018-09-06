@@ -8,7 +8,9 @@ class Chart extends Component {
   }
 
   render() {
-    return <Fragment>Chart</Fragment>
+    const { tradeStore } = this.props
+
+    return <Fragment>Chart : {tradeStore.buyPrice} EOS</Fragment>
   }
 }
 

@@ -22,6 +22,8 @@ class Trade extends Component {
   }
 
   render() {
+    const { tradeStore } = this.props
+
     return (
       <Grid>
         <Row>
@@ -34,20 +36,20 @@ class Trade extends Component {
         </Row>
         <Row>
           <Col xs={12} md={3} style={{ background: '#00a9a9' }}>
-            <OrderList />
+            <OrderList tradeStore={tradeStore} />
           </Col>
           <Col xs={12} md={9}>
             <Row>
               <Col xs={12} md={8} style={{ background: '#a9aaa9' }}>
-                <Chart />
+                <Chart tradeStore={tradeStore} />
               </Col>
               <Col xs={12} md={4} style={{ background: '#a9a909' }}>
-                <Market />
+                <Market tradeStore={tradeStore} />
               </Col>
             </Row>
             <Row>
               <Col xs={12} style={{ background: '#aaff88' }}>
-                <Order />
+                <Order tradeStore={tradeStore} />
               </Col>
             </Row>
           </Col>
@@ -75,6 +77,6 @@ class Trade extends Component {
 }
 
 export default compose(
-  inject('eosioStore'),
+  inject('eosioStore', 'tradeStore'),
   observer
 )(Trade)
