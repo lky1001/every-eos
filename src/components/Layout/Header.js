@@ -48,6 +48,8 @@ class Header extends Component {
   }
 
   render() {
+    const { accountStore } = this.props
+
     return (
       <header>
         <Navbar color="light" light expand="md">
@@ -56,7 +58,11 @@ class Header extends Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink onClick={this.onLoginClick}>Login with Scatter</NavLink>
+                {accountStore.isLogin ? (
+                  <NavLink>{accountStore.loginAccountInfo.account_name}</NavLink>
+                ) : (
+                  <NavLink onClick={this.onLoginClick}>Login with Scatter</NavLink>
+                )}
               </NavItem>
               <NavItem>
                 <NavLink href="/components/">Components</NavLink>
