@@ -22,7 +22,7 @@ class Trade extends Component {
   }
 
   render() {
-    const { tradeStore } = this.props
+    const { tradeStore, eosioStore } = this.props
 
     return (
       <Grid>
@@ -49,7 +49,7 @@ class Trade extends Component {
             </Row>
             <Row>
               <Col xs={12} style={{ background: '#aaff88' }}>
-                <Order tradeStore={tradeStore} />
+                <Order tradeStore={tradeStore} eosioStore={eosioStore} />
               </Col>
             </Row>
           </Col>

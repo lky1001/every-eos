@@ -2,15 +2,19 @@ import { decorate, observable, action } from 'mobx'
 import graphql from 'mobx-apollo'
 
 class TradeStore {
-  buyPrice = 0.0
+  tokenSymbol = ''
+  price = 0.0
+  amount = 0.0
 
   test = () => {
-    this.buyPrice += 0.1
+    this.price += 0.1
   }
 }
 
 decorate(TradeStore, {
-  buyPrice: observable,
+  tokenSymbol: observable,
+  price: observable,
+  amount: observable,
   test: action
 })
 
