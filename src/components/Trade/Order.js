@@ -38,7 +38,7 @@ class Order extends Component {
     const tokenQty = parseFloat(this.state.buyQty).toFixed(Values.EOS_TOKEN.precision)
 
     const memo = {
-      type: 'buyLimit',
+      type: 'BUY_LIMIT',
       symbol: token.symbol,
       market: 'EOS',
       price: parseFloat(tokenPriceInEos),
@@ -72,7 +72,7 @@ class Order extends Component {
     const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
 
     const memo = {
-      type: 'sellLimit',
+      type: 'SELL_LIMIT',
       symbol: token.symbol,
       market: 'EOS',
       price: parseFloat(tokenPriceInEos),
