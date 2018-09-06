@@ -34,8 +34,8 @@ class Order extends Component {
 
     const eosAmount = (this.state.buyPrice * this.state.buyQty).toFixed(Values.EOS_TOKEN.precision)
 
-    const tokenPriceInEos = parseFloat(this.state.buyPrice).toFixed(token.precision)
-    const tokenQty = parseFloat(this.state.buyQty).toFixed(token.precision)
+    const tokenPriceInEos = parseFloat(this.state.buyPrice).toFixed(Values.EOS_TOKEN.precision)
+    const tokenQty = parseFloat(this.state.buyQty).toFixed(Values.EOS_TOKEN.precision)
 
     const memo = {
       type: 'buyLimit',
@@ -56,14 +56,44 @@ class Order extends Component {
         memo: JSON.stringify(memo)
       }
 
-      const result = await eosioStore.buyToken(token.contract, data)
+      const result = await eosioStore.buyToken(Values.EOS_TOKEN.contract, data)
     } else {
     }
   }
 
   onBuyMarketClick = async () => {}
 
-  onSellLimitClick = async () => {}
+  onSellLimitClick = async () => {
+    const { eosioStore, accountStore, token } = this.props
+
+    const eosAmount = (this.state.sellPrice * this.state.sellQty).toFixed(token.precision)
+
+    const tokenPriceInEos = parseFloat(this.state.sellPrice).toFixed(token.precision)
+    const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
+
+    const memo = {
+      type: 'sellLimit',
+      symbol: token.symbol,
+      market: 'EOS',
+      price: parseFloat(tokenPriceInEos),
+      qty: parseFloat(tokenQty),
+      amount: eosAmount
+    }
+
+    if (accountStore.isLogin) {
+      const data = {
+        accountName: accountStore.loginAccountInfo.account_name,
+        authority: accountStore.permissions[0].perm_name,
+        quantity: tokenQty,
+        precision: token.precision,
+        symbol: token.symbol,
+        memo: JSON.stringify(memo)
+      }
+
+      const result = await eosioStore.buyToken(token.contract, data)
+    } else {
+    }
+  }
 
   onSellMarketClick = async () => {}
 
