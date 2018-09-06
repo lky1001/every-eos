@@ -3,7 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 
 import { Grid, Row, Col } from 'react-bootstrap'
-
+import { ProgressBar } from 'react-bootstrap'
 import TokenInfo from '../components/Trade/TokenInfo'
 import Resource from '../components/Trade/Resource'
 import OrderList from '../components/Trade/OrderList'
@@ -17,13 +17,33 @@ class Trade extends Component {
     const { token } = this.props.match.params
 
     this.state = {
-      token: token
+      token: token,
+      intervalId: 0
+    }
+  }
+
+  componentDidMount = async () => {
+    const { tradeStore } = this.props
+
+    const id = setInterval(async () => {
+      await tradeStore.getOrdersByTokenId(1)
+    }, 2000)
+
+    this.setState({
+      intervalId: id
+    })
+  }
+
+  componentWillUnmount = () => {
+    if (this.state.intervalId > 0) {
+      clearInterval(this.state.intervalId)
     }
   }
 
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
     const token = marketStore.token.data.token
+    const { orderList, tokenSymbol } = tradeStore
 
     return (
       <Grid>
@@ -37,7 +57,11 @@ class Trade extends Component {
         </Row>
         <Row>
           <Col xs={12} md={3} style={{ background: '#00a9a9' }}>
-            <OrderList tradeStore={tradeStore} />
+            {!orderList ? (
+              <ProgressBar striped bsStyle="success" now={40} />
+            ) : (
+              <OrderList orderList={orderList} tokenSymbol={tokenSymbol} />
+            )}
           </Col>
           <Col xs={12} md={9}>
             <Row>

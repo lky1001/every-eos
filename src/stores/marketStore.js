@@ -1,69 +1,7 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
-import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset'
-import gql from 'graphql-tag'
-
-const uri = 'http://localhost:4000'
-
-const defaultOptions = {
-  watchQuery: {
-    fetchPolicy: 'network-only',
-    errorPolicy: 'ignore'
-  },
-  query: {
-    fetchPolicy: 'network-only',
-    errorPolicy: 'all'
-  }
-}
-
-const client = new ApolloClient({
-  link: new HttpLink({ uri }),
-  cache: new InMemoryCache(),
-  defaultOptions: defaultOptions
-})
-
-const tokenFragment = gql`
-  fragment token on Token {
-    id
-    name
-    symbol
-    market
-    precision
-    contract
-    last_price
-    last_day_price
-    volume_24h
-    high_price_24h
-    low_price_24h
-  }
-`
-
-const tokensQuery = gql`
-  {
-    tokens {
-      ...token
-    }
-  }
-  ${tokenFragment}
-`
-
-const findTokenQuery = gql`
-  query($symbol: String!) {
-    token(symbol: $symbol) {
-      id
-      name
-      symbol
-      market
-      precision
-      contract
-      last_price
-      last_day_price
-      volume_24h
-      high_price_24h
-      low_price_24h
-    }
-  }
-`
+import ApiServerAgent from '../ApiServerAgent'
+import { tokensQuery, findTokenQuery } from '../graphql/query/token'
 
 class MarketStore {
   token = {
@@ -84,17 +22,21 @@ class MarketStore {
   constructor() {
     set(this, {
       get tokens() {
-        return graphql({ client, query: tokensQuery })
+        return graphql({ client: ApiServerAgent, query: tokensQuery })
       }
     })
   }
 
   getTokens = async () => {
-    this.tokens = await graphql({ client, query: tokensQuery })
+    this.tokens = await graphql({ client: ApiServerAgent, query: tokensQuery })
   }
 
   getTokensBySymbol = async symbol => {
-    this.token = await graphql({ client, query: findTokenQuery, variables: { symbol: symbol } })
+    this.token = await graphql({
+      client: ApiServerAgent,
+      query: findTokenQuery,
+      variables: { symbol: symbol }
+    })
   }
 
   get error() {

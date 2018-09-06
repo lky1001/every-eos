@@ -11,7 +11,7 @@ class Market extends Component {
       <Grid>
         <Row>
           <Col xs={12} md={12}>
-            <Table responsive size="sm" hover>
+            <Table responsive hover size="sm">
               <thead>
                 <tr>
                   <th>#</th>
