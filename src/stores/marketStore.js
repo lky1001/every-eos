@@ -35,8 +35,8 @@ const tokensQuery = gql`
 `
 
 const findTokenQuery = gql`
-  query($id: Int!) {
-    token(id: $id) {
+  query($symbol: String!) {
+    token(symbol: $symbol) {
       id
       name
     }
@@ -44,12 +44,18 @@ const findTokenQuery = gql`
 `
 
 class MarketStore {
+  token = null
+
   constructor() {
     set(this, {
       get tokens() {
-        return graphql({ client, query: tokensQuery, variables: { id: 1 } })
+        return graphql({ client, query: tokensQuery })
       }
     })
+  }
+
+  getTokensBySymbol = async symbol => {
+    this.token = await graphql({ client, query: findTokenQuery, variables: { symbol: symbol } })
   }
 
   get error() {
@@ -91,10 +97,12 @@ class MarketStore {
 
 decorate(MarketStore, {
   tokens: observable,
+  token: observable,
   error: computed,
   loading: computed,
   tokenList: computed,
-  count: computed
+  count: computed,
+  getTokensById: action
 })
 
 export default new MarketStore()

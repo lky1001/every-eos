@@ -1,14 +1,18 @@
 import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
+import marketStore from '../../stores/marketStore'
 
 class TokenInfo extends Component {
   componentDidMount = async () => {
-    const { token } = this.props
+    const { token, marketStore } = this.props
+
+    await marketStore.getTokensBySymbol(token)
   }
 
   render() {
-    return <Fragment />
+    const { marketStore } = this.props
+    return <Fragment>{marketStore.token ? JSON.stringify(marketStore.token.data.token) : 'null'} </Fragment>
   }
 }
 
