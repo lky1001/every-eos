@@ -4,6 +4,7 @@ import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
+import { observable } from 'mobx'
 
 class Order extends Component {
   constructor(props) {
@@ -17,6 +18,16 @@ class Order extends Component {
       sellPrice: 0.0,
       sellQty: 0.0
     }
+  }
+
+  componentWillMount = () => {
+    const { tradeStore } = this.props
+    tradeStore.setWatchPrice(changed => {
+      this.setState({
+        buyPrice: parseFloat(changed.newValue),
+        sellPrice: parseFloat(changed.newValue)
+      })
+    })
   }
 
   toggle = tab => {
@@ -117,7 +128,8 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}>
+              }}
+            >
               Limit Order
             </NavLink>
           </NavItem>
@@ -126,7 +138,8 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
                 this.toggle('2')
-              }}>
+              }}
+            >
               Market Order
             </NavLink>
           </NavItem>
@@ -137,40 +150,16 @@ class Order extends Component {
               <Col sm="12">
                 <Fragment>
                   buy price{' '}
-                  <input
-                    type="text"
-                    name="buyPrice"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.buyPrice}
-                    placeholder="buy price"
-                  />
+                  <input type="text" name="buyPrice" onChange={this.handleChange.bind(this)} value={this.state.buyPrice} placeholder="buy price" />
                   <br />
                   buy amount{' '}
-                  <input
-                    type="text"
-                    name="buyQty"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.buyQty}
-                    placeholder="buy qty"
-                  />
+                  <input type="text" name="buyQty" onChange={this.handleChange.bind(this)} value={this.state.buyQty} placeholder="buy qty" />
                   <br />
                   sell price{' '}
-                  <input
-                    type="text"
-                    name="sellPrice"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.sellPrice}
-                    placeholder="sell price"
-                  />
+                  <input type="text" name="sellPrice" onChange={this.handleChange.bind(this)} value={this.state.sellPrice} placeholder="sell price" />
                   <br />
                   sell amount{' '}
-                  <input
-                    type="text"
-                    name="sellQty"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.sellQty}
-                    placeholder="sell qty"
-                  />
+                  <input type="text" name="sellQty" onChange={this.handleChange.bind(this)} value={this.state.sellQty} placeholder="sell qty" />
                   <br />
                   <button onClick={this.onBuyLimitClick}>Buy Limit</button>
                   <button onClick={this.onSellLimitClick}>Sell Limit</button>

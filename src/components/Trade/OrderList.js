@@ -6,6 +6,11 @@ import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText } f
 import { FormattedMessage } from 'react-intl'
 
 class OrderList extends Component {
+  onOrderListClick = price => {
+    const { tradeStore } = this.props
+    tradeStore.setPrice(price)
+  }
+
   render() {
     const { token, orderList } = this.props
 
@@ -30,7 +35,7 @@ class OrderList extends Component {
             <tbody>
               {orderList.filter(o => o.type === 'BUY').map(o => {
                 return (
-                  <tr key={o.id}>
+                  <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                     <td>{o.token_price}</td>
                     <td>{o.amount}</td>
                     <td>{Math.abs(o.token_price.toFixed(token.precision) * o.amount.toFixed(token.precision)).toFixed(token.precision)}</td>
@@ -41,7 +46,7 @@ class OrderList extends Component {
           </Table>
         </div>
 
-        <div classname="d-flex flex-column-reverse">
+        <div className="d-flex flex-column-reverse">
           <Table>
             <thead>
               <tr>
@@ -60,7 +65,7 @@ class OrderList extends Component {
             <tbody>
               {orderList.filter(o => o.type === 'SELL').map(o => {
                 return (
-                  <tr key={o.id}>
+                  <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                     <td>{o.token_price}</td>
                     <td>{o.amount}</td>
                     <td>{Math.abs(o.token_price.toFixed(token.precision) * o.amount.toFixed(token.precision)).toFixed(token.precision)}</td>
@@ -75,7 +80,4 @@ class OrderList extends Component {
   }
 }
 
-export default compose(
-  inject('tradeStore'),
-  observer
-)(OrderList)
+export default OrderList

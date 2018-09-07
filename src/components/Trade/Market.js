@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Grid, Row, Col, Table } from 'react-bootstrap'
@@ -29,9 +29,9 @@ class Market extends Component {
               </thead>
               <tbody>
                 {marketStore.tokens.data.tokens &&
-                  marketStore.tokens.data.tokens.map(t => {
+                  marketStore.tokens.data.tokens.map((t, idx) => {
                     return (
-                      <tr>
+                      <tr key={idx}>
                         <th scope="row" />
                         <td>{t.market}</td>
                         <td>{t.last_price}</td>

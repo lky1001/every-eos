@@ -22,6 +22,24 @@ class TradeStore {
         return graphql({ client: ApiServerAgent, query: ordersQuery })
       }
     })
+
+    this.price = observable.box(0.0)
+  }
+
+  setTokenSymbol = symbol => {
+    this.tokenSymbol = symbol
+  }
+
+  setPrice = price => {
+    this.price.set(price)
+  }
+
+  setWatchPrice = observer => {
+    this.price.observe(observer)
+  }
+
+  setAmount = amount => {
+    this.amount = amount
   }
 
   getOrders = async () => {
@@ -66,6 +84,10 @@ decorate(TradeStore, {
   tokenSymbol: observable,
   price: observable,
   amount: observable,
+  setTokenSymbol: action,
+  setPrice: action,
+  setAmount: action,
+  setWatchPrice: action,
   getOrdersByTokenId: action,
   test: action
 })

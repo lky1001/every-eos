@@ -23,7 +23,9 @@ class Trade extends Component {
   }
 
   componentWillMount = async () => {
-    const { marketStore } = this.props
+    const { marketStore, tradeStore } = this.props
+
+    tradeStore.setTokenSymbol(this.state.token)
 
     await marketStore.getTokensBySymbol(this.state.token)
   }
@@ -49,7 +51,7 @@ class Trade extends Component {
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
     const token = marketStore.token.data.token
-    const { orderList, tokenSymbol } = tradeStore
+    const { orderList } = tradeStore
 
     return (
       <Fragment>
@@ -65,7 +67,11 @@ class Trade extends Component {
             </Row>
             <Row>
               <Col xs={12} md={3} style={{ background: '#00a9a9' }}>
-                {!orderList ? <ProgressBar striped bsStyle="success" now={40} /> : <OrderList orderList={orderList} token={token} />}
+                {!orderList ? (
+                  <ProgressBar striped bsStyle="success" now={40} />
+                ) : (
+                  <OrderList tradeStore={tradeStore} orderList={orderList} token={token} />
+                )}
               </Col>
               <Col xs={12} md={9}>
                 <Row>

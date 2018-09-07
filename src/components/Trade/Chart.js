@@ -10,7 +10,7 @@ class Chart extends Component {
   render() {
     const { tradeStore } = this.props
 
-    return <Fragment>Chart : {tradeStore.price} EOS</Fragment>
+    return <Fragment>Chart : EOS</Fragment>
   }
 }
 
