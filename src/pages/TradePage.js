@@ -8,8 +8,9 @@ import TokenInfo from '../components/Trade/TokenInfo'
 import Resource from '../components/Trade/Resource'
 import OrderList from '../components/Trade/OrderList'
 import Order from '../components/Trade/Order'
-import Chart from '../components/Trade/Chart'
+import TradingChart from '../components/Trade/TradingChart'
 import Market from '../components/Trade/Market'
+import { getData } from '../utils/stockChartUtil'
 
 class Trade extends Component {
   constructor(props) {
@@ -18,7 +19,8 @@ class Trade extends Component {
 
     this.state = {
       token: token,
-      intervalId: 0
+      ordersIntervalId: 0,
+      chartIntervalId: 0
     }
   }
 
@@ -33,25 +35,34 @@ class Trade extends Component {
   componentDidMount = async () => {
     const { tradeStore } = this.props
 
-    const id = setInterval(async () => {
+    const ordersIntervalId = setInterval(async () => {
       await tradeStore.getOrdersByTokenId(1)
     }, 2000)
 
+    const chartIntervalId = setInterval(async () => {
+      await tradeStore.getChartData()
+    }, 5000)
+
     this.setState({
-      intervalId: id
+      ordersIntervalId: ordersIntervalId,
+      chartIntervalId: chartIntervalId
     })
   }
 
   componentWillUnmount = () => {
-    if (this.state.intervalId > 0) {
-      clearInterval(this.state.intervalId)
+    if (this.state.ordersIntervalId > 0) {
+      clearInterval(this.state.ordersIntervalId)
+    }
+
+    if (this.state.chartIntervalId > 0) {
+      clearInterval(this.state.chartIntervalId)
     }
   }
 
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
     const token = marketStore.token.data.token
-    const { orderList } = tradeStore
+    const { orderList, chartData } = tradeStore
 
     return (
       <Fragment>
@@ -76,7 +87,7 @@ class Trade extends Component {
               <Col xs={12} md={9}>
                 <Row>
                   <Col xs={12} md={8} style={{ background: '#a9aaa9' }}>
-                    <Chart tradeStore={tradeStore} />
+                    {chartData && <TradingChart tradeStore={tradeStore} chartData={chartData} />}
                   </Col>
                   <Col xs={12} md={4} style={{ background: '#a9a909' }}>
                     <Market marketStore={marketStore} />
@@ -84,7 +95,12 @@ class Trade extends Component {
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#aaff88' }}>
-                    <Order token={token} accountStore={accountStore} tradeStore={tradeStore} eosioStore={eosioStore} />
+                    <Order
+                      token={token}
+                      accountStore={accountStore}
+                      tradeStore={tradeStore}
+                      eosioStore={eosioStore}
+                    />
                   </Col>
                 </Row>
               </Col>

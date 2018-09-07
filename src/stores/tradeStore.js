@@ -2,12 +2,13 @@ import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
 import { ordersQuery, ordersByTokenIdQuery } from '../graphql/query/order'
+import { getData } from '../utils/stockChartUtil'
 
 class TradeStore {
   tokenSymbol = ''
   price = 0.0
   amount = 0.0
-
+  chartData
   orders = {
     data: {
       orders: []
@@ -40,6 +41,10 @@ class TradeStore {
 
   setAmount = amount => {
     this.amount = amount
+  }
+
+  getChartData = async () => {
+    this.chartData = await getData()
   }
 
   getOrders = async () => {
@@ -84,11 +89,13 @@ decorate(TradeStore, {
   tokenSymbol: observable,
   price: observable,
   amount: observable,
+  chartData: observable,
   setTokenSymbol: action,
   setPrice: action,
   setAmount: action,
   setWatchPrice: action,
   getOrdersByTokenId: action,
+  getChartData: action,
   test: action
 })
 
