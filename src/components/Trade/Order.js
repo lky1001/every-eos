@@ -16,7 +16,9 @@ class Order extends Component {
       buyPrice: 0.0,
       buyQty: 0.0,
       sellPrice: 0.0,
-      sellQty: 0.0
+      sellQty: 0.0,
+      buyMarketTotalEos: 0.0,
+      sellMarketAmount: 0.0
     }
   }
 
@@ -83,7 +85,34 @@ class Order extends Component {
     }
   }
 
-  onBuyMarketClick = async () => {}
+  onBuyMarketClick = async () => {
+    const { eosioStore, accountStore, token } = this.props
+
+    const eosAmount = this.state.buyMarketTotalEos.toFixed(Values.EOS_TOKEN.precision)
+
+    const memo = {
+      type: 'BUY_MARKET',
+      symbol: token.symbol,
+      market: 'EOS',
+      price: 0.0,
+      qty: 0.0,
+      amount: eosAmount
+    }
+
+    if (accountStore.isLogin) {
+      const data = {
+        accountName: accountStore.loginAccountInfo.account_name,
+        authority: accountStore.permissions[0].perm_name,
+        quantity: eosAmount,
+        precision: Values.EOS_TOKEN.precision,
+        symbol: Values.EOS_TOKEN.symbol,
+        memo: JSON.stringify(memo)
+      }
+
+      const result = await eosioStore.buyToken(Values.EOS_TOKEN.contract, data)
+    } else {
+    }
+  }
 
   onSellLimitClick = async () => {
     const { eosioStore, accountStore, token } = this.props
@@ -117,7 +146,34 @@ class Order extends Component {
     }
   }
 
-  onSellMarketClick = async () => {}
+  onSellMarketClick = async () => {
+    const { eosioStore, accountStore, token } = this.props
+
+    const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
+
+    const memo = {
+      type: 'SELL_MARKET',
+      symbol: token.symbol,
+      market: 'EOS',
+      price: 0.0,
+      qty: parseFloat(tokenQty),
+      amount: 0.0
+    }
+
+    if (accountStore.isLogin) {
+      const data = {
+        accountName: accountStore.loginAccountInfo.account_name,
+        authority: accountStore.permissions[0].perm_name,
+        quantity: tokenQty,
+        precision: token.precision,
+        symbol: token.symbol,
+        memo: JSON.stringify(memo)
+      }
+
+      const result = await eosioStore.buyToken(token.contract, data)
+    } else {
+    }
+  }
 
   render() {
     return (
@@ -162,6 +218,7 @@ class Order extends Component {
                   <input type="text" name="sellQty" onChange={this.handleChange.bind(this)} value={this.state.sellQty} placeholder="sell qty" />
                   <br />
                   <button onClick={this.onBuyLimitClick}>Buy Limit</button>
+                  <br />
                   <button onClick={this.onSellLimitClick}>Sell Limit</button>
                 </Fragment>
               </Col>
@@ -169,7 +226,32 @@ class Order extends Component {
           </TabPane>
           <TabPane tabId="2">
             <Row>
-              <Col sm="12">마켓오더 가즈아</Col>
+              <Col sm="12">
+                buy total(EOS){' '}
+                <input
+                  type="text"
+                  name="buyMarketTotalEos"
+                  onChange={this.handleChange.bind(this)}
+                  value={this.state.buyMarketTotalEos}
+                  placeholder="buy total in eos"
+                />
+                <br />
+                sell amount{' '}
+                <input
+                  type="text"
+                  name="sellMarketAmount"
+                  onChange={this.handleChange.bind(this)}
+                  value={this.state.sellMarketAmount}
+                  placeholder="sell amount"
+                />
+              </Col>
+            </Row>
+            <Row>
+              <Col sm="12">
+                <button onClick={this.onBuyMarketClick}>Buy Market</button>
+                <br />
+                <button onClick={this.onSellMarketClick}>Sell Market</button>
+              </Col>
             </Row>
           </TabPane>
         </TabContent>
