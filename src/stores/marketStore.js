@@ -6,7 +6,7 @@ import { tokensQuery, findTokenQuery } from '../graphql/query/token'
 class MarketStore {
   token = {
     data: {
-      token: {}
+      token: null
     },
     loading: false,
     error: null

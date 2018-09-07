@@ -3,10 +3,11 @@ import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Grid, Row, Col, Table } from 'react-bootstrap'
 import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap'
+import { FormattedMessage } from 'react-intl'
 
 class OrderList extends Component {
   render() {
-    const { tokenSymbol, orderList } = this.props
+    const { token, orderList } = this.props
 
     return (
       <Fragment>
@@ -14,9 +15,16 @@ class OrderList extends Component {
           <Table>
             <thead>
               <tr>
-                <th>Price(EOS)</th>
-                <th>{`Amount ${tokenSymbol}`}</th>
-                <th>Change</th>
+                <th>
+                  <FormattedMessage id="Price(EOS)" />
+                </th>
+                <th>
+                  <FormattedMessage id="Amount" />
+                  {`(${token.symbol})`}
+                </th>
+                <th>
+                  <FormattedMessage id="Total(EOS)" />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -25,7 +33,7 @@ class OrderList extends Component {
                   <tr key={o.id}>
                     <td>{o.token_price}</td>
                     <td>{o.amount}</td>
-                    <td>{Math.abs(o.token_price * o.amount).toFixed(4)}</td>
+                    <td>{Math.abs(o.token_price.toFixed(token.precision) * o.amount.toFixed(token.precision)).toFixed(token.precision)}</td>
                   </tr>
                 )
               })}
@@ -37,9 +45,16 @@ class OrderList extends Component {
           <Table>
             <thead>
               <tr>
-                <th>Price(EOS)</th>
-                <th>{`Amount ${tokenSymbol}`}</th>
-                <th>Change</th>
+                <th>
+                  <FormattedMessage id="Price(EOS)" />
+                </th>
+                <th>
+                  <FormattedMessage id="Amount" />
+                  {`(${token.symbol})`}
+                </th>
+                <th>
+                  <FormattedMessage id="Total(EOS)" />
+                </th>
               </tr>
             </thead>
             <tbody>
@@ -48,7 +63,7 @@ class OrderList extends Component {
                   <tr key={o.id}>
                     <td>{o.token_price}</td>
                     <td>{o.amount}</td>
-                    <td>{Math.abs(o.token_price * o.amount).toFixed(4)}</td>
+                    <td>{Math.abs(o.token_price.toFixed(token.precision) * o.amount.toFixed(token.precision)).toFixed(token.precision)}</td>
                   </tr>
                 )
               })}

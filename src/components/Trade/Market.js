@@ -2,6 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Grid, Row, Col, Table } from 'react-bootstrap'
+import { FormattedMessage } from 'react-intl'
 
 class Market extends Component {
   render() {
@@ -15,9 +16,15 @@ class Market extends Component {
               <thead>
                 <tr>
                   <th>#</th>
-                  <th>Market</th>
-                  <th>Last Price</th>
-                  <th>Change</th>
+                  <th>
+                    <FormattedMessage id="Market" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Last Price" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Today Change" />
+                  </th>
                 </tr>
               </thead>
               <tbody>
