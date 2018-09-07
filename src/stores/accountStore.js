@@ -43,9 +43,9 @@ class AccountStore {
     let result = await eosAgent.loginWithScatter()
 
     if (result) {
-      this.isLogin = true
-
       await this.loadAccountInfo()
+
+      this.isLogin = true
 
       return true
     } else {
@@ -67,9 +67,7 @@ class AccountStore {
     const loginAccountInfo = await eosAgent.getAccount(scatterAccount.name)
 
     if (loginAccountInfo) {
-      this.liquid = loginAccountInfo.core_liquid_balance
-        ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0])
-        : 0
+      this.liquid = loginAccountInfo.core_liquid_balance ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0]) : 0
       this.cpu = {
         max: parseFloat(loginAccountInfo.cpu_limit.max),
         used: parseFloat(loginAccountInfo.cpu_limit.used),
