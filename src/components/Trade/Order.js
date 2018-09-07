@@ -2,9 +2,6 @@ import React, { Component, Fragment } from 'react'
 import * as Values from '../../constants/Values'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap'
-import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
-import { observable } from 'mobx'
 
 class Order extends Component {
   constructor(props) {
@@ -80,7 +77,11 @@ class Order extends Component {
         memo: JSON.stringify(memo)
       }
 
-      const result = await eosioStore.buyToken(Values.EOS_TOKEN.contract, data)
+      try {
+        const result = await eosioStore.buyToken(Values.EOS_TOKEN.contract, data)
+      } catch (e) {
+        this.handleError(e)
+      }
     } else {
     }
   }
@@ -88,7 +89,7 @@ class Order extends Component {
   onBuyMarketClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
-    const eosAmount = this.state.buyMarketTotalEos.toFixed(Values.EOS_TOKEN.precision)
+    const eosAmount = parseFloat(this.state.buyMarketTotalEos).toFixed(Values.EOS_TOKEN.precision)
 
     const memo = {
       type: 'BUY_MARKET',
@@ -109,8 +110,20 @@ class Order extends Component {
         memo: JSON.stringify(memo)
       }
 
-      const result = await eosioStore.buyToken(Values.EOS_TOKEN.contract, data)
+      try {
+        const result = await eosioStore.buyToken(Values.EOS_TOKEN.contract, data)
+      } catch (e) {
+        this.handleError(e)
+      }
     } else {
+    }
+  }
+
+  handleError = e => {
+    if (e.code === Values.SCATTER_ERROR_LOCKED) {
+      // todo
+    } else if (e.code === Values.SCATTER_ERROR_REJECT_TRANSACTION_BY_USER) {
+      // todo
     }
   }
 
@@ -141,7 +154,11 @@ class Order extends Component {
         memo: JSON.stringify(memo)
       }
 
-      const result = await eosioStore.buyToken(token.contract, data)
+      try {
+        const result = await eosioStore.buyToken(token.contract, data)
+      } catch (e) {
+        this.handleError(e)
+      }
     } else {
     }
   }
@@ -170,7 +187,11 @@ class Order extends Component {
         memo: JSON.stringify(memo)
       }
 
-      const result = await eosioStore.buyToken(token.contract, data)
+      try {
+        const result = await eosioStore.buyToken(token.contract, data)
+      } catch (e) {
+        this.handleError(e)
+      }
     } else {
     }
   }

@@ -1,6 +1,8 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
+import * as Values from '../../constants/Values'
+
 import {
   Collapse,
   Navbar,
@@ -43,7 +45,9 @@ class Header extends Component {
     } catch (e) {
       // todo - error handle
       // 423 Locked
-      console.log(e)
+      if (e.code === Values.SCATTER_ERROR_LOCKED) {
+        alert('Locked')
+      }
     }
   }
 

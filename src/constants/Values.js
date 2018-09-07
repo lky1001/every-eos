@@ -39,3 +39,6 @@ export const EOS_TOKEN = {
   precision: 4,
   contract: 'eosio.token'
 }
+
+export const SCATTER_ERROR_REJECT_TRANSACTION_BY_USER = 402
+export const SCATTER_ERROR_LOCKED = 423
