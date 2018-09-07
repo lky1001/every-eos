@@ -143,7 +143,15 @@ class AccountStore {
     }
   }
 
-  getAccountTokenBalance = async tokens => {}
+  getTokenBalance = async (symbol, contract) => {
+    const balance = await eosAgent.getCurrencyBalance({
+      code: contract,
+      account: this.loginAccountInfo.account_name,
+      symbol: symbol
+    })
+
+    return balance[0].split(' ')[0]
+  }
 }
 
 decorate(AccountStore, {

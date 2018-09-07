@@ -53,7 +53,14 @@ class Order extends Component {
   onBuyLimitClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
+    const eosBalance = await accountStore.getTokenBalance(Values.EOS_TOKEN.symbol, Values.EOS_TOKEN.contract)
+
     const eosAmount = (this.state.buyPrice * this.state.buyQty).toFixed(Values.EOS_TOKEN.precision)
+
+    if (eosAmount > eosBalance) {
+      // todo - error balance
+      return
+    }
 
     const tokenPriceInEos = parseFloat(this.state.buyPrice).toFixed(Values.EOS_TOKEN.precision)
     const tokenQty = parseFloat(this.state.buyQty).toFixed(Values.EOS_TOKEN.precision)
@@ -89,7 +96,14 @@ class Order extends Component {
   onBuyMarketClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
+    const eosBalance = await accountStore.getTokenBalance(Values.EOS_TOKEN.symbol, Values.EOS_TOKEN.contract)
+
     const eosAmount = parseFloat(this.state.buyMarketTotalEos).toFixed(Values.EOS_TOKEN.precision)
+
+    if (eosAmount > eosBalance) {
+      // todo - error balance
+      return
+    }
 
     const memo = {
       type: 'BUY_MARKET',
@@ -119,21 +133,19 @@ class Order extends Component {
     }
   }
 
-  handleError = e => {
-    if (e.code === Values.SCATTER_ERROR_LOCKED) {
-      // todo
-    } else if (e.code === Values.SCATTER_ERROR_REJECT_TRANSACTION_BY_USER) {
-      // todo
-    }
-  }
-
   onSellLimitClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
-    const eosAmount = (this.state.sellPrice * this.state.sellQty).toFixed(token.precision)
-
-    const tokenPriceInEos = parseFloat(this.state.sellPrice).toFixed(token.precision)
+    const tokenBalance = await accountStore.getTokenBalance(token.symbol, token.contract)
     const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
+
+    if (tokenQty > tokenBalance) {
+      // todo
+      return
+    }
+
+    const eosAmount = (this.state.sellPrice.toFixed(token.precision) * tokenQty).toFixed(token.precision)
+    const tokenPriceInEos = parseFloat(this.state.sellPrice).toFixed(token.precision)
 
     const memo = {
       type: 'SELL_LIMIT',
@@ -166,7 +178,13 @@ class Order extends Component {
   onSellMarketClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
+    const tokenBalance = await accountStore.getTokenBalance(token.symbol, token.contract)
     const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
+
+    if (tokenQty > tokenBalance) {
+      // todo
+      return
+    }
 
     const memo = {
       type: 'SELL_MARKET',
@@ -193,6 +211,14 @@ class Order extends Component {
         this.handleError(e)
       }
     } else {
+    }
+  }
+
+  handleError = e => {
+    if (e.code === Values.SCATTER_ERROR_LOCKED) {
+      // todo
+    } else if (e.code === Values.SCATTER_ERROR_REJECT_TRANSACTION_BY_USER) {
+      // todo
     }
   }
 
