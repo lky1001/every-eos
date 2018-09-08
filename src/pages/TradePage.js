@@ -11,7 +11,7 @@ import Order from '../components/Trade/Order'
 import TradingChart from '../components/Trade/TradingChart'
 import Market from '../components/Trade/Market'
 import Wallet from '../components/Trade/Wallet'
-import { getData } from '../utils/stockChartUtil'
+import { ORDER_PAGE_LIMIT, ORDER_TYPE_BUY, ORDER_TYPE_SELL } from '../constants/Values'
 
 class Trade extends Component {
   constructor(props) {
@@ -37,7 +37,8 @@ class Trade extends Component {
     const { tradeStore } = this.props
 
     const ordersIntervalId = setInterval(async () => {
-      await tradeStore.getOrdersByTokenId(1)
+      await tradeStore.getBuyOrdersByTokenId(1, ORDER_PAGE_LIMIT)
+      await tradeStore.getSellOrdersByTokenId(1, ORDER_PAGE_LIMIT)
     }, 2000)
 
     const chartIntervalId = setInterval(async () => {
@@ -63,7 +64,7 @@ class Trade extends Component {
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
     const token = marketStore.token.data.token
-    const { orderList, chartData } = tradeStore
+    const { buyOrdersList, sellOrdersList, chartData } = tradeStore
 
     return (
       <Fragment>
@@ -79,10 +80,15 @@ class Trade extends Component {
             </Row>
             <Row>
               <Col xs={12} md={3} style={{ background: '#00a9a9' }}>
-                {!orderList ? (
+                {!buyOrdersList && !sellOrdersList ? (
                   <ProgressBar striped bsStyle="success" now={40} />
                 ) : (
-                  <OrderList tradeStore={tradeStore} orderList={orderList} token={token} />
+                  <OrderList
+                    tradeStore={tradeStore}
+                    buyOrdersList={buyOrdersList}
+                    sellOrdersList={sellOrdersList}
+                    token={token}
+                  />
                 )}
               </Col>
               <Col xs={12} md={9}>

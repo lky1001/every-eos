@@ -294,7 +294,7 @@ class TradingChart extends Component {
 }
 
 TradingChart.propTypes = {
-  data: PropTypes.array.isRequired,
+  chartData: PropTypes.array.isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
   type: PropTypes.oneOf(['svg', 'hybrid']).isRequired

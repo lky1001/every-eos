@@ -1,15 +1,24 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
-import { ordersQuery, ordersByTokenIdQuery } from '../graphql/query/order'
+import { ordersByTokenIdQuery } from '../graphql/query/order'
 import { getData } from '../utils/stockChartUtil'
+import { ORDER_PAGE_LIMIT, ORDER_TYPE_BUY, ORDER_TYPE_SELL } from '../constants/Values'
 
 class TradeStore {
   tokenSymbol = ''
   price = 0.0
   amount = 0.0
   chartData
-  orders = {
+  buyOrders = {
+    data: {
+      orders: []
+    },
+    loading: false,
+    error: null
+  }
+
+  sellOrders = {
     data: {
       orders: []
     },
@@ -18,9 +27,24 @@ class TradeStore {
   }
 
   constructor() {
+    const initialTokneId = 1
     set(this, {
-      get orders() {
-        return graphql({ client: ApiServerAgent, query: ordersQuery })
+      get buyOrders() {
+        return graphql({
+          client: ApiServerAgent,
+          query: ordersByTokenIdQuery,
+          variables: { token_id: initialTokneId, type: ORDER_TYPE_BUY, limit: ORDER_PAGE_LIMIT }
+        })
+      }
+    })
+
+    set(this, {
+      get sellOrders() {
+        return graphql({
+          client: ApiServerAgent,
+          query: ordersByTokenIdQuery,
+          variables: { token_id: initialTokneId, type: ORDER_TYPE_SELL, limit: ORDER_PAGE_LIMIT }
+        })
       }
     })
 
@@ -47,32 +71,52 @@ class TradeStore {
     this.chartData = await getData()
   }
 
-  getOrders = async () => {
-    this.orders = await graphql({ client: ApiServerAgent, query: ordersQuery })
-  }
-
-  getOrdersByTokenId = async token_id => {
-    this.orders = await graphql({
+  getBuyOrdersByTokenId = async (token_id, limit) => {
+    this.buyOrders = await graphql({
       client: ApiServerAgent,
       query: ordersByTokenIdQuery,
-      variables: { token_id: token_id }
+      variables: { token_id: token_id, type: ORDER_TYPE_BUY, limit: limit }
     })
   }
 
-  get error() {
-    return (this.orders.error && this.orders.error.message) || null
+  get buyOrdersError() {
+    return (this.buyOrders.error && this.buyOrders.error.message) || null
   }
 
-  get loading() {
-    return this.orders.loading
+  get buyOrdersLoading() {
+    return this.buyOrders.loading
   }
 
-  get orderList() {
-    return (this.orders.data && toJS(this.orders.data.orders)) || []
+  get buyOrdersList() {
+    return (this.buyOrders.data && toJS(this.buyOrders.data.orders)) || []
   }
 
-  get count() {
-    return this.orders.data.orders ? this.orders.data.orders.length : 0
+  get buyOrdersCount() {
+    return this.buyOrders.data.orders ? this.buyOrders.data.orders.length : 0
+  }
+
+  getSellOrdersByTokenId = async (token_id, limit) => {
+    this.sellOrders = await graphql({
+      client: ApiServerAgent,
+      query: ordersByTokenIdQuery,
+      variables: { token_id: token_id, type: ORDER_TYPE_SELL, limit: limit }
+    })
+  }
+
+  get sellOrdersError() {
+    return (this.sellOrders.error && this.sellOrders.error.message) || null
+  }
+
+  get sellOrdersLoading() {
+    return this.sellOrders.loading
+  }
+
+  get sellOrdersList() {
+    return (this.sellOrders.data && toJS(this.sellOrders.data.orders)) || []
+  }
+
+  get sellOrdersCount() {
+    return this.sellOrders.data.orders ? this.sellOrders.data.orders.length : 0
   }
 
   test = () => {
@@ -81,11 +125,16 @@ class TradeStore {
 }
 
 decorate(TradeStore, {
-  orders: observable,
-  error: computed,
-  loading: computed,
-  orderList: computed,
-  count: computed,
+  buyOrders: observable,
+  buyOrdersError: computed,
+  buyOrdersLoading: computed,
+  buyOrdersList: computed,
+  buyOrdersCount: computed,
+  sellOrders: observable,
+  sellOrdersError: computed,
+  sellOrdersLoading: computed,
+  sellOrdersList: computed,
+  sellOrdersCount: computed,
   tokenSymbol: observable,
   price: observable,
   amount: observable,
@@ -94,7 +143,8 @@ decorate(TradeStore, {
   setPrice: action,
   setAmount: action,
   setWatchPrice: action,
-  getOrdersByTokenId: action,
+  getBuyOrdersByTokenId: action,
+  getSellOrdersByTokenId: action,
   getChartData: action,
   test: action
 })

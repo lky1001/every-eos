@@ -1,8 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
-import { Grid, Row, Col, Table } from 'react-bootstrap'
-import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap'
+import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 
 class OrderList extends Component {
@@ -12,7 +10,7 @@ class OrderList extends Component {
   }
 
   render() {
-    const { token, orderList } = this.props
+    const { token, buyOrdersList, sellOrdersList } = this.props
 
     return (
       <Fragment>
@@ -33,12 +31,17 @@ class OrderList extends Component {
               </tr>
             </thead>
             <tbody>
-              {orderList.filter(o => o.type === 'BUY').map(o => {
+              {buyOrdersList.map(o => {
                 return (
                   <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                     <td>{o.token_price}</td>
-                    <td>{o.amount}</td>
-                    <td>{Math.abs(o.token_price.toFixed(token.precision) * o.amount.toFixed(token.precision)).toFixed(token.precision)}</td>
+                    <td>{o.total_amount}</td>
+                    <td>
+                      {Math.abs(
+                        o.token_price.toFixed(token.precision) *
+                          o.total_amount.toFixed(token.precision)
+                      ).toFixed(token.precision)}
+                    </td>
                   </tr>
                 )
               })}
@@ -63,12 +66,17 @@ class OrderList extends Component {
               </tr>
             </thead>
             <tbody>
-              {orderList.filter(o => o.type === 'SELL').map(o => {
+              {sellOrdersList.map(o => {
                 return (
                   <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                     <td>{o.token_price}</td>
-                    <td>{o.amount}</td>
-                    <td>{Math.abs(o.token_price.toFixed(token.precision) * o.amount.toFixed(token.precision)).toFixed(token.precision)}</td>
+                    <td>{o.total_amount}</td>
+                    <td>
+                      {Math.abs(
+                        o.token_price.toFixed(token.precision) *
+                          o.total_amount.toFixed(token.precision)
+                      ).toFixed(token.precision)}
+                    </td>
                   </tr>
                 )
               })}

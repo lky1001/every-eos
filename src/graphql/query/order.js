@@ -6,7 +6,8 @@ const orderFragment = gql`
     token_id
     type
     token_price
-    amount
+    total_amount
+    deal_amount
     account_name
     status
     created
@@ -23,13 +24,30 @@ export const ordersQuery = gql`
 `
 
 export const ordersByTokenIdQuery = gql`
-  query($token_id: Int!) {
-    orders(token_id: $token_id) {
+  query($token_id: Int!, $type: String, $limit: Int!) {
+    orders(token_id: $token_id, type: $type, limit: $limit) {
       id
       token_id
       type
       token_price
-      amount
+      total_amount
+      deal_amount
+      account_name
+      status
+      created
+    }
+  }
+`
+
+export const ordersByAccountNameQuery = gql`
+  query($account_name: String!) {
+    orders(account_name: $account_name) {
+      id
+      token_id
+      type
+      token_price
+      total_amount
+      deal_amount
       account_name
       status
       created
