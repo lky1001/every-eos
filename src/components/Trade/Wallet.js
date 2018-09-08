@@ -3,9 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Row, Col } from 'reactstrap'
 
 class Wallet extends Component {
-  componentDidUpdate = () => {
-    console.log('test')
-  }
+  componentDidUpdate = () => {}
 
   render() {
     const { accountStore, marketStore } = this.props
@@ -26,9 +24,9 @@ class Wallet extends Component {
         {!accountStore.isLogin && <FormattedMessage id="Please Login" />}
         {accountStore.isLogin &&
           tokens &&
-          tokens.map((token, idx) => {
+          tokens.map(token => {
             return (
-              <Row>
+              <Row key={token.id}>
                 <Col xs={8}>{token.name}</Col>
                 <Col xs={4}>0.0000</Col>
               </Row>

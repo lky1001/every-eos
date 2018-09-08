@@ -12,6 +12,8 @@ import TradingChart from '../components/Trade/TradingChart'
 import Market from '../components/Trade/Market'
 import Wallet from '../components/Trade/Wallet'
 import { ORDER_PAGE_LIMIT, ORDER_TYPE_BUY, ORDER_TYPE_SELL } from '../constants/Values'
+import OrderHistory from '../components/Trade/OrderHistory'
+import InOrder from '../components/Trade/InOrder'
 
 class Trade extends Component {
   constructor(props) {
@@ -34,11 +36,22 @@ class Trade extends Component {
   }
 
   componentDidMount = async () => {
-    const { tradeStore } = this.props
+    const { tradeStore, accountStore } = this.props
+    const loginAccInfo = accountStore.loginAccountInfo
+
+    //Todo
+    // if (loginAccInfo) {
+    //   await tradeStore.getInOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
+
+    //   await tradeStore.getOrdersHistory(
+    //     accountStore.loginAccountInfo.account_name,
+    //     ORDER_PAGE_LIMIT
+    //   )
+    // }
 
     const ordersIntervalId = setInterval(async () => {
-      await tradeStore.getBuyOrdersByTokenId(1, ORDER_PAGE_LIMIT)
-      await tradeStore.getSellOrdersByTokenId(1, ORDER_PAGE_LIMIT)
+      await tradeStore.getBuyOrders(1, ORDER_PAGE_LIMIT)
+      await tradeStore.getSellOrders(1, ORDER_PAGE_LIMIT)
     }, 2000)
 
     const chartIntervalId = setInterval(async () => {
@@ -64,7 +77,7 @@ class Trade extends Component {
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
     const token = marketStore.token.data.token
-    const { buyOrdersList, sellOrdersList, chartData } = tradeStore
+    const { buyOrdersList, sellOrdersList, inOrdersList, ordersHistoryList, chartData } = tradeStore
 
     return (
       <Fragment>
@@ -116,12 +129,15 @@ class Trade extends Component {
               <Col xs={12} md={8}>
                 <Row>
                   <Col xs={12} style={{ background: '#aaaaa9' }}>
-                    In Order
+                    <InOrder accountStore={accountStore} inOrdersList={inOrdersList} />
                   </Col>
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#00a9a9' }}>
-                    Order History
+                    <OrderHistory
+                      accountStore={accountStore}
+                      ordersHistoryList={ordersHistoryList}
+                    />
                   </Col>
                 </Row>
               </Col>

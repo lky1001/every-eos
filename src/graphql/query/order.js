@@ -14,18 +14,24 @@ const orderFragment = gql`
   }
 `
 
-export const ordersQuery = gql`
-  {
-    orders {
-      ...order
-    }
-  }
-  ${orderFragment}
-`
+// export const ordersQuery = gql`
+//   {
+//     orders {
+//       ...order
+//     }
+//   }
+//   ${orderFragment}
+// `
 
-export const ordersByTokenIdQuery = gql`
-  query($token_id: Int!, $type: String, $limit: Int!) {
-    orders(token_id: $token_id, type: $type, limit: $limit) {
+export const ordersQuery = gql`
+  query($token_id: Int, $type: String, $limit: Int!, $status: String, $account_name: String) {
+    orders(
+      token_id: $token_id
+      type: $type
+      limit: $limit
+      status: $status
+      account_name: $account_name
+    ) {
       id
       token_id
       type
@@ -39,9 +45,9 @@ export const ordersByTokenIdQuery = gql`
   }
 `
 
-export const ordersByAccountNameQuery = gql`
-  query($account_name: String!) {
-    orders(account_name: $account_name) {
+export const inOrdersQuery = gql`
+  query($token_id: Int, $type: String, $limit: Int!, $account_name: String) {
+    inOrders(token_id: $token_id, type: $type, limit: $limit, account_name: $account_name) {
       id
       token_id
       type
