@@ -10,6 +10,7 @@ import OrderList from '../components/Trade/OrderList'
 import Order from '../components/Trade/Order'
 import TradingChart from '../components/Trade/TradingChart'
 import Market from '../components/Trade/Market'
+import Wallet from '../components/Trade/Wallet'
 import { getData } from '../utils/stockChartUtil'
 
 class Trade extends Component {
@@ -73,7 +74,7 @@ class Trade extends Component {
                 <TokenInfo marketStore={marketStore} token={this.state.token} />
               </Col>
               <Col xs={12} md={4} style={{ background: '#90bab9' }}>
-                <Resource />
+                <Resource accountStore={accountStore} />
               </Col>
             </Row>
             <Row>
@@ -119,7 +120,7 @@ class Trade extends Component {
                 </Row>
               </Col>
               <Col xs={12} md={4} style={{ background: '#90bab9' }}>
-                Wallet
+                <Wallet accountStore={accountStore} marketStore={marketStore} />
               </Col>
             </Row>
           </Grid>

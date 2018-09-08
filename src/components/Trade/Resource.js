@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
+import { FormattedMessage } from 'react-intl'
 
 import { Grid, Row, Col } from 'react-bootstrap'
 
@@ -16,7 +15,9 @@ class Resource extends Component {
       <Fragment>
         {!accountStore.isLogin && (
           <Row className="show-grid">
-            <Col xs={12}>Please Login</Col>
+            <Col xs={12}>
+              <FormattedMessage id="Please Login" />
+            </Col>
           </Row>
         )}
         {accountStore.isLogin && (
@@ -46,7 +47,4 @@ class Resource extends Component {
   }
 }
 
-export default compose(
-  inject('accountStore'),
-  observer
-)(Resource)
+export default Resource

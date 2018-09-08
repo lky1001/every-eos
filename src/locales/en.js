@@ -8,5 +8,7 @@ export default {
   'Price(EOS)': 'Price(EOS)',
   Amount: 'Amount',
   'Total(EOS)': 'Total(EOS)',
-  Market: 'Market'
+  Market: 'Market',
+  Wallet: 'Wallet',
+  'Please Login': 'Please Login'
 }
