@@ -78,7 +78,7 @@ class AccountStore {
     const scatterAccount = eosAgent.getScatterAccount()
 
     const loginAccountInfo = await eosAgent.getAccount(scatterAccount.name)
-
+    console.log(loginAccountInfo)
     if (loginAccountInfo) {
       this.liquid = loginAccountInfo.core_liquid_balance
         ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0])

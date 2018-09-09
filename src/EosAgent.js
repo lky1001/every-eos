@@ -44,7 +44,9 @@ class EosAgent {
     if (id) {
       this.scatter.useIdentity(id)
       console.log('Possible identity', this.scatter.identity)
-      const loginAccount = this.scatter.identity.accounts.find(acc => acc.blockchain === Values.NETWORK.blockchain)
+      const loginAccount = this.scatter.identity.accounts.find(
+        acc => acc.blockchain === Values.NETWORK.blockchain
+      )
 
       this.scatterAccount = loginAccount
       this.identity = id
@@ -207,6 +209,12 @@ class EosAgent {
     }
 
     return await this.eos.transaction(contract, cb)
+  }
+
+  signData = async data => {
+    if (!this.scatter || !this.identity) return null
+
+    return this.scatter.getArbitrarySignature(this.identity.publicKey, data, 'Signing', true)
   }
 }
 

@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import { ORDER_PAGE_LIMIT } from '../../constants/Values'
+import eosAgent from '../../EosAgent'
 
 class InOrder extends Component {
   constructor(props) {
@@ -64,6 +65,24 @@ class InOrder extends Component {
       this.setState({
         activeTab: tab
       })
+    }
+  }
+
+  cancelOrder = async () => {
+    const { accountStore, tradeStore } = this.props
+
+    if (accountStore.isLogin && accountStore.loginAccountInfo.account_name) {
+      const signedData = eosAgent.signData('가스아!')
+
+      if (!signedData) {
+        alert('check your identity')
+        return
+      }
+
+      const result = await tradeStore.cancelOrder(
+        accountStore.loginAccountInfo.account_name,
+        signedData
+      )
     }
   }
 

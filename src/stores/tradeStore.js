@@ -206,6 +206,14 @@ class TradeStore {
     return this.inOrders.data.orders ? this.inOrders.data.orders.length : 0
   }
 
+  cancelOrder = async (account_name, signedData) => {
+    return await graphql({
+      client: ApiServerAgent,
+      query: ordersQuery,
+      variables: { account_name: account_name, signedData: signedData }
+    })
+  }
+
   test = () => {
     this.price += 0.1
   }
