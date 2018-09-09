@@ -25,12 +25,11 @@ class TradePage extends Component {
     }
   }
 
-  componentWillMount = async () => {
+  componentDidMount = async () => {
     const { marketStore, tradeStore } = this.props
 
     tradeStore.setTokenSymbol(this.state.token)
-
-    await marketStore.getTokensBySymbol(this.state.token)
+    await marketStore.getTokenBySymbol(this.state.token)
   }
 
   render() {

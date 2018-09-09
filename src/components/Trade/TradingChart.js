@@ -179,7 +179,7 @@ class TradingChart extends Component {
     const { tradeStore, type, width, ratio } = this.props
     const { chartData: initialData } = tradeStore
 
-    if (!initialData) return null
+    if (!initialData) return <div />
     const calculatedData = macdCalculator(ema12(ema26(initialData)))
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => d.date)
     const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(calculatedData)

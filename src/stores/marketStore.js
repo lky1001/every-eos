@@ -31,7 +31,7 @@ class MarketStore {
     this.tokens = await graphql({ client: ApiServerAgent, query: tokensQuery })
   }
 
-  getTokensBySymbol = async symbol => {
+  getTokenBySymbol = async symbol => {
     this.token = await graphql({
       client: ApiServerAgent,
       query: findTokenQuery,
@@ -83,7 +83,8 @@ decorate(MarketStore, {
   loading: computed,
   tokenList: computed,
   count: computed,
-  getTokensById: action
+  getTokensById: action,
+  getTokenBySymbol: action
 })
 
 export default new MarketStore()
