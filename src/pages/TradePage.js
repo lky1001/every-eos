@@ -23,7 +23,8 @@ class Trade extends Component {
     this.state = {
       token: token,
       ordersIntervalId: 0,
-      chartIntervalId: 0
+      chartIntervalId: 0,
+      getInOrdersAndHistoryIntervalId: 0
     }
   }
 
@@ -39,15 +40,42 @@ class Trade extends Component {
     const { tradeStore, accountStore } = this.props
     const loginAccInfo = accountStore.loginAccountInfo
 
-    //Todo
-    // if (loginAccInfo) {
-    //   await tradeStore.getInOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
+    if (accountStore.isLogin) {
+      const getInOrdersAndHistoryIntervalId = setInterval(async () => {
+        await tradeStore.getInOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
+        await tradeStore.getOrdersHistory(
+          accountStore.loginAccountInfo.account_name,
+          ORDER_PAGE_LIMIT
+        )
+      }, 5000)
 
-    //   await tradeStore.getOrdersHistory(
-    //     accountStore.loginAccountInfo.account_name,
-    //     ORDER_PAGE_LIMIT
-    //   )
-    // }
+      this.setState({
+        getInOrdersAndHistoryIntervalId: getInOrdersAndHistoryIntervalId
+      })
+    }
+
+    this.disposer = accountStore.subscribeLoginState(changed => {
+      if (changed.oldValue !== changed.newValue) {
+        if (changed.newValue) {
+          const getInOrdersAndHistoryIntervalId = setInterval(async () => {
+            await tradeStore.getInOrders(
+              accountStore.loginAccountInfo.account_name,
+              ORDER_PAGE_LIMIT
+            )
+            await tradeStore.getOrdersHistory(
+              accountStore.loginAccountInfo.account_name,
+              ORDER_PAGE_LIMIT
+            )
+          }, 5000)
+
+          this.setState({
+            getInOrdersAndHistoryIntervalId: getInOrdersAndHistoryIntervalId
+          })
+        } else {
+          clearInterval(this.state.getInOrdersAndHistoryIntervalId)
+        }
+      }
+    })
 
     const ordersIntervalId = setInterval(async () => {
       await tradeStore.getBuyOrders(1, ORDER_PAGE_LIMIT)

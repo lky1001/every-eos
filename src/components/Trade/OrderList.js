@@ -13,7 +13,7 @@ class OrderList extends Component {
     }
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { accountStore } = this.props
 
     if (accountStore.isLogin) {
