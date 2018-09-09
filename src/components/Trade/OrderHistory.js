@@ -1,9 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
+import { ORDER_PAGE_LIMIT } from '../../constants/Values'
 
 class OrderHistory extends Component {
   constructor(props) {
@@ -11,8 +13,45 @@ class OrderHistory extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      getOrdersHistoryIntervalId: 0
     }
+  }
+
+  componentDidMount = async () => {
+    const { tradeStore, accountStore } = this.props
+
+    if (accountStore.isLogin) {
+      const getOrdersHistoryIntervalId = setInterval(async () => {
+        await tradeStore.getOrdersHistory(
+          accountStore.loginAccountInfo.account_name,
+          ORDER_PAGE_LIMIT
+        )
+      }, 5000)
+
+      this.setState({
+        getOrdersHistoryIntervalId: getOrdersHistoryIntervalId
+      })
+    }
+
+    this.disposer = accountStore.subscribeLoginState(changed => {
+      if (changed.oldValue !== changed.newValue) {
+        if (changed.newValue) {
+          const getOrdersHistoryIntervalId = setInterval(async () => {
+            await tradeStore.getOrdersHistory(
+              accountStore.loginAccountInfo.account_name,
+              ORDER_PAGE_LIMIT
+            )
+          }, 5000)
+
+          this.setState({
+            getOrdersHistoryIntervalId: getOrdersHistoryIntervalId
+          })
+        } else {
+          clearInterval(this.state.getOrdersHistoryIntervalId)
+        }
+      }
+    })
   }
 
   toggle = tab => {
@@ -24,9 +63,9 @@ class OrderHistory extends Component {
   }
 
   render() {
-    const { ordersHistoryList, accountStore } = this.props
+    const { tradeStore, accountStore } = this.props
+    const { ordersHistoryList } = tradeStore
 
-    //Todo
     return (
       <div>
         <Nav tabs>
@@ -76,6 +115,7 @@ class OrderHistory extends Component {
               </thead>
               <tbody>
                 {accountStore.isLogin &&
+                  ordersHistoryList &&
                   ordersHistoryList.map(o => {
                     return (
                       <tr key={o.id}>
@@ -102,4 +142,7 @@ class OrderHistory extends Component {
   }
 }
 
-export default OrderHistory
+export default compose(
+  inject('tradeStore', 'accountStore'),
+  observer
+)(OrderHistory)

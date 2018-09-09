@@ -11,11 +11,11 @@ import Order from '../components/Trade/Order'
 import TradingChart from '../components/Trade/TradingChart'
 import Market from '../components/Trade/Market'
 import Wallet from '../components/Trade/Wallet'
-import { ORDER_PAGE_LIMIT, ORDER_TYPE_BUY, ORDER_TYPE_SELL } from '../constants/Values'
+import { ORDER_PAGE_LIMIT } from '../constants/Values'
 import OrderHistory from '../components/Trade/OrderHistory'
 import InOrder from '../components/Trade/InOrder'
 
-class Trade extends Component {
+class TradePage extends Component {
   constructor(props) {
     super(props)
     const { token } = this.props.match.params
@@ -37,44 +37,7 @@ class Trade extends Component {
   }
 
   componentDidMount = async () => {
-    const { tradeStore, accountStore } = this.props
-
-    if (accountStore.isLogin) {
-      const getInOrdersAndHistoryIntervalId = setInterval(async () => {
-        await tradeStore.getInOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
-        await tradeStore.getOrdersHistory(
-          accountStore.loginAccountInfo.account_name,
-          ORDER_PAGE_LIMIT
-        )
-      }, 5000)
-
-      this.setState({
-        getInOrdersAndHistoryIntervalId: getInOrdersAndHistoryIntervalId
-      })
-    }
-
-    this.disposer = accountStore.subscribeLoginState(changed => {
-      if (changed.oldValue !== changed.newValue) {
-        if (changed.newValue) {
-          const getInOrdersAndHistoryIntervalId = setInterval(async () => {
-            await tradeStore.getInOrders(
-              accountStore.loginAccountInfo.account_name,
-              ORDER_PAGE_LIMIT
-            )
-            await tradeStore.getOrdersHistory(
-              accountStore.loginAccountInfo.account_name,
-              ORDER_PAGE_LIMIT
-            )
-          }, 5000)
-
-          this.setState({
-            getInOrdersAndHistoryIntervalId: getInOrdersAndHistoryIntervalId
-          })
-        } else {
-          clearInterval(this.state.getInOrdersAndHistoryIntervalId)
-        }
-      }
-    })
+    const { tradeStore } = this.props
 
     const ordersIntervalId = setInterval(async () => {
       await tradeStore.getBuyOrders(1, ORDER_PAGE_LIMIT)
@@ -161,15 +124,12 @@ class Trade extends Component {
               <Col xs={12} md={8}>
                 <Row>
                   <Col xs={12} style={{ background: '#aaaaa9' }}>
-                    <InOrder accountStore={accountStore} inOrdersList={inOrdersList} />
+                    <InOrder />
                   </Col>
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#00a9a9' }}>
-                    <OrderHistory
-                      accountStore={accountStore}
-                      ordersHistoryList={ordersHistoryList}
-                    />
+                    <OrderHistory />
                   </Col>
                 </Row>
               </Col>
@@ -189,4 +149,4 @@ class Trade extends Component {
 export default compose(
   inject('marketStore', 'eosioStore', 'tradeStore', 'accountStore'),
   observer
-)(Trade)
+)(TradePage)

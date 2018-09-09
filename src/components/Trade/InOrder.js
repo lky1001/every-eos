@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
+import { ORDER_PAGE_LIMIT } from '../../constants/Values'
 
 class InOrder extends Component {
   constructor(props) {
@@ -11,8 +13,42 @@ class InOrder extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      getInOrdersIntervalId: 0
     }
+  }
+
+  componentDidMount = async () => {
+    const { tradeStore, accountStore } = this.props
+
+    if (accountStore.isLogin) {
+      const getInOrdersIntervalId = setInterval(async () => {
+        await tradeStore.getInOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
+      }, 5000)
+
+      this.setState({
+        getInOrdersIntervalId: getInOrdersIntervalId
+      })
+    }
+
+    this.disposer = accountStore.subscribeLoginState(changed => {
+      if (changed.oldValue !== changed.newValue) {
+        if (changed.newValue) {
+          const getInOrdersIntervalId = setInterval(async () => {
+            await tradeStore.getInOrders(
+              accountStore.loginAccountInfo.account_name,
+              ORDER_PAGE_LIMIT
+            )
+          }, 5000)
+
+          this.setState({
+            getInOrdersIntervalId: getInOrdersIntervalId
+          })
+        } else {
+          clearInterval(this.state.getInOrdersIntervalId)
+        }
+      }
+    })
   }
 
   toggle = tab => {
@@ -24,9 +60,9 @@ class InOrder extends Component {
   }
 
   render() {
-    const { inOrdersList, accountStore } = this.props
+    const { tradeStore, accountStore } = this.props
+    const { inOrdersList } = tradeStore
 
-    //Todo
     return (
       <div>
         <Nav tabs>
@@ -76,6 +112,7 @@ class InOrder extends Component {
               </thead>
               <tbody>
                 {accountStore.isLogin &&
+                  inOrdersList &&
                   inOrdersList.map(o => {
                     return (
                       <tr key={o.id}>
@@ -102,4 +139,7 @@ class InOrder extends Component {
   }
 }
 
-export default InOrder
+export default compose(
+  inject('tradeStore', 'accountStore'),
+  observer
+)(InOrder)
