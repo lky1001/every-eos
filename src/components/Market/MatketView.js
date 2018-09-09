@@ -1,16 +1,47 @@
 import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
-
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 import { Grid, Row, Col } from 'react-bootstrap'
 
+import { ProgressBar } from 'react-bootstrap'
 import RecourceView from '../ResourceView'
 import MarketRow from './MarketRow'
 
-class Market extends Component {
-  render() {
-    const { tokenList } = this.props
+class MarketView extends Component {
+  constructor(props) {
+    super(props)
 
-    return (
+    this.state = {
+      intervalId: 0
+    }
+  }
+
+  componentDidMount = async () => {
+    const { marketStore } = this.props
+
+    const id = setInterval(async () => {
+      await marketStore.getTokens()
+    }, 2000)
+
+    this.setState({
+      intervalId: id
+    })
+  }
+
+  componentWillUnmount = async () => {
+    if (this.state.intervalId > 0) {
+      clearInterval(this.state.intervalId)
+    }
+  }
+
+  render() {
+    const { marketStore } = this.props
+    const { tokenList } = marketStore
+
+    return !tokenList ? (
+      <ProgressBar striped bsStyle="success" now={40} />
+    ) : (
       <Grid>
         {/* test */}
         <RecourceView />
@@ -42,4 +73,7 @@ class Market extends Component {
   }
 }
 
-export default Market
+export default compose(
+  inject('marketStore'),
+  observer
+)(MarketView)

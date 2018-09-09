@@ -38,7 +38,6 @@ class Trade extends Component {
 
   componentDidMount = async () => {
     const { tradeStore, accountStore } = this.props
-    const loginAccInfo = accountStore.loginAccountInfo
 
     if (accountStore.isLogin) {
       const getInOrdersAndHistoryIntervalId = setInterval(async () => {
