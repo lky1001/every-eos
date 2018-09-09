@@ -2,6 +2,8 @@ import { decorate, observable, action } from 'mobx'
 import eosAgent from '../EosAgent'
 
 class AccountStore {
+  loginStateObserveble
+
   isLogin = false
   loginAccountInfo = null
   totalBalance = 0.0
@@ -39,6 +41,14 @@ class AccountStore {
   isProxy = 0
   proxy = ''
 
+  constructor() {
+    this.loginStateObserveble = observable.box(false)
+  }
+
+  subscribeLoginState = subscriber => {
+    return this.loginStateObserveble.observe(subscriber)
+  }
+
   login = async () => {
     let result = await eosAgent.loginWithScatter()
 
@@ -46,9 +56,11 @@ class AccountStore {
       await this.loadAccountInfo()
 
       this.isLogin = true
+      this.loginStateObserveble.set(true)
 
       return true
     } else {
+      this.loginStateObserveble.set(false)
       return false
     }
   }
@@ -57,6 +69,7 @@ class AccountStore {
     await eosAgent.logout()
 
     this.isLogin = false
+    this.loginStateObserveble.set(false)
     this.account = null
   }
 
@@ -67,7 +80,9 @@ class AccountStore {
     const loginAccountInfo = await eosAgent.getAccount(scatterAccount.name)
 
     if (loginAccountInfo) {
-      this.liquid = loginAccountInfo.core_liquid_balance ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0]) : 0
+      this.liquid = loginAccountInfo.core_liquid_balance
+        ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0])
+        : 0
       this.cpu = {
         max: parseFloat(loginAccountInfo.cpu_limit.max),
         used: parseFloat(loginAccountInfo.cpu_limit.used),
@@ -155,6 +170,7 @@ class AccountStore {
 }
 
 decorate(AccountStore, {
+  loginStateObserveble: observable,
   isLogin: observable,
   loginAccountInfo: observable,
   totalBalance: observable,
@@ -175,7 +191,8 @@ decorate(AccountStore, {
   proxy: observable,
   login: action,
   logout: action,
-  loadAccountInfo: action
+  loadAccountInfo: action,
+  subscribeLoginState: action
 })
 
 export default new AccountStore()

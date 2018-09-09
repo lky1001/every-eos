@@ -4,6 +4,56 @@ import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 
 class OrderList extends Component {
+  constructor(props) {
+    super(props)
+    this.disposer
+
+    this.state = {
+      intervalId: 0
+    }
+  }
+
+  componentWillMount = () => {
+    const { accountStore } = this.props
+
+    if (accountStore.isLogin) {
+      const intervalId = setInterval(this.getOrderList, 5000)
+
+      this.setState({
+        intervalId: intervalId
+      })
+    }
+
+    this.disposer = accountStore.subscribeLoginState(changed => {
+      console.log(JSON.stringify(changed))
+
+      if (changed.oldValue !== changed.newValue) {
+        if (changed.newValue) {
+          const intervalId = setInterval(this.getOrderList, 5000)
+
+          this.setState({
+            intervalId: intervalId
+          })
+        } else {
+          clearInterval(this.state.intervalId)
+        }
+      }
+    })
+  }
+
+  componentWillUnmount = () => {
+    if (this.state.intervalId > 0) {
+      clearInterval(this.state.intervalId)
+    }
+
+    this.disposer()
+  }
+
+  getOrderList = async () => {
+    // todo - get order list
+    console.log('get order list')
+  }
+
   onOrderListClick = price => {
     const { tradeStore } = this.props
     tradeStore.setPrice(price)

@@ -51,6 +51,12 @@ class Header extends Component {
     }
   }
 
+  onLogoutClick = async () => {
+    const { accountStore } = this.props
+
+    await accountStore.logout()
+  }
+
   render() {
     const { accountStore } = this.props
 
@@ -63,7 +69,9 @@ class Header extends Component {
             <Nav className="ml-auto" navbar>
               <NavItem>
                 {accountStore.isLogin ? (
-                  <NavLink>{accountStore.loginAccountInfo.account_name}</NavLink>
+                  <NavLink onClick={this.onLogoutClick}>
+                    {accountStore.loginAccountInfo.account_name}
+                  </NavLink>
                 ) : (
                   <NavLink onClick={this.onLoginClick}>Login with Scatter</NavLink>
                 )}

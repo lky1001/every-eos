@@ -76,7 +76,11 @@ class Trade extends Component {
 
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
-    const token = marketStore.token.data.token
+    const token = marketStore.token
+      ? marketStore.token.data
+        ? marketStore.token.data.token
+        : null
+      : null
     const { buyOrdersList, sellOrdersList, inOrdersList, ordersHistoryList, chartData } = tradeStore
 
     return (
@@ -97,6 +101,7 @@ class Trade extends Component {
                   <ProgressBar striped bsStyle="success" now={40} />
                 ) : (
                   <OrderList
+                    accountStore={accountStore}
                     tradeStore={tradeStore}
                     buyOrdersList={buyOrdersList}
                     sellOrdersList={sellOrdersList}
