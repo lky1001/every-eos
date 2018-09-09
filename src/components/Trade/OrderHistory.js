@@ -54,6 +54,14 @@ class OrderHistory extends Component {
     })
   }
 
+  componentWillUnmount = () => {
+    if (this.state.getOrdersHistoryIntervalId > 0) {
+      clearInterval(this.state.getOrdersHistoryIntervalId)
+    }
+
+    this.disposer()
+  }
+
   toggle = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({

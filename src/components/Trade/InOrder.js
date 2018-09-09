@@ -51,6 +51,14 @@ class InOrder extends Component {
     })
   }
 
+  componentWillUnmount = () => {
+    if (this.state.getInOrdersIntervalId > 0) {
+      clearInterval(this.state.getInOrdersIntervalId)
+    }
+
+    this.disposer()
+  }
+
   toggle = tab => {
     if (this.state.activeTab !== tab) {
       this.setState({

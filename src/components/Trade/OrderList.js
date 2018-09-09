@@ -1,26 +1,27 @@
 import React, { Component, Fragment } from 'react'
 import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
+import { ORDER_PAGE_LIMIT } from '../../constants/Values'
 
 class OrderList extends Component {
   constructor(props) {
     super(props)
-    this.disposer
 
     this.state = {
-      intervalId: 0
+      getOrderListIntervalId: 0
     }
   }
 
   componentDidMount = () => {
-    const { accountStore } = this.props
+    const { accountStore, tradeStore } = this.props
 
     if (accountStore.isLogin) {
-      const intervalId = setInterval(this.getOrderList, 5000)
+      const getOrderListIntervalId = setInterval(this.getOrderList, 5000)
 
       this.setState({
-        intervalId: intervalId
+        getOrderListIntervalId: getOrderListIntervalId
       })
     }
 
@@ -29,21 +30,34 @@ class OrderList extends Component {
 
       if (changed.oldValue !== changed.newValue) {
         if (changed.newValue) {
-          const intervalId = setInterval(this.getOrderList, 5000)
+          const getOrderListIntervalId = setInterval(this.getOrderList, 5000)
 
           this.setState({
-            intervalId: intervalId
+            getOrderListIntervalId: getOrderListIntervalId
           })
         } else {
-          clearInterval(this.state.intervalId)
+          clearInterval(this.state.getOrderListIntervalId)
         }
       }
+    })
+
+    const ordersIntervalId = setInterval(async () => {
+      await tradeStore.getBuyOrders(1, ORDER_PAGE_LIMIT)
+      await tradeStore.getSellOrders(1, ORDER_PAGE_LIMIT)
+    }, 2000)
+
+    this.setState({
+      ordersIntervalId: ordersIntervalId
     })
   }
 
   componentWillUnmount = () => {
-    if (this.state.intervalId > 0) {
-      clearInterval(this.state.intervalId)
+    if (this.state.ordersIntervalId > 0) {
+      clearInterval(this.state.ordersIntervalId)
+    }
+
+    if (this.state.getOrderListIntervalId > 0) {
+      clearInterval(this.state.getOrderListIntervalId)
     }
 
     this.disposer()
@@ -60,7 +74,8 @@ class OrderList extends Component {
   }
 
   render() {
-    const { token, buyOrdersList, sellOrdersList } = this.props
+    const { token, tradeStore } = this.props
+    const { buyOrdersList, sellOrdersList } = tradeStore
 
     return (
       <Fragment>
@@ -81,20 +96,21 @@ class OrderList extends Component {
               </tr>
             </thead>
             <tbody>
-              {buyOrdersList.map(o => {
-                return (
-                  <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
-                    <td>{o.token_price}</td>
-                    <td>{o.total_amount}</td>
-                    <td>
-                      {Math.abs(
-                        o.token_price.toFixed(token.precision) *
-                          o.total_amount.toFixed(token.precision)
-                      ).toFixed(token.precision)}
-                    </td>
-                  </tr>
-                )
-              })}
+              {buyOrdersList &&
+                buyOrdersList.map(o => {
+                  return (
+                    <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                      <td>{o.token_price}</td>
+                      <td>{o.total_amount}</td>
+                      <td>
+                        {Math.abs(
+                          o.token_price.toFixed(token.precision) *
+                            o.total_amount.toFixed(token.precision)
+                        ).toFixed(token.precision)}
+                      </td>
+                    </tr>
+                  )
+                })}
             </tbody>
           </Table>
         </div>
@@ -116,20 +132,21 @@ class OrderList extends Component {
               </tr>
             </thead>
             <tbody>
-              {sellOrdersList.map(o => {
-                return (
-                  <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
-                    <td>{o.token_price}</td>
-                    <td>{o.total_amount}</td>
-                    <td>
-                      {Math.abs(
-                        o.token_price.toFixed(token.precision) *
-                          o.total_amount.toFixed(token.precision)
-                      ).toFixed(token.precision)}
-                    </td>
-                  </tr>
-                )
-              })}
+              {sellOrdersList &&
+                sellOrdersList.map(o => {
+                  return (
+                    <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                      <td>{o.token_price}</td>
+                      <td>{o.total_amount}</td>
+                      <td>
+                        {Math.abs(
+                          o.token_price.toFixed(token.precision) *
+                            o.total_amount.toFixed(token.precision)
+                        ).toFixed(token.precision)}
+                      </td>
+                    </tr>
+                  )
+                })}
             </tbody>
           </Table>
         </div>
@@ -138,4 +155,7 @@ class OrderList extends Component {
   }
 }
 
-export default OrderList
+export default compose(
+  inject('tradeStore', 'accountStore'),
+  observer
+)(OrderList)

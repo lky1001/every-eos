@@ -49,6 +49,7 @@ class TradingChart extends Component {
     this.saveCanvasNode = this.saveCanvasNode.bind(this)
 
     this.state = {
+      chartIntervalId: 0,
       enableTrendLine: false,
       trends_1: [
         { start: [1606, 56], end: [1711, 53], appearance: { stroke: 'green' }, type: 'XLINE' }
@@ -60,11 +61,25 @@ class TradingChart extends Component {
   saveCanvasNode(node) {
     this.canvasNode = node
   }
-  componentDidMount() {
+
+  componentDidMount = async () => {
+    const { tradeStore } = this.props
+
     document.addEventListener('keyup', this.onKeyPress)
+    const chartIntervalId = setInterval(async () => {
+      await tradeStore.getChartData()
+    }, 5000)
+
+    this.setState({
+      chartIntervalId: chartIntervalId
+    })
   }
-  componentWillUnmount() {
+
+  componentWillUnmount = () => {
     document.removeEventListener('keyup', this.onKeyPress)
+    if (this.state.chartIntervalId > 0) {
+      clearInterval(this.state.chartIntervalId)
+    }
   }
 
   handleSelection(interactives) {
@@ -161,8 +176,10 @@ class TradingChart extends Component {
       })
       .accessor(d => d.macd)
 
-    const { type, chartData: initialData, width, ratio } = this.props
+    const { tradeStore, type, width, ratio } = this.props
+    const { chartData: initialData } = tradeStore
 
+    if (!initialData) return null
     const calculatedData = macdCalculator(ema12(ema26(initialData)))
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(d => d.date)
     const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(calculatedData)
@@ -307,6 +324,6 @@ TradingChart.defaultProps = {
 TradingChart = fitWidth(TradingChart)
 
 export default compose(
-  inject('marketStore'),
+  inject('marketStore', 'tradeStore'),
   observer
 )(TradingChart)
