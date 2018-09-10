@@ -34,11 +34,7 @@ class TradePage extends Component {
 
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
-    const token = marketStore.token
-      ? marketStore.token.data
-        ? marketStore.token.data.token
-        : null
-      : null
+    const token = marketStore.token ? (marketStore.token.data ? marketStore.token.data.token : null) : null
 
     return (
       <Fragment>
@@ -67,12 +63,7 @@ class TradePage extends Component {
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#aaff88' }}>
-                    <Order
-                      token={token}
-                      accountStore={accountStore}
-                      tradeStore={tradeStore}
-                      eosioStore={eosioStore}
-                    />
+                    <Order token={token} accountStore={accountStore} tradeStore={tradeStore} eosioStore={eosioStore} />
                   </Col>
                 </Row>
               </Col>
@@ -91,7 +82,7 @@ class TradePage extends Component {
                 </Row>
               </Col>
               <Col xs={12} md={4} style={{ background: '#90bab9' }}>
-                <Wallet accountStore={accountStore} marketStore={marketStore} />
+                <Wallet accountStore={accountStore} marketStore={marketStore} eosioStore={eosioStore} />
               </Col>
             </Row>
           </Grid>

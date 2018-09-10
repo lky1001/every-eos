@@ -13,6 +13,10 @@ class EosioStore {
     } catch (e) {}
   }
 
+  getCurrencyBalance = async data => {
+    return await eosAgent.getCurrencyBalance(data)
+  }
+
   buyToken = async (contract, data) => {
     //memo : {"type":"buyLimit","symbol": "IQ","market":"IQ_EOS","price":0.00101,"qty":100,"amount":0.101}
     const cb = tr => {
