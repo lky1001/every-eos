@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import * as Values from '../../constants/Values'
 import { FormattedMessage } from 'react-intl'
 import { Row, Col } from 'reactstrap'
 
@@ -15,7 +16,7 @@ class Wallet extends Component {
     const { accountStore } = this.props
 
     if (accountStore.isLogin) {
-      const getInOrdersIntervalId = setInterval(this.getWalletBalace, 5000)
+      const getInOrdersIntervalId = setInterval(this.getWalletBalace, Values.GET_BALANCE_INTERVAL)
 
       this.setState({
         getInOrdersIntervalId: getInOrdersIntervalId
@@ -26,7 +27,7 @@ class Wallet extends Component {
       if (changed.oldValue !== changed.newValue) {
         if (changed.newValue) {
           this.getWalletBalace()
-          const getBalanceIntervalId = setInterval(this.getWalletBalace, 5000)
+          const getBalanceIntervalId = setInterval(this.getWalletBalace, Values.GET_BALANCE_INTERVAL)
 
           this.setState({
             getBalanceIntervalId: getBalanceIntervalId
@@ -78,7 +79,7 @@ class Wallet extends Component {
   }
 
   render() {
-    const { accountStore, marketStore } = this.props
+    const { accountStore } = this.props
 
     return (
       <Fragment>
