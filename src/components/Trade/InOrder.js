@@ -72,16 +72,17 @@ class InOrder extends Component {
     const { accountStore, tradeStore } = this.props
 
     if (accountStore.isLogin && accountStore.loginAccountInfo.account_name) {
-      const signedData = eosAgent.signData('가스아!')
+      const signature = await eosAgent.signData(accountStore.loginAccountInfo.account_name)
 
-      if (!signedData) {
+      if (!signature) {
         alert('check your identity')
         return
       }
 
+      console.log(signature)
       const result = await tradeStore.cancelOrder(
         accountStore.loginAccountInfo.account_name,
-        signedData
+        signature
       )
     }
   }
@@ -92,6 +93,7 @@ class InOrder extends Component {
 
     return (
       <div>
+        <button onClick={() => this.cancelOrder()}>왓더</button>
         <Nav tabs>
           <NavItem>
             <NavLink

@@ -2,6 +2,7 @@ import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
 import { ordersQuery, inOrdersQuery } from '../graphql/query/order'
+import { cancelOrderMutation } from '../graphql/mutation/order'
 import { getData } from '../utils/stockChartUtil'
 import { ORDER_PAGE_LIMIT, ORDER_TYPE_BUY, ORDER_TYPE_SELL } from '../constants/Values'
 
@@ -206,13 +207,11 @@ class TradeStore {
     return this.inOrders.data.orders ? this.inOrders.data.orders.length : 0
   }
 
-  cancelOrder = async (account_name, signedData) => {
-    return await graphql({
-      client: ApiServerAgent,
-      query: ordersQuery,
-      variables: { account_name: account_name, signedData: signedData }
-    })
-  }
+  cancelOrder = async (account_name, signature) =>
+    ApiServerAgent.mutate({
+      mutation: cancelOrderMutation,
+      variables: { account_name: account_name, signature: signature }
+    }).catch(error => console.error(error.message))
 
   test = () => {
     this.price += 0.1

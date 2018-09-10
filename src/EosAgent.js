@@ -211,10 +211,11 @@ class EosAgent {
     return await this.eos.transaction(contract, cb)
   }
 
-  signData = async data => {
+  signData = data => {
     if (!this.scatter || !this.identity) return null
 
-    return this.scatter.getArbitrarySignature(this.identity.publicKey, data, 'Signing', true)
+    console.log('펍키 이거다!!!! :', this.identity.publicKey)
+    return this.scatter.getArbitrarySignature(this.identity.publicKey, data, 'Signing', false)
   }
 }
 
