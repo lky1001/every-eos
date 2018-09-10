@@ -108,11 +108,11 @@ class TradeStore {
     this.chartData = await getData()
   }
 
-  getBuyOrders = async (token_id, limit) => {
+  getBuyOrders = async (token_symbol, limit) => {
     this.buyOrders = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
-      variables: { token_id: token_id, type: ORDER_TYPE_BUY, limit: limit }
+      variables: { token_symbol: token_symbol, type: ORDER_TYPE_BUY, limit: limit }
     })
   }
 
@@ -132,11 +132,11 @@ class TradeStore {
     return this.buyOrders.data.orders ? this.buyOrders.data.orders.length : 0
   }
 
-  getSellOrders = async (token_id, limit) => {
+  getSellOrders = async (token_symbol, limit) => {
     this.sellOrders = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
-      variables: { token_id: token_id, type: ORDER_TYPE_SELL, limit: limit }
+      variables: { token_symbol: token_symbol, type: ORDER_TYPE_SELL, limit: limit }
     })
   }
 
