@@ -49,6 +49,19 @@ class Wallet extends Component {
     const accountName = accountStore.loginAccountInfo ? accountStore.loginAccountInfo.account_name : null
 
     if (accountName && tokens) {
+      // eos
+      const balance = await eosioStore.getCurrencyBalance({
+        code: 'eosio.token',
+        account: accountStore.loginAccountInfo.account_name,
+        symbol: 'EOS'
+      })
+
+      tokenBalance.push({
+        id: 0,
+        name: 'EOS',
+        balance: balance.length > 0 ? balance[0].split(' ')[0] : 0.0
+      })
+
       for (let i = 0; i < tokens.length; i++) {
         const token = tokens[i]
         const balance = await eosioStore.getCurrencyBalance({
