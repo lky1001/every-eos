@@ -5,7 +5,7 @@ import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
-import { ORDER_PAGE_LIMIT } from '../../constants/Values'
+import { ORDER_PAGE_LIMIT, GET_ORDER_HISTORY_INTERVAL } from '../../constants/Values'
 
 class OrderHistory extends Component {
   constructor(props) {
@@ -19,38 +19,31 @@ class OrderHistory extends Component {
   }
 
   componentDidMount = async () => {
-    const { tradeStore, accountStore } = this.props
+    const { accountStore } = this.props
 
     if (accountStore.isLogin) {
-      const getOrdersHistoryIntervalId = setInterval(async () => {
-        await tradeStore.getOrdersHistory(
-          accountStore.loginAccountInfo.account_name,
-          ORDER_PAGE_LIMIT
-        )
-      }, 5000)
-
-      this.setState({
-        getOrdersHistoryIntervalId: getOrdersHistoryIntervalId
-      })
+      this.startGetOrderHistory()
     }
 
     this.disposer = accountStore.subscribeLoginState(changed => {
       if (changed.oldValue !== changed.newValue) {
         if (changed.newValue) {
-          const getOrdersHistoryIntervalId = setInterval(async () => {
-            await tradeStore.getOrdersHistory(
-              accountStore.loginAccountInfo.account_name,
-              ORDER_PAGE_LIMIT
-            )
-          }, 5000)
-
-          this.setState({
-            getOrdersHistoryIntervalId: getOrdersHistoryIntervalId
-          })
+          this.startGetOrderHistory()
         } else {
           clearInterval(this.state.getOrdersHistoryIntervalId)
         }
       }
+    })
+  }
+
+  startGetOrderHistory = () => {
+    const getOrdersHistoryIntervalId = setInterval(async () => {
+      const { tradeStore, accountStore } = this.props
+      await tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
+    }, GET_ORDER_HISTORY_INTERVAL)
+
+    this.setState({
+      getOrdersHistoryIntervalId: getOrdersHistoryIntervalId
     })
   }
 
@@ -82,7 +75,8 @@ class OrderHistory extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}>
+              }}
+            >
               Order History
             </NavLink>
           </NavItem>
