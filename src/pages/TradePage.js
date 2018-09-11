@@ -26,10 +26,20 @@ class TradePage extends Component {
   }
 
   componentDidMount = async () => {
-    const { marketStore, tradeStore } = this.props
+    const { marketStore, tradeStore, accountStore } = this.props
 
     tradeStore.setTokenSymbol(this.state.token)
     await marketStore.getTokenBySymbol(this.state.token)
+
+    this.disposer = accountStore.subscribeLoginState(changed => {
+      if (changed.oldValue !== changed.newValue) {
+        this.forceUpdate()
+      }
+    })
+  }
+
+  componentWillUnmount = () => {
+    this.disposer()
   }
 
   render() {

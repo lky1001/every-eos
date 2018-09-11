@@ -1,13 +1,9 @@
 import React, { Component, Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 
-import { Grid, Row, Col } from 'react-bootstrap'
+import { Row, Col } from 'react-bootstrap'
 
 class Resource extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
     const { accountStore } = this.props
 

@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import * as Values from '../../constants/Values'
+import { GET_BALANCE_INTERVAL } from '../../constants/Values'
 import { FormattedMessage } from 'react-intl'
 import { Row, Col } from 'reactstrap'
 
@@ -8,7 +8,7 @@ class Wallet extends Component {
     super(props)
 
     this.state = {
-      getBalanceIntervalId: 0,
+      balanceIntervalId: 0,
       tokens: []
     }
   }
@@ -16,10 +16,10 @@ class Wallet extends Component {
     const { accountStore } = this.props
 
     if (accountStore.isLogin) {
-      const getInOrdersIntervalId = setInterval(this.getWalletBalace, Values.GET_BALANCE_INTERVAL)
+      const balanceIntervalId = setInterval(this.getWalletBalace, GET_BALANCE_INTERVAL)
 
       this.setState({
-        getInOrdersIntervalId: getInOrdersIntervalId
+        balanceIntervalId: balanceIntervalId
       })
     }
 
@@ -27,13 +27,13 @@ class Wallet extends Component {
       if (changed.oldValue !== changed.newValue) {
         if (changed.newValue) {
           this.getWalletBalace()
-          const getBalanceIntervalId = setInterval(this.getWalletBalace, Values.GET_BALANCE_INTERVAL)
+          const balanceIntervalId = setInterval(this.getWalletBalace, GET_BALANCE_INTERVAL)
 
           this.setState({
-            getBalanceIntervalId: getBalanceIntervalId
+            balanceIntervalId: balanceIntervalId
           })
         } else {
-          clearInterval(this.state.getBalanceIntervalId)
+          clearInterval(this.state.balanceIntervalId)
         }
       }
     })
