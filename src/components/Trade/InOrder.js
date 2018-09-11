@@ -1,11 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
-import { ORDER_PAGE_LIMIT } from '../../constants/Values'
+import { ORDER_PAGE_LIMIT, GET_IN_ORDER_INTERVAL } from '../../constants/Values'
 import eosAgent from '../../EosAgent'
 
 class InOrder extends Component {
@@ -20,35 +20,31 @@ class InOrder extends Component {
   }
 
   componentDidMount = async () => {
-    const { tradeStore, accountStore } = this.props
+    const { accountStore } = this.props
 
     if (accountStore.isLogin) {
-      const getInOrdersIntervalId = setInterval(async () => {
-        await tradeStore.getInOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
-      }, 5000)
-
-      this.setState({
-        getInOrdersIntervalId: getInOrdersIntervalId
-      })
+      this.startGetInOrder()
     }
 
     this.disposer = accountStore.subscribeLoginState(changed => {
       if (changed.oldValue !== changed.newValue) {
         if (changed.newValue) {
-          const getInOrdersIntervalId = setInterval(async () => {
-            await tradeStore.getInOrders(
-              accountStore.loginAccountInfo.account_name,
-              ORDER_PAGE_LIMIT
-            )
-          }, 5000)
-
-          this.setState({
-            getInOrdersIntervalId: getInOrdersIntervalId
-          })
+          this.startGetInOrder()
         } else {
           clearInterval(this.state.getInOrdersIntervalId)
         }
       }
+    })
+  }
+
+  startGetInOrder = () => {
+    const getInOrdersIntervalId = setInterval(async () => {
+      const { tradeStore, accountStore } = this.props
+      await tradeStore.getInOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
+    }, GET_IN_ORDER_INTERVAL)
+
+    this.setState({
+      getInOrdersIntervalId: getInOrdersIntervalId
     })
   }
 
@@ -80,10 +76,7 @@ class InOrder extends Component {
       }
 
       console.log(signature)
-      const result = await tradeStore.cancelOrder(
-        accountStore.loginAccountInfo.account_name,
-        signature
-      )
+      const result = await tradeStore.cancelOrder(accountStore.loginAccountInfo.account_name, signature)
     }
   }
 
@@ -100,7 +93,8 @@ class InOrder extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}>
+              }}
+            >
               Order History
             </NavLink>
           </NavItem>

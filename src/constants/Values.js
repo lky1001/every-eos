@@ -2,6 +2,8 @@ export const ACCOUNT_NAME_PATTERN = /([a-z1-5]){12,}/
 export const API_SERVER_URI = 'http://localhost:4000'
 export const actionPerPage = 1000
 export const GET_BALANCE_INTERVAL = 5000
+export const GET_IN_ORDER_INTERVAL = 5000
+export const GET_ORDER_LIST_INTERVAL = 5000
 
 const protocol = 'https'
 const host = 'user-api.eoseoul.io'
