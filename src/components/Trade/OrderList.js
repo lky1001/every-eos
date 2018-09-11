@@ -3,50 +3,24 @@ import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import { ORDER_PAGE_LIMIT } from '../../constants/Values'
+import { ORDER_PAGE_LIMIT, GET_ORDER_LIST_INTERVAL } from '../../constants/Values'
 
 class OrderList extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      getOrderListIntervalId: 0
+      ordersIntervalId: 0
     }
   }
 
   componentDidMount = () => {
-    const { accountStore, tradeStore } = this.props
-
-    if (accountStore.isLogin) {
-      const getOrderListIntervalId = setInterval(this.getOrderList, 5000)
-
-      this.setState({
-        getOrderListIntervalId: getOrderListIntervalId
-      })
-    }
-
-    this.disposer = accountStore.subscribeLoginState(changed => {
-      console.log(JSON.stringify(changed))
-
-      if (changed.oldValue !== changed.newValue) {
-        if (changed.newValue) {
-          const getOrderListIntervalId = setInterval(this.getOrderList, 5000)
-
-          this.setState({
-            getOrderListIntervalId: getOrderListIntervalId
-          })
-        } else {
-          clearInterval(this.state.getOrderListIntervalId)
-        }
-      }
-    })
-
-    const { token } = this.props
+    const { tradeStore, token } = this.props
 
     const ordersIntervalId = setInterval(async () => {
       await tradeStore.getBuyOrders(token.symbol, ORDER_PAGE_LIMIT)
       await tradeStore.getSellOrders(token.symbol, ORDER_PAGE_LIMIT)
-    }, 2000)
+    }, GET_ORDER_LIST_INTERVAL)
 
     this.setState({
       ordersIntervalId: ordersIntervalId
@@ -57,17 +31,6 @@ class OrderList extends Component {
     if (this.state.ordersIntervalId > 0) {
       clearInterval(this.state.ordersIntervalId)
     }
-
-    if (this.state.getOrderListIntervalId > 0) {
-      clearInterval(this.state.getOrderListIntervalId)
-    }
-
-    this.disposer()
-  }
-
-  getOrderList = async () => {
-    // todo - get order list
-    console.log('get order list')
   }
 
   onOrderListClick = price => {
