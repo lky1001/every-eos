@@ -7,6 +7,8 @@ import {
   ORDER_PAGE_LIMIT,
   ORDER_TYPE_BUY,
   ORDER_TYPE_SELL,
+  ORDER_STATUS_NOT_DEAL,
+  ORDER_STATUS_PARTIAL_DEALED,
   ORDER_STATUS_ALL_DEALED,
   ORDER_STATUS_CANCELLED
 } from '../constants/Values'
@@ -166,14 +168,14 @@ class TradeStore {
     return this.sellOrders.data.orders ? this.sellOrders.data.orders.length : 0
   }
 
-  getOrdersHistory = async (account_name, limit) => {
+  getOrdersHistory = async (account_name, limit, status) => {
     this.ordersHistory = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
       variables: {
         account_name: account_name,
         limit: limit,
-        status: JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
+        status: status
       }
     })
   }
@@ -194,13 +196,14 @@ class TradeStore {
     return this.ordersHistory.data.orders ? this.ordersHistory.data.orders.length : 0
   }
 
-  getOpenOrders = async (account_name, limit) => {
+  getOpenOrders = async (account_name, limit, status) => {
     this.openOrders = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
       variables: {
         account_name: account_name,
-        limit: limit
+        limit: limit,
+        status: status
       }
     })
   }

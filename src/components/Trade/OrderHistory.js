@@ -5,7 +5,12 @@ import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
-import { ORDER_PAGE_LIMIT, GET_ORDER_HISTORY_INTERVAL } from '../../constants/Values'
+import {
+  ORDER_PAGE_LIMIT,
+  GET_ORDER_HISTORY_INTERVAL,
+  ORDER_STATUS_ALL_DEALED,
+  ORDER_STATUS_CANCELLED
+} from '../../constants/Values'
 
 class OrderHistory extends Component {
   constructor(props) {
@@ -39,9 +44,11 @@ class OrderHistory extends Component {
   startGetOrderHistory = () => {
     const getOrdersHistoryIntervalId = setInterval(async () => {
       const { tradeStore, accountStore } = this.props
+
       await tradeStore.getOrdersHistory(
         accountStore.loginAccountInfo.account_name,
-        ORDER_PAGE_LIMIT
+        ORDER_PAGE_LIMIT,
+        JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
       )
     }, GET_ORDER_HISTORY_INTERVAL)
 
