@@ -67,16 +67,35 @@ class InOrder extends Component {
   cancelOrder = async () => {
     const { accountStore, tradeStore } = this.props
 
-    if (accountStore.isLogin && accountStore.loginAccountInfo.account_name) {
-      const signature = await eosAgent.signData(accountStore.loginAccountInfo.account_name)
+    if (
+      accountStore.isLogin &&
+      accountStore.loginAccountInfo.account_name &&
+      accountStore.loginAccountInfo.permissions &&
+      accountStore.loginAccountInfo.permissions.length > 0 &&
+      accountStore.loginAccountInfo.permissions[0].required_auth &&
+      accountStore.loginAccountInfo.permissions[0].required_auth.keys &&
+      accountStore.loginAccountInfo.permissions[0].required_auth.keys.length > 0
+    ) {
+      const pubKey = accountStore.loginAccountInfo.permissions[0].required_auth.keys[0].key
+
+      const signature = await eosAgent.signData(accountStore.loginAccountInfo.account_name, pubKey)
 
       if (!signature) {
         alert('check your identity')
         return
       }
 
+<<<<<<< HEAD
       console.log(signature)
       const result = await tradeStore.cancelOrder(accountStore.loginAccountInfo.account_name, signature)
+=======
+      const result = await tradeStore.cancelOrder(
+        accountStore.loginAccountInfo.account_name,
+        signature
+      )
+
+      console.log('API서버에서 콜백 : ', result)
+>>>>>>> chart fix
     }
   }
 

@@ -8,6 +8,7 @@ import { timeFormat } from 'd3-time-format'
 import { ChartCanvas, Chart } from 'react-stockcharts'
 import { BarSeries, CandlestickSeries, LineSeries, MACDSeries } from 'react-stockcharts/lib/series'
 import { XAxis, YAxis } from 'react-stockcharts/lib/axes'
+import { getData } from '../../utils/stockChartUtil'
 import {
   CrossHairCursor,
   EdgeIndicator,
@@ -49,6 +50,7 @@ class TradingChart extends Component {
     this.saveCanvasNode = this.saveCanvasNode.bind(this)
 
     this.state = {
+      chartData: null,
       chartIntervalId: 0,
       enableTrendLine: false,
       trends_1: [
@@ -65,9 +67,16 @@ class TradingChart extends Component {
   componentDidMount = async () => {
     const { tradeStore } = this.props
 
+    tradeStore.setWatchChartData(changed => {
+      this.setState({
+        chartData: changed.newValue
+      })
+    })
+
     document.addEventListener('keyup', this.onKeyPress)
     const chartIntervalId = setInterval(async () => {
-      await tradeStore.getChartData()
+      const res = await getData()
+      tradeStore.setChartData(res)
     }, 5000)
 
     this.setState({
@@ -176,8 +185,8 @@ class TradingChart extends Component {
       })
       .accessor(d => d.macd)
 
-    const { tradeStore, type, width, ratio } = this.props
-    const { chartData: initialData } = tradeStore
+    const { type, width, ratio } = this.props
+    const { chartData: initialData } = this.state
 
     if (!initialData) return <div />
     const calculatedData = macdCalculator(ema12(ema26(initialData)))
@@ -311,7 +320,7 @@ class TradingChart extends Component {
 }
 
 TradingChart.propTypes = {
-  chartData: PropTypes.array.isRequired,
+  // chartData: PropTypes.array.isRequired,
   width: PropTypes.number.isRequired,
   ratio: PropTypes.number.isRequired,
   type: PropTypes.oneOf(['svg', 'hybrid']).isRequired

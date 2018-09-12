@@ -3,14 +3,13 @@ import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
 import { ordersQuery, inOrdersQuery } from '../graphql/query/order'
 import { cancelOrderMutation } from '../graphql/mutation/order'
-import { getData } from '../utils/stockChartUtil'
 import { ORDER_PAGE_LIMIT, ORDER_TYPE_BUY, ORDER_TYPE_SELL } from '../constants/Values'
 
 class TradeStore {
   tokenSymbol = ''
   price = 0.0
   amount = 0.0
-  chartData
+  chartData = []
   buyOrders = {
     data: {
       orders: []
@@ -45,6 +44,7 @@ class TradeStore {
 
   constructor() {
     const initialTokenId = 1
+
     set(this, {
       get buyOrders() {
         return graphql({
@@ -85,6 +85,7 @@ class TradeStore {
       }
     })
 
+    this.chartData = observable.box([])
     this.price = observable.box(0.0)
   }
 
@@ -104,8 +105,11 @@ class TradeStore {
     this.amount = amount
   }
 
-  getChartData = async () => {
-    this.chartData = await getData()
+  setChartData = async chartData => {
+    this.chartData.set(chartData)
+  }
+  setWatchChartData = observer => {
+    this.chartData.observe(observer)
   }
 
   getBuyOrders = async (token_symbol, limit) => {
@@ -207,11 +211,17 @@ class TradeStore {
     return this.inOrders.data.orders ? this.inOrders.data.orders.length : 0
   }
 
-  cancelOrder = async (account_name, signature) =>
-    ApiServerAgent.mutate({
-      mutation: cancelOrderMutation,
-      variables: { account_name: account_name, signature: signature }
-    }).catch(error => console.error(error.message))
+  cancelOrder = async (account_name, signature) => {
+    try {
+      return await ApiServerAgent.mutate({
+        mutation: cancelOrderMutation,
+        variables: { account_name: account_name, signature: signature }
+      })
+    } catch (err) {
+      console.error(err.message)
+      return false
+    }
+  }
 
   test = () => {
     this.price += 0.1
@@ -251,7 +261,8 @@ decorate(TradeStore, {
   getSellOrders: action,
   getOrdersHistory: action,
   getInOrders: action,
-  getChartData: action,
+  setChartData: action,
+  setWatchChartData: action,
   test: action
 })
 

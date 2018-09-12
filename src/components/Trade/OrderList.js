@@ -67,7 +67,12 @@ class OrderList extends Component {
                     <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td>{o.token_price}</td>
                       <td>{o.total_amount}</td>
-                      <td>{Math.abs(o.token_price.toFixed(token.precision) * o.total_amount.toFixed(token.precision)).toFixed(token.precision)}</td>
+                      <td>
+                        {Math.abs(
+                          o.token_price.toFixed(token.precision) *
+                            o.total_amount.toFixed(token.precision)
+                        ).toFixed(token.precision)}
+                      </td>
                     </tr>
                   )
                 })}
@@ -98,7 +103,12 @@ class OrderList extends Component {
                     <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td>{o.token_price}</td>
                       <td>{o.total_amount}</td>
-                      <td>{Math.abs(o.token_price.toFixed(token.precision) * o.total_amount.toFixed(token.precision)).toFixed(token.precision)}</td>
+                      <td>
+                        {Math.abs(
+                          o.token_price.toFixed(token.precision) *
+                            o.total_amount.toFixed(token.precision)
+                        ).toFixed(token.precision)}
+                      </td>
                     </tr>
                   )
                 })}
