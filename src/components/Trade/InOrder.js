@@ -85,17 +85,12 @@ class InOrder extends Component {
         return
       }
 
-<<<<<<< HEAD
-      console.log(signature)
-      const result = await tradeStore.cancelOrder(accountStore.loginAccountInfo.account_name, signature)
-=======
       const result = await tradeStore.cancelOrder(
         accountStore.loginAccountInfo.account_name,
         signature
       )
 
       console.log('API서버에서 콜백 : ', result)
->>>>>>> chart fix
     }
   }
 
@@ -112,8 +107,7 @@ class InOrder extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}
-            >
+              }}>
               Order History
             </NavLink>
           </NavItem>
