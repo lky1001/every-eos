@@ -96,7 +96,7 @@ class TradePage extends Component {
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#00a9a9' }}>
-                    <OrderHistory />
+                    {/* <OrderHistory /> */}
                   </Col>
                 </Row>
               </Col>

@@ -25,6 +25,7 @@ import { TrendLine, DrawingObjectSelector } from 'react-stockcharts/lib/interact
 import { last, toObject } from 'react-stockcharts/lib/utils'
 
 import { saveInteractiveNodes, getInteractiveNodes } from '../../utils/stockChartInteractiveUtil'
+import { GET_CHART_DATA_INTERVAL } from '../../constants/Values'
 
 const macdAppearance = {
   stroke: {
@@ -77,7 +78,7 @@ class TradingChart extends Component {
     const chartIntervalId = setInterval(async () => {
       const res = await getData()
       tradeStore.setChartData(res)
-    }, 5000)
+    }, GET_CHART_DATA_INTERVAL)
 
     this.setState({
       chartIntervalId: chartIntervalId

@@ -18,7 +18,7 @@ class OrderHistory extends Component {
     }
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     const { accountStore } = this.props
 
     if (accountStore.isLogin) {
@@ -39,7 +39,10 @@ class OrderHistory extends Component {
   startGetOrderHistory = () => {
     const getOrdersHistoryIntervalId = setInterval(async () => {
       const { tradeStore, accountStore } = this.props
-      await tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
+      await tradeStore.getOrdersHistory(
+        accountStore.loginAccountInfo.account_name,
+        ORDER_PAGE_LIMIT
+      )
     }, GET_ORDER_HISTORY_INTERVAL)
 
     this.setState({
@@ -75,8 +78,7 @@ class OrderHistory extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}
-            >
+              }}>
               Order History
             </NavLink>
           </NavItem>

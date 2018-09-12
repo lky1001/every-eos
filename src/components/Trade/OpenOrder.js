@@ -5,7 +5,7 @@ import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
-import { ORDER_PAGE_LIMIT, GET_IN_ORDER_INTERVAL } from '../../constants/Values'
+import { ORDER_PAGE_LIMIT, GET_OPEN_ORDER_INTERVAL } from '../../constants/Values'
 import eosAgent from '../../EosAgent'
 
 class OpenOrder extends Component {
@@ -19,7 +19,7 @@ class OpenOrder extends Component {
     }
   }
 
-  componentDidMount = async () => {
+  componentDidMount = () => {
     const { accountStore } = this.props
 
     if (accountStore.isLogin) {
@@ -41,7 +41,7 @@ class OpenOrder extends Component {
     const getOpenOrdersIntervalId = setInterval(async () => {
       const { tradeStore, accountStore } = this.props
       await tradeStore.getOpenOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
-    }, GET_IN_ORDER_INTERVAL)
+    }, GET_OPEN_ORDER_INTERVAL)
 
     this.setState({
       getOpenOrdersIntervalId: getOpenOrdersIntervalId
@@ -98,6 +98,7 @@ class OpenOrder extends Component {
     const { tradeStore, accountStore } = this.props
     const { openOrdersList } = tradeStore
 
+    console.log('오픈오더 보자', openOrdersList)
     return (
       <div>
         <button onClick={() => this.cancelOrder()}>Cancel Order Test</button>
@@ -108,7 +109,7 @@ class OpenOrder extends Component {
               onClick={() => {
                 this.toggle('1')
               }}>
-              Order History
+              Open Orders
             </NavLink>
           </NavItem>
         </Nav>
