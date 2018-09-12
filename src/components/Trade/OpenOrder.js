@@ -8,14 +8,14 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import { ORDER_PAGE_LIMIT, GET_IN_ORDER_INTERVAL } from '../../constants/Values'
 import eosAgent from '../../EosAgent'
 
-class InOrder extends Component {
+class OpenOrder extends Component {
   constructor(props) {
     super(props)
 
     this.toggle = this.toggle.bind(this)
     this.state = {
       activeTab: '1',
-      getInOrdersIntervalId: 0
+      getOpenOrdersIntervalId: 0
     }
   }
 
@@ -23,34 +23,34 @@ class InOrder extends Component {
     const { accountStore } = this.props
 
     if (accountStore.isLogin) {
-      this.startGetInOrder()
+      this.startGetOpenOrder()
     }
 
     this.disposer = accountStore.subscribeLoginState(changed => {
       if (changed.oldValue !== changed.newValue) {
         if (changed.newValue) {
-          this.startGetInOrder()
+          this.startGetOpenOrder()
         } else {
-          clearInterval(this.state.getInOrdersIntervalId)
+          clearInterval(this.state.getOpenOrdersIntervalId)
         }
       }
     })
   }
 
-  startGetInOrder = () => {
-    const getInOrdersIntervalId = setInterval(async () => {
+  startGetOpenOrder = () => {
+    const getOpenOrdersIntervalId = setInterval(async () => {
       const { tradeStore, accountStore } = this.props
-      await tradeStore.getInOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
+      await tradeStore.getOpenOrders(accountStore.loginAccountInfo.account_name, ORDER_PAGE_LIMIT)
     }, GET_IN_ORDER_INTERVAL)
 
     this.setState({
-      getInOrdersIntervalId: getInOrdersIntervalId
+      getOpenOrdersIntervalId: getOpenOrdersIntervalId
     })
   }
 
   componentWillUnmount = () => {
-    if (this.state.getInOrdersIntervalId > 0) {
-      clearInterval(this.state.getInOrdersIntervalId)
+    if (this.state.getOpenOrdersIntervalId > 0) {
+      clearInterval(this.state.getOpenOrdersIntervalId)
     }
 
     this.disposer()
@@ -96,7 +96,7 @@ class InOrder extends Component {
 
   render() {
     const { tradeStore, accountStore } = this.props
-    const { inOrdersList } = tradeStore
+    const { openOrdersList } = tradeStore
 
     return (
       <div>
@@ -148,8 +148,8 @@ class InOrder extends Component {
               </thead>
               <tbody>
                 {accountStore.isLogin &&
-                  inOrdersList &&
-                  inOrdersList.map(o => {
+                  openOrdersList &&
+                  openOrdersList.map(o => {
                     return (
                       <tr key={o.id}>
                         <td>{o.created}</td>
@@ -178,4 +178,4 @@ class InOrder extends Component {
 export default compose(
   inject('tradeStore', 'accountStore'),
   observer
-)(InOrder)
+)(OpenOrder)

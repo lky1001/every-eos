@@ -12,7 +12,7 @@ import TradingChart from '../components/Trade/TradingChart'
 import Market from '../components/Trade/Market'
 import Wallet from '../components/Trade/Wallet'
 import OrderHistory from '../components/Trade/OrderHistory'
-import InOrder from '../components/Trade/InOrder'
+import OpenOrder from '../components/Trade/OpenOrder'
 
 class TradePage extends Component {
   constructor(props) {
@@ -44,7 +44,11 @@ class TradePage extends Component {
 
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
-    const token = marketStore.token ? (marketStore.token.data ? marketStore.token.data.token : null) : null
+    const token = marketStore.token
+      ? marketStore.token.data
+        ? marketStore.token.data.token
+        : null
+      : null
 
     return (
       <Fragment>
@@ -73,7 +77,12 @@ class TradePage extends Component {
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#aaff88' }}>
-                    <Order token={token} accountStore={accountStore} tradeStore={tradeStore} eosioStore={eosioStore} />
+                    <Order
+                      token={token}
+                      accountStore={accountStore}
+                      tradeStore={tradeStore}
+                      eosioStore={eosioStore}
+                    />
                   </Col>
                 </Row>
               </Col>
@@ -82,7 +91,7 @@ class TradePage extends Component {
               <Col xs={12} md={8}>
                 <Row>
                   <Col xs={12} style={{ background: '#aaaaa9' }}>
-                    <InOrder />
+                    <OpenOrder />
                   </Col>
                 </Row>
                 <Row>
@@ -92,7 +101,11 @@ class TradePage extends Component {
                 </Row>
               </Col>
               <Col xs={12} md={4} style={{ background: '#90bab9' }}>
-                <Wallet accountStore={accountStore} marketStore={marketStore} eosioStore={eosioStore} />
+                <Wallet
+                  accountStore={accountStore}
+                  marketStore={marketStore}
+                  eosioStore={eosioStore}
+                />
               </Col>
             </Row>
           </Grid>

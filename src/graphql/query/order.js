@@ -45,9 +45,9 @@ export const ordersQuery = gql`
   }
 `
 
-export const inOrdersQuery = gql`
+export const openOrdersQuery = gql`
   query($token_id: Int, $type: String, $limit: Int!, $account_name: String) {
-    inOrders(token_id: $token_id, type: $type, limit: $limit, account_name: $account_name) {
+    openOrders(token_id: $token_id, type: $type, limit: $limit, account_name: $account_name) {
       id
       token_id
       type

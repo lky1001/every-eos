@@ -1,7 +1,7 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
-import { ordersQuery, inOrdersQuery } from '../graphql/query/order'
+import { ordersQuery, openOrdersQuery } from '../graphql/query/order'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import { ORDER_PAGE_LIMIT, ORDER_TYPE_BUY, ORDER_TYPE_SELL } from '../constants/Values'
 
@@ -34,7 +34,7 @@ class TradeStore {
     error: null
   }
 
-  inOrders = {
+  openOrders = {
     data: {
       orders: []
     },
@@ -76,10 +76,10 @@ class TradeStore {
     })
 
     set(this, {
-      get inOrders() {
+      get openOrders() {
         return graphql({
           client: ApiServerAgent,
-          query: inOrdersQuery,
+          query: openOrdersQuery,
           variables: { limit: ORDER_PAGE_LIMIT, account_name: '' }
         })
       }
@@ -184,10 +184,10 @@ class TradeStore {
     return this.ordersHistory.data.orders ? this.ordersHistory.data.orders.length : 0
   }
 
-  getInOrders = async (account_name, limit) => {
-    this.inOrders = await graphql({
+  getOpenOrders = async (account_name, limit) => {
+    this.openOrders = await graphql({
       client: ApiServerAgent,
-      query: inOrdersQuery,
+      query: openOrdersQuery,
       variables: {
         account_name: account_name,
         limit: limit
@@ -195,20 +195,20 @@ class TradeStore {
     })
   }
 
-  get inOrdersError() {
-    return (this.inOrders.error && this.inOrders.error.message) || null
+  get openOrdersError() {
+    return (this.openOrders.error && this.openOrders.error.message) || null
   }
 
-  get inOrdersLoading() {
-    return this.inOrders.loading
+  get openOrdersLoading() {
+    return this.openOrders.loading
   }
 
-  get inOrdersList() {
-    return (this.inOrders.data && toJS(this.inOrders.data.orders)) || []
+  get openOrdersList() {
+    return (this.openOrders.data && toJS(this.openOrders.data.orders)) || []
   }
 
-  get inOrdersCount() {
-    return this.inOrders.data.orders ? this.inOrders.data.orders.length : 0
+  get openOrdersCount() {
+    return this.openOrders.data.orders ? this.openOrders.data.orders.length : 0
   }
 
   cancelOrder = async (account_name, signature) => {
@@ -244,11 +244,11 @@ decorate(TradeStore, {
   ordersHistoryLoading: computed,
   ordersHistoryList: computed,
   ordersHistoryCount: computed,
-  inOrders: observable,
-  inOrdersError: computed,
-  inOrdersLoading: computed,
-  inOrdersList: computed,
-  inOrdersCount: computed,
+  openOrders: observable,
+  openOrdersError: computed,
+  openOrdersLoading: computed,
+  openOrdersList: computed,
+  openOrdersCount: computed,
   tokenSymbol: observable,
   price: observable,
   amount: observable,
@@ -260,7 +260,7 @@ decorate(TradeStore, {
   getBuyOrders: action,
   getSellOrders: action,
   getOrdersHistory: action,
-  getInOrders: action,
+  getOpenOrders: action,
   setChartData: action,
   setWatchChartData: action,
   test: action
