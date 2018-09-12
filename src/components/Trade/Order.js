@@ -53,7 +53,10 @@ class Order extends Component {
   onBuyLimitClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
-    const eosBalance = await accountStore.getTokenBalance(Values.EOS_TOKEN.symbol, Values.EOS_TOKEN.contract)
+    const eosBalance = await accountStore.getTokenBalance(
+      Values.EOS_TOKEN.symbol,
+      Values.EOS_TOKEN.contract
+    )
 
     const eosAmount = (this.state.buyPrice * this.state.buyQty).toFixed(Values.EOS_TOKEN.precision)
 
@@ -100,7 +103,10 @@ class Order extends Component {
   onBuyMarketClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
-    const eosBalance = await accountStore.getTokenBalance(Values.EOS_TOKEN.symbol, Values.EOS_TOKEN.contract)
+    const eosBalance = await accountStore.getTokenBalance(
+      Values.EOS_TOKEN.symbol,
+      Values.EOS_TOKEN.contract
+    )
 
     const eosAmount = parseFloat(this.state.buyMarketTotalEos).toFixed(Values.EOS_TOKEN.precision)
 
@@ -247,8 +253,7 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}
-            >
+              }}>
               Limit Order
             </NavLink>
           </NavItem>
@@ -257,8 +262,7 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
                 this.toggle('2')
-              }}
-            >
+              }}>
               Market Order
             </NavLink>
           </NavItem>
@@ -269,16 +273,40 @@ class Order extends Component {
               <Col sm="12">
                 <Fragment>
                   buy price{' '}
-                  <input type="text" name="buyPrice" onChange={this.handleChange.bind(this)} value={this.state.buyPrice} placeholder="buy price" />
+                  <input
+                    type="text"
+                    name="buyPrice"
+                    onChange={this.handleChange.bind(this)}
+                    value={this.state.buyPrice}
+                    placeholder="buy price"
+                  />
                   <br />
                   buy amount{' '}
-                  <input type="text" name="buyQty" onChange={this.handleChange.bind(this)} value={this.state.buyQty} placeholder="buy qty" />
+                  <input
+                    type="text"
+                    name="buyQty"
+                    onChange={this.handleChange.bind(this)}
+                    value={this.state.buyQty}
+                    placeholder="buy qty"
+                  />
                   <br />
                   sell price{' '}
-                  <input type="text" name="sellPrice" onChange={this.handleChange.bind(this)} value={this.state.sellPrice} placeholder="sell price" />
+                  <input
+                    type="text"
+                    name="sellPrice"
+                    onChange={this.handleChange.bind(this)}
+                    value={this.state.sellPrice}
+                    placeholder="sell price"
+                  />
                   <br />
                   sell amount{' '}
-                  <input type="text" name="sellQty" onChange={this.handleChange.bind(this)} value={this.state.sellQty} placeholder="sell qty" />
+                  <input
+                    type="text"
+                    name="sellQty"
+                    onChange={this.handleChange.bind(this)}
+                    value={this.state.sellQty}
+                    placeholder="sell qty"
+                  />
                   <br />
                   <button onClick={this.onBuyLimitClick}>Buy Limit</button>
                   <br />

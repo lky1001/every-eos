@@ -100,7 +100,7 @@ class InOrder extends Component {
 
     return (
       <div>
-        <button onClick={() => this.cancelOrder()}>왓더</button>
+        <button onClick={() => this.cancelOrder()}>Cancel Order Test</button>
         <Nav tabs>
           <NavItem>
             <NavLink
