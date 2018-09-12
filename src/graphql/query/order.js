@@ -18,6 +18,8 @@ const orderDetailFragment = gql`
   fragment orderDetail on OrderDetail {
     id
     order_id
+    relation_order_id
+    contract
     token_price
     amount
     transfer_fee

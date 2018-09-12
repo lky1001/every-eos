@@ -9,6 +9,7 @@ const tokenFragment = gql`
     precision
     contract
     last_price
+    last_previous_price
     last_day_price
     volume_24h
     high_price_24h
@@ -35,6 +36,7 @@ export const findTokenQuery = gql`
       precision
       contract
       last_price
+      last_previous_price
       last_day_price
       volume_24h
       high_price_24h
