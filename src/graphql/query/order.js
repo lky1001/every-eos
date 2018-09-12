@@ -14,6 +14,22 @@ const orderFragment = gql`
   }
 `
 
+const orderDetailFragment = gql`
+  fragment orderDetail on OrderDetail {
+    id
+    order_id
+    token_price
+    amount
+    transfer_fee
+    trade_fee
+    account_name
+    transaction_id
+    status
+    created
+    deleted
+  }
+`
+
 // export const ordersQuery = gql`
 //   {
 //     orders {
@@ -41,6 +57,10 @@ export const ordersQuery = gql`
       account_name
       status
       created
+      orderDetails {
+        ...orderDetail
+      }
     }
   }
+  ${orderDetailFragment}
 `

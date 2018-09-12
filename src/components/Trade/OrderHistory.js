@@ -134,8 +134,19 @@ class OrderHistory extends Component {
                         <td>{o.market}</td>
                         <td>{o.type}</td>
                         <td>{o.token_price}</td>
-                        <td>{o.price}</td>
+                        <td>
+                          {o.status === ORDER_STATUS_ALL_DEALED
+                            ? Math.round(
+                              o.orderDetails.reduce(
+                                (acc, curr) => acc + curr.amount * curr.token_price,
+                                0
+                              ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                            )
+                            : '-'}
+                        </td>
                         <td>{o.total_amount}</td>
+                        <td>{o.deal_amount}</td>
+                        <td>-</td>
                         {/* {Math.abs(
                       o.token_price.toFixed(token.precision) *
                         o.total_amount.toFixed(token.precision)
