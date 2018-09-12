@@ -44,19 +44,3 @@ export const ordersQuery = gql`
     }
   }
 `
-
-export const openOrdersQuery = gql`
-  query($token_id: Int, $type: String, $limit: Int!, $account_name: String) {
-    openOrders(token_id: $token_id, type: $type, limit: $limit, account_name: $account_name) {
-      id
-      token_id
-      type
-      token_price
-      total_amount
-      deal_amount
-      account_name
-      status
-      created
-    }
-  }
-`

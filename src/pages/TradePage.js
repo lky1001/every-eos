@@ -91,7 +91,7 @@ class TradePage extends Component {
               <Col xs={12} md={8}>
                 <Row>
                   <Col xs={12} style={{ background: '#aaaaa9' }}>
-                    <OpenOrder />
+                    {/* <OpenOrder /> */}
                   </Col>
                 </Row>
                 <Row>

@@ -1,13 +1,14 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
-import { ordersQuery, openOrdersQuery } from '../graphql/query/order'
+import { ordersQuery } from '../graphql/query/order'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
   ORDER_TYPE_BUY,
   ORDER_TYPE_SELL,
-  ORDER_STATUS_ALL_DEALED
+  ORDER_STATUS_ALL_DEALED,
+  ORDER_STATUS_CANCELLED
 } from '../constants/Values'
 
 class TradeStore {
@@ -54,7 +55,7 @@ class TradeStore {
       get buyOrders() {
         return graphql({
           client: ApiServerAgent,
-          query: openOrdersQuery,
+          query: ordersQuery,
           variables: { token_id: initialTokenId, type: ORDER_TYPE_BUY, limit: ORDER_PAGE_LIMIT }
         })
       }
@@ -64,7 +65,7 @@ class TradeStore {
       get sellOrders() {
         return graphql({
           client: ApiServerAgent,
-          query: openOrdersQuery,
+          query: ordersQuery,
           variables: { token_id: initialTokenId, type: ORDER_TYPE_SELL, limit: ORDER_PAGE_LIMIT }
         })
       }
@@ -84,7 +85,7 @@ class TradeStore {
       get openOrders() {
         return graphql({
           client: ApiServerAgent,
-          query: openOrdersQuery,
+          query: ordersQuery,
           variables: { limit: ORDER_PAGE_LIMIT, account_name: '' }
         })
       }
@@ -117,11 +118,11 @@ class TradeStore {
     this.chartData.observe(observer)
   }
 
-  getBuyOrders = async (token_id, limit) => {
+  getBuyOrders = async (token_id, limit, status) => {
     this.buyOrders = await graphql({
       client: ApiServerAgent,
-      query: openOrdersQuery,
-      variables: { token_id: token_id, type: ORDER_TYPE_BUY, limit: limit }
+      query: ordersQuery,
+      variables: { token_id: token_id, type: ORDER_TYPE_BUY, limit: limit, status: status }
     })
   }
 
@@ -141,11 +142,11 @@ class TradeStore {
     return this.buyOrders.data.orders ? this.buyOrders.data.orders.length : 0
   }
 
-  getSellOrders = async (token_id, limit) => {
+  getSellOrders = async (token_id, limit, status) => {
     this.sellOrders = await graphql({
       client: ApiServerAgent,
-      query: openOrdersQuery,
-      variables: { token_id: token_id, type: ORDER_TYPE_SELL, limit: limit }
+      query: ordersQuery,
+      variables: { token_id: token_id, type: ORDER_TYPE_SELL, limit: limit, status: status }
     })
   }
 
@@ -169,7 +170,11 @@ class TradeStore {
     this.ordersHistory = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
-      variables: { account_name: account_name, limit: limit, status: ORDER_STATUS_ALL_DEALED }
+      variables: {
+        account_name: account_name,
+        limit: limit,
+        status: JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
+      }
     })
   }
 
@@ -192,7 +197,7 @@ class TradeStore {
   getOpenOrders = async (account_name, limit) => {
     this.openOrders = await graphql({
       client: ApiServerAgent,
-      query: openOrdersQuery,
+      query: ordersQuery,
       variables: {
         account_name: account_name,
         limit: limit

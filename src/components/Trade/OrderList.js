@@ -3,7 +3,12 @@ import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import { ORDER_PAGE_LIMIT, GET_ORDER_LIST_INTERVAL } from '../../constants/Values'
+import {
+  ORDER_PAGE_LIMIT,
+  GET_ORDER_LIST_INTERVAL,
+  ORDER_STATUS_NOT_DEAL,
+  ORDER_STATUS_PARTIAL_DEALED
+} from '../../constants/Values'
 
 class OrderList extends Component {
   constructor(props) {
@@ -18,8 +23,16 @@ class OrderList extends Component {
     const { tradeStore, token } = this.props
 
     const ordersIntervalId = setInterval(async () => {
-      await tradeStore.getBuyOrders(token.id, ORDER_PAGE_LIMIT)
-      await tradeStore.getSellOrders(token.id, ORDER_PAGE_LIMIT)
+      await tradeStore.getBuyOrders(
+        token.id,
+        ORDER_PAGE_LIMIT,
+        JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+      )
+      await tradeStore.getSellOrders(
+        token.id,
+        ORDER_PAGE_LIMIT,
+        JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+      )
     }, GET_ORDER_LIST_INTERVAL)
 
     this.setState({
@@ -41,7 +54,7 @@ class OrderList extends Component {
   render() {
     const { token, tradeStore } = this.props
     const { buyOrdersList, sellOrdersList } = tradeStore
-
+    console.log('바이오더리스트', buyOrdersList)
     return (
       <Fragment>
         <div className="d-flex flex-column">
