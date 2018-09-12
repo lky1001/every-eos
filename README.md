@@ -41,6 +41,7 @@ $ npm run build or yarn build
 - Market Token List
 - Trade
 - Order History
+- Clear cache as soon as logout scatter
 
 ## License
 
