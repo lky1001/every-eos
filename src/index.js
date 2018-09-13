@@ -57,8 +57,8 @@ document.addEventListener('scatterLoaded', async scatterExtension => {
     eosAgent.initScatter(window.scatter)
 
     if (window.scatter.identity) {
-      eosAgent.initEosAgent(window.scatter.identity)
-      await accountStore.loadAccountInfo()
+      //eosAgent.initEosAgent(window.scatter.identity)
+      await accountStore.login()
     }
   }
 })
