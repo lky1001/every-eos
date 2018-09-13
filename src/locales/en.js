@@ -19,5 +19,6 @@ export default {
   Dealed: 'Dealed',
   Total: 'Total',
   Status: 'Status',
-  Entrusted: 'Entrusted'
+  Entrusted: 'Entrusted',
+  Action: 'Action'
 }

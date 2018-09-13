@@ -19,5 +19,6 @@ export default {
   Dealed: '거래량',
   Total: '거래액',
   Status: '상태',
-  Entrusted: '위탁 금액'
+  Entrusted: '위탁 금액',
+  Action: '작업'
 }

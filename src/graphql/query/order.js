@@ -26,7 +26,8 @@ const orderDetailFragment = gql`
     trade_fee
     account_name
     transaction_id
-    status
+    deal_status
+    transfer_status
     created
     deleted
   }

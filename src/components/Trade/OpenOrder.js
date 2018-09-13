@@ -8,7 +8,9 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import {
   ORDER_PAGE_LIMIT,
   ORDER_STATUS_NOT_DEAL,
-  ORDER_STATUS_PARTIAL_DEALED
+  ORDER_STATUS_PARTIAL_DEALED,
+  ORDER_STATUS_ALL_DEALED,
+  ORDER_STATUS_CANCELLED
 } from '../../constants/Values'
 import eosAgent from '../../EosAgent'
 
@@ -45,6 +47,16 @@ class OpenOrder extends Component {
       accountStore.loginAccountInfo.account_name,
       ORDER_PAGE_LIMIT,
       JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+    )
+  }
+
+  getOrderHistory = async () => {
+    const { tradeStore, accountStore } = this.props
+
+    await tradeStore.getOrdersHistory(
+      accountStore.loginAccountInfo.account_name,
+      ORDER_PAGE_LIMIT,
+      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
     )
   }
 
@@ -87,7 +99,11 @@ class OpenOrder extends Component {
         order_id
       )
 
-      console.log('API서버에서 콜백 : ', result)
+      if (result && result.data.cancelOrder) {
+        alert('cancel success')
+        this.getOpenOrders()
+        this.getOrderHistory()
+      }
     }
   }
 

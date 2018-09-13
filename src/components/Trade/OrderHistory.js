@@ -7,7 +7,6 @@ import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import {
   ORDER_PAGE_LIMIT,
-  GET_ORDER_HISTORY_INTERVAL,
   ORDER_STATUS_ALL_DEALED,
   ORDER_STATUS_CANCELLED
 } from '../../constants/Values'
