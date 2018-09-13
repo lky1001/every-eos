@@ -88,7 +88,11 @@ class TradeStore {
         return graphql({
           client: ApiServerAgent,
           query: ordersQuery,
-          variables: { limit: ORDER_PAGE_LIMIT, account_name: '' }
+          variables: {
+            limit: ORDER_PAGE_LIMIT,
+            account_name: '',
+            status: '["NOT_DEAL", "PARTIAL_DEALED"]'
+          }
         })
       }
     })
