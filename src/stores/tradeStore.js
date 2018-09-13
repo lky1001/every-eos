@@ -74,7 +74,7 @@ class TradeStore {
     })
 
     set(this, {
-      get orderHistory() {
+      get ordersHistory() {
         return graphql({
           client: ApiServerAgent,
           query: ordersQuery,
@@ -180,6 +180,10 @@ class TradeStore {
     })
   }
 
+  clearOrdersHistory = () => {
+    this.ordersHistory.data.orders = []
+  }
+
   get ordersHistoryError() {
     return (this.ordersHistory.error && this.ordersHistory.error.message) || null
   }
@@ -206,6 +210,10 @@ class TradeStore {
         status: status
       }
     })
+  }
+
+  clearOpenOrders = () => {
+    this.openOrders.data.orders = []
   }
 
   get openOrdersError() {
@@ -274,6 +282,8 @@ decorate(TradeStore, {
   getSellOrders: action,
   getOrdersHistory: action,
   getOpenOrders: action,
+  clearOrdersHistory: action,
+  clearOpenOrders: action,
   setChartData: action,
   setWatchChartData: action,
   test: action

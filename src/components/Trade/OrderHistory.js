@@ -18,51 +18,38 @@ class OrderHistory extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1',
-      getOrdersHistoryIntervalId: 0
+      activeTab: '1'
     }
   }
 
   componentDidMount = () => {
-    const { accountStore } = this.props
+    const { accountStore, tradeStore } = this.props
 
     if (accountStore.isLogin) {
-      this.startGetOrderHistory()
-    }
-
-    this.disposer = accountStore.subscribeLoginState(changed => {
-      if (changed.oldValue !== changed.newValue) {
+      this.getOrderHistory()
+    } else {
+      this.disposer = accountStore.subscribeLoginState(changed => {
         if (changed.newValue) {
-          this.startGetOrderHistory()
+          this.getOrderHistory()
         } else {
-          clearInterval(this.state.getOrdersHistoryIntervalId)
+          tradeStore.clearOrdersHistory()
         }
-      }
-    })
+      })
+    }
   }
 
-  startGetOrderHistory = () => {
-    const getOrdersHistoryIntervalId = setInterval(async () => {
-      const { tradeStore, accountStore } = this.props
+  getOrderHistory = async () => {
+    const { tradeStore, accountStore } = this.props
 
-      await tradeStore.getOrdersHistory(
-        accountStore.loginAccountInfo.account_name,
-        ORDER_PAGE_LIMIT,
-        JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
-      )
-    }, GET_ORDER_HISTORY_INTERVAL)
-
-    this.setState({
-      getOrdersHistoryIntervalId: getOrdersHistoryIntervalId
-    })
+    await tradeStore.getOrdersHistory(
+      accountStore.loginAccountInfo.account_name,
+      ORDER_PAGE_LIMIT,
+      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
+    )
   }
 
   componentWillUnmount = () => {
-    if (this.state.getOrdersHistoryIntervalId > 0) {
-      clearInterval(this.state.getOrdersHistoryIntervalId)
-    }
-
-    this.disposer()
+    if (this.disposer) this.disposer()
   }
 
   toggle = tab => {

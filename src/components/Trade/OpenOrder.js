@@ -7,7 +7,6 @@ import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import {
   ORDER_PAGE_LIMIT,
-  GET_OPEN_ORDER_INTERVAL,
   ORDER_STATUS_NOT_DEAL,
   ORDER_STATUS_PARTIAL_DEALED
 } from '../../constants/Values'
@@ -19,50 +18,38 @@ class OpenOrder extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1',
-      getOpenOrdersIntervalId: 0
+      activeTab: '1'
     }
   }
 
   componentDidMount = () => {
-    const { accountStore } = this.props
+    const { accountStore, tradeStore } = this.props
 
     if (accountStore.isLogin) {
-      this.startGetOpenOrder()
-    }
-
-    this.disposer = accountStore.subscribeLoginState(changed => {
-      if (changed.oldValue !== changed.newValue) {
+      this.getOpenOrders()
+    } else {
+      this.disposer = accountStore.subscribeLoginState(changed => {
         if (changed.newValue) {
-          this.startGetOpenOrder()
+          this.getOpenOrders()
         } else {
-          clearInterval(this.state.getOpenOrdersIntervalId)
+          tradeStore.clearOpenOrders()
         }
-      }
-    })
+      })
+    }
   }
 
-  startGetOpenOrder = () => {
-    const getOpenOrdersIntervalId = setInterval(async () => {
-      const { tradeStore, accountStore } = this.props
-      await tradeStore.getOpenOrders(
-        accountStore.loginAccountInfo.account_name,
-        ORDER_PAGE_LIMIT,
-        JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-      )
-    }, GET_OPEN_ORDER_INTERVAL)
+  getOpenOrders = async () => {
+    const { tradeStore, accountStore } = this.props
 
-    this.setState({
-      getOpenOrdersIntervalId: getOpenOrdersIntervalId
-    })
+    await tradeStore.getOpenOrders(
+      accountStore.loginAccountInfo.account_name,
+      ORDER_PAGE_LIMIT,
+      JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+    )
   }
 
   componentWillUnmount = () => {
-    if (this.state.getOpenOrdersIntervalId > 0) {
-      clearInterval(this.state.getOpenOrdersIntervalId)
-    }
-
-    this.disposer()
+    if (this.disposer) this.disposer()
   }
 
   toggle = tab => {
@@ -107,6 +94,7 @@ class OpenOrder extends Component {
     const { tradeStore, accountStore } = this.props
     const { openOrdersList } = tradeStore
 
+    console.log(openOrdersList)
     return (
       <div>
         <button onClick={() => this.cancelOrder()}>Cancel Order Test</button>
