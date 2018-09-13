@@ -71,8 +71,6 @@ class MarketStore {
 
   getOrderHistory = async accountName => {}
 
-  cancelOrder = async (accountName, id) => {}
-
   getChart = async (tokenId, group) => {}
 }
 

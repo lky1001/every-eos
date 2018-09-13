@@ -232,11 +232,11 @@ class TradeStore {
     return this.openOrders.data.orders ? this.openOrders.data.orders.length : 0
   }
 
-  cancelOrder = async (account_name, signature) => {
+  cancelOrder = async (account_name, signature, order_id) => {
     try {
       return await ApiServerAgent.mutate({
         mutation: cancelOrderMutation,
-        variables: { account_name: account_name, signature: signature }
+        variables: { account_name: account_name, signature: signature, order_id: order_id }
       })
     } catch (err) {
       console.error(err.message)

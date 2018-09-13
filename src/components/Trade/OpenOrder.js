@@ -60,7 +60,7 @@ class OpenOrder extends Component {
     }
   }
 
-  cancelOrder = async () => {
+  cancelOrder = async order_id => {
     const { accountStore, tradeStore } = this.props
 
     if (
@@ -83,7 +83,8 @@ class OpenOrder extends Component {
 
       const result = await tradeStore.cancelOrder(
         accountStore.loginAccountInfo.account_name,
-        signature
+        signature,
+        order_id
       )
 
       console.log('API서버에서 콜백 : ', result)
@@ -97,7 +98,6 @@ class OpenOrder extends Component {
     console.log(openOrdersList)
     return (
       <div>
-        <button onClick={() => this.cancelOrder()}>Cancel Order Test</button>
         <Nav tabs>
           <NavItem>
             <NavLink
@@ -141,6 +141,9 @@ class OpenOrder extends Component {
                   <th>
                     <FormattedMessage id="Status" />
                   </th>
+                  <th>
+                    <FormattedMessage id="Action" />
+                  </th>
                 </tr>
               </thead>
               <tbody>
@@ -171,6 +174,9 @@ class OpenOrder extends Component {
                         o.total_amount.toFixed(token.precision)
                     ).toFixed(token.precision)} */}
                         <td>{o.status}</td>
+                        <td>
+                          <button onClick={() => this.cancelOrder(o.id)}>Cancel</button>
+                        </td>
                       </tr>
                     )
                   })}
