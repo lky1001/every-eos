@@ -64,7 +64,7 @@ class TradePage extends Component {
             </Row>
             <Row>
               <Col xs={12} md={3} style={{ background: '#00a9a9' }}>
-                {/* <OrderList token={token} /> */}
+                <OrderList token={token} />
               </Col>
               <Col xs={12} md={9}>
                 <Row>

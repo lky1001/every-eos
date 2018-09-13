@@ -117,7 +117,7 @@ class OrderHistory extends Component {
                     return (
                       <tr key={o.id}>
                         <td>{o.created}</td>
-                        <td>{o.market}</td>
+                        <td>{o.token_id}</td>
                         <td>{o.type}</td>
                         <td>{o.token_price}</td>
                         <td>
