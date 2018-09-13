@@ -1,7 +1,7 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
-import { ordersQuery } from '../graphql/query/order'
+import { orderQuery, ordersQuery } from '../graphql/query/order'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
@@ -58,7 +58,12 @@ class TradeStore {
         return graphql({
           client: ApiServerAgent,
           query: ordersQuery,
-          variables: { token_id: initialTokenId, type: ORDER_TYPE_BUY, limit: ORDER_PAGE_LIMIT }
+          variables: {
+            token_id: initialTokenId,
+            type: ORDER_TYPE_BUY,
+            limit: ORDER_PAGE_LIMIT,
+            status: '["NOT_DEAL", "PARTIAL_DEALED"]'
+          }
         })
       }
     })
@@ -68,7 +73,12 @@ class TradeStore {
         return graphql({
           client: ApiServerAgent,
           query: ordersQuery,
-          variables: { token_id: initialTokenId, type: ORDER_TYPE_SELL, limit: ORDER_PAGE_LIMIT }
+          variables: {
+            token_id: initialTokenId,
+            type: ORDER_TYPE_SELL,
+            limit: ORDER_PAGE_LIMIT,
+            status: '["NOT_DEAL", "PARTIAL_DEALED"]'
+          }
         })
       }
     })
@@ -248,6 +258,26 @@ class TradeStore {
     }
   }
 
+  getOpenOrderByTxId = txid => {
+    const pollingId = setInterval(async () => {
+      const orders = await graphql({
+        client: ApiServerAgent,
+        query: orderQuery,
+        variables: {
+          transaction_id: txid
+        }
+      })
+
+      if (orders.data && orders.data.orders.length === 1) {
+        console.log('order by txid arrived, finish polling')
+        clearInterval(pollingId)
+
+        const parsedOrders = toJS(orders.data.orders)
+        this.openOrders.data.orders.push(parsedOrders[0])
+      }
+    }, 1000)
+  }
+
   test = () => {
     this.price += 0.1
   }
@@ -286,6 +316,7 @@ decorate(TradeStore, {
   getSellOrders: action,
   getOrdersHistory: action,
   getOpenOrders: action,
+  getOrderByTxId: action,
   clearOrdersHistory: action,
   clearOpenOrders: action,
   setChartData: action,
