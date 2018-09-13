@@ -8,8 +8,8 @@ const orderFragment = gql`
     token_price
     total_amount
     deal_amount
-    total_transfer_fee
-    total_trade_fee
+    # total_transfer_fee
+    # total_trade_fee
     account_name
     transaction_id
     status
@@ -46,7 +46,7 @@ const orderDetailFragment = gql`
 // `
 
 export const orderQuery = gql`
-  query($id: Int, $transaction_id: Int) {
+  query($id: Int, $transaction_id: String) {
     order(id: $id, transaction_id: $transaction_id) {
       ...order
     }

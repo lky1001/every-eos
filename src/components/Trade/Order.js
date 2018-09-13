@@ -148,7 +148,7 @@ class Order extends Component {
   }
 
   onSellLimitClick = async () => {
-    const { eosioStore, accountStore, token } = this.props
+    const { eosioStore, accountStore, tradeStore, token } = this.props
 
     const tokenBalance = await accountStore.getTokenBalance(token.symbol, token.contract)
     const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
@@ -185,6 +185,7 @@ class Order extends Component {
 
         if (result) {
           alert(JSON.stringify(result))
+          tradeStore.getOpenOrderByTxId(result.transaction_id)
         }
       } catch (e) {
         this.handleError(e)

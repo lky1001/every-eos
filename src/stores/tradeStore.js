@@ -260,7 +260,7 @@ class TradeStore {
 
   getOpenOrderByTxId = txid => {
     const pollingId = setInterval(async () => {
-      const orders = await graphql({
+      const order = await graphql({
         client: ApiServerAgent,
         query: orderQuery,
         variables: {
@@ -268,12 +268,13 @@ class TradeStore {
         }
       })
 
-      if (orders.data && orders.data.orders.length === 1) {
+      if (order) {
         console.log('order by txid arrived, finish polling')
+        console.log(order)
         clearInterval(pollingId)
 
-        const parsedOrders = toJS(orders.data.orders)
-        this.openOrders.data.orders.push(parsedOrders[0])
+        // const parsedOrders = toJS(orders.data.orders)
+        // this.openOrders.data.orders.push(parsedOrders[0])
       }
     }, 1000)
   }
@@ -316,7 +317,7 @@ decorate(TradeStore, {
   getSellOrders: action,
   getOrdersHistory: action,
   getOpenOrders: action,
-  getOrderByTxId: action,
+  getOpenOrderByTxId: action,
   clearOrdersHistory: action,
   clearOpenOrders: action,
   setChartData: action,
