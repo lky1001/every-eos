@@ -33,7 +33,9 @@ class Market extends Component {
                     return (
                       <tr key={idx}>
                         <th scope="row" />
-                        <td>{t.market}</td>
+                        <td>
+                          {t.symbol} / {t.market}
+                        </td>
                         <td>{t.last_price}</td>
                         <td>{t.change_24h}</td>
                       </tr>
