@@ -19,6 +19,7 @@ import marketStore from './stores/marketStore'
 import tradeStore from './stores/tradeStore'
 
 import App from './App'
+import './index.scss'
 
 initLocale('en-US', Values.supportLanguage.slice())
 addLocaleData([...en, ...ko])
