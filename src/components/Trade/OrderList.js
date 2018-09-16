@@ -28,11 +28,11 @@ class OrderList extends Component {
         ORDER_PAGE_LIMIT,
         JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
       )
-      await tradeStore.getSellOrders(
-        token.id,
-        ORDER_PAGE_LIMIT,
-        JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-      )
+      // await tradeStore.getSellOrders(
+      //   token.id,
+      //   ORDER_PAGE_LIMIT,
+      //   JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+      // )
     }, GET_ORDER_LIST_INTERVAL)
 
     this.setState({
@@ -133,7 +133,4 @@ class OrderList extends Component {
   }
 }
 
-export default compose(
-  inject('tradeStore', 'accountStore'),
-  observer
-)(OrderList)
+export default OrderList

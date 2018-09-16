@@ -56,7 +56,7 @@ class TradePage extends Component {
           <Grid>
             <Row>
               <Col xs={12} md={8} style={{ background: '#a9a9a9' }}>
-                <TokenInfo marketStore={marketStore} token={this.state.token} />
+                <TokenInfo marketStore={marketStore} symbol={token.symbol} />
               </Col>
               <Col xs={12} md={4} style={{ background: '#90bab9' }}>
                 <Resource accountStore={accountStore} />
@@ -64,12 +64,12 @@ class TradePage extends Component {
             </Row>
             <Row>
               <Col xs={12} md={3} style={{ background: '#00a9a9' }}>
-                <OrderList token={token} />
+                <OrderList token={token} tradeStore={tradeStore} accountStore={accountStore} />
               </Col>
               <Col xs={12} md={9}>
                 <Row>
                   <Col xs={12} md={8} style={{ background: '#a9aaa9' }}>
-                    <TradingChart />
+                    {/* <TradingChart /> */}
                   </Col>
                   <Col xs={12} md={4} style={{ background: '#a9a909' }}>
                     <Market marketStore={marketStore} />
@@ -91,12 +91,12 @@ class TradePage extends Component {
               <Col xs={12} md={8}>
                 <Row>
                   <Col xs={12} style={{ background: '#aaaaa9' }}>
-                    <OpenOrder />
+                    {/* <OpenOrder /> */}
                   </Col>
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#00a9a9' }}>
-                    <OrderHistory />
+                    <OrderHistory tradeStore={tradeStore} accountStore={accountStore} />
                   </Col>
                 </Row>
               </Col>

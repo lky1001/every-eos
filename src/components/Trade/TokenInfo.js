@@ -2,9 +2,9 @@ import React, { Component, Fragment } from 'react'
 
 class TokenInfo extends Component {
   componentDidMount = async () => {
-    const { token, marketStore } = this.props
+    const { symbol, marketStore } = this.props
 
-    await marketStore.getTokenBySymbol(token)
+    await marketStore.getTokenBySymbol(symbol)
   }
 
   render() {

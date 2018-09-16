@@ -8,7 +8,8 @@ import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import {
   ORDER_PAGE_LIMIT,
   ORDER_STATUS_ALL_DEALED,
-  ORDER_STATUS_CANCELLED
+  ORDER_STATUS_CANCELLED,
+  ORDER_DETAIL_DEAL_STATUS_CANCELLED
 } from '../../constants/Values'
 
 class OrderHistory extends Component {
@@ -122,13 +123,34 @@ class OrderHistory extends Component {
                         <td>{o.token_price}</td>
                         <td>
                           {o.status === ORDER_STATUS_ALL_DEALED
-                            ? Math.round(
-                              o.orderDetails.reduce(
-                                (acc, curr) => acc + curr.amount * curr.token_price,
-                                0
-                              ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                            )
-                            : '-'}
+                            ? o.orderDetails.length === 0
+                              ? 0
+                              : Math.round(
+                                o.orderDetails.reduce(
+                                  (acc, curr) => acc + curr.amount * curr.token_price,
+                                  0
+                                ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                              )
+                            : o.status === ORDER_STATUS_CANCELLED
+                              ? o.orderDetails.length === 0
+                                ? 0
+                                : Math.round(
+                                  o.orderDetails
+                                    .filter(
+                                      od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                    )
+                                    .reduce(
+                                      (acc, curr) => acc + curr.amount * curr.token_price,
+                                      0
+                                    ) /
+                                      o.orderDetails
+                                        .filter(
+                                          od =>
+                                            od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                        )
+                                        .reduce((acc, curr) => acc + curr.amount, 0)
+                                )
+                              : '-'}
                         </td>
                         <td>{o.total_amount}</td>
                         <td>{o.deal_amount}</td>
@@ -150,7 +172,4 @@ class OrderHistory extends Component {
   }
 }
 
-export default compose(
-  inject('tradeStore', 'accountStore'),
-  observer
-)(OrderHistory)
+export default OrderHistory
