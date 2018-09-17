@@ -20,7 +20,8 @@ class OpenOrder extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      currentPage: 1
     }
   }
 
@@ -121,8 +122,7 @@ class OpenOrder extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}
-            >
+              }}>
               Open Orders
             </NavLink>
           </NavItem>

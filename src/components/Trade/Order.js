@@ -4,10 +4,7 @@ import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap
 import {
   EOS_TOKEN,
   SCATTER_ERROR_LOCKED,
-  SCATTER_ERROR_REJECT_TRANSACTION_BY_USER,
-  ORDER_PAGE_LIMIT,
-  ORDER_STATUS_NOT_DEAL,
-  ORDER_STATUS_PARTIAL_DEALED
+  SCATTER_ERROR_REJECT_TRANSACTION_BY_USER
 } from '../../constants/Values'
 
 class Order extends Component {
@@ -101,7 +98,7 @@ class Order extends Component {
         const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
         if (result) {
-          tradeStore.getOpenOrderByTxId(result.transaction_id, this.onArrivedOrderByTxId)
+          tradeStore.getOpenOrderByTxId(result.transaction_id)
         }
       } catch (e) {
         this.handleError(e)
@@ -191,24 +188,12 @@ class Order extends Component {
         const result = await eosioStore.buyToken(token.contract, data)
 
         if (result) {
-          tradeStore.getOpenOrderByTxId(result.transaction_id, this.onArrivedOrderByTxId)
+          tradeStore.getOpenOrderByTxId(result.transaction_id)
         }
       } catch (e) {
         this.handleError(e)
       }
     } else {
-    }
-  }
-
-  onArrivedOrderByTxId = async () => {
-    const { accountStore, tradeStore } = this.props
-
-    if (accountStore.isLogin) {
-      await tradeStore.getOpenOrders(
-        accountStore.loginAccountInfo.account_name,
-        ORDER_PAGE_LIMIT,
-        JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-      )
     }
   }
 

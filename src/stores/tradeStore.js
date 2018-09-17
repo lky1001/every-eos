@@ -284,16 +284,18 @@ class TradeStore {
     })
   }
 
-  getOpenOrderByTxId = (txid, cb) => {
-    if (!txid || !cb) return
-
+  getOpenOrderByTxId = txid => {
+    if (!txid) return
+    let isDone = false
     const pollingId = setInterval(async () => {
       this.getPollingOrder(txid)
 
-      if (this.pollingOrder.data && this.pollingOrder.data.order) {
+      if (this.pollingOrder.data && this.pollingOrder.data.order && !isDone) {
         console.log('order by txid arrived, finish polling')
+        isDone = true
         clearInterval(pollingId)
-        cb()
+        const arrivedOrderByTxId = toJS(this.pollingOrder.data.order)
+        this.openOrders.data.orders.push(arrivedOrderByTxId)
       }
     }, 1000)
   }
