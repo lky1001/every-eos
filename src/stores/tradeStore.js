@@ -71,12 +71,11 @@ class TradeStore {
       get sellOrders() {
         return graphql({
           client: ApiServerAgent,
-          query: ordersQuery,
+          query: stackedOrdersQuery,
           variables: {
             token_id: initialTokenId,
             type: ORDER_TYPE_SELL,
-            limit: ORDER_PAGE_LIMIT,
-            status: '["NOT_DEAL", "PARTIAL_DEALED"]'
+            limit: ORDER_PAGE_LIMIT
           }
         })
       }
@@ -150,18 +149,18 @@ class TradeStore {
   }
 
   get buyOrdersList() {
-    return (this.buyOrders.data && toJS(this.buyOrders.data.orders)) || []
+    return (this.buyOrders.data && toJS(this.buyOrders.data.stackedOrders)) || []
   }
 
   get buyOrdersCount() {
-    return this.buyOrders.data.orders ? this.buyOrders.data.orders.length : 0
+    return this.buyOrders.data.stackedOrders ? this.buyOrders.data.stackedOrders.length : 0
   }
 
-  getSellOrders = async (token_id, limit, status) => {
+  getSellOrders = async (token_id, limit) => {
     this.sellOrders = await graphql({
       client: ApiServerAgent,
-      query: ordersQuery,
-      variables: { token_id: token_id, type: ORDER_TYPE_SELL, limit: limit, status: status }
+      query: stackedOrdersQuery,
+      variables: { token_id: token_id, type: ORDER_TYPE_SELL, limit: limit }
     })
   }
 
@@ -174,11 +173,11 @@ class TradeStore {
   }
 
   get sellOrdersList() {
-    return (this.sellOrders.data && toJS(this.sellOrders.data.orders)) || []
+    return (this.sellOrders.data && toJS(this.sellOrders.data.stackedOrders)) || []
   }
 
   get sellOrdersCount() {
-    return this.sellOrders.data.orders ? this.sellOrders.data.orders.length : 0
+    return this.sellOrders.data.stackedOrders ? this.sellOrders.data.stackedOrders.length : 0
   }
 
   getOrdersHistory = async (account_name, limit, status) => {

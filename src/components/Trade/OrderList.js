@@ -24,11 +24,7 @@ class OrderList extends Component {
 
     const ordersIntervalId = setInterval(async () => {
       await tradeStore.getBuyOrders(token.id, ORDER_PAGE_LIMIT)
-      // await tradeStore.getSellOrders(
-      //   token.id,
-      //   ORDER_PAGE_LIMIT,
-      //   JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-      // )
+      await tradeStore.getSellOrders(token.id, ORDER_PAGE_LIMIT)
     }, GET_ORDER_LIST_INTERVAL)
 
     this.setState({
@@ -71,15 +67,15 @@ class OrderList extends Component {
             </thead>
             <tbody>
               {buyOrdersList &&
-                buyOrdersList.map(o => {
+                buyOrdersList.map((o, i) => {
                   return (
-                    <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                    <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td>{o.token_price}</td>
-                      <td>{o.total_amount - o.deal_amount}</td>
+                      <td>{o.stacked_amount}</td>
                       <td>
                         {Math.abs(
                           o.token_price.toFixed(token.precision) *
-                            o.total_amount.toFixed(token.precision)
+                            o.stacked_amount.toFixed(token.precision)
                         ).toFixed(token.precision)}
                       </td>
                     </tr>
@@ -107,15 +103,15 @@ class OrderList extends Component {
             </thead>
             <tbody>
               {sellOrdersList &&
-                sellOrdersList.map(o => {
+                sellOrdersList.map((o, i) => {
                   return (
-                    <tr key={o.id} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                    <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td>{o.token_price}</td>
-                      <td>{o.total_amount}</td>
+                      <td>{o.stacked_amount}</td>
                       <td>
                         {Math.abs(
                           o.token_price.toFixed(token.precision) *
-                            o.total_amount.toFixed(token.precision)
+                            o.stacked_amount.toFixed(token.precision)
                         ).toFixed(token.precision)}
                       </td>
                     </tr>
