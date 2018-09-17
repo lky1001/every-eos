@@ -64,7 +64,7 @@ class Order extends Component {
   }
 
   onBuyLimitClick = async () => {
-    const { eosioStore, accountStore, token } = this.props
+    const { eosioStore, accountStore, tradeStore, token } = this.props
 
     const eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
 
@@ -101,7 +101,7 @@ class Order extends Component {
         const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
         if (result) {
-          alert(JSON.stringify(result))
+          tradeStore.getOpenOrderByTxId(result.transaction_id, this.onArrivedOrderByTxId)
         }
       } catch (e) {
         this.handleError(e)
@@ -272,8 +272,7 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}
-            >
+              }}>
               Limit Order
             </NavLink>
           </NavItem>
@@ -282,8 +281,7 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
                 this.toggle('2')
-              }}
-            >
+              }}>
               Market Order
             </NavLink>
           </NavItem>
