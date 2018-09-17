@@ -23,11 +23,7 @@ class OrderList extends Component {
     const { tradeStore, token } = this.props
 
     const ordersIntervalId = setInterval(async () => {
-      await tradeStore.getBuyOrders(
-        token.id,
-        ORDER_PAGE_LIMIT,
-        JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-      )
+      await tradeStore.getBuyOrders(token.id, ORDER_PAGE_LIMIT)
       // await tradeStore.getSellOrders(
       //   token.id,
       //   ORDER_PAGE_LIMIT,

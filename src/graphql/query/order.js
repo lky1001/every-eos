@@ -79,3 +79,13 @@ export const ordersQuery = gql`
   }
   ${orderDetailFragment}
 `
+
+export const stackedOrdersQuery = gql`
+  query($token_id: Int!, $type: String!, $limit: Int) {
+    orders(token_id: $token_id, type: $type, limit: $limit) {
+      token_id
+      token_price
+      stacked_amount
+    }
+  }
+`

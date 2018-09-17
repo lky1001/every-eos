@@ -1,7 +1,7 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
-import { orderQuery, ordersQuery } from '../graphql/query/order'
+import { orderQuery, ordersQuery, stackedOrdersQuery } from '../graphql/query/order'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
@@ -57,12 +57,11 @@ class TradeStore {
       get buyOrders() {
         return graphql({
           client: ApiServerAgent,
-          query: ordersQuery,
+          query: stackedOrdersQuery,
           variables: {
             token_id: initialTokenId,
             type: ORDER_TYPE_BUY,
-            limit: ORDER_PAGE_LIMIT,
-            status: '["NOT_DEAL", "PARTIAL_DEALED"]'
+            limit: ORDER_PAGE_LIMIT
           }
         })
       }
@@ -134,11 +133,11 @@ class TradeStore {
     this.chartData.observe(observer)
   }
 
-  getBuyOrders = async (token_id, limit, status) => {
+  getBuyOrders = async (token_id, limit) => {
     this.buyOrders = await graphql({
       client: ApiServerAgent,
-      query: ordersQuery,
-      variables: { token_id: token_id, type: ORDER_TYPE_BUY, limit: limit, status: status }
+      query: stackedOrdersQuery,
+      variables: { token_id: token_id, type: ORDER_TYPE_BUY, limit: limit }
     })
   }
 
