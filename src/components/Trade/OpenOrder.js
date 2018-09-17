@@ -205,7 +205,4 @@ class OpenOrder extends Component {
   }
 }
 
-export default compose(
-  inject('tradeStore', 'accountStore'),
-  observer
-)(OpenOrder)
+export default OpenOrder
