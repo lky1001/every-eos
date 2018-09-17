@@ -46,45 +46,9 @@ class OrderList extends Component {
   render() {
     const { token, tradeStore } = this.props
     const { buyOrdersList, sellOrdersList } = tradeStore
-    console.log(buyOrdersList)
+
     return (
       <Fragment>
-        <div className="d-flex flex-column">
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  <FormattedMessage id="Price(EOS)" />
-                </th>
-                <th>
-                  <FormattedMessage id="Amount" />
-                  {`(${token.symbol})`}
-                </th>
-                <th>
-                  <FormattedMessage id="Total(EOS)" />
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              {buyOrdersList &&
-                buyOrdersList.map((o, i) => {
-                  return (
-                    <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
-                      <td>{o.token_price}</td>
-                      <td>{o.stacked_amount}</td>
-                      <td>
-                        {Math.abs(
-                          o.token_price.toFixed(token.precision) *
-                            o.stacked_amount.toFixed(token.precision)
-                        ).toFixed(token.precision)}
-                      </td>
-                    </tr>
-                  )
-                })}
-            </tbody>
-          </Table>
-        </div>
-
         <div className="d-flex flex-column-reverse">
           <Table>
             <thead>
@@ -120,9 +84,48 @@ class OrderList extends Component {
             </tbody>
           </Table>
         </div>
+
+        <div className="d-flex flex-column">
+          <Table>
+            <thead>
+              <tr>
+                <th>
+                  <FormattedMessage id="Price(EOS)" />
+                </th>
+                <th>
+                  <FormattedMessage id="Amount" />
+                  {`(${token.symbol})`}
+                </th>
+                <th>
+                  <FormattedMessage id="Total(EOS)" />
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              {buyOrdersList &&
+                buyOrdersList.map((o, i) => {
+                  return (
+                    <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                      <td>{o.token_price}</td>
+                      <td>{o.stacked_amount}</td>
+                      <td>
+                        {Math.abs(
+                          o.token_price.toFixed(token.precision) *
+                            o.stacked_amount.toFixed(token.precision)
+                        ).toFixed(token.precision)}
+                      </td>
+                    </tr>
+                  )
+                })}
+            </tbody>
+          </Table>
+        </div>
       </Fragment>
     )
   }
 }
 
-export default OrderList
+export default compose(
+  inject('tradeStore'),
+  observer
+)(OrderList)

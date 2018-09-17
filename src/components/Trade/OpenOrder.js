@@ -113,7 +113,6 @@ class OpenOrder extends Component {
     const { tradeStore, accountStore } = this.props
     const { openOrdersList } = tradeStore
 
-    console.log(openOrdersList)
     return (
       <div>
         <Nav tabs>
@@ -208,4 +207,7 @@ class OpenOrder extends Component {
   }
 }
 
-export default OpenOrder
+export default compose(
+  inject('tradeStore', 'accountStore'),
+  observer
+)(OpenOrder)

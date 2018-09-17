@@ -1,7 +1,14 @@
 import React, { Component, Fragment } from 'react'
-import * as Values from '../../constants/Values'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap'
+import {
+  EOS_TOKEN,
+  SCATTER_ERROR_LOCKED,
+  SCATTER_ERROR_REJECT_TRANSACTION_BY_USER,
+  ORDER_PAGE_LIMIT,
+  ORDER_STATUS_NOT_DEAL,
+  ORDER_STATUS_PARTIAL_DEALED
+} from '../../constants/Values'
 
 class Order extends Component {
   constructor(props) {
@@ -59,20 +66,17 @@ class Order extends Component {
   onBuyLimitClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
-    const eosBalance = await accountStore.getTokenBalance(
-      Values.EOS_TOKEN.symbol,
-      Values.EOS_TOKEN.contract
-    )
+    const eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
 
-    const eosAmount = (this.state.buyPrice * this.state.buyQty).toFixed(Values.EOS_TOKEN.precision)
+    const eosAmount = (this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)
 
     if (eosAmount > eosBalance) {
       // todo - error balance
       return
     }
 
-    const tokenPriceInEos = parseFloat(this.state.buyPrice).toFixed(Values.EOS_TOKEN.precision)
-    const tokenQty = parseFloat(this.state.buyQty).toFixed(Values.EOS_TOKEN.precision)
+    const tokenPriceInEos = parseFloat(this.state.buyPrice).toFixed(EOS_TOKEN.precision)
+    const tokenQty = parseFloat(this.state.buyQty).toFixed(EOS_TOKEN.precision)
 
     const memo = {
       type: 'BUY_LIMIT',
@@ -88,13 +92,13 @@ class Order extends Component {
         accountName: accountStore.loginAccountInfo.account_name,
         authority: accountStore.permissions[0].perm_name,
         quantity: eosAmount,
-        precision: Values.EOS_TOKEN.precision,
-        symbol: Values.EOS_TOKEN.symbol,
+        precision: EOS_TOKEN.precision,
+        symbol: EOS_TOKEN.symbol,
         memo: JSON.stringify(memo)
       }
 
       try {
-        const result = await eosioStore.buyToken(Values.EOS_TOKEN.contract, data)
+        const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
         if (result) {
           alert(JSON.stringify(result))
@@ -109,12 +113,9 @@ class Order extends Component {
   onBuyMarketClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
-    const eosBalance = await accountStore.getTokenBalance(
-      Values.EOS_TOKEN.symbol,
-      Values.EOS_TOKEN.contract
-    )
+    const eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
 
-    const eosAmount = parseFloat(this.state.buyMarketTotalEos).toFixed(Values.EOS_TOKEN.precision)
+    const eosAmount = parseFloat(this.state.buyMarketTotalEos).toFixed(EOS_TOKEN.precision)
 
     if (eosAmount > eosBalance) {
       // todo - error balance
@@ -135,13 +136,13 @@ class Order extends Component {
         accountName: accountStore.loginAccountInfo.account_name,
         authority: accountStore.permissions[0].perm_name,
         quantity: eosAmount,
-        precision: Values.EOS_TOKEN.precision,
-        symbol: Values.EOS_TOKEN.symbol,
+        precision: EOS_TOKEN.precision,
+        symbol: EOS_TOKEN.symbol,
         memo: JSON.stringify(memo)
       }
 
       try {
-        const result = await eosioStore.buyToken(Values.EOS_TOKEN.contract, data)
+        const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
         if (result) {
           alert(JSON.stringify(result))
@@ -190,13 +191,24 @@ class Order extends Component {
         const result = await eosioStore.buyToken(token.contract, data)
 
         if (result) {
-          alert(JSON.stringify(result))
-          tradeStore.getOpenOrderByTxId(result.transaction_id)
+          tradeStore.getOpenOrderByTxId(result.transaction_id, this.onArrivedOrderByTxId)
         }
       } catch (e) {
         this.handleError(e)
       }
     } else {
+    }
+  }
+
+  onArrivedOrderByTxId = async () => {
+    const { accountStore, tradeStore } = this.props
+
+    if (accountStore.isLogin) {
+      await tradeStore.getOpenOrders(
+        accountStore.loginAccountInfo.account_name,
+        ORDER_PAGE_LIMIT,
+        JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+      )
     }
   }
 
@@ -244,9 +256,9 @@ class Order extends Component {
   }
 
   handleError = e => {
-    if (e.code === Values.SCATTER_ERROR_LOCKED) {
+    if (e.code === SCATTER_ERROR_LOCKED) {
       // todo
-    } else if (e.code === Values.SCATTER_ERROR_REJECT_TRANSACTION_BY_USER) {
+    } else if (e.code === SCATTER_ERROR_REJECT_TRANSACTION_BY_USER) {
       // todo
     }
   }

@@ -48,10 +48,10 @@ const orderDetailFragment = gql`
 export const orderQuery = gql`
   query($id: Int, $transaction_id: String) {
     order(id: $id, transaction_id: $transaction_id) {
-      ...order
+      id
+      token_id
     }
   }
-  ${orderFragment}
 `
 
 export const ordersQuery = gql`

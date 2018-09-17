@@ -172,4 +172,7 @@ class OrderHistory extends Component {
   }
 }
 
-export default OrderHistory
+export default compose(
+  inject('tradeStore', 'accountStore'),
+  observer
+)(OrderHistory)

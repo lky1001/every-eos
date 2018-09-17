@@ -18,6 +18,15 @@ class TradeStore {
   price = 0.0
   amount = 0.0
   chartData = []
+
+  pollingOrder = {
+    data: {
+      order: null
+    },
+    loading: false,
+    error: null
+  }
+
   buyOrders = {
     data: {
       orders: []
@@ -52,6 +61,15 @@ class TradeStore {
 
   constructor() {
     const initialTokenId = 1
+
+    set(this, {
+      get order() {
+        return graphql({
+          client: ApiServerAgent,
+          query: orderQuery
+        })
+      }
+    })
 
     set(this, {
       get buyOrders() {
@@ -256,23 +274,26 @@ class TradeStore {
     }
   }
 
-  getOpenOrderByTxId = txid => {
+  getPollingOrder = async txid => {
+    this.pollingOrder = await graphql({
+      client: ApiServerAgent,
+      query: orderQuery,
+      variables: {
+        transaction_id: txid
+      }
+    })
+  }
+
+  getOpenOrderByTxId = (txid, cb) => {
+    if (!txid || !cb) return
+
     const pollingId = setInterval(async () => {
-      const order = await graphql({
-        client: ApiServerAgent,
-        query: orderQuery,
-        variables: {
-          transaction_id: txid
-        }
-      })
+      this.getPollingOrder(txid)
 
-      if (order) {
+      if (this.pollingOrder.data && this.pollingOrder.data.order) {
         console.log('order by txid arrived, finish polling')
-        console.log(order)
         clearInterval(pollingId)
-
-        // const parsedOrders = toJS(orders.data.orders)
-        // this.openOrders.data.orders.push(parsedOrders[0])
+        cb()
       }
     }, 1000)
   }
@@ -288,6 +309,7 @@ decorate(TradeStore, {
   buyOrdersLoading: computed,
   buyOrdersList: computed,
   buyOrdersCount: computed,
+  pollingOrder: observable,
   sellOrders: observable,
   sellOrdersError: computed,
   sellOrdersLoading: computed,

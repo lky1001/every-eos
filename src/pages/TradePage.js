@@ -46,6 +46,7 @@ class TradePage extends Component {
 
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
+
     const token = marketStore.token
       ? marketStore.token.data
         ? marketStore.token.data.token
@@ -66,7 +67,7 @@ class TradePage extends Component {
             </Row>
             <Row>
               <Col xs={12} md={3} style={{ background: '#00a9a9' }}>
-                <OrderList token={token} tradeStore={tradeStore} accountStore={accountStore} />
+                <OrderList token={token} tradeStore={tradeStore} />
               </Col>
               <Col xs={12} md={9}>
                 <Row>
@@ -98,7 +99,7 @@ class TradePage extends Component {
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#00a9a9' }}>
-                    <OrderHistory tradeStore={tradeStore} accountStore={accountStore} />
+                    <OrderHistory />
                   </Col>
                 </Row>
               </Col>
