@@ -118,7 +118,7 @@ class TradeStore {
   }
 
   setWatchPrice = observer => {
-    this.price.observe(observer)
+    return this.price.observe(observer)
   }
 
   setAmount = amount => {

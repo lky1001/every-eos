@@ -61,7 +61,9 @@ class OpenOrder extends Component {
   }
 
   componentWillUnmount = () => {
-    if (this.disposer) this.disposer()
+    if (this.disposer) {
+      this.disposer()
+    }
   }
 
   toggle = tab => {
@@ -120,7 +122,8 @@ class OpenOrder extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}>
+              }}
+            >
               Open Orders
             </NavLink>
           </NavItem>

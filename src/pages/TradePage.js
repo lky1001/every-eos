@@ -39,7 +39,9 @@ class TradePage extends Component {
   }
 
   componentWillUnmount = () => {
-    this.disposer()
+    if (this.disposer) {
+      this.disposer()
+    }
   }
 
   render() {
@@ -91,7 +93,7 @@ class TradePage extends Component {
               <Col xs={12} md={8}>
                 <Row>
                   <Col xs={12} style={{ background: '#aaaaa9' }}>
-                    <OpenOrder tradeStore={tradeStore} accountStore={accountStore}/>
+                    <OpenOrder tradeStore={tradeStore} accountStore={accountStore} />
                   </Col>
                 </Row>
                 <Row>
