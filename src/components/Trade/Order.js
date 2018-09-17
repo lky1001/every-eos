@@ -21,12 +21,18 @@ class Order extends Component {
 
   componentWillMount = () => {
     const { tradeStore } = this.props
-    tradeStore.setWatchPrice(changed => {
+    this.disposer = tradeStore.setWatchPrice(changed => {
       this.setState({
         buyPrice: parseFloat(changed.newValue),
         sellPrice: parseFloat(changed.newValue)
       })
     })
+  }
+
+  componentWillUnmount = () => {
+    if (this.disposer) {
+      this.disposer()
+    }
   }
 
   toggle = tab => {
@@ -254,7 +260,8 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}>
+              }}
+            >
               Limit Order
             </NavLink>
           </NavItem>
@@ -263,7 +270,8 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
                 this.toggle('2')
-              }}>
+              }}
+            >
               Market Order
             </NavLink>
           </NavItem>
