@@ -46,7 +46,7 @@ class OrderList extends Component {
   render() {
     const { token, tradeStore } = this.props
     const { buyOrdersList, sellOrdersList } = tradeStore
-
+    console.log(buyOrdersList)
     return (
       <Fragment>
         <div className="d-flex flex-column">
