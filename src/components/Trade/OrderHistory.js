@@ -27,12 +27,13 @@ import {
 class OrderHistory extends Component {
   constructor(props) {
     super(props)
+    const { pageSize } = props
 
     this.toggle = this.toggle.bind(this)
     this.state = {
       activeTab: '1',
       currentPage: 1,
-      pageSize: PAGE_SIZE_TEN,
+      pageSize: pageSize,
       pageCount: 1
     }
   }

@@ -3,6 +3,7 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import OrderHistory from '../components/Trade/OrderHistory'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
+import { PAGE_SIZE_FIFTY } from '../constants/Values'
 
 class OrderHistoryPage extends Component {
   render() {
@@ -17,6 +18,7 @@ class OrderHistoryPage extends Component {
                 accountStore={accountStore}
                 tradeStore={tradeStore}
                 ordersHistoryList={tradeStore.ordersHistoryList}
+                pageSize={PAGE_SIZE_FIFTY}
               />
             </Col>
           </Row>

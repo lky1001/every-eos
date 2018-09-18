@@ -13,6 +13,7 @@ import Market from '../components/Trade/Market'
 import Wallet from '../components/Trade/Wallet'
 import OrderHistory from '../components/Trade/OrderHistory'
 import OpenOrder from '../components/Trade/OpenOrder'
+import { PAGE_SIZE_TEN } from '../constants/Values'
 
 class TradePage extends Component {
   constructor(props) {
@@ -114,6 +115,7 @@ class TradePage extends Component {
                       accountStore={accountStore}
                       tradeStore={tradeStore}
                       ordersHistoryList={tradeStore.ordersHistoryList}
+                      pageSize={PAGE_SIZE_TEN}
                     />
                   </Col>
                 </Row>
