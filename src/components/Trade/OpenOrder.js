@@ -89,18 +89,19 @@ class OpenOrder extends Component {
     ) {
       const pubKey = accountStore.loginAccountInfo.permissions[0].required_auth.keys[0].key
 
-      const signature = await eosAgent.signData(accountStore.loginAccountInfo.account_name, pubKey)
+      const data = {
+        orderId: order_id,
+        accountName: accountStore.loginAccountInfo.account_name
+      }
+
+      const signature = await eosAgent.signData(data, pubKey)
 
       if (!signature) {
         alert('check your identity')
         return
       }
 
-      const result = await tradeStore.cancelOrder(
-        accountStore.loginAccountInfo.account_name,
-        signature,
-        order_id
-      )
+      const result = await tradeStore.cancelOrder(data, signature)
 
       if (result && result.data.cancelOrder) {
         alert('cancel success')
@@ -122,7 +123,8 @@ class OpenOrder extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}>
+              }}
+            >
               Open Orders
             </NavLink>
           </NavItem>
@@ -177,10 +179,8 @@ class OpenOrder extends Component {
                         <td>
                           {o.status === ORDER_STATUS_PARTIAL_DEALED
                             ? Math.round(
-                              o.orderDetails.reduce(
-                                (acc, curr) => acc + curr.amount * curr.token_price,
-                                0
-                              ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                              o.orderDetails.reduce((acc, curr) => acc + curr.amount * curr.token_price, 0) /
+                                  o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
                             )
                             : '-'}
                         </td>
