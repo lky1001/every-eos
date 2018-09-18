@@ -18,7 +18,7 @@ import {
   DropdownMenu,
   DropdownItem
 } from 'reactstrap'
-
+import { Link } from 'react-router-dom'
 import './Header.scss'
 import './HeaderMenuLinks.scss'
 
@@ -98,9 +98,10 @@ class Header extends Component {
             </li>
           </ul>
           <h2 className="header-title">
-            <a href="#" style={{ color: 'white' }}>
-              <span>EVERYEOS</span>
-            </a>
+            <Link to="/trades/karma" style={{ color: 'white' }}>
+              <i className="ti-user" />
+              EXCHANGE
+            </Link>
           </h2>
 
           <ul className="pull-right">
