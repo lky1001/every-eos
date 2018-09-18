@@ -119,11 +119,11 @@ class TradePage extends Component {
                 </Row>
               </Col>
               <Col xs={12} md={4} style={{ background: '#90bab9' }}>
-                <Wallet
+                {/* <Wallet
                   accountStore={accountStore}
                   marketStore={marketStore}
                   eosioStore={eosioStore}
-                />
+                /> */}
               </Col>
             </Row>
           </Grid>

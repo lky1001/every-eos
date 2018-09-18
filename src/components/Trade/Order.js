@@ -98,7 +98,7 @@ class Order extends Component {
         const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
         if (result) {
-          tradeStore.getOpenOrderByTxId(result.transaction_id)
+          tradeStore.getPollingOrderByTxId(result.transaction_id)
         }
       } catch (e) {
         this.handleError(e)
@@ -188,7 +188,7 @@ class Order extends Component {
         const result = await eosioStore.buyToken(token.contract, data)
 
         if (result) {
-          tradeStore.getOpenOrderByTxId(result.transaction_id)
+          tradeStore.getPollingOrderByTxId(result.transaction_id)
         }
       } catch (e) {
         this.handleError(e)

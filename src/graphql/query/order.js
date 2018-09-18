@@ -55,13 +55,21 @@ export const orderQuery = gql`
 `
 
 export const ordersQuery = gql`
-  query($token_id: Int, $type: String, $limit: Int!, $status: String, $account_name: String) {
+  query(
+    $token_id: Int
+    $type: String
+    $status: String
+    $account_name: String
+    $limit: Int
+    $page: Int
+  ) {
     orders(
       token_id: $token_id
       type: $type
-      limit: $limit
       status: $status
       account_name: $account_name
+      limit: $limit
+      page: $page
     ) {
       id
       token_id

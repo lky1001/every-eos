@@ -4,9 +4,21 @@ import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
-import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import {
-  ORDER_PAGE_LIMIT,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Pagination,
+  PaginationItem,
+  PaginationLink
+} from 'reactstrap'
+import {
+  PAGE_SIZE_TEN,
+  PAGE_SIZE_TWENTY,
+  PAGE_SIZE_THIRTY,
+  PAGE_SIZE_FIFTY,
   ORDER_STATUS_ALL_DEALED,
   ORDER_STATUS_CANCELLED,
   ORDER_DETAIL_DEAL_STATUS_CANCELLED
@@ -18,7 +30,10 @@ class OrderHistory extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      currentPage: 1,
+      pageSize: PAGE_SIZE_TEN,
+      pageCount: 1
     }
   }
 
@@ -43,8 +58,9 @@ class OrderHistory extends Component {
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
-      ORDER_PAGE_LIMIT,
-      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
+      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
+      this.state.pageSize,
+      this.state.currentPage
     )
   }
 
@@ -162,6 +178,29 @@ class OrderHistory extends Component {
                       </tr>
                     )
                   })}
+
+                <Pagination aria-label="Page navigation example">
+                  <PaginationItem disabled>
+                    <PaginationLink previous href="#" />
+                  </PaginationItem>
+                  {Array(this.state.pageCount)
+                    .fill(null)
+                    .map(
+                      (value, index) =>
+                        this.state.currentPage === index + 1 ? (
+                          <PaginationItem active>
+                            <PaginationLink href="#">{index + 1}</PaginationLink>
+                          </PaginationItem>
+                        ) : (
+                          <PaginationItem>
+                            <PaginationLink href="#">{index + 1}</PaginationLink>
+                          </PaginationItem>
+                        )
+                    )}
+                  <PaginationItem>
+                    <PaginationLink next href="#" />
+                  </PaginationItem>
+                </Pagination>
               </tbody>
             </Table>
           </TabPane>

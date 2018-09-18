@@ -6,7 +6,6 @@ import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
 import {
-  ORDER_PAGE_LIMIT,
   ORDER_STATUS_NOT_DEAL,
   ORDER_STATUS_PARTIAL_DEALED,
   ORDER_STATUS_ALL_DEALED,
@@ -20,11 +19,18 @@ class OpenOrder extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1',
-      currentPage: 1
+      activeTab: '1'
     }
   }
 
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { openOrdersList } = nextProps
+
+    return {
+      ...prevState,
+      pageCount: Math.ceil(openOrdersList.length / prevState.pageSize)
+    }
+  }
   componentDidMount = () => {
     const { accountStore, tradeStore } = this.props
 
@@ -46,7 +52,6 @@ class OpenOrder extends Component {
 
     await tradeStore.getOpenOrders(
       accountStore.loginAccountInfo.account_name,
-      ORDER_PAGE_LIMIT,
       JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
     )
   }
@@ -56,7 +61,6 @@ class OpenOrder extends Component {
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
-      ORDER_PAGE_LIMIT,
       JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
     )
   }

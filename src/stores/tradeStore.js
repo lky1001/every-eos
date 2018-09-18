@@ -96,7 +96,7 @@ class TradeStore {
         return graphql({
           client: ApiServerAgent,
           query: ordersQuery,
-          variables: { limit: ORDER_PAGE_LIMIT, account_name: '' }
+          variables: { account_name: '', status: '["ALL_DEALED", "CANCELLED"]' }
         })
       }
     })
@@ -107,7 +107,6 @@ class TradeStore {
           client: ApiServerAgent,
           query: ordersQuery,
           variables: {
-            limit: ORDER_PAGE_LIMIT,
             account_name: '',
             status: '["NOT_DEAL", "PARTIAL_DEALED"]'
           }
@@ -190,14 +189,15 @@ class TradeStore {
     return this.sellOrders.data.stackedOrders ? this.sellOrders.data.stackedOrders.length : 0
   }
 
-  getOrdersHistory = async (account_name, limit, status) => {
+  getOrdersHistory = async (account_name, status, limit, page) => {
     this.ordersHistory = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
       variables: {
         account_name: account_name,
+        status: status,
         limit: limit,
-        status: status
+        page: page
       }
     })
   }
@@ -222,14 +222,15 @@ class TradeStore {
     return this.ordersHistory.data.orders ? this.ordersHistory.data.orders.length : 0
   }
 
-  getOpenOrders = async (account_name, limit, status) => {
+  getOpenOrders = async (account_name, status, limit, page) => {
     this.openOrders = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
       variables: {
         account_name: account_name,
+        status: status,
         limit: limit,
-        status: status
+        page: page
       }
     })
   }
