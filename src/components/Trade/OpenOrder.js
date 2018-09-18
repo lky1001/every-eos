@@ -89,13 +89,12 @@ class OpenOrder extends Component {
     ) {
       const pubKey = accountStore.loginAccountInfo.permissions[0].required_auth.keys[0].key
 
-      const data = {
+      const data = JSON.stringify({
         orderId: order_id,
         accountName: accountStore.loginAccountInfo.account_name
-      }
+      })
 
       const signature = await eosAgent.signData(data, pubKey)
-
       console.log('test sign ' + signature)
 
       if (!signature) {
