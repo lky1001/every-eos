@@ -110,7 +110,11 @@ class TradePage extends Component {
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#00a9a9' }}>
-                    <OrderHistory accountStore={accountStore} tradeStore={tradeStore} />
+                    <OrderHistory
+                      accountStore={accountStore}
+                      tradeStore={tradeStore}
+                      ordersHistoryList={tradeStore.ordersHistoryList}
+                    />
                   </Col>
                 </Row>
               </Col>

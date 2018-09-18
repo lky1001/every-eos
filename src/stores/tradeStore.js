@@ -276,7 +276,7 @@ class TradeStore {
     })
   }
 
-  getOpenOrderByTxId = txid => {
+  getPollingOrderByTxId = txid => {
     if (!txid) return
     let isDone = false
     const pollingId = setInterval(async () => {
@@ -287,7 +287,14 @@ class TradeStore {
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
 
-        this.openOrders.data.orders.unshift(arrivedOrderByTxId)
+        if (
+          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
+          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
+        ) {
+          this.ordersHistory.data.orders.unshift(arrivedOrderByTxId)
+        } else {
+          this.openOrders.data.orders.unshift(arrivedOrderByTxId)
+        }
       }
     }, 1000)
   }
@@ -331,7 +338,7 @@ decorate(TradeStore, {
   getSellOrders: action,
   getOrdersHistory: action,
   getOpenOrders: action,
-  getOpenOrderByTxId: action,
+  getPollingOrderByTxId: action,
   clearOrdersHistory: action,
   clearOpenOrders: action,
   setChartData: action,
