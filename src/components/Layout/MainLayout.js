@@ -1,18 +1,31 @@
 import React from 'react'
-import { Content, Footer, Header, Sidebar } from '../../components/Layout'
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import { Footer, Header } from '../../components/Layout'
+
+import './Core.scss'
+import './LayoutVariants.scss'
 
 class MainLayout extends React.Component {
   render() {
     const { children } = this.props
+    const animationName = 'rag-fadeIn'
+
     return (
-      <main className="cr-app bg-light">
-        <Sidebar />
-        <Content fluid onClick={this.handleContentClick}>
-          <Header />
+      <div className="layout-container">
+        <Header />
+        <div className="sidebar-layout-obfuscator" />
+
+        <ReactCSSTransitionGroup
+          component="main"
+          className="main-container"
+          transitionName={animationName}
+          transitionEnterTimeout={500}
+          transitionLeaveTimeout={500}
+        >
           {children}
           <Footer />
-        </Content>
-      </main>
+        </ReactCSSTransitionGroup>
+      </div>
     )
   }
 }

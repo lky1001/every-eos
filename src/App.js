@@ -3,6 +3,10 @@ import componentQueries from 'react-component-queries'
 import { BrowserRouter, Switch } from 'react-router-dom'
 import { LayoutRoute, MainLayout } from './components/Layout'
 
+import Bootstrap from './components/Bootstrap/Bootstrap'
+import Common from './components/Common/Common'
+import Colors from './components/Colors/Colors'
+
 import { HomePage, TradePage, MarketPage, OrderHistoryPage, WalletPage } from './pages'
 
 const getBasename = () => {

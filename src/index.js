@@ -70,5 +70,5 @@ ReactDOM.render(
       <App />
     </IntlProvider>
   </Provider>,
-  document.getElementById('root')
+  document.getElementById('app')
 )
