@@ -19,14 +19,6 @@ class TradeStore {
   amount = 0.0
   chartData = []
 
-  pollingOrder = {
-    data: {
-      order: null
-    },
-    loading: false,
-    error: null
-  }
-
   buyOrders = {
     data: {
       orders: []
@@ -274,8 +266,8 @@ class TradeStore {
     }
   }
 
-  getPollingOrder = async txid => {
-    this.pollingOrder = await graphql({
+  getPollingOrder = txid => {
+    return graphql({
       client: ApiServerAgent,
       query: orderQuery,
       variables: {
@@ -288,14 +280,14 @@ class TradeStore {
     if (!txid) return
     let isDone = false
     const pollingId = setInterval(async () => {
-      this.getPollingOrder(txid)
+      const pollingOrder = await this.getPollingOrder(txid)
 
-      if (this.pollingOrder.data && this.pollingOrder.data.order && !isDone) {
-        console.log('order by txid arrived, finish polling')
+      if (!isDone && pollingOrder && pollingOrder.data && pollingOrder.data.order) {
         isDone = true
         clearInterval(pollingId)
-        const arrivedOrderByTxId = toJS(this.pollingOrder.data.order)
-        this.openOrders.data.orders.push(arrivedOrderByTxId)
+        const arrivedOrderByTxId = toJS(pollingOrder.data.order)
+
+        this.openOrders.data.orders.unshift(arrivedOrderByTxId)
       }
     }, 1000)
   }

@@ -114,8 +114,7 @@ class OpenOrder extends Component {
   }
 
   render() {
-    const { tradeStore, accountStore } = this.props
-    const { openOrdersList } = tradeStore
+    const { openOrdersList, accountStore } = this.props
 
     return (
       <div>
@@ -125,8 +124,7 @@ class OpenOrder extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}
-            >
+              }}>
               Open Orders
             </NavLink>
           </NavItem>
@@ -181,8 +179,10 @@ class OpenOrder extends Component {
                         <td>
                           {o.status === ORDER_STATUS_PARTIAL_DEALED
                             ? Math.round(
-                              o.orderDetails.reduce((acc, curr) => acc + curr.amount * curr.token_price, 0) /
-                                  o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                              o.orderDetails.reduce(
+                                (acc, curr) => acc + curr.amount * curr.token_price,
+                                0
+                              ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
                             )
                             : '-'}
                         </td>
