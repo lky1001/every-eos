@@ -96,6 +96,8 @@ class OpenOrder extends Component {
 
       const signature = await eosAgent.signData(data, pubKey)
 
+      console.log('test sign ' + signature)
+
       if (!signature) {
         alert('check your identity')
         return
@@ -207,7 +209,4 @@ class OpenOrder extends Component {
   }
 }
 
-export default compose(
-  inject('tradeStore', 'accountStore'),
-  observer
-)(OpenOrder)
+export default OpenOrder

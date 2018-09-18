@@ -3,12 +3,7 @@ import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import {
-  ORDER_PAGE_LIMIT,
-  GET_ORDER_LIST_INTERVAL,
-  ORDER_STATUS_NOT_DEAL,
-  ORDER_STATUS_PARTIAL_DEALED
-} from '../../constants/Values'
+import { ORDER_PAGE_LIMIT, GET_ORDER_LIST_INTERVAL, ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED } from '../../constants/Values'
 
 class OrderList extends Component {
   constructor(props) {
@@ -72,12 +67,7 @@ class OrderList extends Component {
                     <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td>{o.token_price}</td>
                       <td>{o.stacked_amount}</td>
-                      <td>
-                        {Math.abs(
-                          o.token_price.toFixed(token.precision) *
-                            o.stacked_amount.toFixed(token.precision)
-                        ).toFixed(token.precision)}
-                      </td>
+                      <td>{Math.abs(o.token_price.toFixed(token.precision) * o.stacked_amount.toFixed(token.precision)).toFixed(token.precision)}</td>
                     </tr>
                   )
                 })}
@@ -108,12 +98,7 @@ class OrderList extends Component {
                     <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td>{o.token_price}</td>
                       <td>{o.stacked_amount}</td>
-                      <td>
-                        {Math.abs(
-                          o.token_price.toFixed(token.precision) *
-                            o.stacked_amount.toFixed(token.precision)
-                        ).toFixed(token.precision)}
-                      </td>
+                      <td>{Math.abs(o.token_price.toFixed(token.precision) * o.stacked_amount.toFixed(token.precision)).toFixed(token.precision)}</td>
                     </tr>
                   )
                 })}
@@ -125,7 +110,4 @@ class OrderList extends Component {
   }
 }
 
-export default compose(
-  inject('tradeStore'),
-  observer
-)(OrderList)
+export default OrderList

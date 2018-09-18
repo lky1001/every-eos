@@ -84,8 +84,8 @@ class Wallet extends Component {
   }
 
   componentWillUnmount = () => {
-    if (this.state.getBalanceIntervalId > 0) {
-      clearInterval(this.state.getBalanceIntervalId)
+    if (this.state.balanceIntervalId > 0) {
+      clearInterval(this.state.balanceIntervalId)
     }
 
     this.disposer()
