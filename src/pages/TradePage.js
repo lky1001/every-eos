@@ -55,10 +55,10 @@ class TradePage extends Component {
         {token ? (
           <Grid>
             <Row className="bg-white content-heading" style={{ height: '116px' }}>
-              <Col xs={12} md={7}>
+              <Col xs={12} md={7} style={{ borderRight: 'solid 1px #d9d9d9' }}>
                 <TokenInfo marketStore={marketStore} symbol={token.symbol} />
               </Col>
-              <Col xs={12} md={5} style={{ borderLeft: 'solid 1px #d9d9d9', margin: 'auto' }}>
+              <Col xs={12} md={5} style={{ margin: 'auto' }}>
                 <Resource accountStore={accountStore} />
               </Col>
             </Row>
