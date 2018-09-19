@@ -16,6 +16,10 @@ Create react project by create-react-app
 - NPM or YARN
 - Any code editor
 
+## Bootstrap Theme
+
+- [purchased from wrapbootstrap](http://wrapbootstrap.com/preview/WB0901P31)
+
 ## Install dependencies
 
 ```
@@ -34,13 +38,18 @@ $ npm or yarn start
 $ npm run build or yarn build
 ```
 
-## TODO
+## Features
 
 - Login with [scatter](https://get-scatter.com)
-- Wallet
-- Market Token List
+- Market Tokens
 - Trade
-- Order History
+- Token Open Orders
+- My Open Orders
+- My Order History
+
+## TODO
+
+- Wallet
 - Clear cache as soon as logout scatter
 
 ## License
