@@ -107,12 +107,12 @@ class Header extends Component {
           <ul className="pull-right">
             <li>
               <a href="#" className="ripple">
-                <em className="icon ion-ios-search-strong" />
+                <em className="ion-ios-search-strong" />
               </a>
             </li>
             <li>
               <a href="#" className="ripple">
-                <em className="icon ion-gear-b" />
+                <em className="ion-gear-b" />
               </a>
             </li>
           </ul>

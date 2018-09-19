@@ -11,6 +11,7 @@ import * as Utils from './utils/Utils'
 import * as Values from './constants/Values'
 
 import 'bootstrap/dist/css/bootstrap.css'
+import 'ionicons/css/ionicons.css'
 
 import eosAgent from './EosAgent'
 import eosioStore from './stores/eosioStore'
