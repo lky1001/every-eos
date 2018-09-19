@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 
@@ -48,21 +48,17 @@ class TradePage extends Component {
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
 
-    const token = marketStore.token
-      ? marketStore.token.data
-        ? marketStore.token.data.token
-        : null
-      : null
+    const token = marketStore.token ? (marketStore.token.data ? marketStore.token.data.token : null) : null
 
     return (
-      <Fragment>
+      <section>
         {token ? (
           <Grid>
-            <Row>
-              <Col xs={12} md={8} style={{ background: '#a9a9a9' }}>
+            <Row className="bg-white content-heading">
+              <Col xs={12} md={8}>
                 <TokenInfo marketStore={marketStore} symbol={token.symbol} />
               </Col>
-              <Col xs={12} md={4} style={{ background: '#90bab9' }}>
+              <Col xs={12} md={4}>
                 <Resource accountStore={accountStore} />
               </Col>
             </Row>
@@ -86,12 +82,7 @@ class TradePage extends Component {
                 </Row>
                 <Row>
                   <Col xs={12} style={{ background: '#aaff88' }}>
-                    <Order
-                      token={token}
-                      accountStore={accountStore}
-                      tradeStore={tradeStore}
-                      eosioStore={eosioStore}
-                    />
+                    <Order token={token} accountStore={accountStore} tradeStore={tradeStore} eosioStore={eosioStore} />
                   </Col>
                 </Row>
               </Col>
@@ -101,11 +92,7 @@ class TradePage extends Component {
                 <Row>
                   <Col xs={12} style={{ background: '#aaaaa9' }}>
                     {tradeStore.openOrdersList && (
-                      <OpenOrder
-                        tradeStore={tradeStore}
-                        openOrdersList={tradeStore.openOrdersList}
-                        accountStore={accountStore}
-                      />
+                      <OpenOrder tradeStore={tradeStore} openOrdersList={tradeStore.openOrdersList} accountStore={accountStore} />
                     )}
                   </Col>
                 </Row>
@@ -132,7 +119,7 @@ class TradePage extends Component {
         ) : (
           ''
         )}
-      </Fragment>
+      </section>
     )
   }
 }

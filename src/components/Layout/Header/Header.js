@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { FormattedMessage } from 'react-intl'
-import * as Values from '../../../constants/Values'
+import { SCATTER_ERROR_LOCKED } from '../../../constants/Values'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -70,7 +70,7 @@ class Header extends Component {
     } catch (e) {
       // todo - error handle
       // 423 Locked
-      if (e.code === Values.SCATTER_ERROR_LOCKED) {
+      if (e.code === SCATTER_ERROR_LOCKED) {
         this.props.alert.show('Scatter is locked.')
       }
     }

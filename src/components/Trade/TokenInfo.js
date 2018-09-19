@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import { Row, Col } from 'react-bootstrap'
 
 class TokenInfo extends Component {
   componentDidMount = async () => {
@@ -9,9 +10,41 @@ class TokenInfo extends Component {
 
   render() {
     const { marketStore } = this.props
+    const token = marketStore.token ? marketStore.token.data.token : null
+    const todayChanged = token ? token.last_day_price - token.last_price : 0.0
+
     return (
       <Fragment>
-        {marketStore.token ? JSON.stringify(marketStore.token.data.token) : 'null'}{' '}
+        {token ? (
+          <Row>
+            <Col xs={2}>
+              <h5 className="m0 text-thin">{token.name}</h5>
+              <small>{token.symbol}</small>
+            </Col>
+            <Col xs={2}>
+              <h6 className="m0 text-thin">Last Price</h6>
+              {token.last_price} EOS
+            </Col>
+            <Col xs={2}>
+              <h6 className="m0 text-thin">Today Changed</h6>
+              {todayChanged} EOS
+            </Col>
+            <Col xs={2}>
+              <h6 className="m0 text-thin">Today High</h6>
+              {token.high_price_24h} EOS
+            </Col>
+            <Col xs={2}>
+              <h6 className="m0 text-thin">Today Low</h6>
+              {token.low_price_24h} EOS
+            </Col>
+            <Col xs={2}>
+              <h6 className="m0 text-thin">Today Volume</h6>
+              {token.volume_24h} EOS
+            </Col>
+          </Row>
+        ) : (
+          ''
+        )}
       </Fragment>
     )
   }
