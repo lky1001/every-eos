@@ -24,5 +24,6 @@ export default {
   Trend: '추세',
   EXCHANGE: '거래소',
   SignIn: '로그인',
-  LANG: '언어'
+  LANG: '언어',
+  BALANCE: '잔액'
 }

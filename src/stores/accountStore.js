@@ -80,9 +80,7 @@ class AccountStore {
     const loginAccountInfo = await eosAgent.getAccount(scatterAccount.name)
 
     if (loginAccountInfo) {
-      this.liquid = loginAccountInfo.core_liquid_balance
-        ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0])
-        : 0
+      this.liquid = loginAccountInfo.core_liquid_balance ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0]) : 0
       this.cpu = {
         max: parseFloat(loginAccountInfo.cpu_limit.max),
         used: parseFloat(loginAccountInfo.cpu_limit.used),
@@ -129,7 +127,7 @@ class AccountStore {
       this.totalStake = this.totalCpuStaked + this.totalNetStaked
       this.selfStake = this.selfCpuStaked + this.selfNetStaked
       // todo - 토탈 발란스에 델리게이트도 포함해야 하는가?
-      this.totalBalance = this.netStaked + this.cpuStaked + this.totalRefund + this.liquid
+      this.totalBalance = this.selfNetStaked + this.selfCpuStaked + this.totalRefund + this.liquid
       this.permissions = loginAccountInfo.permissions
 
       if (loginAccountInfo.voter_info) {
@@ -182,8 +180,6 @@ decorate(AccountStore, {
   ram: observable,
   totalResource: observable,
   selfDelegatedResource: observable,
-  cpuStaked: observable,
-  netStaked: observable,
   staked: observable,
   permissions: observable,
   myVoteProducers: observable,

@@ -24,5 +24,6 @@ export default {
   Trend: 'Trend',
   EXCHANGE: 'EXCHANGE',
   SignIn: 'SignIn',
-  LANG: 'LANG'
+  LANG: 'LANG',
+  BALANCE: 'BALANCE'
 }

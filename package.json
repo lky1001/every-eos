@@ -55,6 +55,7 @@
     "react-alert": "^4.0.4",
     "react-alert-template-basic": "^1.0.0",
     "react-bootstrap": "^0.32.3",
+    "react-circular-progressbar": "^1.0.0",
     "react-component-queries": "^2.3.0",
     "react-dev-utils": "^5.0.2",
     "react-dom": "^16.4.2",

@@ -1,5 +1,10 @@
 import React, { Component, Fragment } from 'react'
 import { Row, Col } from 'react-bootstrap'
+import styled from 'styled-components'
+
+const TokenInfoRow = styled.div`
+  margintop: 25px;
+`
 
 class TokenInfo extends Component {
   componentDidMount = async () => {
@@ -16,7 +21,7 @@ class TokenInfo extends Component {
     return (
       <Fragment>
         {token ? (
-          <Row>
+          <Row style={{ marginTop: '25px' }}>
             <Col xs={2}>
               <h5 className="m0 text-thin">{token.name}</h5>
               <small>{token.symbol}</small>
