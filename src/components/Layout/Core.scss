@@ -2,8 +2,8 @@
  * Main Layout
  */
 
-@import "../Common/Variables";
-@import "../Common/Mixins";
+@import '../Common/Variables';
+@import '../Common/Mixins';
 
 // Angular
 [ng\:cloak],
@@ -106,7 +106,7 @@ footer {
   // min-height: calc(100vh - #{$header-hg});
   > .row {
     margin: 0;
-    > [class*="col-"] {
+    > [class*='col-'] {
       &:first-child {
         padding-left: 0;
       }
@@ -156,7 +156,7 @@ footer {
     padding: 0;
     > .row {
       margin: 0;
-      > [class*="col-"] {
+      > [class*='col-'] {
         padding-left: 0;
         padding-right: 0;
       }
@@ -164,6 +164,12 @@ footer {
     .card {
       margin-bottom: 0;
     }
+  }
+}
+
+@media (min-width: 1440px) {
+  .container {
+    max-width: 1440px;
   }
 }
 
@@ -184,7 +190,7 @@ footer {
   }
   &:before {
     background-color: inherit;
-    content: "";
+    content: '';
     position: absolute;
     top: 0;
     left: 0;
