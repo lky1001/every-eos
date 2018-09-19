@@ -19,8 +19,18 @@ import accountStore from './stores/accountStore'
 import marketStore from './stores/marketStore'
 import tradeStore from './stores/tradeStore'
 
+import { Provider as AlertProvider } from 'react-alert'
+import AlertTemplate from 'react-alert-template-basic'
+
 import App from './App'
 import './index.scss'
+
+const alertOptions = {
+  position: 'bottom center',
+  timeout: 5000,
+  offset: '30px',
+  transition: 'scale'
+}
 
 initLocale('en-US', Values.supportLanguage.slice())
 addLocaleData([...en, ...ko])
@@ -68,7 +78,9 @@ document.addEventListener('scatterLoaded', async scatterExtension => {
 ReactDOM.render(
   <Provider {...stores}>
     <IntlProvider key={i18nLang} locale={i18nLang} messages={locale[i18nLang]}>
-      <App />
+      <AlertProvider template={AlertTemplate} {...alertOptions}>
+        <App />
+      </AlertProvider>
     </IntlProvider>
   </Provider>,
   document.getElementById('app')

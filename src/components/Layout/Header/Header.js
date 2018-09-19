@@ -3,9 +3,13 @@ import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { FormattedMessage } from 'react-intl'
 import * as Values from '../../../constants/Values'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 import { Dropdown, MenuItem } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
+
+import { withAlert } from 'react-alert'
 
 import {
   Collapse,
@@ -25,6 +29,8 @@ import './Header.scss'
 import './HeaderMenuLinks.scss'
 
 import RippleRun from '../../Ripple/Ripple.run'
+
+const CustomSwal = withReactContent(Swal)
 
 class Header extends Component {
   constructor(props) {
@@ -53,13 +59,19 @@ class Header extends Component {
       const result = await accountStore.login()
 
       if (!result) {
-        alert('need install scatter')
+        CustomSwal.fire({
+          onOpen: () => {
+            CustomSwal.clickConfirm()
+          }
+        }).then(() => {
+          return CustomSwal.fire(<p>Please Install Scatter.</p>)
+        })
       }
     } catch (e) {
       // todo - error handle
       // 423 Locked
       if (e.code === Values.SCATTER_ERROR_LOCKED) {
-        alert('Locked')
+        this.props.alert.show('Scatter is locked.')
       }
     }
   }
@@ -141,7 +153,9 @@ class Header extends Component {
   }
 }
 
-export default compose(
-  inject('accountStore'),
-  observer
-)(Header)
+export default withAlert(
+  compose(
+    inject('accountStore'),
+    observer
+  )(Header)
+)
