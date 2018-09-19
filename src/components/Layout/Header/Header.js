@@ -1,9 +1,11 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
+import { FormattedMessage } from 'react-intl'
 import * as Values from '../../../constants/Values'
 
 import { Dropdown, MenuItem } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 import {
   Collapse,
@@ -69,12 +71,7 @@ class Header extends Component {
   }
 
   render() {
-    const ddMenuItem = (
-      <span>
-        <em className="ion-person" />
-        <sup className="badge bg-danger">3</sup>
-      </span>
-    )
+    const { accountStore } = this.props
 
     return (
       <header className="header-container" style={{ marginLeft: '0px' }}>
@@ -100,21 +97,43 @@ class Header extends Component {
           <h2 className="header-title">
             <Link to="/trades/karma" style={{ color: 'white' }}>
               <i className="ti-user" />
-              EXCHANGE
+              <FormattedMessage id="EXCHANGE" />
             </Link>
           </h2>
 
           <ul className="pull-right">
             <li>
-              <a href="#" className="ripple">
-                <em className="ion-ios-search-strong" />
-              </a>
+              {accountStore.isLogin ? (
+                <a className="ripple" onClick={this.onLogoutClick}>
+                  <h5>{accountStore.loginAccountInfo.account_name}</h5>
+                </a>
+              ) : (
+                <a className="ripple" onClick={this.onLoginClick}>
+                  <h5>
+                    <FormattedMessage id="SignIn" />
+                  </h5>
+                </a>
+              )}
             </li>
-            <li>
-              <a href="#" className="ripple">
-                <em className="ion-gear-b" />
-              </a>
-            </li>
+            <Dropdown id="basic-nav-dropdown" pullRight componentClass="li">
+              <Dropdown.Toggle useAnchor noCaret className="has-badge ripple">
+                <FormattedMessage id="LANG" />
+              </Dropdown.Toggle>
+              <Dropdown.Menu className="md-dropdown-menu">
+                <LinkContainer to="pages/profile">
+                  <MenuItem eventKey={3.1}>
+                    <em className="ion-home icon-fw" />
+                    ko-KR
+                  </MenuItem>
+                </LinkContainer>
+                <LinkContainer to="pages/messages">
+                  <MenuItem eventKey={3.2}>
+                    <em className="ion-gear-a icon-fw" />
+                    en-US
+                  </MenuItem>
+                </LinkContainer>
+              </Dropdown.Menu>
+            </Dropdown>
           </ul>
         </nav>
       </header>

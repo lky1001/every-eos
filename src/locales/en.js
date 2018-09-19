@@ -21,5 +21,8 @@ export default {
   Status: 'Status',
   Entrusted: 'Entrusted',
   Action: 'Action',
-  Trend: 'Trend'
+  Trend: 'Trend',
+  EXCHANGE: 'EXCHANGE',
+  SignIn: 'SignIn',
+  LANG: 'LANG'
 }

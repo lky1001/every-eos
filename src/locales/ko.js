@@ -21,5 +21,8 @@ export default {
   Status: '상태',
   Entrusted: '위탁 금액',
   Action: '작업',
-  Trend: '추세'
+  Trend: '추세',
+  EXCHANGE: '거래소',
+  SignIn: '로그인',
+  LANG: '언어'
 }
