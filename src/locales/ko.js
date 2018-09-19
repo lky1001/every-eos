@@ -20,5 +20,6 @@ export default {
   Total: '거래액',
   Status: '상태',
   Entrusted: '위탁 금액',
-  Action: '작업'
+  Action: '작업',
+  Trend: '추세'
 }

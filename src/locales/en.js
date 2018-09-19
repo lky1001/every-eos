@@ -20,5 +20,6 @@ export default {
   Total: 'Total',
   Status: 'Status',
   Entrusted: 'Entrusted',
-  Action: 'Action'
+  Action: 'Action',
+  Trend: 'Trend'
 }

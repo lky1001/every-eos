@@ -3,10 +3,12 @@ import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Grid, Row, Col } from 'react-bootstrap'
-
+import styled from 'styled-components'
 import { ProgressBar } from 'react-bootstrap'
-import RecourceView from '../ResourceView'
-import MarketRow from './MarketRow'
+
+const Text = styled.span`
+  color: ${props => props.color};
+`
 
 class MarketView extends Component {
   constructor(props) {
@@ -42,32 +44,70 @@ class MarketView extends Component {
     return !tokenList ? (
       <ProgressBar striped bsStyle="success" now={40} />
     ) : (
-      <Grid>
-        {/* test */}
-        <RecourceView />
-        <Row className="show-grid">
-          <Col xs={2}>
-            <FormattedMessage id="Name" />
-          </Col>
-          <Col xs={2}>
-            <FormattedMessage id="Last Price" />
-          </Col>
-          <Col xs={2}>
-            <FormattedMessage id="Today Change" />
-          </Col>
-          <Col xs={2}>
-            <FormattedMessage id="24h High" />
-          </Col>
-          <Col xs={2}>
-            <FormattedMessage id="24h Low" />
-          </Col>
-          <Col xs={2}>
-            <FormattedMessage id="24h Volume" />
+      <Grid fluid>
+        <Row>
+          <Col xs={12}>
+            <div className="card">
+              <div className="table-responsive">
+                <table className="table">
+                  <thead>
+                    <tr>
+                      <th className="text-center">
+                        <FormattedMessage id="Name" />
+                      </th>
+                      <th className="text-center">
+                        <FormattedMessage id="Last Price" />
+                      </th>
+                      <th className="text-center">
+                        <FormattedMessage id="Today Change" />
+                      </th>
+                      <th className="text-center">
+                        <FormattedMessage id="24h High" />
+                      </th>
+                      <th className="text-center">
+                        <FormattedMessage id="24h Low" />
+                      </th>
+                      <th className="text-center">
+                        <FormattedMessage id="24h Volume" />
+                      </th>
+                      <th className="text-center">
+                        <FormattedMessage id="Trend" />
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {tokenList.map(token => {
+                      const todayChanged = token.last_day_price - token.last_price
+                      return (
+                        <tr key={token.id}>
+                          <td className="va-middle text-center">{token.name}</td>
+                          <td className="va-middle text-right">
+                            <Text color={todayChanged > 0 ? 'Red' : 'Blue'}>{token.last_price}</Text>
+                          </td>
+                          <td className="va-middle text-center">
+                            <Text>{todayChanged}</Text>
+                          </td>
+                          <td className="va-middle text-right">
+                            <Text>{token.high_price_24h}</Text>
+                          </td>
+                          <td className="va-middle text-right">
+                            <Text>{token.low_price_24h}</Text>
+                          </td>
+                          <td className="va-middle text-right">
+                            <Text>{token.volume_24h}</Text>
+                          </td>
+                          <td className="va-middle text-center">
+                            <em className="ion-arrow-graph-down-right text-warning" />
+                          </td>
+                        </tr>
+                      )
+                    })}
+                  </tbody>
+                </table>
+              </div>
+            </div>
           </Col>
         </Row>
-        {tokenList.map(token => {
-          return <MarketRow key={token.id} token={token} />
-        })}
       </Grid>
     )
   }
