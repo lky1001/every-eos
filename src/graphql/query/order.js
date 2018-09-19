@@ -62,6 +62,8 @@ export const ordersQuery = gql`
     $account_name: String
     $limit: Int
     $page: Int
+    $from: Date
+    $to: Date
   ) {
     orders(
       token_id: $token_id
@@ -70,6 +72,8 @@ export const ordersQuery = gql`
       account_name: $account_name
       limit: $limit
       page: $page
+      from: $from
+      to: $to
     ) {
       id
       token_id

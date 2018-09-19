@@ -43,6 +43,7 @@ export const EOS_TOKEN = {
 export const SCATTER_ERROR_REJECT_TRANSACTION_BY_USER = 402
 export const SCATTER_ERROR_LOCKED = 423
 export const ORDER_PAGE_LIMIT = 30
+
 export const ORDER_TYPE_BUY = 'BUY'
 export const ORDER_TYPE_SELL = 'SELL'
 export const ORDER_STATUS_NOT_DEAL = 'NOT_DEAL'
@@ -62,3 +63,12 @@ export const GET_OPEN_ORDER_INTERVAL = 5000
 export const GET_ORDER_LIST_INTERVAL = 2000
 export const GET_ORDER_HISTORY_INTERVAL = 5000
 export const GET_CHART_DATA_INTERVAL = 5000
+
+export const SELECT_ORDER_TYPE_ALL = 'All'
+export const SELECT_ORDER_TYPE_BUY = 'Buy'
+export const SELECT_ORDER_TYPE_SELL = 'Sell'
+
+export const SELECT_ORDER_STATUS_ALL = 'All'
+export const SELECT_ORDER_STATUS_IN_PROGRESS = 'In progress'
+export const SELECT_ORDER_STATUS_COMPLETED = 'Completed'
+export const SELECT_ORDER_STATUS_CANCELLED = 'Cancelled'

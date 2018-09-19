@@ -5,6 +5,9 @@ import styled from 'styled-components'
 const TokenInfoRow = styled.div`
   margintop: 25px;
 `
+const TokenInfoText = styled.h6`
+  font-size: 14px;
+`
 
 class TokenInfo extends Component {
   componentDidMount = async () => {
@@ -27,23 +30,23 @@ class TokenInfo extends Component {
               <small>{token.symbol}</small>
             </Col>
             <Col xs={2}>
-              <h6 className="m0 text-thin">Last Price</h6>
+              <TokenInfoText className="m0 text-thin">Last Price</TokenInfoText>
               {token.last_price} EOS
             </Col>
             <Col xs={2}>
-              <h6 className="m0 text-thin">Today Changed</h6>
+              <TokenInfoText className="m0 text-thin">Today Changed</TokenInfoText>
               {todayChanged} EOS
             </Col>
             <Col xs={2}>
-              <h6 className="m0 text-thin">Today High</h6>
+              <TokenInfoText className="m0 text-thin">Today High</TokenInfoText>
               {token.high_price_24h} EOS
             </Col>
             <Col xs={2}>
-              <h6 className="m0 text-thin">Today Low</h6>
+              <TokenInfoText className="m0 text-thin">Today Low</TokenInfoText>
               {token.low_price_24h} EOS
             </Col>
             <Col xs={2}>
-              <h6 className="m0 text-thin">Today Volume</h6>
+              <TokenInfoText className="m0 text-thin">Today Volume</TokenInfoText>
               {token.volume_24h} EOS
             </Col>
           </Row>

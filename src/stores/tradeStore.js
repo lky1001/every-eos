@@ -189,7 +189,7 @@ class TradeStore {
     return this.sellOrders.data.stackedOrders ? this.sellOrders.data.stackedOrders.length : 0
   }
 
-  getOrdersHistory = async (account_name, status, limit, page) => {
+  getOrdersHistory = async (account_name, status, limit, page, from, to) => {
     this.ordersHistory = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
@@ -197,7 +197,9 @@ class TradeStore {
         account_name: account_name,
         status: status,
         limit: limit,
-        page: page
+        page: page,
+        from: from,
+        to: to
       }
     })
   }

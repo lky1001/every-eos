@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Grid, Row, Col } from 'react-bootstrap'
-import OrderHistory from '../components/Trade/OrderHistory'
+import { Container } from 'reactstrap'
+import SearchableOrderHistory from '../components/OrderHistory/SearchableOrderHistory'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { PAGE_SIZE_FIFTY } from '../constants/Values'
@@ -11,10 +12,10 @@ class OrderHistoryPage extends Component {
 
     return (
       <Fragment>
-        <Grid>
+        <Container>
           <Row>
-            <Col>
-              <OrderHistory
+            <Col xs={12}>
+              <SearchableOrderHistory
                 accountStore={accountStore}
                 tradeStore={tradeStore}
                 ordersHistoryList={tradeStore.ordersHistoryList}
@@ -22,7 +23,7 @@ class OrderHistoryPage extends Component {
               />
             </Col>
           </Row>
-        </Grid>
+        </Container>
       </Fragment>
     )
   }
