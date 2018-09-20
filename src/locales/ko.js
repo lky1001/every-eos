@@ -28,5 +28,6 @@ export default {
   EXCHANGE: '거래소',
   SignIn: '로그인',
   LANG: '언어',
-  BALANCE: '잔액'
+  BALANCE: '잔액',
+  Orders: '주문 기록'
 }

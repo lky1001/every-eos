@@ -205,7 +205,9 @@ class TradeStore {
   }
 
   clearOrdersHistory = () => {
-    this.ordersHistory.data.orders = []
+    if (this.ordersHistory.data && this.ordersHistory.data.orders) {
+      this.ordersHistory.data.orders = []
+    }
   }
 
   get ordersHistoryError() {
@@ -239,7 +241,7 @@ class TradeStore {
 
   clearOpenOrders = () => {
     if (this.openOrders.data && this.openOrders.data.orders) {
-      this.openOrders.data.orders = [];
+      this.openOrders.data.orders = []
     }
   }
 
@@ -292,10 +294,7 @@ class TradeStore {
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
 
-        if (
-          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
-          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
-        ) {
+        if (arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED || arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED) {
           this.ordersHistory.data.orders.unshift(arrivedOrderByTxId)
         } else {
           this.openOrders.data.orders.unshift(arrivedOrderByTxId)

@@ -117,17 +117,26 @@ class Header extends Component {
             <li>
               {accountStore.isLogin ? (
                 <a className="ripple" onClick={this.onLogoutClick}>
-                  <h5>{accountStore.loginAccountInfo.account_name}</h5>
+                  <h6>{accountStore.loginAccountInfo.account_name}</h6>
                 </a>
               ) : (
                 <a className="ripple" onClick={this.onLoginClick}>
-                  <h5>
+                  <h6>
                     <FormattedMessage id="SignIn" />
-                  </h5>
+                  </h6>
                 </a>
               )}
             </li>
-            <Dropdown id="basic-nav-dropdown" pullRight componentClass="li">
+            <li>
+              {accountStore.isLogin && (
+                <Link to="/orders" style={{ color: 'white' }}>
+                  <h6>
+                    <FormattedMessage id="Orders" />
+                  </h6>
+                </Link>
+              )}
+            </li>
+            <Dropdown id="basic-nav-dropdown" pullRight componentClass="li" style={{ paddingTop: '3px' }}>
               <Dropdown.Toggle useAnchor noCaret className="has-badge ripple">
                 <FormattedMessage id="LANG" />
               </Dropdown.Toggle>

@@ -28,5 +28,6 @@ export default {
   EXCHANGE: 'EXCHANGE',
   SignIn: 'SignIn',
   LANG: 'LANG',
-  BALANCE: 'BALANCE'
+  BALANCE: 'BALANCE',
+  Orders: 'Orders'
 }
