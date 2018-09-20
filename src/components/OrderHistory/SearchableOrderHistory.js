@@ -230,13 +230,12 @@ class SearchableOrderHistory extends Component {
               <Row>
                 <Col>
                   <InputPairContainer>
-                    <div className="p-1">Token</div>
+                    <Header6 className="p-1">Token</Header6>
                     <div className="p-5">
-                      <Input
+                      <input
                         type="text"
-                        name="token"
-                        id="token"
-                        placeholder="Please enter"
+                        className="form-control form-control-lg"
+                        placeholder="Enter Symbol"
                         onChange={s => this.handleTokenSymbolChange(s)}
                       />
                     </div>
@@ -244,7 +243,7 @@ class SearchableOrderHistory extends Component {
                 </Col>
                 <Col>
                   <InputPairContainer>
-                    <div className="p-1">Type</div>
+                    <Header6 className="p-1">Type</Header6>
                     <div className="p-5" style={{ width: '100%' }}>
                       <Select
                         value={selectedType}
@@ -257,7 +256,7 @@ class SearchableOrderHistory extends Component {
 
                 <Col>
                   <InputPairContainer>
-                    <div className="p-1">Status</div>
+                    <Header6 className="p-1">Status</Header6>
                     <div className="p-5" style={{ width: '100%' }}>
                       <Select
                         value={selectedStatus}
@@ -269,8 +268,9 @@ class SearchableOrderHistory extends Component {
                 </Col>
 
                 <Col>
-                  <div className="InputFromTo">
+                  <InputPairContainer className="InputFromTo">
                     <DayPickerInput
+                      className="DayPickerInput"
                       value={from}
                       placeholder="From"
                       format="LL"
@@ -289,6 +289,7 @@ class SearchableOrderHistory extends Component {
                     —{' '}
                     <span className="InputFromTo-to">
                       <DayPickerInput
+                        className="DayPickerInput"
                         ref={el => (this.to = el)}
                         value={to}
                         placeholder="To"
@@ -331,10 +332,13 @@ class SearchableOrderHistory extends Component {
                         }
                 `}</style>
                     </Helmet>
-                    <button onClick={this.handleSearch}>Search</button>
-                  </div>
+                  </InputPairContainer>
+                </Col>
+                <Col>
+                  <button onClick={this.handleSearch}>Search</button>
                 </Col>
               </Row>
+
               <div className="table-responsive bootgrid">
                 <table id="bootgrid-basic" className="table table-hover">
                   <thead>
