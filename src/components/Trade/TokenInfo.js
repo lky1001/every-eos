@@ -2,9 +2,6 @@ import React, { Component, Fragment } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
-const TokenInfoRow = styled.div`
-  margintop: 25px;
-`
 const TokenInfoText = styled.h6`
   font-size: 14px;
 `
