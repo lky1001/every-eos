@@ -12,6 +12,7 @@ export default {
   Amount: 'Amount',
   'Total(EOS)': 'Total(EOS)',
   Market: 'Market',
+  MARKET: 'MARKET',
   Wallet: 'Wallet',
   'Please Login': 'Please Login',
   Date: 'Date',

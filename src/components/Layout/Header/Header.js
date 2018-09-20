@@ -88,30 +88,21 @@ class Header extends Component {
     return (
       <header className="header-container" style={{ marginLeft: '0px' }}>
         <nav>
-          <ul className="visible-xs visible-sm">
-            <li>
-              <a id="sidebar-toggler" href="#" className="menu-link menu-link-slide">
-                <span>
-                  <em />
-                </span>
-              </a>
-            </li>
-          </ul>
-          <ul className="hidden-xs">
-            <li>
-              <a id="offcanvas-toggler" href="#" className="menu-link menu-link-slide">
-                <span>
-                  <em />
-                </span>
-              </a>
-            </li>
-          </ul>
           <h2 className="header-title">
-            <Link to="/trades/karma" style={{ color: 'white' }}>
-              <i className="ti-user" />
-              <FormattedMessage id="EXCHANGE" />
+            <Link to="/" style={{ color: 'white' }}>
+              EVERYEOS
             </Link>
           </h2>
+          <h6 className="header-title" style={{ fontSize: '15px', marginLeft: '30px' }}>
+            <Link to="/trades/karma" style={{ color: 'white' }}>
+              <FormattedMessage id="EXCHANGE" />
+            </Link>
+          </h6>
+          <h6 className="header-title" style={{ fontSize: '15px' }}>
+            <Link to="/markets" style={{ color: 'white' }}>
+              <FormattedMessage id="MARKET" />
+            </Link>
+          </h6>
 
           <ul className="pull-right">
             <li>
@@ -132,6 +123,15 @@ class Header extends Component {
                 <Link to="/orders" style={{ color: 'white' }}>
                   <h6>
                     <FormattedMessage id="Orders" />
+                  </h6>
+                </Link>
+              )}
+            </li>
+            <li>
+              {accountStore.isLogin && (
+                <Link to="/wallets" style={{ color: 'white' }}>
+                  <h6>
+                    <FormattedMessage id="Wallet" />
                   </h6>
                 </Link>
               )}

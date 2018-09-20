@@ -12,6 +12,7 @@ export default {
   Amount: '수량',
   'Total(EOS)': '합계(EOS)',
   Market: '시장',
+  MARKET: '시장',
   Wallet: '지갑',
   'Please Login': '로그인 해주세요',
   Date: '위탁 시간',
