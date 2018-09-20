@@ -4,7 +4,7 @@ import { Container } from 'reactstrap'
 import SearchableOrderHistory from '../components/OrderHistory/SearchableOrderHistory'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
-import { PAGE_SIZE_FIFTY } from '../constants/Values'
+import { PAGE_SIZE_TEN } from '../constants/Values'
 
 class OrderHistoryPage extends Component {
   render() {
@@ -22,7 +22,7 @@ class OrderHistoryPage extends Component {
                 ordersHistoryCount={tradeStore.ordersHistoryCount}
                 ordersHistoryLoading={tradeStore.ordersHistoryLoading}
                 ordersHistoryError={tradeStore.ordersHistoryError}
-                pageSize={PAGE_SIZE_FIFTY}
+                pageSize={PAGE_SIZE_TEN}
               />
             </Col>
           </Row>

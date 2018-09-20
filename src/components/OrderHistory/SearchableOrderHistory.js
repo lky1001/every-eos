@@ -36,27 +36,7 @@ import {
   SELECT_ORDER_STATUS_CANCELLED
 } from '../../constants/Values'
 
-import styled from 'styled-components'
-
-const Text = styled.span`
-  color: ${props => props.color};
-`
-
-const CardContainer = styled(Container)`
-  background: #fff;
-  border-radius: 2px;
-  display: inline-block;
-  position: relative;
-`
-
-const ShadowedCard = styled(CardContainer)`
-  box-shadow: 0 8px 38px rgba(133, 133, 133, 0.3), 0 5px 12px rgba(133, 133, 133, 0.22);
-`
-
-const InputPairContainer = styled.div`
-  display: flex;
-  align-items: center;
-`
+import { Text, ShadowedCard, InputPairContainer } from '../Common/Common'
 
 const typeOptions = [
   { value: '', label: SELECT_ORDER_TYPE_ALL },
@@ -78,6 +58,7 @@ class SearchableOrderHistory extends Component {
   constructor(props) {
     super(props)
     const { pageSize } = props
+    const today = new Date()
 
     this.state = {
       activeTab: '1',
@@ -85,10 +66,22 @@ class SearchableOrderHistory extends Component {
       pageSize: pageSize,
       pageCount: 1,
       token_symbol: null,
-      from: subDays(new Date(), 7),
-      to: new Date(),
+      from: subDays(today, 7),
+      to: today,
       selectedType: typeOptions[0],
       selectedStatus: statusOptions[0]
+    }
+  }
+
+  static getDerivedStateFromProps(nextProps, prevState) {
+    const { ordersHistoryCount } = nextProps
+
+    const pageCount =
+      ordersHistoryCount > 0 ? Math.ceil(ordersHistoryCount / prevState.pageSize) : 1
+
+    return {
+      ...prevState,
+      pageCount: pageCount
     }
   }
 
@@ -117,8 +110,8 @@ class SearchableOrderHistory extends Component {
       token_symbol,
       this.getTypeFilter(),
       this.getStatusFilter(),
-      this.state.pageSize,
-      this.state.currentPage,
+      0,
+      0,
       from,
       to
     )
@@ -195,8 +188,14 @@ class SearchableOrderHistory extends Component {
     }
   }
 
-  pageClicked = () => {
-    console.log('가즈아')
+  pageClicked = idx => {
+    const { pageCount } = this.state
+
+    if (idx > 0 && idx <= pageCount) {
+      this.setState({
+        currentPage: idx
+      })
+    }
   }
 
   render() {
@@ -207,8 +206,10 @@ class SearchableOrderHistory extends Component {
       ordersHistoryLoading,
       ordersHistoryError
     } = this.props
-    const { from, to, selectedType, selectedStatus } = this.state
+    const { from, to, selectedType, selectedStatus, pageCount, pageSize, currentPage } = this.state
     const modifiers = { start: from, end: to }
+    const startIndex = (currentPage - 1) * pageSize
+    const endIndex = startIndex + pageSize
 
     return (
       <Fragment>
@@ -361,7 +362,7 @@ class SearchableOrderHistory extends Component {
                     ordersHistoryList &&
                     ordersHistoryCount > 0 && (
                       <tbody>
-                        {ordersHistoryList.map(o => {
+                        {ordersHistoryList.slice(startIndex, endIndex).map(o => {
                           return (
                             <tr key={o.id}>
                               <td>
@@ -441,25 +442,19 @@ class SearchableOrderHistory extends Component {
                   aria-label="orders pagination"
                   style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <PaginationItem>
-                    <PaginationLink previous />
+                    <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
                   </PaginationItem>
+                  {Array(pageCount)
+                    .fill(null)
+                    .map((v, idx) => (
+                      <PaginationItem key={idx} active={currentPage === idx + 1}>
+                        <PaginationLink onClick={() => this.pageClicked(idx + 1)}>
+                          {idx + 1}
+                        </PaginationLink>
+                      </PaginationItem>
+                    ))}
                   <PaginationItem>
-                    <PaginationLink onClick={() => this.pageClicked()}>1</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink>2</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink>3</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink>4</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink>5</PaginationLink>
-                  </PaginationItem>
-                  <PaginationItem>
-                    <PaginationLink next />
+                    <PaginationLink next onClick={() => this.pageClicked(currentPage + 1)} />
                   </PaginationItem>
                 </Pagination>
               </div>
