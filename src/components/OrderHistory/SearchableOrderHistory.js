@@ -38,6 +38,10 @@ import {
 
 import styled from 'styled-components'
 
+const Text = styled.span`
+  color: ${props => props.color};
+`
+
 const CardContainer = styled(Container)`
   background: #fff;
   border-radius: 2px;
@@ -348,9 +352,19 @@ class SearchableOrderHistory extends Component {
                     ordersHistoryList.map(o => {
                       return (
                         <tr key={o.id}>
-                          <td>{o.created}</td>
-                          <td>{o.token_id}</td>
-                          <td>{o.type}</td>
+                          <td>
+                            <Text>{o.created}</Text>
+                          </td>
+                          <td>
+                            <Text color={'Blue'}>
+                              {o.token.symbol} / {o.token.market}
+                            </Text>
+                          </td>
+                          <td>
+                            <Text color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
+                              {o.type}
+                            </Text>
+                          </td>
                           <td>{o.token_price}</td>
                           <td>
                             {o.status === ORDER_STATUS_ALL_DEALED

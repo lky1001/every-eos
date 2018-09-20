@@ -89,6 +89,7 @@ export const ordersQuery = gql`
       }
       token {
         symbol
+        market
       }
     }
   }
