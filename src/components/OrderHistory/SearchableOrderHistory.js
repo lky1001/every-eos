@@ -80,7 +80,7 @@ class SearchableOrderHistory extends Component {
       currentPage: 1,
       pageSize: pageSize,
       pageCount: 1,
-      token: null,
+      token_symbol: null,
       from: subDays(new Date(), 7),
       to: new Date(),
       selectedType: typeOptions[0],
@@ -106,10 +106,11 @@ class SearchableOrderHistory extends Component {
 
   getOrderHistory = async () => {
     const { tradeStore, accountStore } = this.props
-    const { from, to } = this.state
+    const { token_symbol, from, to } = this.state
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
+      token_symbol,
       this.getTypeFilter(),
       this.getStatusFilter(),
       this.state.pageSize,
@@ -141,9 +142,9 @@ class SearchableOrderHistory extends Component {
     }
   }
 
-  handleTokenChange = token => {
+  handleTokenSymbolChange = symbol => {
     this.setState({
-      token
+      token_symbol: symbol.target.value
     })
   }
 
@@ -209,7 +210,7 @@ class SearchableOrderHistory extends Component {
                     name="token"
                     id="token"
                     placeholder="Please enter"
-                    onChange={this.handleTokenChange}
+                    onChange={s => this.handleTokenSymbolChange(s)}
                   />
                 </div>
               </InputPairContainer>
@@ -303,7 +304,7 @@ class SearchableOrderHistory extends Component {
                         }
                 `}</style>
                 </Helmet>
-                <button onClick={() => this.getOrderHistory()}>Search</button>
+                <button onClick={this.getOrderHistory}>Search</button>
               </div>
             </Col>
           </Row>

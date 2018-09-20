@@ -56,7 +56,7 @@ export const orderQuery = gql`
 
 export const ordersQuery = gql`
   query(
-    $token_id: Int
+    $token_symbol: String
     $type: String
     $status: String
     $account_name: String
@@ -66,7 +66,7 @@ export const ordersQuery = gql`
     $to: Date
   ) {
     orders(
-      token_id: $token_id
+      token_symbol: $token_symbol
       type: $type
       status: $status
       account_name: $account_name
@@ -86,6 +86,9 @@ export const ordersQuery = gql`
       created
       orderDetails {
         ...orderDetail
+      }
+      token {
+        symbol
       }
     }
   }

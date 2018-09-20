@@ -61,6 +61,7 @@ class OrderHistory extends Component {
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
+      '',
       JSON.stringify([ORDER_TYPE_BUY, ORDER_TYPE_SELL]),
       JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
       this.state.pageSize,

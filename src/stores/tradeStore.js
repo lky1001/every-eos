@@ -189,12 +189,13 @@ class TradeStore {
     return this.sellOrders.data.stackedOrders ? this.sellOrders.data.stackedOrders.length : 0
   }
 
-  getOrdersHistory = async (account_name, type, status, limit, page, from, to) => {
+  getOrdersHistory = async (account_name, token_symbol, type, status, limit, page, from, to) => {
     this.ordersHistory = await graphql({
       client: ApiServerAgent,
       query: ordersQuery,
       variables: {
         account_name: account_name,
+        token_symbol: token_symbol,
         type: type,
         status: status,
         limit: limit,
@@ -295,7 +296,10 @@ class TradeStore {
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
 
-        if (arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED || arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED) {
+        if (
+          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
+          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
+        ) {
           this.ordersHistory.data.orders.unshift(arrivedOrderByTxId)
         } else {
           this.openOrders.data.orders.unshift(arrivedOrderByTxId)

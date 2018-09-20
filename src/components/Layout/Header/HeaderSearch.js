@@ -53,12 +53,11 @@ class HeaderSearch extends React.Component {
     return (
       <Modal
         show={this.state.showModal}
-        onHide={this.close.bind(this)}
+        onHide={this.close}
         className="modal modal-top fade modal-search"
-        onEnter={this.onShowModal.bind(this)}
-        onExited={this.onHiddenModal.bind(this)}
-        onEntered={this.onShownModal.bind(this)}
-      >
+        onEnter={this.onShowModal}
+        onExited={this.onHiddenModal}
+        onEntered={this.onShownModal}>
         <Modal.Body>
           <div className="pull-left">
             <button type="button" data-dismiss="modal" className="btn btn-flat">
@@ -70,7 +69,7 @@ class HeaderSearch extends React.Component {
               <em className="ion-android-microphone icon-24" />
             </button>
           </div>
-          <form onSubmit={this.onSubmit.bind(this)} action="#" className="oh">
+          <form onSubmit={this.onSubmit} action="#" className="oh">
             <div className="mda-form-control pt0">
               <input
                 type="text"

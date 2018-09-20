@@ -61,6 +61,7 @@ class OpenOrder extends Component {
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
+      '',
       JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
     )
   }
@@ -198,7 +199,7 @@ class OpenOrder extends Component {
                     ).toFixed(token.precision)} */}
                         <td>{o.status}</td>
                         <td>
-                          <button onClick={() => this.cancelOrder(o.id)}>Cancel</button>
+                          <button onClick={this.cancelOrder(o.id)}>Cancel</button>
                         </td>
                       </tr>
                     )

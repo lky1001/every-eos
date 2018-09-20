@@ -136,7 +136,11 @@ class Header extends Component {
                 </Link>
               )}
             </li>
-            <Dropdown id="basic-nav-dropdown" pullRight componentClass="li" style={{ paddingTop: '3px' }}>
+            <Dropdown
+              id="basic-nav-dropdown"
+              pullRight
+              componentClass="li"
+              style={{ paddingTop: '3px' }}>
               <Dropdown.Toggle useAnchor noCaret className="has-badge ripple">
                 <FormattedMessage id="LANG" />
               </Dropdown.Toggle>
