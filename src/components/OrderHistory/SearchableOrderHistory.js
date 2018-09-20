@@ -80,6 +80,7 @@ class SearchableOrderHistory extends Component {
       currentPage: 1,
       pageSize: pageSize,
       pageCount: 1,
+      token: null,
       from: subDays(new Date(), 7),
       to: new Date(),
       selectedType: typeOptions[0],
@@ -105,12 +106,16 @@ class SearchableOrderHistory extends Component {
 
   getOrderHistory = async () => {
     const { tradeStore, accountStore } = this.props
+    const { from, to } = this.state
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
-      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
+      this.getTypeFilter(),
+      this.getStatusFilter(),
       this.state.pageSize,
-      this.state.currentPage
+      this.state.currentPage,
+      from,
+      to
     )
   }
 
@@ -136,6 +141,12 @@ class SearchableOrderHistory extends Component {
     }
   }
 
+  handleTokenChange = token => {
+    this.setState({
+      token
+    })
+  }
+
   handleFromChange = from => {
     this.setState({
       from
@@ -148,26 +159,41 @@ class SearchableOrderHistory extends Component {
     })
   }
 
-  try = async () => {
-    const { tradeStore, accountStore } = this.props
-    const { from, to } = this.state
+  getTypeFilter = () => {
+    const { selectedType } = this.state
 
-    await tradeStore.getOrdersHistory(
-      accountStore.loginAccountInfo.account_name,
-      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
-      this.state.pageSize,
-      this.state.currentPage,
-      from,
-      to
-    )
+    if (selectedType.label === SELECT_ORDER_TYPE_ALL) {
+      return JSON.stringify([ORDER_TYPE_BUY, ORDER_TYPE_SELL])
+    } else if (selectedType.label === SELECT_ORDER_TYPE_BUY) {
+      return JSON.stringify(ORDER_TYPE_BUY)
+    } else if (selectedType.label === SELECT_ORDER_TYPE_SELL) {
+      return JSON.stringify(ORDER_TYPE_SELL)
+    }
+  }
+
+  getStatusFilter = () => {
+    const { selectedStatus } = this.state
+
+    if (selectedStatus.label === SELECT_ORDER_STATUS_ALL) {
+      return JSON.stringify([
+        ORDER_STATUS_NOT_DEAL,
+        ORDER_STATUS_PARTIAL_DEALED,
+        ORDER_STATUS_ALL_DEALED,
+        ORDER_STATUS_CANCELLED
+      ])
+    } else if (selectedStatus.label === SELECT_ORDER_STATUS_IN_PROGRESS) {
+      return JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+    } else if (selectedStatus.label === SELECT_ORDER_STATUS_COMPLETED) {
+      return JSON.stringify(ORDER_STATUS_ALL_DEALED)
+    } else if (selectedStatus.label === SELECT_ORDER_STATUS_CANCELLED) {
+      return JSON.stringify(ORDER_STATUS_CANCELLED)
+    }
   }
 
   render() {
     const { accountStore, ordersHistoryList } = this.props
     const { from, to, selectedType, selectedStatus } = this.state
     const modifiers = { start: from, end: to }
-
-    console.log('새로움', ordersHistoryList)
 
     return (
       <Fragment>
@@ -178,7 +204,13 @@ class SearchableOrderHistory extends Component {
               <InputPairContainer>
                 <div className="p-1">Token</div>
                 <div className="p-5">
-                  <Input type="text" name="token" id="token" placeholder="Please enter" />
+                  <Input
+                    type="text"
+                    name="token"
+                    id="token"
+                    placeholder="Please enter"
+                    onChange={this.handleTokenChange}
+                  />
                 </div>
               </InputPairContainer>
             </Col>
@@ -271,7 +303,7 @@ class SearchableOrderHistory extends Component {
                         }
                 `}</style>
                 </Helmet>
-                <button onClick={() => this.try()}>Search</button>
+                <button onClick={() => this.getOrderHistory()}>Search</button>
               </div>
             </Col>
           </Row>

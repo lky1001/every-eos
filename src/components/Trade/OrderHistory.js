@@ -19,6 +19,8 @@ import {
   PAGE_SIZE_TWENTY,
   PAGE_SIZE_THIRTY,
   PAGE_SIZE_FIFTY,
+  ORDER_TYPE_BUY,
+  ORDER_TYPE_SELL,
   ORDER_STATUS_ALL_DEALED,
   ORDER_STATUS_CANCELLED,
   ORDER_DETAIL_DEAL_STATUS_CANCELLED
@@ -59,6 +61,7 @@ class OrderHistory extends Component {
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
+      JSON.stringify([ORDER_TYPE_BUY, ORDER_TYPE_SELL]),
       JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
       this.state.pageSize,
       this.state.currentPage
@@ -180,7 +183,7 @@ class OrderHistory extends Component {
                     )
                   })}
 
-                <Pagination aria-label="Page navigation example">
+                {/* <Pagination aria-label="Page navigation example">
                   <PaginationItem disabled>
                     <PaginationLink previous href="#" />
                   </PaginationItem>
@@ -201,7 +204,7 @@ class OrderHistory extends Component {
                   <PaginationItem>
                     <PaginationLink next href="#" />
                   </PaginationItem>
-                </Pagination>
+                </Pagination> */}
               </tbody>
             </Table>
           </TabPane>
