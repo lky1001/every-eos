@@ -30,5 +30,6 @@ export default {
   SignIn: '로그인',
   LANG: '언어',
   BALANCE: '잔액',
-  Orders: '주문 기록'
+  Orders: '주문 기록',
+  'No Data': '기록 없음'
 }

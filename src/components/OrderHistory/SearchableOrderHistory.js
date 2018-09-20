@@ -195,96 +195,108 @@ class SearchableOrderHistory extends Component {
     }
   }
 
+  pageClicked = () => {
+    console.log('가즈아')
+  }
+
   render() {
-    const { accountStore, ordersHistoryList } = this.props
+    const {
+      accountStore,
+      ordersHistoryList,
+      ordersHistoryCount,
+      ordersHistoryLoading,
+      ordersHistoryError
+    } = this.props
     const { from, to, selectedType, selectedStatus } = this.state
     const modifiers = { start: from, end: to }
 
     return (
       <Fragment>
-        <h5> Order History</h5>
-        <ShadowedCard>
-          <Row>
-            <Col>
-              <InputPairContainer>
-                <div className="p-1">Token</div>
-                <div className="p-5">
-                  <Input
-                    type="text"
-                    name="token"
-                    id="token"
-                    placeholder="Please enter"
-                    onChange={s => this.handleTokenSymbolChange(s)}
-                  />
-                </div>
-              </InputPairContainer>
-            </Col>
-            <Col>
-              <InputPairContainer>
-                <div className="p-1">Type</div>
-                <div className="p-5" style={{ width: '100%' }}>
-                  <Select
-                    value={selectedType}
-                    onChange={this.handleTypeChange}
-                    options={typeOptions}
-                  />
-                </div>
-              </InputPairContainer>
-            </Col>
+        <section>
+          <div className="container-fluid">
+            <h5 className="mt0">Order History</h5>
+            <ShadowedCard>
+              <Row>
+                <Col>
+                  <InputPairContainer>
+                    <div className="p-1">Token</div>
+                    <div className="p-5">
+                      <Input
+                        type="text"
+                        name="token"
+                        id="token"
+                        placeholder="Please enter"
+                        onChange={s => this.handleTokenSymbolChange(s)}
+                      />
+                    </div>
+                  </InputPairContainer>
+                </Col>
+                <Col>
+                  <InputPairContainer>
+                    <div className="p-1">Type</div>
+                    <div className="p-5" style={{ width: '100%' }}>
+                      <Select
+                        value={selectedType}
+                        onChange={this.handleTypeChange}
+                        options={typeOptions}
+                      />
+                    </div>
+                  </InputPairContainer>
+                </Col>
 
-            <Col>
-              <InputPairContainer>
-                <div className="p-1">Status</div>
-                <div className="p-5" style={{ width: '100%' }}>
-                  <Select
-                    value={selectedStatus}
-                    onChange={this.handleStatusChange}
-                    options={statusOptions}
-                  />
-                </div>
-              </InputPairContainer>
-            </Col>
+                <Col>
+                  <InputPairContainer>
+                    <div className="p-1">Status</div>
+                    <div className="p-5" style={{ width: '100%' }}>
+                      <Select
+                        value={selectedStatus}
+                        onChange={this.handleStatusChange}
+                        options={statusOptions}
+                      />
+                    </div>
+                  </InputPairContainer>
+                </Col>
 
-            <Col>
-              <div className="InputFromTo">
-                <DayPickerInput
-                  value={from}
-                  placeholder="From"
-                  format="LL"
-                  formatDate={formatDate}
-                  parseDate={parseDate}
-                  dayPickerProps={{
-                    selectedDays: [from, { from, to }],
-                    disabledDays: { after: to },
-                    toMonth: to,
-                    modifiers,
-                    numberOfMonths: 2,
-                    onDayClick: () => this.to.getInput().focus()
-                  }}
-                  onDayChange={this.handleFromChange}
-                />{' '}
-                —{' '}
-                <span className="InputFromTo-to">
-                  <DayPickerInput
-                    ref={el => (this.to = el)}
-                    value={to}
-                    placeholder="To"
-                    format="LL"
-                    formatDate={formatDate}
-                    parseDate={parseDate}
-                    dayPickerProps={{
-                      selectedDays: [from, { from, to }],
-                      disabledDays: { before: from },
-                      modifiers,
-                      month: from,
-                      fromMonth: from,
-                      numberOfMonths: 2
-                    }}
-                    onDayChange={this.handleToChange}
-                  />
-                </span>
-                <Helmet>
-                  <style>{`
+                <Col>
+                  <div className="InputFromTo">
+                    <DayPickerInput
+                      value={from}
+                      placeholder="From"
+                      format="LL"
+                      formatDate={formatDate}
+                      parseDate={parseDate}
+                      dayPickerProps={{
+                        selectedDays: [from, { from, to }],
+                        disabledDays: { after: to },
+                        toMonth: to,
+                        modifiers,
+                        numberOfMonths: 2,
+                        onDayClick: () => this.to.getInput().focus()
+                      }}
+                      onDayChange={this.handleFromChange}
+                    />{' '}
+                    —{' '}
+                    <span className="InputFromTo-to">
+                      <DayPickerInput
+                        ref={el => (this.to = el)}
+                        value={to}
+                        placeholder="To"
+                        format="LL"
+                        formatDate={formatDate}
+                        parseDate={parseDate}
+                        dayPickerProps={{
+                          selectedDays: [from, { from, to }],
+                          disabledDays: { before: from },
+                          modifiers,
+                          month: from,
+                          fromMonth: from,
+                          numberOfMonths: 2
+                        }}
+                        onDayChange={this.handleToChange}
+                      />
+                    </span>
+                    <Helmet>
+                      <style>{`
                         .InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
                             background-color: #f0f8ff !important;
                             color: #4a90e2;
@@ -307,138 +319,153 @@ class SearchableOrderHistory extends Component {
                             margin-left: -198px;
                         }
                 `}</style>
-                </Helmet>
-                <button onClick={this.getOrderHistory}>Search</button>
-              </div>
-            </Col>
-          </Row>
-          <Row>
-            <Col>
-              <Table>
-                <thead>
-                  <tr>
-                    <th>
-                      <FormattedMessage id="Date" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Pair" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Type" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Price" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Average" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Amount" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Dealed" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Total" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Status" />
-                    </th>
-                  </tr>
-                </thead>
-                <tbody>
+                    </Helmet>
+                    <button onClick={this.getOrderHistory}>Search</button>
+                  </div>
+                </Col>
+              </Row>
+              <div className="table-responsive bootgrid">
+                <table id="bootgrid-basic" className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th data-column-id="date" data-type="date">
+                        <FormattedMessage id="Date" />
+                      </th>
+                      <th data-column-id="pair">
+                        <FormattedMessage id="Pair" />
+                      </th>
+                      <th data-column-id="type">
+                        <FormattedMessage id="Type" />
+                      </th>
+                      <th data-column-id="price">
+                        <FormattedMessage id="Price" />
+                      </th>
+                      <th data-column-id="avg">
+                        <FormattedMessage id="Average" />
+                      </th>
+                      <th data-column-id="amount">
+                        <FormattedMessage id="Amount" />
+                      </th>
+                      <th data-column-id="dealed">
+                        <FormattedMessage id="Dealed" />
+                      </th>
+                      <th data-column-id="total">
+                        <FormattedMessage id="Total" />
+                      </th>
+                      <th data-column-id="status">
+                        <FormattedMessage id="Status" />
+                      </th>
+                    </tr>
+                  </thead>
                   {accountStore.isLogin &&
                     ordersHistoryList &&
-                    ordersHistoryList.map(o => {
-                      return (
-                        <tr key={o.id}>
-                          <td>
-                            <Text>{o.created}</Text>
-                          </td>
-                          <td>
-                            <Text color={'Blue'}>
-                              {o.token.symbol} / {o.token.market}
-                            </Text>
-                          </td>
-                          <td>
-                            <Text color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
-                              {o.type}
-                            </Text>
-                          </td>
-                          <td>{o.token_price}</td>
-                          <td>
-                            {o.status === ORDER_STATUS_ALL_DEALED
-                              ? o.orderDetails.length === 0
-                                ? 0
-                                : Math.round(
-                                  o.orderDetails.reduce(
-                                    (acc, curr) => acc + curr.amount * curr.token_price,
-                                    0
-                                  ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                                )
-                              : o.status === ORDER_STATUS_CANCELLED
-                                ? o.orderDetails.length === 0
-                                  ? 0
-                                  : Math.round(
-                                    o.orderDetails
-                                      .filter(
-                                        od =>
-                                          od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                      )
-                                      .reduce(
+                    ordersHistoryCount > 0 && (
+                      <tbody>
+                        {ordersHistoryList.map(o => {
+                          return (
+                            <tr key={o.id}>
+                              <td>
+                                <Text>{o.created}</Text>
+                              </td>
+                              <td>
+                                <Text color={'Blue'}>
+                                  {o.token.symbol} / {o.token.market}
+                                </Text>
+                              </td>
+                              <td>
+                                <Text color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
+                                  {o.type}
+                                </Text>
+                              </td>
+                              <td>{o.token_price}</td>
+                              <td>
+                                {o.status === ORDER_STATUS_ALL_DEALED
+                                  ? o.orderDetails.length === 0
+                                    ? 0
+                                    : Math.round(
+                                      o.orderDetails.reduce(
                                         (acc, curr) => acc + curr.amount * curr.token_price,
                                         0
                                       ) /
+                                          o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                                    )
+                                  : o.status === ORDER_STATUS_CANCELLED
+                                    ? o.orderDetails.length === 0
+                                      ? 0
+                                      : Math.round(
                                         o.orderDetails
                                           .filter(
                                             od =>
-                                              od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                              od.deal_status ===
+                                                ORDER_DETAIL_DEAL_STATUS_CANCELLED
                                           )
-                                          .reduce((acc, curr) => acc + curr.amount, 0)
-                                  )
-                                : '-'}
-                          </td>
-                          <td>{o.total_amount}</td>
-                          <td>{o.deal_amount}</td>
-                          <td>-</td>
-                          {/* {Math.abs(
-                      o.token_price.toFixed(token.precision) *
-                        o.total_amount.toFixed(token.precision)
-                    ).toFixed(token.precision)} */}
-                          <td>{o.status}</td>
-                        </tr>
-                      )
-                    })}
+                                          .reduce(
+                                            (acc, curr) => acc + curr.amount * curr.token_price,
+                                            0
+                                          ) /
+                                            o.orderDetails
+                                              .filter(
+                                                od =>
+                                                  od.deal_status ===
+                                                  ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                              )
+                                              .reduce((acc, curr) => acc + curr.amount, 0)
+                                      )
+                                    : '-'}
+                              </td>
+                              <td>{o.total_amount}</td>
+                              <td>{o.deal_amount}</td>
+                              <td>-</td>
+                              <td>{o.status}</td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    )}
+                </table>
 
-                  <Pagination aria-label="Page navigation example">
-                    <PaginationItem disabled>
-                      <PaginationLink previous href="#" />
-                    </PaginationItem>
-                    {ordersHistoryList &&
-                      Array(this.state.pageCount)
-                        .fill(null)
-                        .map(
-                          (value, index) =>
-                            this.state.currentPage === index + 1 ? (
-                              <PaginationItem active>
-                                <PaginationLink href="#">{index + 1}</PaginationLink>
-                              </PaginationItem>
-                            ) : (
-                              <PaginationItem>
-                                <PaginationLink href="#">{index + 1}</PaginationLink>
-                              </PaginationItem>
-                            )
-                        )}
-                    <PaginationItem>
-                      <PaginationLink next href="#" />
-                    </PaginationItem>
-                  </Pagination>
-                </tbody>
-              </Table>
-            </Col>
-          </Row>
-          <Row />
-        </ShadowedCard>
+                {accountStore.isLogin ? (
+                  !ordersHistoryList ||
+                  (ordersHistoryCount === 0 && (
+                    <div style={{ textAlign: 'center' }}>
+                      <FormattedMessage id="No Data" />
+                    </div>
+                  ))
+                ) : (
+                  <div style={{ textAlign: 'center' }}>
+                    <FormattedMessage id="Please Login" />
+                  </div>
+                )}
+
+                <Pagination
+                  aria-label="orders pagination"
+                  style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  <PaginationItem>
+                    <PaginationLink previous />
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink onClick={() => this.pageClicked()}>1</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink>2</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink>3</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink>4</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink>5</PaginationLink>
+                  </PaginationItem>
+                  <PaginationItem>
+                    <PaginationLink next />
+                  </PaginationItem>
+                </Pagination>
+              </div>
+            </ShadowedCard>
+          </div>
+        </section>
       </Fragment>
     )
   }

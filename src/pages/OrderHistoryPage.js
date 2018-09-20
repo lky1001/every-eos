@@ -19,6 +19,9 @@ class OrderHistoryPage extends Component {
                 accountStore={accountStore}
                 tradeStore={tradeStore}
                 ordersHistoryList={tradeStore.ordersHistoryList}
+                ordersHistoryCount={tradeStore.ordersHistoryCount}
+                ordersHistoryLoading={tradeStore.ordersHistoryLoading}
+                ordersHistoryError={tradeStore.ordersHistoryError}
                 pageSize={PAGE_SIZE_FIFTY}
               />
             </Col>

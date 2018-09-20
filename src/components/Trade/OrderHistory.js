@@ -82,7 +82,13 @@ class OrderHistory extends Component {
   }
 
   render() {
-    const { accountStore, ordersHistoryList } = this.props
+    const {
+      accountStore,
+      ordersHistoryList,
+      ordersHistoryLoading,
+      ordersHistoryError,
+      ordersHistoryCount
+    } = this.props
 
     return (
       <div>
@@ -134,6 +140,7 @@ class OrderHistory extends Component {
               <tbody>
                 {accountStore.isLogin &&
                   ordersHistoryList &&
+                  ordersHistoryCount > 0 &&
                   ordersHistoryList.map(o => {
                     return (
                       <tr key={o.id}>
@@ -183,31 +190,21 @@ class OrderHistory extends Component {
                       </tr>
                     )
                   })}
-
-                {/* <Pagination aria-label="Page navigation example">
-                  <PaginationItem disabled>
-                    <PaginationLink previous href="#" />
-                  </PaginationItem>
-                  {Array(this.state.pageCount)
-                    .fill(null)
-                    .map(
-                      (value, index) =>
-                        this.state.currentPage === index + 1 ? (
-                          <PaginationItem active>
-                            <PaginationLink href="#">{index + 1}</PaginationLink>
-                          </PaginationItem>
-                        ) : (
-                          <PaginationItem>
-                            <PaginationLink href="#">{index + 1}</PaginationLink>
-                          </PaginationItem>
-                        )
-                    )}
-                  <PaginationItem>
-                    <PaginationLink next href="#" />
-                  </PaginationItem>
-                </Pagination> */}
               </tbody>
             </Table>
+
+            {accountStore.isLogin ? (
+              !ordersHistoryList ||
+              (ordersHistoryCount === 0 && (
+                <div style={{ textAlign: 'center' }}>
+                  <FormattedMessage id="No Data" />
+                </div>
+              ))
+            ) : (
+              <div style={{ textAlign: 'center' }}>
+                <FormattedMessage id="Please Login" />
+              </div>
+            )}
           </TabPane>
         </TabContent>
       </div>

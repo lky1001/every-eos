@@ -30,5 +30,6 @@ export default {
   SignIn: 'SignIn',
   LANG: 'LANG',
   BALANCE: 'BALANCE',
-  Orders: 'Orders'
+  Orders: 'Orders',
+  'No Data': 'No Data'
 }
