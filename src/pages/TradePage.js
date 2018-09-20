@@ -66,8 +66,12 @@ class TradePage extends Component {
                 <Resource accountStore={accountStore} />
               </Col>
             </Row>
-            <Row>
-              <Col xs={12} md={3} style={{ background: '#00a9a9' }}>
+            <Row style={{ height: '600px' }}>
+              <Col
+                xs={12}
+                md={3}
+                style={{ background: '#00a9a9', overflowX: 'hidden', overflowY: 'scroll' }}
+              >
                 <OrderList
                   token={token}
                   tradeStore={tradeStore}
@@ -75,16 +79,20 @@ class TradePage extends Component {
                   sellOrdersList={tradeStore.sellOrdersList}
                 />
               </Col>
-              <Col xs={12} md={9}>
-                <Row>
+              <Col xs={12} md={9} style={{ height: '600px' }}>
+                <Row style={{ height: '450px' }}>
                   <Col xs={12} md={8} style={{ background: '#a9aaa9' }}>
                     {/* <TradingChart /> */}
                   </Col>
-                  <Col xs={12} md={4} style={{ background: '#a9a909' }}>
+                  <Col
+                    xs={12}
+                    md={4}
+                    style={{ background: '#a9a909', overflowX: 'hidden', overflowY: 'scroll' }}
+                  >
                     <Market marketStore={marketStore} />
                   </Col>
                 </Row>
-                <Row>
+                <Row style={{ height: '150px' }}>
                   <Col xs={12} style={{ background: '#aaff88' }}>
                     <Order
                       token={token}

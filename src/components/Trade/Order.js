@@ -257,7 +257,8 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '1' })}
               onClick={() => {
                 this.toggle('1')
-              }}>
+              }}
+            >
               Limit Order
             </NavLink>
           </NavItem>
@@ -266,7 +267,8 @@ class Order extends Component {
               className={classnames({ active: this.state.activeTab === '2' })}
               onClick={() => {
                 this.toggle('2')
-              }}>
+              }}
+            >
               Market Order
             </NavLink>
           </NavItem>
@@ -274,54 +276,53 @@ class Order extends Component {
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <Row>
-              <Col sm="12">
-                <Fragment>
-                  buy price{' '}
-                  <input
-                    type="text"
-                    name="buyPrice"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.buyPrice}
-                    placeholder="buy price"
-                  />
-                  <br />
-                  buy amount{' '}
-                  <input
-                    type="text"
-                    name="buyQty"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.buyQty}
-                    placeholder="buy qty"
-                  />
-                  <br />
-                  sell price{' '}
-                  <input
-                    type="text"
-                    name="sellPrice"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.sellPrice}
-                    placeholder="sell price"
-                  />
-                  <br />
-                  sell amount{' '}
-                  <input
-                    type="text"
-                    name="sellQty"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.sellQty}
-                    placeholder="sell qty"
-                  />
-                  <br />
-                  <button onClick={this.onBuyLimitClick}>Buy Limit</button>
-                  <br />
-                  <button onClick={this.onSellLimitClick}>Sell Limit</button>
-                </Fragment>
+              <Col sm="6">
+                buy price{' '}
+                <input
+                  type="text"
+                  name="buyPrice"
+                  onChange={this.handleChange.bind(this)}
+                  value={this.state.buyPrice}
+                  placeholder="buy price"
+                />
+                <br />
+                buy amount{' '}
+                <input
+                  type="text"
+                  name="buyQty"
+                  onChange={this.handleChange.bind(this)}
+                  value={this.state.buyQty}
+                  placeholder="buy qty"
+                />
+                <br />
+                <button onClick={this.onBuyLimitClick}>Buy Limit</button>
+              </Col>
+              <Col sm="6">
+                sell price{' '}
+                <input
+                  type="text"
+                  name="sellPrice"
+                  onChange={this.handleChange.bind(this)}
+                  value={this.state.sellPrice}
+                  placeholder="sell price"
+                />
+                <br />
+                sell amount{' '}
+                <input
+                  type="text"
+                  name="sellQty"
+                  onChange={this.handleChange.bind(this)}
+                  value={this.state.sellQty}
+                  placeholder="sell qty"
+                />
+                <br />
+                <button onClick={this.onSellLimitClick}>Sell Limit</button>
               </Col>
             </Row>
           </TabPane>
           <TabPane tabId="2">
             <Row>
-              <Col sm="12">
+              <Col sm="6">
                 buy total(EOS){' '}
                 <input
                   type="text"
@@ -331,6 +332,9 @@ class Order extends Component {
                   placeholder="buy total in eos"
                 />
                 <br />
+                <button onClick={this.onBuyMarketClick}>Buy Market</button>
+              </Col>
+              <Col sm="6">
                 sell amount{' '}
                 <input
                   type="text"
@@ -339,11 +343,6 @@ class Order extends Component {
                   value={this.state.sellMarketAmount}
                   placeholder="sell amount"
                 />
-              </Col>
-            </Row>
-            <Row>
-              <Col sm="12">
-                <button onClick={this.onBuyMarketClick}>Buy Market</button>
                 <br />
                 <button onClick={this.onSellMarketClick}>Sell Market</button>
               </Col>
