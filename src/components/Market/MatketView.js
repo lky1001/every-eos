@@ -5,6 +5,7 @@ import { compose } from 'recompose'
 import { Grid, Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 import { ProgressBar } from 'react-bootstrap'
+import { withRouter } from 'react-router'
 
 const Text = styled.h6`
   font-size: 14px;
@@ -23,6 +24,8 @@ class MarketView extends Component {
     this.state = {
       intervalId: 0
     }
+
+    this.goTrade = this.goTrade.bind(this)
   }
 
   componentDidMount = async () => {
@@ -43,6 +46,10 @@ class MarketView extends Component {
     }
   }
 
+  goTrade = symbol => {
+    this.props.history.push('/trades/' + symbol)
+  }
+
   render() {
     const { marketStore } = this.props
     const { tokenList } = marketStore
@@ -55,7 +62,7 @@ class MarketView extends Component {
           <Col xs={12}>
             <div className="card">
               <div className="table-responsive">
-                <table className="table">
+                <table className="table table-hover ">
                   <thead>
                     <tr>
                       <th style={{ width: '5%' }} />
@@ -86,7 +93,7 @@ class MarketView extends Component {
                     {tokenList.map(token => {
                       const todayChanged = token.last_day_price - token.last_price
                       return (
-                        <tr key={token.id}>
+                        <tr key={token.id} className="msg-display clickable" onClick={() => this.goTrade(token.symbol)}>
                           <td className="va-middle text-center">
                             <FavoriteIcon className="ion-android-favorite-outline" />
                           </td>
@@ -129,7 +136,9 @@ class MarketView extends Component {
   }
 }
 
-export default compose(
-  inject('marketStore'),
-  observer
-)(MarketView)
+export default withRouter(
+  compose(
+    inject('marketStore'),
+    observer
+  )(MarketView)
+)
