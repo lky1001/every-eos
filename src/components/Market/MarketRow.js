@@ -1,12 +1,6 @@
 import React, { Component } from 'react'
-
-import styled from 'styled-components'
-
 import { Row, Col } from 'react-bootstrap'
-
-const Text = styled.span`
-  color: ${props => props.color};
-`
+import { Text } from '../Common/Common'
 
 class MarketRow extends Component {
   render() {

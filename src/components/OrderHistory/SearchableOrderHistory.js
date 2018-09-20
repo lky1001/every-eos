@@ -8,6 +8,7 @@ import Helmet from 'react-helmet'
 import { subDays } from 'date-fns'
 import moment from 'moment'
 import { formatDate, parseDate } from 'react-day-picker/moment'
+import { ProgressBar } from 'react-bootstrap'
 import {
   Container,
   Row,
@@ -36,7 +37,7 @@ import {
   SELECT_ORDER_STATUS_CANCELLED
 } from '../../constants/Values'
 
-import { Text, ShadowedCard, InputPairContainer } from '../Common/Common'
+import { Text, ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
 
 const typeOptions = [
   { value: '', label: SELECT_ORDER_TYPE_ALL },
@@ -115,6 +116,15 @@ class SearchableOrderHistory extends Component {
       from,
       to
     )
+  }
+
+  handleSearch = () => {
+    const { tradeStore } = this.props
+    tradeStore.clearOrdersHistory()
+    this.getOrderHistory()
+    this.setState({
+      currentPage: 1
+    })
   }
 
   componentWillUnmount = () => {
@@ -321,7 +331,7 @@ class SearchableOrderHistory extends Component {
                         }
                 `}</style>
                     </Helmet>
-                    <button onClick={this.getOrderHistory}>Search</button>
+                    <button onClick={this.handleSearch}>Search</button>
                   </div>
                 </Col>
               </Row>
@@ -366,17 +376,17 @@ class SearchableOrderHistory extends Component {
                           return (
                             <tr key={o.id}>
                               <td>
-                                <Text>{o.created}</Text>
+                                <Header6>{o.created}</Header6>
                               </td>
                               <td>
-                                <Text color={'Blue'}>
+                                <Header6 color={'Blue'}>
                                   {o.token.symbol} / {o.token.market}
-                                </Text>
+                                </Header6>
                               </td>
                               <td>
-                                <Text color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
+                                <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
                                   {o.type}
-                                </Text>
+                                </Header6>
                               </td>
                               <td>{o.token_price}</td>
                               <td>
@@ -414,10 +424,18 @@ class SearchableOrderHistory extends Component {
                                       )
                                     : '-'}
                               </td>
-                              <td>{o.total_amount}</td>
-                              <td>{o.deal_amount}</td>
-                              <td>-</td>
-                              <td>{o.status}</td>
+                              <td>
+                                <Header6>{o.total_amount}</Header6>
+                              </td>
+                              <td>
+                                <Header6>{o.deal_amount}</Header6>
+                              </td>
+                              <td>
+                                <Header6>-</Header6>
+                              </td>
+                              <td>
+                                <Header6>{o.status}</Header6>
+                              </td>
                             </tr>
                           )
                         })}
@@ -426,12 +444,15 @@ class SearchableOrderHistory extends Component {
                 </table>
 
                 {accountStore.isLogin ? (
-                  !ordersHistoryList ||
-                  (ordersHistoryCount === 0 && (
-                    <div style={{ textAlign: 'center' }}>
-                      <FormattedMessage id="No Data" />
-                    </div>
-                  ))
+                  ordersHistoryLoading ? (
+                    <ProgressBar striped bsStyle="success" now={40} />
+                  ) : (
+                    (!ordersHistoryList || ordersHistoryCount === 0) && (
+                      <div style={{ textAlign: 'center' }}>
+                        <FormattedMessage id="No Data" />
+                      </div>
+                    )
+                  )
                 ) : (
                   <div style={{ textAlign: 'center' }}>
                     <FormattedMessage id="Please Login" />

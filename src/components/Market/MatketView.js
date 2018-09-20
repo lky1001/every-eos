@@ -3,19 +3,9 @@ import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Grid, Row, Col } from 'react-bootstrap'
-import styled from 'styled-components'
 import { ProgressBar } from 'react-bootstrap'
 import { withRouter } from 'react-router'
-
-const Text = styled.h6`
-  font-size: 14px;
-  color: ${props => props.color};
-  margin: 0px;
-`
-
-const FavoriteIcon = styled.em`
-  font-size: 20px;
-`
+import { Header6, FavoriteIcon } from '../Common/Common'
 
 class MarketView extends Component {
   constructor(props) {
@@ -93,27 +83,34 @@ class MarketView extends Component {
                     {tokenList.map(token => {
                       const todayChanged = token.last_day_price - token.last_price
                       return (
-                        <tr key={token.id} className="msg-display clickable" onClick={() => this.goTrade(token.symbol)}>
+                        <tr
+                          key={token.id}
+                          className="msg-display clickable"
+                          onClick={() => this.goTrade(token.symbol)}>
                           <td className="va-middle text-center">
                             <FavoriteIcon className="ion-android-favorite-outline" />
                           </td>
                           <td className="va-middle text-center">
-                            <Text>{token.name}</Text>
+                            <Header6>{token.name}</Header6>
                           </td>
                           <td className="va-middle text-right">
-                            <Text color={todayChanged > 0 ? 'Red' : 'Blue'}>{token.last_price.toFixed(4)}</Text>
+                            <Header6 color={todayChanged > 0 ? 'Red' : 'Blue'}>
+                              {token.last_price.toFixed(4)}
+                            </Header6>
                           </td>
                           <td className="va-middle text-center">
-                            <Text color={todayChanged > 0 ? 'Red' : 'Blue'}>{todayChanged.toFixed(4)}</Text>
+                            <Header6 color={todayChanged > 0 ? 'Red' : 'Blue'}>
+                              {todayChanged.toFixed(4)}
+                            </Header6>
                           </td>
                           <td className="va-middle text-right">
-                            <Text>{token.high_price_24h.toFixed(4)}</Text>
+                            <Header6>{token.high_price_24h.toFixed(4)}</Header6>
                           </td>
                           <td className="va-middle text-right">
-                            <Text>{token.low_price_24h.toFixed(4)}</Text>
+                            <Header6>{token.low_price_24h.toFixed(4)}</Header6>
                           </td>
                           <td className="va-middle text-right">
-                            <Text>{token.volume_24h.toFixed(4)}</Text>
+                            <Header6>{token.volume_24h.toFixed(4)}</Header6>
                           </td>
                           <td className="va-middle text-center">
                             {todayChanged < 0 ? (

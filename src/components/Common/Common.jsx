@@ -17,6 +17,16 @@ export const Text = styled.span`
   color: ${props => props.color};
 `
 
+export const Header6 = styled.h6`
+  font-size: 14px;
+  color: ${props => props.color};
+  margin: 0px;
+`
+
+export const FavoriteIcon = styled.em`
+  font-size: 20px;
+`
+
 export const CardContainer = styled(Container)`
   background: #fff;
   border-radius: 2px;
