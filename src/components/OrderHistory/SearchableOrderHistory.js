@@ -93,7 +93,7 @@ class SearchableOrderHistory extends Component {
       this.getOrderHistory()
     } else {
       this.disposer = accountStore.subscribeLoginState(changed => {
-        if (changed.newValue) {
+        if (changed.newValue === true) {
           this.getOrderHistory()
         } else {
           tradeStore.clearOrdersHistory()
