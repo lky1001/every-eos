@@ -238,7 +238,9 @@ class TradeStore {
   }
 
   clearOpenOrders = () => {
-    this.openOrders.data.orders = []
+    if (this.openOrders.data && this.openOrders.data.orders) {
+      this.openOrders.data.orders = [];
+    }
   }
 
   get openOrdersError() {
