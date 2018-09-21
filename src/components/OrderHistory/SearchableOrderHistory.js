@@ -162,9 +162,12 @@ class SearchableOrderHistory extends Component {
   }
 
   handleToChange = to => {
-    this.setState({
-      to
-    })
+    this.setState(
+      {
+        to
+      },
+      this.showFromMonth
+    )
   }
 
   getTypeFilter = () => {
@@ -228,7 +231,7 @@ class SearchableOrderHistory extends Component {
             <h5 className="mt0">Order History</h5>
             <ShadowedCard>
               <Row>
-                <Col>
+                {/* <Col>
                   <InputPairContainer>
                     <Header6 className="p-1">Token</Header6>
                     <div className="p-5">
@@ -252,7 +255,7 @@ class SearchableOrderHistory extends Component {
                       />
                     </div>
                   </InputPairContainer>
-                </Col>
+                </Col> */}
 
                 <Col>
                   <InputPairContainer>
@@ -268,9 +271,9 @@ class SearchableOrderHistory extends Component {
                 </Col>
 
                 <Col>
-                  <InputPairContainer className="InputFromTo">
+                  <div className="InputFromTo p-5 h-100">
                     <DayPickerInput
-                      className="DayPickerInput"
+                      style={{ height: '38px important!' }}
                       value={from}
                       placeholder="From"
                       format="LL"
@@ -289,7 +292,6 @@ class SearchableOrderHistory extends Component {
                     —{' '}
                     <span className="InputFromTo-to">
                       <DayPickerInput
-                        className="DayPickerInput"
                         ref={el => (this.to = el)}
                         value={to}
                         placeholder="To"
@@ -309,30 +311,30 @@ class SearchableOrderHistory extends Component {
                     </span>
                     <Helmet>
                       <style>{`
-                        .InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
-                            background-color: #f0f8ff !important;
-                            color: #4a90e2;
-                        }
-                        .InputFromTo .DayPicker-Day {
-                            border-radius: 0 !important;
-                        }
-                        .InputFromTo .DayPicker-Day--start {
-                            border-top-left-radius: 50% !important;
-                            border-bottom-left-radius: 50% !important;
-                        }
-                        .InputFromTo .DayPicker-Day--end {
-                            border-top-right-radius: 50% !important;
-                            border-bottom-right-radius: 50% !important;
-                        }
-                        .InputFromTo .DayPickerInput-Overlay {
-                            width: 550px;
-                        }
-                        .InputFromTo-to .DayPickerInput-Overlay {
-                            margin-left: -198px;
-                        }
-                `}</style>
+  .InputFromTo .DayPicker-Day--selected:not(.DayPicker-Day--start):not(.DayPicker-Day--end):not(.DayPicker-Day--outside) {
+    background-color: #f0f8ff !important;
+    color: #4a90e2;
+  }
+  .InputFromTo .DayPicker-Day {
+    border-radius: 0 !important;
+  }
+  .InputFromTo .DayPicker-Day--start {
+    border-top-left-radius: 50% !important;
+    border-bottom-left-radius: 50% !important;
+  }
+  .InputFromTo .DayPicker-Day--end {
+    border-top-right-radius: 50% !important;
+    border-bottom-right-radius: 50% !important;
+  }
+  .InputFromTo .DayPickerInput-Overlay {
+    width: 550px;
+  }
+  .InputFromTo-to .DayPickerInput-Overlay {
+    margin-left: -198px;
+  }
+`}</style>
                     </Helmet>
-                  </InputPairContainer>
+                  </div>
                 </Col>
                 <Col>
                   <button onClick={this.handleSearch}>Search</button>
