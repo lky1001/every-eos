@@ -21,50 +21,20 @@ import {
 } from 'reactstrap'
 
 import {
-  ORDER_STATUS_NOT_DEAL,
-  ORDER_STATUS_PARTIAL_DEALED,
   ORDER_STATUS_ALL_DEALED,
   ORDER_STATUS_CANCELLED,
   ORDER_DETAIL_DEAL_STATUS_CANCELLED,
-  ORDER_TYPE_BUY,
-  ORDER_TYPE_SELL,
-  SELECT_ORDER_TYPE_ALL,
-  SELECT_ORDER_TYPE_BUY,
-  SELECT_ORDER_TYPE_SELL,
-  SELECT_ORDER_STATUS_ALL,
-  SELECT_ORDER_STATUS_IN_PROGRESS,
-  SELECT_ORDER_STATUS_COMPLETED,
-  SELECT_ORDER_STATUS_CANCELLED,
-  PAGE_SIZE_TEN,
-  PAGE_SIZE_TWENTY,
-  PAGE_SIZE_THIRTY,
-  PAGE_SIZE_FIFTY
+  ORDER_TYPE_BUY
 } from '../../constants/Values'
 
+import {
+  getTypeFilter,
+  getStatusFilter,
+  typeOptions,
+  statusOptions,
+  pageSizeOptions
+} from '../../utils/OrderSearchFilter'
 import { Text, ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
-
-const typeOptions = [
-  { value: '', label: SELECT_ORDER_TYPE_ALL },
-  { value: ORDER_TYPE_BUY, label: SELECT_ORDER_TYPE_BUY },
-  { value: ORDER_TYPE_SELL, label: SELECT_ORDER_TYPE_SELL }
-]
-
-const statusOptions = [
-  { value: '', label: SELECT_ORDER_STATUS_ALL },
-  {
-    value: [ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED],
-    label: SELECT_ORDER_STATUS_IN_PROGRESS
-  },
-  { value: ORDER_STATUS_ALL_DEALED, label: SELECT_ORDER_STATUS_COMPLETED },
-  { value: ORDER_STATUS_CANCELLED, label: SELECT_ORDER_STATUS_CANCELLED }
-]
-
-const pageSizeOptions = [
-  { value: PAGE_SIZE_TEN, label: `${PAGE_SIZE_TEN}/page` },
-  { value: PAGE_SIZE_TWENTY, label: `${PAGE_SIZE_TWENTY}/page` },
-  { value: PAGE_SIZE_THIRTY, label: `${PAGE_SIZE_THIRTY}/page` },
-  { value: PAGE_SIZE_FIFTY, label: `${PAGE_SIZE_FIFTY}/page` }
-]
 
 class SearchableOrderHistory extends Component {
   constructor(props) {
@@ -114,13 +84,13 @@ class SearchableOrderHistory extends Component {
 
   getOrderHistory = async () => {
     const { tradeStore, accountStore } = this.props
-    const { token_symbol, from, to } = this.state
+    const { token_symbol, from, to, selectedType, selectedStatus } = this.state
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
       token_symbol,
-      this.getTypeFilter(),
-      this.getStatusFilter(),
+      getTypeFilter(selectedType),
+      getStatusFilter(selectedStatus),
       0,
       0,
       from,
@@ -182,37 +152,6 @@ class SearchableOrderHistory extends Component {
       },
       this.showFromMonth
     )
-  }
-
-  getTypeFilter = () => {
-    const { selectedType } = this.state
-
-    if (selectedType.label === SELECT_ORDER_TYPE_ALL) {
-      return JSON.stringify([ORDER_TYPE_BUY, ORDER_TYPE_SELL])
-    } else if (selectedType.label === SELECT_ORDER_TYPE_BUY) {
-      return JSON.stringify(ORDER_TYPE_BUY)
-    } else if (selectedType.label === SELECT_ORDER_TYPE_SELL) {
-      return JSON.stringify(ORDER_TYPE_SELL)
-    }
-  }
-
-  getStatusFilter = () => {
-    const { selectedStatus } = this.state
-
-    if (selectedStatus.label === SELECT_ORDER_STATUS_ALL) {
-      return JSON.stringify([
-        ORDER_STATUS_NOT_DEAL,
-        ORDER_STATUS_PARTIAL_DEALED,
-        ORDER_STATUS_ALL_DEALED,
-        ORDER_STATUS_CANCELLED
-      ])
-    } else if (selectedStatus.label === SELECT_ORDER_STATUS_IN_PROGRESS) {
-      return JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-    } else if (selectedStatus.label === SELECT_ORDER_STATUS_COMPLETED) {
-      return JSON.stringify(ORDER_STATUS_ALL_DEALED)
-    } else if (selectedStatus.label === SELECT_ORDER_STATUS_CANCELLED) {
-      return JSON.stringify(ORDER_STATUS_CANCELLED)
-    }
   }
 
   pageClicked = idx => {

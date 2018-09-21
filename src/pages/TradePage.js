@@ -48,7 +48,11 @@ class TradePage extends Component {
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
 
-    const token = marketStore.token ? (marketStore.token.data ? marketStore.token.data.token : null) : null
+    const token = marketStore.token
+      ? marketStore.token.data
+        ? marketStore.token.data.token
+        : null
+      : null
 
     return (
       <section>
@@ -63,7 +67,14 @@ class TradePage extends Component {
               </Col>
             </Row>
             <Row style={{ height: '600px' }}>
-              <Col xs={12} md={3} style={{ overflow: 'hidden scroll', background: 'white', border: 'solid 1px #d9d9d9' }}>
+              <Col
+                xs={12}
+                md={3}
+                style={{
+                  overflow: 'hidden scroll',
+                  background: 'white',
+                  border: 'solid 1px #d9d9d9'
+                }}>
                 <OrderList
                   token={token}
                   tradeStore={tradeStore}
@@ -72,35 +83,70 @@ class TradePage extends Component {
                 />
               </Col>
               <Col xs={12} md={9} style={{ height: '600px' }}>
-                <Row style={{ height: '450px', background: 'white', borderTop: 'solid 1px #d9d9d9', borderBottom: 'solid 1px #d9d9d9' }}>
+                <Row
+                  style={{
+                    height: '450px',
+                    background: 'white',
+                    borderTop: 'solid 1px #d9d9d9',
+                    borderBottom: 'solid 1px #d9d9d9'
+                  }}>
                   <Col xs={12} md={8}>
                     {/* <TradingChart /> */}
                   </Col>
                   <Col
                     xs={12}
                     md={4}
-                    style={{ overflow: 'hidden scroll', background: 'white', borderLeft: 'solid 1px #d9d9d9', borderRight: 'solid 1px #d9d9d9' }}
-                  >
+                    style={{
+                      overflow: 'hidden scroll',
+                      background: 'white',
+                      borderLeft: 'solid 1px #d9d9d9',
+                      borderRight: 'solid 1px #d9d9d9'
+                    }}>
                     <Market marketStore={marketStore} />
                   </Col>
                 </Row>
-                <Row style={{ height: '150px', background: 'white', borderBottom: 'solid 1px #d9d9d9', borderRight: 'solid 1px #d9d9d9' }}>
+                <Row
+                  style={{
+                    height: '150px',
+                    background: 'white',
+                    borderBottom: 'solid 1px #d9d9d9',
+                    borderRight: 'solid 1px #d9d9d9'
+                  }}>
                   <Col xs={12}>
-                    <Order token={token} accountStore={accountStore} tradeStore={tradeStore} eosioStore={eosioStore} />
+                    <Order
+                      token={token}
+                      accountStore={accountStore}
+                      tradeStore={tradeStore}
+                      eosioStore={eosioStore}
+                    />
                   </Col>
                 </Row>
               </Col>
             </Row>
             <Row>
               <Col xs={12} md={8}>
-                <Row style={{ background: 'white', borderLeft: 'solid 1px #d9d9d9', borderRight: 'solid 1px #d9d9d9' }}>
+                <Row
+                  style={{
+                    background: 'white',
+                    borderLeft: 'solid 1px #d9d9d9',
+                    borderRight: 'solid 1px #d9d9d9'
+                  }}>
                   <Col xs={12}>
                     {tradeStore.openOrdersList && (
-                      <OpenOrder tradeStore={tradeStore} openOrdersList={tradeStore.openOrdersList} accountStore={accountStore} />
+                      <OpenOrder
+                        tradeStore={tradeStore}
+                        openOrdersList={tradeStore.openOrdersList}
+                        accountStore={accountStore}
+                      />
                     )}
                   </Col>
                 </Row>
-                <Row style={{ overflow: 'hidden scroll', background: 'white', border: 'solid 1px #d9d9d9' }}>
+                <Row
+                  style={{
+                    overflow: 'hidden scroll',
+                    background: 'white',
+                    border: 'solid 1px #d9d9d9'
+                  }}>
                   <Col xs={12}>
                     <OrderHistory
                       accountStore={accountStore}
@@ -109,7 +155,6 @@ class TradePage extends Component {
                       ordersHistoryCount={tradeStore.ordersHistoryCount}
                       ordersHistoryLoading={tradeStore.ordersHistoryLoading}
                       ordersHistoryError={tradeStore.ordersHistoryError}
-                      pageSize={PAGE_SIZE_TEN}
                     />
                   </Col>
                 </Row>
@@ -117,9 +162,17 @@ class TradePage extends Component {
               <Col
                 xs={12}
                 md={4}
-                style={{ overflow: 'hidden scroll', background: 'white', borderRight: 'solid 1px #d9d9d9', borderBottom: 'solid 1px #d9d9d9' }}
-              >
-                <Wallet accountStore={accountStore} marketStore={marketStore} eosioStore={eosioStore} />
+                style={{
+                  overflow: 'hidden scroll',
+                  background: 'white',
+                  borderRight: 'solid 1px #d9d9d9',
+                  borderBottom: 'solid 1px #d9d9d9'
+                }}>
+                <Wallet
+                  accountStore={accountStore}
+                  marketStore={marketStore}
+                  eosioStore={eosioStore}
+                />
               </Col>
             </Row>
           </Grid>
