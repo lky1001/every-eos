@@ -51,6 +51,7 @@ $ npm run build or yarn build
 
 - Wallet
 - Clear cache as soon as logout scatter
+- Cancel Result( Unexpected Result like already partial dealt, all dealt or cancelled)
 
 ## License
 
