@@ -34,7 +34,11 @@ import {
   SELECT_ORDER_STATUS_ALL,
   SELECT_ORDER_STATUS_IN_PROGRESS,
   SELECT_ORDER_STATUS_COMPLETED,
-  SELECT_ORDER_STATUS_CANCELLED
+  SELECT_ORDER_STATUS_CANCELLED,
+  PAGE_SIZE_TEN,
+  PAGE_SIZE_TWENTY,
+  PAGE_SIZE_THIRTY,
+  PAGE_SIZE_FIFTY
 } from '../../constants/Values'
 
 import { Text, ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
@@ -55,20 +59,26 @@ const statusOptions = [
   { value: ORDER_STATUS_CANCELLED, label: SELECT_ORDER_STATUS_CANCELLED }
 ]
 
+const pageSizeOptions = [
+  { value: PAGE_SIZE_TEN, label: `${PAGE_SIZE_TEN}/page` },
+  { value: PAGE_SIZE_TWENTY, label: `${PAGE_SIZE_TWENTY}/page` },
+  { value: PAGE_SIZE_THIRTY, label: `${PAGE_SIZE_THIRTY}/page` },
+  { value: PAGE_SIZE_FIFTY, label: `${PAGE_SIZE_FIFTY}/page` }
+]
+
 class SearchableOrderHistory extends Component {
   constructor(props) {
     super(props)
-    const { pageSize } = props
     const today = new Date()
 
     this.state = {
       activeTab: '1',
       currentPage: 1,
-      pageSize: pageSize,
       pageCount: 1,
       token_symbol: null,
       from: subDays(today, 7),
       to: today,
+      selectedPageSize: pageSizeOptions[0],
       selectedType: typeOptions[0],
       selectedStatus: statusOptions[0]
     }
@@ -78,7 +88,7 @@ class SearchableOrderHistory extends Component {
     const { ordersHistoryCount } = nextProps
 
     const pageCount =
-      ordersHistoryCount > 0 ? Math.ceil(ordersHistoryCount / prevState.pageSize) : 1
+      ordersHistoryCount > 0 ? Math.ceil(ordersHistoryCount / prevState.selectedPageSize.value) : 1
 
     return {
       ...prevState,
@@ -137,6 +147,10 @@ class SearchableOrderHistory extends Component {
 
   handleStatusChange = selectedStatus => {
     this.setState({ selectedStatus })
+  }
+
+  handlePageSizeChange = selectedPageSize => {
+    this.setState({ selectedPageSize })
   }
 
   showFromMonth = () => {
@@ -219,10 +233,18 @@ class SearchableOrderHistory extends Component {
       ordersHistoryLoading,
       ordersHistoryError
     } = this.props
-    const { from, to, selectedType, selectedStatus, pageCount, pageSize, currentPage } = this.state
+    const {
+      from,
+      to,
+      selectedType,
+      selectedStatus,
+      selectedPageSize,
+      pageCount,
+      currentPage
+    } = this.state
     const modifiers = { start: from, end: to }
-    const startIndex = (currentPage - 1) * pageSize
-    const endIndex = startIndex + pageSize
+    const startIndex = (currentPage - 1) * selectedPageSize.value
+    const endIndex = startIndex + selectedPageSize.value
 
     return (
       <Fragment>
@@ -231,7 +253,7 @@ class SearchableOrderHistory extends Component {
             <h5 className="mt0">Order History</h5>
             <ShadowedCard>
               <Row>
-                {/* <Col>
+                <Col>
                   <InputPairContainer>
                     <Header6 className="p-1">Token</Header6>
                     <div className="p-5">
@@ -255,7 +277,7 @@ class SearchableOrderHistory extends Component {
                       />
                     </div>
                   </InputPairContainer>
-                </Col> */}
+                </Col>
 
                 <Col>
                   <InputPairContainer>
@@ -464,7 +486,19 @@ class SearchableOrderHistory extends Component {
                     <FormattedMessage id="Please Login" />
                   </div>
                 )}
+              </div>
 
+              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                <InputPairContainer>
+                  <Header6 className="p-1">Total {ordersHistoryCount}</Header6>
+                  <div className="p-5" style={{ width: '160px' }}>
+                    <Select
+                      value={selectedPageSize}
+                      onChange={this.handlePageSizeChange}
+                      options={pageSizeOptions}
+                    />
+                  </div>
+                </InputPairContainer>
                 <Pagination
                   aria-label="orders pagination"
                   style={{ justifyContent: 'center', alignItems: 'center' }}>
