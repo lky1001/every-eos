@@ -41,10 +41,12 @@ class OpenOrder extends Component {
       this.getOpenOrders()
     } else {
       this.disposer = accountStore.subscribeLoginState(changed => {
-        if (changed.newValue === true) {
-          this.getOpenOrders()
-        } else {
-          tradeStore.clearOpenOrders()
+        if (changed.oldValue !== changed.newValue) {
+          if (changed.newValue) {
+            this.getOpenOrders()
+          } else {
+            tradeStore.clearOpenOrders()
+          }
         }
       })
     }
