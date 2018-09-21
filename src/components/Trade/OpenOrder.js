@@ -9,9 +9,16 @@ import {
   ORDER_STATUS_NOT_DEAL,
   ORDER_STATUS_PARTIAL_DEALED,
   ORDER_STATUS_ALL_DEALED,
-  ORDER_STATUS_CANCELLED
+  ORDER_STATUS_CANCELLED,
+  ORDER_TYPE_BUY,
+  ORDER_DATE_FORMAT
 } from '../../constants/Values'
+import { Text, ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
+import { ProgressBar } from 'react-bootstrap'
+
+import { typeOptions, getTypeFilter } from '../../utils/OrderSearchFilter'
 import eosAgent from '../../EosAgent'
+import { format, subDays } from 'date-fns'
 
 class OpenOrder extends Component {
   constructor(props) {
@@ -19,18 +26,14 @@ class OpenOrder extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1'
+      activeTab: '1',
+      currentPage: 1,
+      pageCount: 1,
+      token_symbol: null,
+      selectedType: typeOptions[0]
     }
   }
 
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { openOrdersList } = nextProps
-
-    return {
-      ...prevState,
-      pageCount: Math.ceil(openOrdersList.length / prevState.pageSize)
-    }
-  }
   componentDidMount = () => {
     const { accountStore, tradeStore } = this.props
 
@@ -38,7 +41,7 @@ class OpenOrder extends Component {
       this.getOpenOrders()
     } else {
       this.disposer = accountStore.subscribeLoginState(changed => {
-        if (changed.newValue) {
+        if (changed.newValue === true) {
           this.getOpenOrders()
         } else {
           tradeStore.clearOpenOrders()
@@ -58,11 +61,18 @@ class OpenOrder extends Component {
 
   getOrderHistory = async () => {
     const { tradeStore, accountStore } = this.props
+    const { selectedType } = this.state
 
+    const today = new Date()
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
       '',
-      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED])
+      getTypeFilter(selectedType),
+      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
+      0,
+      0,
+      subDays(today, 30),
+      today
     )
   }
 
@@ -100,7 +110,6 @@ class OpenOrder extends Component {
       })
 
       const signature = await eosAgent.signData(data, pubKey)
-      console.log('test sign ' + signature)
 
       if (!signature) {
         alert('check your identity')
@@ -118,7 +127,13 @@ class OpenOrder extends Component {
   }
 
   render() {
-    const { openOrdersList, accountStore } = this.props
+    const {
+      accountStore,
+      openOrdersList,
+      openOrdersCount,
+      openOrdersLoading,
+      openOrdersError
+    } = this.props
 
     return (
       <div>
@@ -135,77 +150,112 @@ class OpenOrder extends Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <Table>
-              <thead>
-                <tr>
-                  <th>
-                    <FormattedMessage id="Date" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Pair" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Type" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Price" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Average" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Amount" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Dealed" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Entrusted" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Status" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Action" />
-                  </th>
-                </tr>
-              </thead>
-              <tbody>
+            <div className="table-responsive bootgrid">
+              <table id="bootgrid-basic" className="table table-hover">
+                <thead>
+                  <tr>
+                    <th data-type="date">
+                      <FormattedMessage id="Date" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Pair" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Type" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Price" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Average" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Amount" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Dealed" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Entrusted" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Status" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Action" />
+                    </th>
+                  </tr>
+                </thead>
                 {accountStore.isLogin &&
                   openOrdersList &&
-                  openOrdersList.map(o => {
-                    return (
-                      <tr key={o.id}>
-                        <td>{o.created}</td>
-                        <td>{o.market}</td>
-                        <td>{o.type}</td>
-                        <td>{o.token_price}</td>
-                        <td>
-                          {o.status === ORDER_STATUS_PARTIAL_DEALED
-                            ? Math.round(
-                              o.orderDetails.reduce(
-                                (acc, curr) => acc + curr.amount * curr.token_price,
-                                0
-                              ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                            )
-                            : '-'}
-                        </td>
-                        <td>{o.total_amount}</td>
-                        <td>{o.deal_amount}</td>
-                        <td>-</td>
-                        {/* {Math.abs(
-                      o.token_price.toFixed(token.precision) *
-                        o.total_amount.toFixed(token.precision)
-                    ).toFixed(token.precision)} */}
-                        <td>{o.status}</td>
-                        <td>
-                          <button onClick={() => this.cancelOrder(o.id)}>Cancel</button>
-                        </td>
-                      </tr>
-                    )
-                  })}
-              </tbody>
-            </Table>
+                  openOrdersCount > 0 && (
+                    <tbody>
+                      {openOrdersList.map(o => {
+                        return (
+                          <tr key={o.id}>
+                            <td>
+                              <Header6>{format(o.created, ORDER_DATE_FORMAT)}</Header6>
+                            </td>
+                            <td>
+                              <Header6 color={'Blue'}>
+                                {o.token.symbol} / {o.token.market}
+                              </Header6>
+                            </td>
+                            <td>
+                              <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
+                                {o.type}
+                              </Header6>
+                            </td>
+                            <td>{o.token_price}</td>
+                            <td>
+                              <Header6>
+                                {o.status === ORDER_STATUS_PARTIAL_DEALED
+                                  ? Math.round(
+                                    o.orderDetails.reduce(
+                                      (acc, curr) => acc + curr.amount * curr.token_price,
+                                      0
+                                    ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                                  )
+                                  : '-'}
+                              </Header6>
+                            </td>
+                            <td>
+                              <Header6>{o.total_amount}</Header6>
+                            </td>
+                            <td>
+                              <Header6>{o.deal_amount}</Header6>
+                            </td>
+                            <td>
+                              <Header6>-</Header6>
+                            </td>
+                            <td>
+                              <Header6>{o.status}</Header6>
+                            </td>
+                            <td>
+                              <button onClick={() => this.cancelOrder(o.id)}>Cancel</button>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  )}
+              </table>
+              {accountStore.isLogin ? (
+                openOrdersLoading ? (
+                  <ProgressBar striped bsStyle="success" now={40} />
+                ) : (
+                  (!openOrdersList || openOrdersCount === 0) && (
+                    <div style={{ textAlign: 'center' }}>
+                      <FormattedMessage id="No Data" />
+                    </div>
+                  )
+                )
+              ) : (
+                <div style={{ textAlign: 'center' }}>
+                  <FormattedMessage id="Please Login" />
+                </div>
+              )}
+            </div>
           </TabPane>
         </TabContent>
       </div>

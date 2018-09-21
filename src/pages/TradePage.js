@@ -132,13 +132,14 @@ class TradePage extends Component {
                     borderRight: 'solid 1px #d9d9d9'
                   }}>
                   <Col xs={12}>
-                    {tradeStore.openOrdersList && (
-                      <OpenOrder
-                        tradeStore={tradeStore}
-                        openOrdersList={tradeStore.openOrdersList}
-                        accountStore={accountStore}
-                      />
-                    )}
+                    <OpenOrder
+                      tradeStore={tradeStore}
+                      openOrdersList={tradeStore.openOrdersList}
+                      openOrdersCount={tradeStore.openOrdersCount}
+                      openOrdersLoading={tradeStore.openOrdersLoading}
+                      openOrdersError={tradeStore.openOrdersError}
+                      accountStore={accountStore}
+                    />
                   </Col>
                 </Row>
                 <Row

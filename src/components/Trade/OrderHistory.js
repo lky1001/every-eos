@@ -20,10 +20,11 @@ import {
   ORDER_TYPE_BUY,
   ORDER_STATUS_ALL_DEALED,
   ORDER_STATUS_CANCELLED,
-  ORDER_DETAIL_DEAL_STATUS_CANCELLED
+  ORDER_DETAIL_DEAL_STATUS_CANCELLED,
+  ORDER_DATE_FORMAT
 } from '../../constants/Values'
 
-import { subDays } from 'date-fns'
+import { format, subDays } from 'date-fns'
 import { Text, ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
 import { getTypeFilter, typeOptions, pageSizeOptions } from '../../utils/OrderSearchFilter'
 
@@ -39,7 +40,7 @@ class OrderHistory extends Component {
       currentPage: 1,
       pageCount: 1,
       token_symbol: null,
-      from: subDays(today, 7),
+      from: subDays(today, 30),
       to: today,
       selectedPageSize: pageSizeOptions[0],
       selectedType: typeOptions[0]
@@ -124,8 +125,7 @@ class OrderHistory extends Component {
       ordersHistoryLoading,
       ordersHistoryError
     } = this.props
-    const { from, to, selectedPageSize, pageCount, currentPage } = this.state
-    const modifiers = { start: from, end: to }
+    const { selectedPageSize, pageCount, currentPage } = this.state
     const startIndex = (currentPage - 1) * selectedPageSize.value
     const endIndex = startIndex + selectedPageSize.value
 
@@ -185,7 +185,7 @@ class OrderHistory extends Component {
                         return (
                           <tr key={o.id}>
                             <td>
-                              <Header6>{o.created}</Header6>
+                              <Header6>{format(o.updated, ORDER_DATE_FORMAT)}</Header6>
                             </td>
                             <td>
                               <Header6 color={'Blue'}>

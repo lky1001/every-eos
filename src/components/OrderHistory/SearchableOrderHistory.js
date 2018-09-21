@@ -5,7 +5,7 @@ import DayPickerInput from 'react-day-picker/DayPickerInput'
 import 'react-day-picker/lib/style.css'
 import Select from 'react-select'
 import Helmet from 'react-helmet'
-import { subDays } from 'date-fns'
+import { format, subDays } from 'date-fns'
 import moment from 'moment'
 import { formatDate, parseDate } from 'react-day-picker/moment'
 import { ProgressBar } from 'react-bootstrap'
@@ -24,7 +24,8 @@ import {
   ORDER_STATUS_ALL_DEALED,
   ORDER_STATUS_CANCELLED,
   ORDER_DETAIL_DEAL_STATUS_CANCELLED,
-  ORDER_TYPE_BUY
+  ORDER_TYPE_BUY,
+  ORDER_DATE_FORMAT
 } from '../../constants/Values'
 
 import {
@@ -343,7 +344,7 @@ class SearchableOrderHistory extends Component {
                           return (
                             <tr key={o.id}>
                               <td>
-                                <Header6>{o.created}</Header6>
+                                <Header6>{format(o.created, ORDER_DATE_FORMAT)}</Header6>
                               </td>
                               <td>
                                 <Header6 color={'Blue'}>

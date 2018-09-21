@@ -84,6 +84,7 @@ export const ordersQuery = gql`
       account_name
       status
       created
+      updated
       orderDetails {
         ...orderDetail
       }
