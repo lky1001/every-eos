@@ -74,7 +74,8 @@ class TradePage extends Component {
                   overflow: 'hidden scroll',
                   background: 'white',
                   border: 'solid 1px #d9d9d9'
-                }}>
+                }}
+              >
                 <OrderList
                   token={token}
                   tradeStore={tradeStore}
@@ -89,7 +90,8 @@ class TradePage extends Component {
                     background: 'white',
                     borderTop: 'solid 1px #d9d9d9',
                     borderBottom: 'solid 1px #d9d9d9'
-                  }}>
+                  }}
+                >
                   <Col xs={12} md={8}>
                     {/* <TradingChart /> */}
                   </Col>
@@ -101,7 +103,8 @@ class TradePage extends Component {
                       background: 'white',
                       borderLeft: 'solid 1px #d9d9d9',
                       borderRight: 'solid 1px #d9d9d9'
-                    }}>
+                    }}
+                  >
                     <Market marketStore={marketStore} />
                   </Col>
                 </Row>
@@ -111,7 +114,8 @@ class TradePage extends Component {
                     background: 'white',
                     borderBottom: 'solid 1px #d9d9d9',
                     borderRight: 'solid 1px #d9d9d9'
-                  }}>
+                  }}
+                >
                   <Col xs={12}>
                     <Order
                       token={token}
@@ -124,13 +128,14 @@ class TradePage extends Component {
               </Col>
             </Row>
             <Row>
-              <Col xs={12} md={8}>
+              <Col xs={12} md={12}>
                 <Row
                   style={{
                     background: 'white',
                     borderLeft: 'solid 1px #d9d9d9',
                     borderRight: 'solid 1px #d9d9d9'
-                  }}>
+                  }}
+                >
                   <Col xs={12}>
                     <OpenOrder
                       tradeStore={tradeStore}
@@ -147,7 +152,8 @@ class TradePage extends Component {
                     overflow: 'hidden scroll',
                     background: 'white',
                     border: 'solid 1px #d9d9d9'
-                  }}>
+                  }}
+                >
                   <Col xs={12}>
                     <OrderHistory
                       accountStore={accountStore}
@@ -159,21 +165,6 @@ class TradePage extends Component {
                     />
                   </Col>
                 </Row>
-              </Col>
-              <Col
-                xs={12}
-                md={4}
-                style={{
-                  overflow: 'hidden scroll',
-                  background: 'white',
-                  borderRight: 'solid 1px #d9d9d9',
-                  borderBottom: 'solid 1px #d9d9d9'
-                }}>
-                <Wallet
-                  accountStore={accountStore}
-                  marketStore={marketStore}
-                  eosioStore={eosioStore}
-                />
               </Col>
             </Row>
           </Grid>
