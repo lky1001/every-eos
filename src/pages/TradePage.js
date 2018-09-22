@@ -66,7 +66,7 @@ class TradePage extends Component {
                 <Resource accountStore={accountStore} />
               </Col>
             </Row>
-            <Row style={{ height: '600px' }}>
+            <Row style={{ height: '650px' }}>
               <Col
                 xs={12}
                 md={3}
@@ -83,37 +83,24 @@ class TradePage extends Component {
                   sellOrdersList={tradeStore.sellOrdersList}
                 />
               </Col>
-              <Col xs={12} md={9} style={{ height: '600px' }}>
+              <Col xs={12} md={6} style={{ height: '650px' }}>
                 <Row
                   style={{
-                    height: '450px',
+                    height: '500px',
                     background: 'white',
                     borderTop: 'solid 1px #d9d9d9',
                     borderBottom: 'solid 1px #d9d9d9'
                   }}
                 >
-                  <Col xs={12} md={8}>
+                  <Col xs={12} md={12}>
                     {/* <TradingChart /> */}
-                  </Col>
-                  <Col
-                    xs={12}
-                    md={4}
-                    style={{
-                      overflow: 'hidden scroll',
-                      background: 'white',
-                      borderLeft: 'solid 1px #d9d9d9',
-                      borderRight: 'solid 1px #d9d9d9'
-                    }}
-                  >
-                    <Market marketStore={marketStore} />
                   </Col>
                 </Row>
                 <Row
                   style={{
                     height: '150px',
                     background: 'white',
-                    borderBottom: 'solid 1px #d9d9d9',
-                    borderRight: 'solid 1px #d9d9d9'
+                    borderBottom: 'solid 1px #d9d9d9'
                   }}
                 >
                   <Col xs={12}>
@@ -121,6 +108,38 @@ class TradePage extends Component {
                       token={token}
                       accountStore={accountStore}
                       tradeStore={tradeStore}
+                      eosioStore={eosioStore}
+                    />
+                  </Col>
+                </Row>
+              </Col>
+              <Col xs={12} md={3} style={{ height: '650px' }}>
+                <Row
+                  style={{
+                    height: '400px',
+                    overflow: 'hidden scroll',
+                    border: 'solid 1px #d9d9d9',
+                    background: 'white'
+                  }}
+                >
+                  <Col xs={12}>
+                    <Market marketStore={marketStore} />
+                  </Col>
+                </Row>
+                <Row
+                  style={{
+                    height: '250px',
+                    overflow: 'hidden scroll',
+                    borderLeft: 'solid 1px #d9d9d9',
+                    borderRight: 'solid 1px #d9d9d9',
+                    borderBottom: 'solid 1px #d9d9d9',
+                    background: 'white'
+                  }}
+                >
+                  <Col xs={12}>
+                    <Wallet
+                      accountStore={accountStore}
+                      marketStore={marketStore}
                       eosioStore={eosioStore}
                     />
                   </Col>
