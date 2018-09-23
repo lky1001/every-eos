@@ -32,19 +32,19 @@ class TokenInfo extends Component {
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today Changed</TokenInfoText>
-              {todayChanged} EOS
+              {todayChanged.toFixed(4)} EOS
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today High</TokenInfoText>
-              {token.high_price_24h} EOS
+              {token.high_price_24h.toFixed(4)} EOS
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today Low</TokenInfoText>
-              {token.low_price_24h} EOS
+              {token.low_price_24h.toFixed(4)} EOS
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today Volume</TokenInfoText>
-              {token.volume_24h} EOS
+              {token.volume_24h.toFixed(4)} EOS
             </Col>
           </Row>
         )}
