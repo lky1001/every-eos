@@ -57,7 +57,7 @@ class TradePage extends Component {
     return (
       <section>
         {token ? (
-          <Grid>
+          <Grid style={{ minWidth: '1440px' }}>
             <Row className="bg-white content-heading" style={{ height: '116px' }}>
               <Col xs={12} md={7} style={{ borderRight: 'solid 1px #d9d9d9' }}>
                 <TokenInfo marketStore={marketStore} symbol={token.symbol} />
@@ -71,7 +71,6 @@ class TradePage extends Component {
                 xs={12}
                 md={3}
                 style={{
-                  overflow: 'hidden scroll',
                   background: 'white',
                   border: 'solid 1px #d9d9d9'
                 }}

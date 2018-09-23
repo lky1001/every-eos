@@ -3,6 +3,8 @@ import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
+import styled from 'styled-components'
+
 import {
   ORDER_PAGE_LIMIT,
   GET_ORDER_LIST_INTERVAL,
@@ -48,29 +50,31 @@ class OrderList extends Component {
 
     return (
       <Fragment>
-        <div className="d-flex flex-column-reverse">
-          <Table>
-            <thead>
-              <tr>
-                <th>
-                  <FormattedMessage id="Price(EOS)" />
-                </th>
-                <th>
-                  <FormattedMessage id="Amount" />
-                  {`(${token.symbol})`}
-                </th>
-                <th>
-                  <FormattedMessage id="Total(EOS)" />
-                </th>
-              </tr>
-            </thead>
+        <Table className="table table-striped">
+          <thead>
+            <tr style={{ height: '35px !important' }}>
+              <th>
+                <FormattedMessage id="Price(EOS)" />
+              </th>
+              <th>
+                <FormattedMessage id="Amount" />
+                {`(${token.symbol})`}
+              </th>
+              <th>
+                <FormattedMessage id="Total(EOS)" />
+              </th>
+            </tr>
+          </thead>
+        </Table>
+        <div className="table-responsive" style={{ height: '300px' }}>
+          <Table className="table table-striped">
             <tbody>
               {sellOrdersList &&
                 sellOrdersList.map((o, i) => {
                   return (
                     <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
-                      <td>{o.token_price}</td>
-                      <td>{o.stacked_amount}</td>
+                      <td>{o.token_price.toFixed(4)}</td>
+                      <td>{o.stacked_amount.toFixed(4)}</td>
                       <td>
                         {Math.abs(
                           o.token_price.toFixed(token.precision) *
@@ -84,7 +88,11 @@ class OrderList extends Component {
           </Table>
         </div>
 
-        <div className="d-flex flex-column">
+        <div className="table-responsive" style={{ height: '50px' }}>
+          {`${token.last_price}`}
+        </div>
+
+        <div className="table-responsive" style={{ height: '300px' }}>
           <Table>
             <thead>
               <tr>
