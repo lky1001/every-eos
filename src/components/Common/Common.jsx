@@ -13,6 +13,13 @@ import styled from 'styled-components'
 
 import { Container } from 'reactstrap'
 
+export const NoPaddingCol = styled.div`
+  padding: 0px;
+  padding: 0px !important;
+  background: white;
+  border: ${props => props.border ? 'solid 1px #d9d9d9' : ''};
+`
+
 export const PriceBack = styled.div`
   background-color: ${props => props.up ? '#ddedfe' : '#fee9f1'};
   height: 100%;
@@ -36,7 +43,7 @@ export const Text = styled.span`
   color: ${props => props.color};
 `
 
-export const OrderListTable = styled.table`
+export const HeaderTable = styled.table`
   margin-bottom: 0 !important;
 `
 

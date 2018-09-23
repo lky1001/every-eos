@@ -1,43 +1,59 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
-import { Grid, Row, Col, Table } from 'react-bootstrap'
+import React, { Component, Fragment } from 'react'
+import { Row, Col, Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
+import { withRouter } from 'react-router'
+import { HeaderTable, PriceRow } from '../Common/Common'
 
 class Market extends Component {
+  goTrade = symbol => {
+    // todo - router
+    //this.props.history.push('/trades/' + symbol)
+    window.location = '/trades/' + symbol
+  }
+
   render() {
-    const { marketStore } = this.props
+    const { tokens } = this.props
 
     return (
-      <Grid>
-        <Row>
+      <Fragment>
+        <HeaderTable className="table order-list-table">
+          <thead>
+            <tr>
+              <th style={{ width: '40%', textAlign: 'center' }}>
+                <FormattedMessage id="Market" />
+              </th>
+              <th style={{ width: '30%', textAlign: 'center' }}>
+                <FormattedMessage id="Last Price" />
+              </th>
+              <th style={{ width: '30%', textAlign: 'center' }}>
+                <FormattedMessage id="Today Change" />
+              </th>
+            </tr>
+          </thead>
+        </HeaderTable>
+        <Row style={{ height: '380px', overflow: 'hidden scroll' }}>
           <Col xs={12} md={12}>
-            <Table responsive hover size="sm">
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>
-                    <FormattedMessage id="Market" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Last Price" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Today Change" />
-                  </th>
-                </tr>
-              </thead>
+            <Table responsive hover size="sm" className="order-list-table">
               <tbody>
-                {marketStore.tokens.data.tokens &&
-                  marketStore.tokens.data.tokens.map((t, idx) => {
+                {tokens &&
+                  tokens.map((t, idx) => {
                     return (
-                      <tr key={idx}>
-                        <th scope="row" />
-                        <td>
-                          {t.symbol} / {t.market}
+                      <tr
+                        key={idx}
+                        className="msg-display clickable"
+                        onClick={() => this.goTrade(t.symbol)}
+                      >
+                        <td style={{ width: '40%' }}>
+                          <PriceRow>
+                            {t.symbol} / {t.market}
+                          </PriceRow>
                         </td>
-                        <td>{t.last_price}</td>
-                        <td>{t.change_24h}</td>
+                        <td style={{ width: '30%', textAlign: 'right' }}>
+                          <PriceRow>{t.last_price.toFixed(4)}</PriceRow>
+                        </td>
+                        <td style={{ width: '30%', textAlign: 'right' }}>
+                          <PriceRow>{t.change_24h}</PriceRow>
+                        </td>
                       </tr>
                     )
                   })}
@@ -45,12 +61,9 @@ class Market extends Component {
             </Table>
           </Col>
         </Row>
-      </Grid>
+      </Fragment>
     )
   }
 }
 
-export default compose(
-  inject('marketStore'),
-  observer
-)(Market)
+export default withRouter(Market)

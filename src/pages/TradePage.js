@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
-import styled from 'styled-components'
+import { NoPaddingCol } from '../components/Common/Common'
 
 import { Grid, Row, Col } from 'react-bootstrap'
 import { ProgressBar } from 'react-bootstrap'
@@ -15,13 +15,6 @@ import Wallet from '../components/Trade/Wallet'
 import OrderHistory from '../components/Trade/OrderHistory'
 import OpenOrder from '../components/Trade/OpenOrder'
 import { PAGE_SIZE_TEN } from '../constants/Values'
-
-const OrderCol = styled.div`
-  padding: 0px;
-  padding: 0px !important;
-  background: white;
-  border: solid 1px #d9d9d9;
-`
 
 class TradePage extends Component {
   constructor(props) {
@@ -62,6 +55,12 @@ class TradePage extends Component {
         : null
       : null
 
+    const tokens = marketStore.tokens
+      ? marketStore.tokens.data
+        ? marketStore.tokens.data.tokens
+        : null
+      : null
+
     return (
       <section>
         {token && (
@@ -75,15 +74,15 @@ class TradePage extends Component {
               </Col>
             </Row>
             <Row style={{ height: '660px' }}>
-              <OrderCol className="col-md-3">
+              <NoPaddingCol className="col-md-3" border>
                 <OrderList
                   token={token}
                   tradeStore={tradeStore}
                   buyOrdersList={tradeStore.buyOrdersList}
                   sellOrdersList={tradeStore.sellOrdersList}
                 />
-              </OrderCol>
-              <Col xs={12} md={6} style={{ height: '660px' }}>
+              </NoPaddingCol>
+              <Col md={6} style={{ height: '660px' }}>
                 <Row
                   style={{
                     height: '510px',
@@ -92,9 +91,7 @@ class TradePage extends Component {
                     borderBottom: 'solid 1px #d9d9d9'
                   }}
                 >
-                  <Col xs={12} md={12}>
-                    {/* <TradingChart /> */}
-                  </Col>
+                  <Col md={12}>{/* <TradingChart /> */}</Col>
                 </Row>
                 <Row
                   style={{
@@ -113,18 +110,18 @@ class TradePage extends Component {
                   </Col>
                 </Row>
               </Col>
-              <Col xs={12} md={3} style={{ height: '660px' }}>
+              <Col md={3} style={{ height: '660px' }}>
                 <Row
                   style={{
                     height: '410px',
-                    overflow: 'hidden scroll',
-                    border: 'solid 1px #d9d9d9',
-                    background: 'white'
+                    borderBottom: 'solid 1px #d9d9d9',
+                    background: 'white',
+                    border: 'solid 1px #d9d9d9'
                   }}
                 >
-                  <Col xs={12}>
-                    <Market marketStore={marketStore} />
-                  </Col>
+                  <NoPaddingCol className="col-md-12">
+                    <Market tokens={tokens} />
+                  </NoPaddingCol>
                 </Row>
                 <Row
                   style={{
