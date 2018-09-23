@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import { Text, OrderListTable, TokenPrice, PriceIcon, PriceRow, PriceBack } from '../Common/Common'
+import { Text, HeaderTable, TokenPrice, PriceIcon, PriceRow, PriceBack } from '../Common/Common'
 
 import {
   ORDER_PAGE_LIMIT,
@@ -65,13 +65,13 @@ class OrderList extends Component {
 
     return (
       <Fragment>
-        <OrderListTable className="table order-list-table">
+        <HeaderTable className="table order-list-table">
           <thead>
             <tr>
               <th style={{ width: '30%' }}>
                 <FormattedMessage id="Price(EOS)" />
               </th>
-              <th style={{ width: '40%' }}>
+              <th style={{ width: '35%' }}>
                 <FormattedMessage id="Amount" />
                 {`(${token.symbol})`}
               </th>
@@ -80,7 +80,7 @@ class OrderList extends Component {
               </th>
             </tr>
           </thead>
-        </OrderListTable>
+        </HeaderTable>
         <div className="table-responsive">
           <Table className="order-list-table">
             <tbody>
@@ -95,7 +95,7 @@ class OrderList extends Component {
                           <PriceRow>{o.token_price.toFixed(4)}</PriceRow>
                         </a>
                       </td>
-                      <td style={{ width: '40%' }}>
+                      <td style={{ width: '35%' }}>
                         <a href="#">
                           <PriceBack
                             up
@@ -137,13 +137,17 @@ class OrderList extends Component {
             token.last_price
           }`}</Text>{' '}
           <PriceIcon
-            className="ion-arrow-up-c"
+            className={
+              token.last_price - token.last_previous_price > 0
+                ? 'ion-arrow-up-c'
+                : 'ion-arrow-down-c'
+            }
             color={token.last_price - token.last_previous_price > 0 ? 'Red' : 'Blue'}
           />
         </TokenPrice>
 
         <div className="table-responsive">
-          <OrderListTable className="table order-list-table">
+          <Table className="order-list-table">
             <tbody>
               {buyOrdersList &&
                 buyOrdersList.map((o, i) => {
@@ -190,7 +194,7 @@ class OrderList extends Component {
                   )
                 })}
             </tbody>
-          </OrderListTable>
+          </Table>
         </div>
       </Fragment>
     )
