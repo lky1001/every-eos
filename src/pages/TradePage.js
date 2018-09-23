@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
+import styled from 'styled-components'
 
 import { Grid, Row, Col } from 'react-bootstrap'
 import { ProgressBar } from 'react-bootstrap'
@@ -14,6 +15,13 @@ import Wallet from '../components/Trade/Wallet'
 import OrderHistory from '../components/Trade/OrderHistory'
 import OpenOrder from '../components/Trade/OpenOrder'
 import { PAGE_SIZE_TEN } from '../constants/Values'
+
+const OrderCol = styled.div`
+  padding: 0px;
+  padding: 0px !important;
+  background: white;
+  border: solid 1px #d9d9d9;
+`
 
 class TradePage extends Component {
   constructor(props) {
@@ -56,7 +64,7 @@ class TradePage extends Component {
 
     return (
       <section>
-        {token ? (
+        {token && (
           <Grid style={{ minWidth: '1440px' }}>
             <Row className="bg-white content-heading" style={{ height: '116px' }}>
               <Col xs={12} md={7} style={{ borderRight: 'solid 1px #d9d9d9' }}>
@@ -66,26 +74,19 @@ class TradePage extends Component {
                 <Resource accountStore={accountStore} />
               </Col>
             </Row>
-            <Row style={{ height: '650px' }}>
-              <Col
-                xs={12}
-                md={3}
-                style={{
-                  background: 'white',
-                  border: 'solid 1px #d9d9d9'
-                }}
-              >
+            <Row style={{ height: '660px' }}>
+              <OrderCol className="col-md-3">
                 <OrderList
                   token={token}
                   tradeStore={tradeStore}
                   buyOrdersList={tradeStore.buyOrdersList}
                   sellOrdersList={tradeStore.sellOrdersList}
                 />
-              </Col>
-              <Col xs={12} md={6} style={{ height: '650px' }}>
+              </OrderCol>
+              <Col xs={12} md={6} style={{ height: '660px' }}>
                 <Row
                   style={{
-                    height: '500px',
+                    height: '510px',
                     background: 'white',
                     borderTop: 'solid 1px #d9d9d9',
                     borderBottom: 'solid 1px #d9d9d9'
@@ -112,10 +113,10 @@ class TradePage extends Component {
                   </Col>
                 </Row>
               </Col>
-              <Col xs={12} md={3} style={{ height: '650px' }}>
+              <Col xs={12} md={3} style={{ height: '660px' }}>
                 <Row
                   style={{
-                    height: '400px',
+                    height: '410px',
                     overflow: 'hidden scroll',
                     border: 'solid 1px #d9d9d9',
                     background: 'white'
@@ -186,8 +187,6 @@ class TradePage extends Component {
               </Col>
             </Row>
           </Grid>
-        ) : (
-          ''
         )}
       </section>
     )

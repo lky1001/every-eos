@@ -13,9 +13,42 @@ import styled from 'styled-components'
 
 import { Container } from 'reactstrap'
 
+export const PriceBack = styled.div`
+  background-color: ${props => props.up ? '#ddedfe' : '#fee9f1'};
+  height: 100%;
+  color: ${props => props.up ? '#ddedfe' : '#fee9f1'};
+  float: right;
+  overflow: hidden;
+`
+
+export const PriceRow = styled.p`
+  padding-top: 1px;
+  margin-bottom: 0px;
+  color: #6c7177;
+  font-size: 12px;
+`
+
+export const PriceIcon = styled.em`
+  color: ${props => props.color};
+`
+
 export const Text = styled.span`
   color: ${props => props.color};
 `
+
+export const OrderListTable = styled.table`
+  margin-bottom: 0 !important;
+`
+
+export const TokenPrice = styled.div`
+  height: 30px;
+  background: #d9d9d9;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 18px;
+  padding-top: 3px;
+`
+
 
 export const Header6 = styled.h6`
   font-size: 14px;

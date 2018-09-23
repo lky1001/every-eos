@@ -20,9 +20,9 @@ class TokenInfo extends Component {
 
     return (
       <Fragment>
-        {token ? (
+        {token && (
           <Row style={{ marginTop: '25px' }}>
-            <Col xs={2}>
+            <Col xs={2} style={{ marginTop: '4px' }}>
               <h5 className="m0 text-thin">{token.name}</h5>
               <small>{token.symbol}</small>
             </Col>
@@ -47,8 +47,6 @@ class TokenInfo extends Component {
               {token.volume_24h} EOS
             </Col>
           </Row>
-        ) : (
-          ''
         )}
       </Fragment>
     )
