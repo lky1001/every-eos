@@ -31,8 +31,8 @@ class Market extends Component {
             </tr>
           </thead>
         </HeaderTable>
-        <Row style={{ height: '380px', overflow: 'hidden scroll' }}>
-          <Col xs={12} md={12}>
+        <Row style={{ height: '380px', overflow: 'hidden scroll', margin: '0px' }}>
+          <Col xs={12} md={12} style={{ padding: '0px' }}>
             <Table responsive hover size="sm" className="order-list-table">
               <tbody>
                 {tokens &&

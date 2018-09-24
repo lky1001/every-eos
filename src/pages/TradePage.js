@@ -123,23 +123,14 @@ class TradePage extends Component {
                     <Market tokens={tokens} />
                   </NoPaddingCol>
                 </Row>
-                <Row
-                  style={{
-                    height: '250px',
-                    overflow: 'hidden scroll',
-                    borderLeft: 'solid 1px #d9d9d9',
-                    borderRight: 'solid 1px #d9d9d9',
-                    borderBottom: 'solid 1px #d9d9d9',
-                    background: 'white'
-                  }}
-                >
-                  <Col xs={12}>
+                <Row>
+                  <NoPaddingCol className="col-md-12">
                     <Wallet
                       accountStore={accountStore}
                       marketStore={marketStore}
                       eosioStore={eosioStore}
                     />
-                  </Col>
+                  </NoPaddingCol>
                 </Row>
               </Col>
             </Row>
