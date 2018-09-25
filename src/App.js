@@ -4,6 +4,7 @@ import { BrowserRouter, Switch } from 'react-router-dom'
 import { LayoutRoute, MainLayout } from './components/Layout'
 
 import Bootstrap from './components/Bootstrap/Bootstrap'
+import Cards from './components/Bootstrap/Cards.scss'
 import Common from './components/Common/Common'
 import Colors from './components/Colors/Colors'
 

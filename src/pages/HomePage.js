@@ -10,7 +10,6 @@ const TitleView = styled.span`
 `
 const TopView = styled.div`
   height: 500px;
-  background: #1976d2;
 `
 
 class Home extends Component {
@@ -41,7 +40,7 @@ class Home extends Component {
   render() {
     return (
       <section>
-        <TopView>
+        <TopView className="bg-blue-500">
           <Row>
             <Col xs={3} />
             <Col xs={6}>
