@@ -34,16 +34,16 @@ export const NoPaddingCol = styled.div`
 
 export const PriceBack = styled.div`
   background-color: ${props =>
-    props.up
+    props.down
       ? ColorsConstant.Thick_back_red
-      : props.down
+      : props.up
         ? ColorsConstant.Thick_back_green
         : 'white'};
   height: 100%;
   color: ${props =>
-    props.up
+    props.down
       ? ColorsConstant.Thick_back_red
-      : props.down
+      : props.up
         ? ColorsConstant.Thick_back_green
         : 'white'};
   float: right;

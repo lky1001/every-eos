@@ -16,7 +16,7 @@ import {
 } from '../../constants/Values'
 
 import { format, subDays } from 'date-fns'
-import { InputPairContainer, Header6 } from '../Common/Common'
+import { HeaderTable, InputPairContainer, Header6 } from '../Common/Common'
 import { getTypeFilter, typeOptions, pageSizeOptions } from '../../utils/OrderSearchFilter'
 
 class OrderHistory extends Component {
@@ -130,44 +130,47 @@ class OrderHistory extends Component {
         </TabList>
 
         <TabPanel>
+          <HeaderTable className="table order-list-table">
+            <thead>
+              <tr>
+                <th data-type="date">
+                  <FormattedMessage id="Date" />
+                </th>
+                <th>
+                  <FormattedMessage id="Pair" />
+                </th>
+                <th>
+                  <FormattedMessage id="Type" />
+                </th>
+                <th>
+                  <FormattedMessage id="Price" />
+                </th>
+                <th>
+                  <FormattedMessage id="Average" />
+                </th>
+                <th>
+                  <FormattedMessage id="Amount" />
+                </th>
+                <th>
+                  <FormattedMessage id="Dealed" />
+                </th>
+                <th>
+                  <FormattedMessage id="Total" />
+                </th>
+                <th>
+                  <FormattedMessage id="Status" />
+                </th>
+              </tr>
+            </thead>
+          </HeaderTable>
+
           <div className="table-responsive bootgrid">
-            <table id="bootgrid-basic" className="table table-hover">
-              <thead>
-                <tr>
-                  <th data-type="date">
-                    <FormattedMessage id="Date" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Pair" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Type" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Price" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Average" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Amount" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Dealed" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Total" />
-                  </th>
-                  <th>
-                    <FormattedMessage id="Status" />
-                  </th>
-                </tr>
-              </thead>
-              {accountStore.isLogin &&
-                ordersHistoryList &&
-                ordersHistoryCount > 0 && (
-                  <tbody>
-                    <Scrollbars style={{ height: `${32 * 20}px` }}>
+            <Scrollbars style={{ height: `${32 * 20}px` }}>
+              <table id="bootgrid-basic" className="table table-hover">
+                {accountStore.isLogin &&
+                  ordersHistoryList &&
+                  ordersHistoryCount > 0 && (
+                    <tbody>
                       {ordersHistoryList.slice(startIndex, endIndex).map(o => {
                         return (
                           <tr key={o.id}>
@@ -241,10 +244,10 @@ class OrderHistory extends Component {
                           </tr>
                         )
                       })}
-                    </Scrollbars>
-                  </tbody>
-                )}
-            </table>
+                    </tbody>
+                  )}
+              </table>
+            </Scrollbars>
             {accountStore.isLogin ? (
               ordersHistoryLoading ? (
                 <ProgressBar striped bsStyle="success" now={40} />

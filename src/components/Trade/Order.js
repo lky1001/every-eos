@@ -93,13 +93,19 @@ class Order extends Component {
     tradeStore.test()
   }
 
-  handleChange = event => {
-    let obj = {}
-
-    obj[event.target.name] = event.target.value
-
-    this.setState(obj)
+  handleChange = name => event => {
+    this.setState({
+      [name]: event.target.value
+    })
   }
+
+  // handleChange = event => {
+  //   let obj = {}
+  //   console.log(event.target.name)
+  //   obj[event.target.name] = event.target.value
+
+  //   this.setState(obj)
+  // }
 
   onBuyLimitClick = async () => {
     const { eosioStore, accountStore, tradeStore, token } = this.props
@@ -320,7 +326,7 @@ class Order extends Component {
                     <OrderInput
                       type="number"
                       value={this.state.buyPrice}
-                      onChange={this.handleChange.bind(this)}
+                      onChange={this.handleChange('buyPrice')}
                       step="1"
                     />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
@@ -335,7 +341,7 @@ class Order extends Component {
                       placeholder="Amount"
                       type="number"
                       step="1"
-                      onChange={this.handleChange.bind(this)}
+                      onChange={this.handleChange('buyQty')}
                       value={this.state.buyQty}
                     />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
@@ -366,7 +372,7 @@ class Order extends Component {
                   <InputGroup>
                     <OrderInput
                       type="number"
-                      onChange={this.handleChange.bind(this)}
+                      onChange={this.handleChange('sellPrice')}
                       value={this.state.sellPrice}
                       step="1"
                     />
@@ -382,7 +388,7 @@ class Order extends Component {
                       placeholder="Amount"
                       type="number"
                       step="1"
-                      onChange={this.handleChange.bind(this)}
+                      onChange={this.handleChange('sellQty')}
                       value={this.state.sellQty}
                     />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
