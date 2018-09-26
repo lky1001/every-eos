@@ -45,5 +45,6 @@ export default {
   SELL: 'Sell',
   DEAL: 'Deal',
   WAIT: 'Wait',
-  DONE: 'Done'
+  DONE: 'Done',
+  Cancel: 'Cancel'
 }

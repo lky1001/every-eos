@@ -197,7 +197,7 @@ class OpenOrder extends Component {
                             </td>
                             <td>
                               <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
-                                {o.type}
+                                <FormattedMessage id={o.type} />
                               </Header6>
                             </td>
                             <td>
@@ -230,7 +230,9 @@ class OpenOrder extends Component {
                               </Header6>
                             </td>
                             <td>
-                              <button onClick={() => this.cancelOrder(o.id)}>Cancel</button>
+                              <button onClick={() => this.cancelOrder(o.id)}>
+                                <FormattedMessage id="Cancel" />
+                              </button>
                             </td>
                           </tr>
                         )

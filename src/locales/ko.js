@@ -40,10 +40,11 @@ export default {
   ALL_DEALED: '거래완료',
   NOT_DEAL: '대기중',
   PARTIAL_DEALED: '일부 완료',
-  CANCELLED: '취소',
+  CANCELLED: '취소됨',
   BUY: '구매',
   SELL: '판매',
   DEAL: '거래',
   WAIT: '대기중',
-  DONE: '완료'
+  DONE: '완료',
+  Cancel: '취소'
 }
