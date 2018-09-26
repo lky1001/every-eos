@@ -3,7 +3,11 @@ import { Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
 const TokenInfoText = styled.h6`
-  font-size: 14px;
+  font-size: 15px;
+`
+
+const TokenSymbolText = styled.small`
+  font-size: 16px;
 `
 
 class TokenInfo extends Component {
@@ -23,28 +27,28 @@ class TokenInfo extends Component {
         {token && (
           <Row style={{ marginTop: '25px' }}>
             <Col xs={2} style={{ marginTop: '4px' }}>
-              <h5 className="m0 text-thin">{token.name}</h5>
-              <small>{token.symbol}</small>
+              <h5 className="m0">{token.name}</h5>
+              <TokenSymbolText>{token.symbol}</TokenSymbolText>
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Last Price</TokenInfoText>
-              {token.last_price} EOS
+              <TokenSymbolText>{token.last_price} EOS</TokenSymbolText>
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today Changed</TokenInfoText>
-              {todayChanged.toFixed(4)} EOS
+              <TokenSymbolText>{todayChanged.toFixed(4)} EOS</TokenSymbolText>
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today High</TokenInfoText>
-              {token.high_price_24h.toFixed(4)} EOS
+              <TokenSymbolText>{token.high_price_24h.toFixed(4)} EOS</TokenSymbolText>
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today Low</TokenInfoText>
-              {token.low_price_24h.toFixed(4)} EOS
+              <TokenSymbolText>{token.low_price_24h.toFixed(4)} EOS</TokenSymbolText>
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today Volume</TokenInfoText>
-              {token.volume_24h.toFixed(4)} EOS
+              <TokenSymbolText>{token.volume_24h.toFixed(4)} EOS</TokenSymbolText>
             </Col>
           </Row>
         )}

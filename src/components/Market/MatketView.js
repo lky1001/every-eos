@@ -6,6 +6,11 @@ import { Grid, Row, Col } from 'react-bootstrap'
 import { ProgressBar } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Header6, FavoriteIcon } from '../Common/Common'
+import styled from 'styled-components'
+
+const MarketHeader = styled.th`
+  font-size: 14px !important;
+`
 
 class MarketView extends Component {
   constructor(props) {
@@ -56,27 +61,27 @@ class MarketView extends Component {
                   <thead>
                     <tr>
                       <th style={{ width: '5%' }} />
-                      <th className="text-center" style={{ width: '10%' }}>
+                      <MarketHeader className="text-center" style={{ width: '10%' }}>
                         <FormattedMessage id="Name" />
-                      </th>
-                      <th className="text-right">
-                        <FormattedMessage id="Last Price" />
-                      </th>
-                      <th className="text-center" style={{ width: '25%' }}>
-                        <FormattedMessage id="Today Change" />
-                      </th>
-                      <th className="text-right">
-                        <FormattedMessage id="Today High" />
-                      </th>
-                      <th className="text-right">
-                        <FormattedMessage id="Today Low" />
-                      </th>
-                      <th className="text-center" style={{ width: '20%' }}>
-                        <FormattedMessage id="Today Volume" />
-                      </th>
-                      <th className="text-center">
+                      </MarketHeader>
+                      <MarketHeader className="text-right">
+                        <FormattedMessage id="Last Price" /> (EOS)
+                      </MarketHeader>
+                      <MarketHeader className="text-center" style={{ width: '25%' }}>
+                        <FormattedMessage id="Today Change" /> (EOS)
+                      </MarketHeader>
+                      <MarketHeader className="text-right">
+                        <FormattedMessage id="Today High" /> (EOS)
+                      </MarketHeader>
+                      <MarketHeader className="text-right">
+                        <FormattedMessage id="Today Low" /> (EOS)
+                      </MarketHeader>
+                      <MarketHeader className="text-right" style={{ width: '17%' }}>
+                        <FormattedMessage id="Today Volume" /> (EOS)
+                      </MarketHeader>
+                      <MarketHeader className="text-center">
                         <FormattedMessage id="Trend" />
-                      </th>
+                      </MarketHeader>
                     </tr>
                   </thead>
                   <tbody>
@@ -86,9 +91,10 @@ class MarketView extends Component {
                         <tr
                           key={token.id}
                           className="msg-display clickable"
-                          onClick={() => this.goTrade(token.symbol)}>
+                          onClick={() => this.goTrade(token.symbol)}
+                        >
                           <td className="va-middle text-center">
-                            <FavoriteIcon className="ion-android-favorite-outline" />
+                            <FavoriteIcon className="ion-ios-star-outline" />
                           </td>
                           <td className="va-middle text-center">
                             <Header6>{token.name}</Header6>
