@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
 import { FormattedMessage } from 'react-intl'
-import { SCATTER_ERROR_LOCKED } from '../../../constants/Values'
+import { SCATTER_ERROR_LOCKED, supportLanguage } from '../../../constants/Values'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 
@@ -10,6 +10,8 @@ import { Dropdown, MenuItem } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 
 import { withAlert } from 'react-alert'
+
+import * as Utils from '../../../utils/Utils'
 
 import {
   Collapse,
@@ -35,6 +37,9 @@ const CustomSwal = withReactContent(Swal)
 class Header extends Component {
   constructor(props) {
     super(props)
+
+    this.locales = supportLanguage.slice()
+    this.selectedLocale = localStorage.getItem('locale')
 
     this.toggle = this.toggle.bind(this)
     this.state = {
@@ -84,6 +89,8 @@ class Header extends Component {
 
   render() {
     const { accountStore } = this.props
+    const location = window.location.pathname
+    const params = Utils.getJsonFromUrl()
 
     return (
       <header className="header-container" style={{ marginLeft: '0px' }}>
@@ -140,25 +147,27 @@ class Header extends Component {
               id="basic-nav-dropdown"
               pullRight
               componentClass="li"
-              style={{ paddingTop: '3px' }}>
+              style={{ paddingTop: '3px' }}
+            >
               <Dropdown.Toggle
                 useAnchor
                 noCaret
                 className="has-badge ripple"
-                style={{ fontSize: '16px' }}>
+                style={{ fontSize: '16px' }}
+              >
                 <FormattedMessage id="LANG" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="md-dropdown-menu">
-                <LinkContainer to="pages/profile">
-                  <MenuItem eventKey={1}>
-                    <span style={{ fontSize: '13px' }}>한국어</span>
-                  </MenuItem>
-                </LinkContainer>
-                <LinkContainer to="pages/messages">
-                  <MenuItem eventKey={2}>
-                    <span style={{ fontSize: '13px' }}>ENGLISH</span>
-                  </MenuItem>
-                </LinkContainer>
+                {this.locales.map((locale, idx) => {
+                  params['lang'] = locale
+                  return (
+                    <LinkContainer to={location + '?' + Utils.getUrlFromJson(params)} key={idx}>
+                      <MenuItem eventKey={idx}>
+                        <span style={{ fontSize: '13px' }}>{locale}</span>
+                      </MenuItem>
+                    </LinkContainer>
+                  )
+                })}
               </Dropdown.Menu>
             </Dropdown>
           </ul>

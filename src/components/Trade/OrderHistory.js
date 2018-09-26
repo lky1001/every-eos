@@ -250,13 +250,17 @@ class OrderHistory extends Component {
                 ) : (
                   (!ordersHistoryList || ordersHistoryCount === 0) && (
                     <div style={{ textAlign: 'center' }}>
-                      <FormattedMessage id="No Data" />
+                      <Header6>
+                        <FormattedMessage id="No Data" />
+                      </Header6>
                     </div>
                   )
                 )
               ) : (
                 <div style={{ textAlign: 'center' }}>
-                  <FormattedMessage id="Please Login" />
+                  <Header6>
+                    <FormattedMessage id="Please Login" />
+                  </Header6>
                 </div>
               )}
             </div>
