@@ -3,6 +3,7 @@ import { FormattedMessage } from 'react-intl'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import '../Common/React-tabs.scss'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { HeaderTable } from '../Common/Common'
 import {
   ORDER_STATUS_NOT_DEAL,
   ORDER_STATUS_PARTIAL_DEALED,
@@ -143,43 +144,46 @@ class OpenOrder extends Component {
         </TabList>
 
         <TabPanel>
-          <Scrollbars style={{ height: `${32 * 20}px` }}>
-            <div className="table-responsive bootgrid">
+          <HeaderTable className="table order-list-table">
+            <thead>
+              <tr>
+                <th data-type="date">
+                  <FormattedMessage id="Date" />
+                </th>
+                <th>
+                  <FormattedMessage id="Pair" />
+                </th>
+                <th>
+                  <FormattedMessage id="Type" />
+                </th>
+                <th>
+                  <FormattedMessage id="Price" />
+                </th>
+                <th>
+                  <FormattedMessage id="Average" />
+                </th>
+                <th>
+                  <FormattedMessage id="Amount" />
+                </th>
+                <th>
+                  <FormattedMessage id="Dealed" />
+                </th>
+                <th>
+                  <FormattedMessage id="Entrusted" />
+                </th>
+                <th>
+                  <FormattedMessage id="Status" />
+                </th>
+                <th>
+                  <FormattedMessage id="Action" />
+                </th>
+              </tr>
+            </thead>
+          </HeaderTable>
+
+          <div className="table-responsive bootgrid">
+            <Scrollbars style={{ height: `${32 * 20}px` }}>
               <table id="bootgrid-basic" className="table table-hover">
-                <thead>
-                  <tr>
-                    <th data-type="date">
-                      <FormattedMessage id="Date" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Pair" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Type" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Price" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Average" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Amount" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Dealed" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Entrusted" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Status" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Action" />
-                    </th>
-                  </tr>
-                </thead>
                 {accountStore.isLogin &&
                   openOrdersList &&
                   openOrdersCount > 0 && (
@@ -240,27 +244,23 @@ class OpenOrder extends Component {
                     </tbody>
                   )}
               </table>
-              {accountStore.isLogin ? (
-                openOrdersLoading ? (
-                  <ProgressBar striped bsStyle="success" now={40} />
-                ) : (
-                  (!openOrdersList || openOrdersCount === 0) && (
-                    <div style={{ textAlign: 'center' }}>
-                      <Header6>
-                        <FormattedMessage id="No Data" />
-                      </Header6>
-                    </div>
-                  )
-                )
+            </Scrollbars>
+            {accountStore.isLogin ? (
+              openOrdersLoading ? (
+                <ProgressBar striped bsStyle="success" now={40} />
               ) : (
-                <div style={{ textAlign: 'center' }}>
-                  <Header6>
-                    <FormattedMessage id="Please Login" />
-                  </Header6>
-                </div>
-              )}
-            </div>
-          </Scrollbars>
+                (!openOrdersList || openOrdersCount === 0) && (
+                  <div style={{ textAlign: 'center' }}>
+                    <FormattedMessage id="No Data" />
+                  </div>
+                )
+              )
+            ) : (
+              <div style={{ textAlign: 'center' }}>
+                <FormattedMessage id="Please Login" />
+              </div>
+            )}
+          </div>
         </TabPanel>
       </Tabs>
     )

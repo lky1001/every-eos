@@ -130,44 +130,44 @@ class OrderHistory extends Component {
         </TabList>
 
         <TabPanel>
-          <Scrollbars style={{ height: `${32 * 20}px` }}>
-            <div className="table-responsive bootgrid">
-              <table id="bootgrid-basic" className="table table-hover">
-                <thead>
-                  <tr>
-                    <th data-type="date">
-                      <FormattedMessage id="Date" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Pair" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Type" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Price" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Average" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Amount" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Dealed" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Total" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Status" />
-                    </th>
-                  </tr>
-                </thead>
-                {accountStore.isLogin &&
-                  ordersHistoryList &&
-                  ordersHistoryCount > 0 && (
-                    <tbody>
+          <div className="table-responsive bootgrid">
+            <table id="bootgrid-basic" className="table table-hover">
+              <thead>
+                <tr>
+                  <th data-type="date">
+                    <FormattedMessage id="Date" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Pair" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Type" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Price" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Average" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Amount" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Dealed" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Total" />
+                  </th>
+                  <th>
+                    <FormattedMessage id="Status" />
+                  </th>
+                </tr>
+              </thead>
+              {accountStore.isLogin &&
+                ordersHistoryList &&
+                ordersHistoryCount > 0 && (
+                  <tbody>
+                    <Scrollbars style={{ height: `${32 * 20}px` }}>
                       {ordersHistoryList.slice(startIndex, endIndex).map(o => {
                         return (
                           <tr key={o.id}>
@@ -241,30 +241,26 @@ class OrderHistory extends Component {
                           </tr>
                         )
                       })}
-                    </tbody>
-                  )}
-              </table>
-              {accountStore.isLogin ? (
-                ordersHistoryLoading ? (
-                  <ProgressBar striped bsStyle="success" now={40} />
-                ) : (
-                  (!ordersHistoryList || ordersHistoryCount === 0) && (
-                    <div style={{ textAlign: 'center' }}>
-                      <Header6>
-                        <FormattedMessage id="No Data" />
-                      </Header6>
-                    </div>
-                  )
-                )
+                    </Scrollbars>
+                  </tbody>
+                )}
+            </table>
+            {accountStore.isLogin ? (
+              ordersHistoryLoading ? (
+                <ProgressBar striped bsStyle="success" now={40} />
               ) : (
-                <div style={{ textAlign: 'center' }}>
-                  <Header6>
-                    <FormattedMessage id="Please Login" />
-                  </Header6>
-                </div>
-              )}
-            </div>
-          </Scrollbars>
+                (!ordersHistoryList || ordersHistoryCount === 0) && (
+                  <div style={{ textAlign: 'center' }}>
+                    <FormattedMessage id="No Data" />
+                  </div>
+                )
+              )
+            ) : (
+              <div style={{ textAlign: 'center' }}>
+                <FormattedMessage id="Please Login" />
+              </div>
+            )}
+          </div>
 
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <InputPairContainer>
@@ -279,8 +275,7 @@ class OrderHistory extends Component {
             </InputPairContainer>
             <Pagination
               aria-label="orders pagination"
-              style={{ justifyContent: 'center', alignItems: 'center' }}
-            >
+              style={{ justifyContent: 'center', alignItems: 'center' }}>
               <PaginationItem>
                 <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
               </PaginationItem>
