@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import { Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
+import ColorsConstant from '../Colors/ColorsConstant'
 
 const TokenInfoText = styled.h6`
   font-size: 15px;
@@ -8,6 +9,12 @@ const TokenInfoText = styled.h6`
 
 const TokenSymbolText = styled.small`
   font-size: 16px;
+  color: ${props =>
+    props.up
+      ? ColorsConstant.Thick_green
+      : props.down
+        ? ColorsConstant.Thick_red
+        : ColorsConstant.Thick_normal};
 `
 
 class TokenInfo extends Component {
@@ -32,7 +39,12 @@ class TokenInfo extends Component {
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Last Price</TokenInfoText>
-              <TokenSymbolText>{token.last_price} EOS</TokenSymbolText>
+              <TokenSymbolText
+                up={token.last_price - token.last_previous_price > 0}
+                down={token.last_price - token.last_previous_price < 0}
+              >
+                {token.last_price} EOS
+              </TokenSymbolText>
             </Col>
             <Col xs={2}>
               <TokenInfoText className="m0 text-thin">Today Changed</TokenInfoText>

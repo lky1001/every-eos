@@ -14,10 +14,12 @@ const ColorsConstant = {
   warning: '#FFB300',
   danger: '#F44336',
 
+  Thick_green: '#70A800',
   Thick_red: '#D50000',
   Thick_blue: '#1565C0',
   Thick_normal: '#6c7177',
 
+  Thick_back_green: 'rgba(115, 201, 33, 0.1)',
   Thick_back_red: '#fee9f1',
   Thick_back_blue: '#ddedfe'
 }

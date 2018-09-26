@@ -139,9 +139,10 @@ class OrderList extends Component {
           <Text
             color={
               token.last_price - token.last_previous_price > 0
-                ? ColorsConstant.Thick_blue
+                ? ColorsConstant.Thick_green
                 : ColorsConstant.Thick_red
-            }>{`${token.last_price}`}</Text>{' '}
+            }
+          >{`${token.last_price}`}</Text>{' '}
           <PriceIcon
             className={
               token.last_price - token.last_previous_price > 0
@@ -150,7 +151,7 @@ class OrderList extends Component {
             }
             color={
               token.last_price - token.last_previous_price > 0
-                ? ColorsConstant.Thick_blue
+                ? ColorsConstant.Thick_green
                 : ColorsConstant.Thick_red
             }
           />
