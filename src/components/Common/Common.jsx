@@ -33,7 +33,7 @@ export const PriceRow = styled.p`
   padding-top: 1px;
   margin-bottom: 0px;
   color: ${props =>
-    props.up ? ColorsConstant.Thick_blue : props.down ? ColorsConstant.Thick_red : '#6c7177'};
+    props.up ? ColorsConstant.Thick_red : props.down ? ColorsConstant.Thick_blue : '#6c7177'};
   font-size: 12px;
 `
 

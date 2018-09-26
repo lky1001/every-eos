@@ -102,14 +102,16 @@ class OrderList extends Component {
                             down
                             style={{
                               width: width + '%'
-                            }}>
+                            }}
+                          >
                             -
                           </PriceBack>
                           <PriceRow
                             style={{
                               position: 'absolute',
                               right: '18px'
-                            }}>
+                            }}
+                          >
                             {o.stacked_amount.toFixed(4)}
                           </PriceRow>
                         </a>
@@ -135,9 +137,10 @@ class OrderList extends Component {
           <Text
             color={
               token.last_price - token.last_previous_price > 0
-                ? ColorsConstant.Thick_blue
-                : ColorsConstant.Thick_red
-            }>{`${token.last_price}`}</Text>{' '}
+                ? ColorsConstant.Thick_red
+                : ColorsConstant.Thick_blue
+            }
+          >{`${token.last_price}`}</Text>{' '}
           <PriceIcon
             className={
               token.last_price - token.last_previous_price > 0
@@ -146,8 +149,8 @@ class OrderList extends Component {
             }
             color={
               token.last_price - token.last_previous_price > 0
-                ? ColorsConstant.Thick_blue
-                : ColorsConstant.Thick_red
+                ? ColorsConstant.Thick_red
+                : ColorsConstant.Thick_blue
             }
           />
         </TokenPrice>
@@ -172,14 +175,16 @@ class OrderList extends Component {
                             up
                             style={{
                               width: width + '%'
-                            }}>
+                            }}
+                          >
                             -
                           </PriceBack>
                           <PriceRow
                             style={{
                               position: 'absolute',
                               right: '18px'
-                            }}>
+                            }}
+                          >
                             {o.stacked_amount.toFixed(4)}
                           </PriceRow>
                         </a>
