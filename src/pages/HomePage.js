@@ -3,6 +3,7 @@ import { Grid, Row, Col, Button, Dropdown, MenuItem, Modal } from 'react-bootstr
 import styled from 'styled-components'
 
 import MarketView from '../components/Market/MatketView'
+import Faq from '../components/Home/Faq'
 
 const TitleView = styled.span`
   color: white;
@@ -51,6 +52,9 @@ class Home extends Component {
         </TopView>
         <div className="container container-lg">
           <MarketView />
+        </div>
+        <div className="container container-lg">
+          <Faq />
         </div>
       </section>
     )

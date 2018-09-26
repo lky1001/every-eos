@@ -1,5 +1,5 @@
 export const ACCOUNT_NAME_PATTERN = /([a-z1-5]){12,}/
-export const API_SERVER_URI = 'http://localhost:4000'
+export const API_SERVER_URI = 'http://192.168.2.57:4000'
 export const actionPerPage = 1000
 
 const protocol = 'https'
@@ -42,7 +42,7 @@ export const EOS_TOKEN = {
 
 export const SCATTER_ERROR_REJECT_TRANSACTION_BY_USER = 402
 export const SCATTER_ERROR_LOCKED = 423
-export const ORDER_PAGE_LIMIT = 15
+export const ORDER_PAGE_LIMIT = 10
 
 export const ORDER_TYPE_BUY = 'BUY'
 export const ORDER_TYPE_SELL = 'SELL'

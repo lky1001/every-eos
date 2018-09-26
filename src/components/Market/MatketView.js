@@ -54,6 +54,13 @@ class MarketView extends Component {
     ) : (
       <Grid fluid>
         <Row>
+          <Col
+            xs={12}
+            className="text-right mr-sm mb-sm"
+            style={{ fontSize: '14px' }}
+          >{`${new Date().toLocaleDateString()} 00:00 기준`}</Col>
+        </Row>
+        <Row>
           <Col xs={12}>
             <div className="card">
               <div className="table-responsive">

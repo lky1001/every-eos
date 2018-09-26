@@ -113,17 +113,19 @@ class OrderList extends Component {
                       </BaseColumn>
                       <AmountColumn>
                         <PriceBack
-                          down
+                          up
                           style={{
                             width: width + '%'
-                          }}>
+                          }}
+                        >
                           -
                         </PriceBack>
                         <PriceRow
                           style={{
                             position: 'absolute',
                             right: '18px'
-                          }}>
+                          }}
+                        >
                           {o.stacked_amount.toFixed(4)}
                         </PriceRow>
                       </AmountColumn>
@@ -177,17 +179,19 @@ class OrderList extends Component {
                       </BaseColumn>
                       <AmountColumn>
                         <PriceBack
-                          up
+                          down
                           style={{
                             width: width + '%'
-                          }}>
+                          }}
+                        >
                           -
                         </PriceBack>
                         <PriceRow
                           style={{
                             position: 'absolute',
                             right: '18px'
-                          }}>
+                          }}
+                        >
                           {o.stacked_amount.toFixed(4)}
                         </PriceRow>
                       </AmountColumn>

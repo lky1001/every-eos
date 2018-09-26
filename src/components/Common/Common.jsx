@@ -22,9 +22,9 @@ export const NoPaddingCol = styled.div`
 `
 
 export const PriceBack = styled.div`
-  background-color: ${props => (props.up ? '#ddedfe' : '#fee9f1')};
+  background-color: ${props => (props.up ? ColorsConstant.Thick_back_blue : props.down ? ColorsConstant.Thick_back_red : 'white')};
   height: 100%;
-  color: ${props => (props.up ? '#ddedfe' : '#fee9f1')};
+  color: ${props => (props.up ? ColorsConstant.Thick_back_blue : props.down ? ColorsConstant.Thick_back_red : 'white')};
   float: right;
   overflow: hidden;
 `
@@ -33,7 +33,7 @@ export const PriceRow = styled.p`
   padding-top: 1px;
   margin-bottom: 0px;
   color: ${props =>
-    props.up ? ColorsConstant.Thick_red : props.down ? ColorsConstant.Thick_blue : '#6c7177'};
+    props.up ? ColorsConstant.Thick_blue : props.down ? ColorsConstant.Thick_red : ColorsConstant.Thick_normal};
   font-size: 12px;
 `
 
