@@ -18,13 +18,26 @@ export const NoPaddingCol = styled.div`
   padding: 0px;
   padding: 0px !important;
   background: white;
-  border: ${props => (props.border ? 'solid 1px #d9d9d9' : '')};
+  border-right: ${props => (props.showBorderRight ? '1px solid #d9d9d9' : '')};
+  border-left: ${props => (props.showBorderLeft ? '1px solid #d9d9d9' : '')};
+  border-top: ${props => (props.showBorderTop ? '1px solid #d9d9d9' : '')};
+  border-bottom: ${props => (props.showBorderBottom ? '1px solid #d9d9d9' : '')};
 `
 
 export const PriceBack = styled.div`
-  background-color: ${props => (props.up ? ColorsConstant.Thick_back_blue : props.down ? ColorsConstant.Thick_back_red : 'white')};
+  background-color: ${props =>
+    props.up
+      ? ColorsConstant.Thick_back_blue
+      : props.down
+        ? ColorsConstant.Thick_back_red
+        : 'white'};
   height: 100%;
-  color: ${props => (props.up ? ColorsConstant.Thick_back_blue : props.down ? ColorsConstant.Thick_back_red : 'white')};
+  color: ${props =>
+    props.up
+      ? ColorsConstant.Thick_back_blue
+      : props.down
+        ? ColorsConstant.Thick_back_red
+        : 'white'};
   float: right;
   overflow: hidden;
   width: ${props => props.width + '%'};
@@ -34,7 +47,11 @@ export const PriceRow = styled.p`
   padding-top: 1px;
   margin-bottom: 0px;
   color: ${props =>
-    props.up ? ColorsConstant.Thick_blue : props.down ? ColorsConstant.Thick_red : ColorsConstant.Thick_normal};
+    props.up
+      ? ColorsConstant.Thick_blue
+      : props.down
+        ? ColorsConstant.Thick_red
+        : ColorsConstant.Thick_normal};
   font-size: 12px;
   position: ${props => props.position && props.position};
   right: ${props => props.right && props.right};

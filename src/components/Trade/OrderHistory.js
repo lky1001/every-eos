@@ -6,6 +6,7 @@ import { FormattedMessage } from 'react-intl'
 import classnames from 'classnames'
 import Select from 'react-select'
 import { ProgressBar } from 'react-bootstrap'
+import { Scrollbars } from 'react-custom-scrollbars'
 import {
   TabContent,
   TabPane,
@@ -146,127 +147,131 @@ class OrderHistory extends Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
-            <div className="table-responsive bootgrid">
-              <table id="bootgrid-basic" className="table table-hover">
-                <thead>
-                  <tr>
-                    <th data-type="date">
-                      <FormattedMessage id="Date" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Pair" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Type" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Price" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Average" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Amount" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Dealed" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Total" />
-                    </th>
-                    <th>
-                      <FormattedMessage id="Status" />
-                    </th>
-                  </tr>
-                </thead>
-                {accountStore.isLogin &&
-                  ordersHistoryList &&
-                  ordersHistoryCount > 0 && (
-                    <tbody>
-                      {ordersHistoryList.slice(startIndex, endIndex).map(o => {
-                        return (
-                          <tr key={o.id}>
-                            <td>
-                              <Header6>{format(o.updated, ORDER_DATE_FORMAT)}</Header6>
-                            </td>
-                            <td>
-                              <Header6 color={'Blue'}>
-                                {o.token.symbol} / {o.token.market}
-                              </Header6>
-                            </td>
-                            <td>
-                              <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
-                                {o.type}
-                              </Header6>
-                            </td>
-                            <td>{o.token_price}</td>
-                            <td>
-                              {o.status === ORDER_STATUS_ALL_DEALED
-                                ? o.orderDetails.length === 0
-                                  ? 0
-                                  : Math.round(
-                                    o.orderDetails.reduce(
-                                      (acc, curr) => acc + curr.amount * curr.token_price,
-                                      0
-                                    ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                                  )
-                                : o.status === ORDER_STATUS_CANCELLED
+            <Scrollbars style={{ height: `${32 * 20}px` }}>
+              <div className="table-responsive bootgrid">
+                <table id="bootgrid-basic" className="table table-hover">
+                  <thead>
+                    <tr>
+                      <th data-type="date">
+                        <FormattedMessage id="Date" />
+                      </th>
+                      <th>
+                        <FormattedMessage id="Pair" />
+                      </th>
+                      <th>
+                        <FormattedMessage id="Type" />
+                      </th>
+                      <th>
+                        <FormattedMessage id="Price" />
+                      </th>
+                      <th>
+                        <FormattedMessage id="Average" />
+                      </th>
+                      <th>
+                        <FormattedMessage id="Amount" />
+                      </th>
+                      <th>
+                        <FormattedMessage id="Dealed" />
+                      </th>
+                      <th>
+                        <FormattedMessage id="Total" />
+                      </th>
+                      <th>
+                        <FormattedMessage id="Status" />
+                      </th>
+                    </tr>
+                  </thead>
+                  {accountStore.isLogin &&
+                    ordersHistoryList &&
+                    ordersHistoryCount > 0 && (
+                      <tbody>
+                        {ordersHistoryList.slice(startIndex, endIndex).map(o => {
+                          return (
+                            <tr key={o.id}>
+                              <td>
+                                <Header6>{format(o.updated, ORDER_DATE_FORMAT)}</Header6>
+                              </td>
+                              <td>
+                                <Header6 color={'Blue'}>
+                                  {o.token.symbol} / {o.token.market}
+                                </Header6>
+                              </td>
+                              <td>
+                                <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
+                                  {o.type}
+                                </Header6>
+                              </td>
+                              <td>{o.token_price}</td>
+                              <td>
+                                {o.status === ORDER_STATUS_ALL_DEALED
                                   ? o.orderDetails.length === 0
                                     ? 0
                                     : Math.round(
-                                      o.orderDetails
-                                        .filter(
-                                          od =>
-                                            od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                        )
-                                        .reduce(
-                                          (acc, curr) => acc + curr.amount * curr.token_price,
-                                          0
-                                        ) /
-                                          o.orderDetails
-                                            .filter(
-                                              od =>
-                                                od.deal_status ===
-                                                ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                            )
-                                            .reduce((acc, curr) => acc + curr.amount, 0)
+                                      o.orderDetails.reduce(
+                                        (acc, curr) => acc + curr.amount * curr.token_price,
+                                        0
+                                      ) /
+                                          o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
                                     )
-                                  : '-'}
-                            </td>
-                            <td>
-                              <Header6>{o.total_amount}</Header6>
-                            </td>
-                            <td>
-                              <Header6>{o.deal_amount}</Header6>
-                            </td>
-                            <td>
-                              <Header6>-</Header6>
-                            </td>
-                            <td>
-                              <Header6>{o.status}</Header6>
-                            </td>
-                          </tr>
-                        )
-                      })}
-                    </tbody>
-                  )}
-              </table>
-              {accountStore.isLogin ? (
-                ordersHistoryLoading ? (
-                  <ProgressBar striped bsStyle="success" now={40} />
-                ) : (
-                  (!ordersHistoryList || ordersHistoryCount === 0) && (
-                    <div style={{ textAlign: 'center' }}>
-                      <FormattedMessage id="No Data" />
-                    </div>
+                                  : o.status === ORDER_STATUS_CANCELLED
+                                    ? o.orderDetails.length === 0
+                                      ? 0
+                                      : Math.round(
+                                        o.orderDetails
+                                          .filter(
+                                            od =>
+                                              od.deal_status ===
+                                                ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                          )
+                                          .reduce(
+                                            (acc, curr) => acc + curr.amount * curr.token_price,
+                                            0
+                                          ) /
+                                            o.orderDetails
+                                              .filter(
+                                                od =>
+                                                  od.deal_status ===
+                                                  ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                              )
+                                              .reduce((acc, curr) => acc + curr.amount, 0)
+                                      )
+                                    : '-'}
+                              </td>
+                              <td>
+                                <Header6>{o.total_amount}</Header6>
+                              </td>
+                              <td>
+                                <Header6>{o.deal_amount}</Header6>
+                              </td>
+                              <td>
+                                <Header6>-</Header6>
+                              </td>
+                              <td>
+                                <Header6>{o.status}</Header6>
+                              </td>
+                            </tr>
+                          )
+                        })}
+                      </tbody>
+                    )}
+                </table>
+                {accountStore.isLogin ? (
+                  ordersHistoryLoading ? (
+                    <ProgressBar striped bsStyle="success" now={40} />
+                  ) : (
+                    (!ordersHistoryList || ordersHistoryCount === 0) && (
+                      <div style={{ textAlign: 'center' }}>
+                        <FormattedMessage id="No Data" />
+                      </div>
+                    )
                   )
-                )
-              ) : (
-                <div style={{ textAlign: 'center' }}>
-                  <FormattedMessage id="Please Login" />
-                </div>
-              )}
-            </div>
+                ) : (
+                  <div style={{ textAlign: 'center' }}>
+                    <FormattedMessage id="Please Login" />
+                  </div>
+                )}
+              </div>
+            </Scrollbars>
 
             <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
               <InputPairContainer>

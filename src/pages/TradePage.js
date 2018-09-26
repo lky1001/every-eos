@@ -14,6 +14,7 @@ import Market from '../components/Trade/Market'
 import Wallet from '../components/Trade/Wallet'
 import OrderHistory from '../components/Trade/OrderHistory'
 import OpenOrder from '../components/Trade/OpenOrder'
+
 import { PAGE_SIZE_TEN } from '../constants/Values'
 
 class TradePage extends Component {
@@ -74,7 +75,7 @@ class TradePage extends Component {
               </Col>
             </Row>
             <Row style={{ height: '660px' }}>
-              <NoPaddingCol className="col-md-3" border>
+              <NoPaddingCol className="col-md-3" showBorderRight showBorderTop showBorderBottom>
                 <OrderList
                   token={token}
                   tradeStore={tradeStore}
@@ -89,8 +90,7 @@ class TradePage extends Component {
                     background: 'white',
                     borderTop: 'solid 1px #d9d9d9',
                     borderBottom: 'solid 1px #d9d9d9'
-                  }}
-                >
+                  }}>
                   <Col md={12}>{/* <TradingChart /> */}</Col>
                 </Row>
                 <Row
@@ -98,8 +98,7 @@ class TradePage extends Component {
                     height: '150px',
                     background: 'white',
                     borderBottom: 'solid 1px #d9d9d9'
-                  }}
-                >
+                  }}>
                   <Col xs={12}>
                     <Order
                       token={token}
@@ -114,17 +113,15 @@ class TradePage extends Component {
                 <Row
                   style={{
                     height: '410px',
-                    borderBottom: 'solid 1px #d9d9d9',
-                    background: 'white',
-                    border: 'solid 1px #d9d9d9'
-                  }}
-                >
-                  <NoPaddingCol className="col-md-12">
+
+                    background: 'white'
+                  }}>
+                  <NoPaddingCol className="col-md-12" showBorderLeft showBorderTop showBorderBottom>
                     <Market tokens={tokens} />
                   </NoPaddingCol>
                 </Row>
                 <Row>
-                  <NoPaddingCol className="col-md-12">
+                  <NoPaddingCol className="col-md-12" showBorderLeft showBorderBottom>
                     <Wallet
                       accountStore={accountStore}
                       marketStore={marketStore}
@@ -138,11 +135,8 @@ class TradePage extends Component {
               <Col xs={12} md={12}>
                 <Row
                   style={{
-                    background: 'white',
-                    borderLeft: 'solid 1px #d9d9d9',
-                    borderRight: 'solid 1px #d9d9d9'
-                  }}
-                >
+                    background: 'white'
+                  }}>
                   <Col xs={12}>
                     <OpenOrder
                       tradeStore={tradeStore}
@@ -156,11 +150,8 @@ class TradePage extends Component {
                 </Row>
                 <Row
                   style={{
-                    overflow: 'hidden scroll',
-                    background: 'white',
-                    border: 'solid 1px #d9d9d9'
-                  }}
-                >
+                    background: 'white'
+                  }}>
                   <Col xs={12}>
                     <OrderHistory
                       accountStore={accountStore}

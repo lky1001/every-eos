@@ -134,14 +134,10 @@ class Wallet extends Component {
           <div
             className="table-responsive"
             style={{
-              borderLeft: 'solid 1px #d9d9d9',
-              borderRight: 'solid 1px #d9d9d9',
-              borderBottom: 'solid 1px #d9d9d9',
               background: 'white'
             }}>
             <Table className="order-list-table">
               <tbody>
-                {!accountStore.isLogin && <FormattedMessage id="Please Login" />}
                 {accountStore.isLogin &&
                   this.state.tokens.map((token, idx) => {
                     return (
@@ -160,6 +156,8 @@ class Wallet extends Component {
                   })}
               </tbody>
             </Table>
+
+            {!accountStore.isLogin && <FormattedMessage id="Please Login" />}
           </div>
         </Scrollbars>
       </Fragment>
