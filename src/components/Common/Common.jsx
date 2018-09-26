@@ -11,7 +11,6 @@ import './UiNoteArea.scss'
 import './UiSwitch.scss'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant.js'
-
 import { Container } from 'reactstrap'
 
 export const NoPaddingCol = styled.div`
@@ -21,7 +20,7 @@ export const NoPaddingCol = styled.div`
   border-right: ${props => (props.showBorderRight ? '1px solid #d9d9d9' : '')};
   border-left: ${props => (props.showBorderLeft ? '1px solid #d9d9d9' : '')};
   border-top: ${props => (props.showBorderTop ? '1px solid #d9d9d9' : '')};
-  border-bottom: ${props => (props.showBorderBottom ? '1px solid #d9d9d9' : '')};
+  border-bottom: ${props => (props.orderBottom ? '1px solid #d9d9d9' : '')};
 `
 
 export const PriceBack = styled.div`
@@ -76,7 +75,6 @@ export const TokenPrice = styled.div`
   font-size: 18px;
   padding: 8px;
 `
-
 export const Header6 = styled.h6`
   font-size: 16px;
   color: ${props => props.color};
