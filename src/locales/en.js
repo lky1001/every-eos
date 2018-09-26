@@ -36,5 +36,14 @@ export default {
   'Open Orders': 'Open Orders',
   'Order History': 'Order History',
   'Limit Order': 'Limit Order',
-  'Market Order': 'Market Order'
+  'Market Order': 'Market Order',
+  ALL_DEALED: 'Finished',
+  NOT_DEAL: 'Wait',
+  PARTIAL_DEALED: 'Partial dealed',
+  CANCELLED: 'cancelled',
+  BUY: 'Buy',
+  SELL: 'Sell',
+  DEAL: 'Deal',
+  WAIT: 'Wait',
+  DONE: 'Done'
 }

@@ -200,7 +200,9 @@ class OpenOrder extends Component {
                                 {o.type}
                               </Header6>
                             </td>
-                            <td>{o.token_price}</td>
+                            <td>
+                              <Header6 className="text-right">{o.token_price.toFixed(4)}</Header6>
+                            </td>
                             <td>
                               <Header6>
                                 {o.status === ORDER_STATUS_PARTIAL_DEALED
@@ -223,7 +225,9 @@ class OpenOrder extends Component {
                               <Header6>-</Header6>
                             </td>
                             <td>
-                              <Header6>{o.status}</Header6>
+                              <Header6>
+                                <FormattedMessage id={o.status} />
+                              </Header6>
                             </td>
                             <td>
                               <button onClick={() => this.cancelOrder(o.id)}>Cancel</button>

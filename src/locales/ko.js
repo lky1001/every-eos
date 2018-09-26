@@ -36,5 +36,14 @@ export default {
   'Open Orders': '현재 주문',
   'Order History': '예전 주문',
   'Limit Order': '지정가 거래',
-  'Market Order': '시장가 거래'
+  'Market Order': '시장가 거래',
+  ALL_DEALED: '거래완료',
+  NOT_DEAL: '대기중',
+  PARTIAL_DEALED: '일부 완료',
+  CANCELLED: '취소',
+  BUY: '구매',
+  SELL: '판매',
+  DEAL: '거래',
+  WAIT: '대기중',
+  DONE: '완료'
 }

@@ -181,42 +181,48 @@ class OrderHistory extends Component {
                             </td>
                             <td>
                               <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
-                                {o.type}
+                                <FormattedMessage id={o.type} />
                               </Header6>
                             </td>
-                            <td>{o.token_price}</td>
                             <td>
-                              {o.status === ORDER_STATUS_ALL_DEALED
-                                ? o.orderDetails.length === 0
-                                  ? 0
-                                  : Math.round(
-                                    o.orderDetails.reduce(
-                                      (acc, curr) => acc + curr.amount * curr.token_price,
-                                      0
-                                    ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                                  )
-                                : o.status === ORDER_STATUS_CANCELLED
+                              <Header6 className="text-right">{o.token_price.toFixed(4)}</Header6>
+                            </td>
+                            <td>
+                              <Header6>
+                                {o.status === ORDER_STATUS_ALL_DEALED
                                   ? o.orderDetails.length === 0
                                     ? 0
                                     : Math.round(
-                                      o.orderDetails
-                                        .filter(
-                                          od =>
-                                            od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                        )
-                                        .reduce(
-                                          (acc, curr) => acc + curr.amount * curr.token_price,
-                                          0
-                                        ) /
-                                          o.orderDetails
-                                            .filter(
-                                              od =>
-                                                od.deal_status ===
-                                                ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                            )
-                                            .reduce((acc, curr) => acc + curr.amount, 0)
+                                      o.orderDetails.reduce(
+                                        (acc, curr) => acc + curr.amount * curr.token_price,
+                                        0
+                                      ) /
+                                          o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
                                     )
-                                  : '-'}
+                                  : o.status === ORDER_STATUS_CANCELLED
+                                    ? o.orderDetails.length === 0
+                                      ? 0
+                                      : Math.round(
+                                        o.orderDetails
+                                          .filter(
+                                            od =>
+                                              od.deal_status ===
+                                                ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                          )
+                                          .reduce(
+                                            (acc, curr) => acc + curr.amount * curr.token_price,
+                                            0
+                                          ) /
+                                            o.orderDetails
+                                              .filter(
+                                                od =>
+                                                  od.deal_status ===
+                                                  ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                              )
+                                              .reduce((acc, curr) => acc + curr.amount, 0)
+                                      )
+                                    : '-'}
+                              </Header6>
                             </td>
                             <td>
                               <Header6>{o.total_amount}</Header6>
@@ -228,7 +234,9 @@ class OrderHistory extends Component {
                               <Header6>-</Header6>
                             </td>
                             <td>
-                              <Header6>{o.status}</Header6>
+                              <Header6>
+                                <FormattedMessage id={o.status} />
+                              </Header6>
                             </td>
                           </tr>
                         )
@@ -267,7 +275,8 @@ class OrderHistory extends Component {
             </InputPairContainer>
             <Pagination
               aria-label="orders pagination"
-              style={{ justifyContent: 'center', alignItems: 'center' }}>
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
               <PaginationItem>
                 <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
               </PaginationItem>
