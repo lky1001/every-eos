@@ -140,21 +140,25 @@ class Header extends Component {
               id="basic-nav-dropdown"
               pullRight
               componentClass="li"
-              style={{ paddingTop: '3px' }}>
-              <Dropdown.Toggle useAnchor noCaret className="has-badge ripple">
+              style={{ paddingTop: '3px' }}
+            >
+              <Dropdown.Toggle
+                useAnchor
+                noCaret
+                className="has-badge ripple"
+                style={{ fontSize: '16px' }}
+              >
                 <FormattedMessage id="LANG" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="md-dropdown-menu">
                 <LinkContainer to="pages/profile">
-                  <MenuItem eventKey={3.1}>
-                    <em className="ion-home icon-fw" />
-                    ko-KR
+                  <MenuItem eventKey={1}>
+                    <span style={{ fontSize: '13px' }}>한국어</span>
                   </MenuItem>
                 </LinkContainer>
                 <LinkContainer to="pages/messages">
-                  <MenuItem eventKey={3.2}>
-                    <em className="ion-gear-a icon-fw" />
-                    en-US
+                  <MenuItem eventKey={2}>
+                    <span style={{ fontSize: '13px' }}>ENGLISH</span>
                   </MenuItem>
                 </LinkContainer>
               </Dropdown.Menu>
