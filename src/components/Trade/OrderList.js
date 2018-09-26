@@ -23,11 +23,13 @@ const BaseRow = styled.tr`
 const BaseColumn = styled.td`
   width: 30%;
   border-style: hidden;
+  padding-right: 18px !important;
 `
 
 const AmountColumn = styled.td`
   width: 40%;
   border-style: hidden;
+  padding-right: 8px !important;
 `
 
 class OrderList extends Component {
