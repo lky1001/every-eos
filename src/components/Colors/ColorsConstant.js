@@ -1,4 +1,4 @@
-const APP_COLORS = {
+const ColorsConstant = {
   'gray-darker': '#263238',
   'gray-dark': '#455A64',
   gray: '#607D8B',
@@ -9,7 +9,10 @@ const APP_COLORS = {
   success: '#4CAF50',
   info: '#03A9F4',
   warning: '#FFB300',
-  danger: '#F44336'
+  danger: '#F44336',
+
+  Thick_red: '#D50000',
+  Thick_blue: '#1565C0'
 }
 
-export default APP_COLORS
+export default ColorsConstant

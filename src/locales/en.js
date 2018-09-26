@@ -1,6 +1,7 @@
 export default {
   Name: 'Name',
   'Last Price': 'Last Price',
+  Change: 'Change',
   'Today Change': 'Today Change',
   'Today High': 'Today High',
   'Today Low': 'Today Low',

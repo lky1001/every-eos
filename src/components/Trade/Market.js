@@ -19,14 +19,15 @@ class Market extends Component {
         <HeaderTable className="table order-list-table">
           <thead>
             <tr>
-              <th style={{ width: '40%', textAlign: 'center' }}>
+              <th style={{ width: '10%' }} />
+              <th style={{ width: '40%', textAlign: 'left' }}>
                 <FormattedMessage id="Market" />
               </th>
-              <th style={{ width: '30%', textAlign: 'center' }}>
+              <th style={{ width: '25%', textAlign: 'right' }}>
                 <FormattedMessage id="Last Price" />
               </th>
-              <th style={{ width: '30%', textAlign: 'center' }}>
-                <FormattedMessage id="Today Change" />
+              <th style={{ width: '25%', textAlign: 'right' }}>
+                <FormattedMessage id="Change" />
               </th>
             </tr>
           </thead>
@@ -41,18 +42,38 @@ class Market extends Component {
                       <tr
                         key={idx}
                         className="msg-display clickable"
-                        onClick={() => this.goTrade(t.symbol)}
-                      >
-                        <td style={{ width: '40%' }}>
+                        onClick={() => this.goTrade(t.symbol)}>
+                        <td style={{ width: '10%' }}>
+                          <em data-pack="default" className="ion-ios-star-outline" />
+                        </td>
+                        <td style={{ width: '40%', textAlign: 'left' }}>
                           <PriceRow>
                             {t.symbol} / {t.market}
                           </PriceRow>
                         </td>
-                        <td style={{ width: '30%', textAlign: 'right' }}>
-                          <PriceRow>{t.last_price.toFixed(4)}</PriceRow>
+                        <td style={{ width: '25%', textAlign: 'right' }}>
+                          {t.last_price - t.last_previous_price > 0 ? (
+                            <PriceRow up>{t.last_price.toFixed(4)}</PriceRow>
+                          ) : t.last_price - t.last_previous_price < 0 ? (
+                            <PriceRow down>{t.last_price.toFixed(4)}</PriceRow>
+                          ) : (
+                            <PriceRow>{t.last_price.toFixed(4)}</PriceRow>
+                          )}
                         </td>
-                        <td style={{ width: '30%', textAlign: 'right' }}>
-                          <PriceRow>{t.change_24h}</PriceRow>
+
+                        {/* 이쪽 변화율 계산 로직 TODO */}
+                        <td style={{ width: '25%', textAlign: 'right' }}>
+                          {t.last_price - t.last_previous_price > 0 ? (
+                            <PriceRow up>
+                              {(t.last_price - t.last_previous_price).toFixed(2)} %
+                            </PriceRow>
+                          ) : t.last_price - t.last_previous_price < 0 ? (
+                            <PriceRow down>
+                              {(t.last_price - t.last_previous_price).toFixed(2)} %
+                            </PriceRow>
+                          ) : (
+                            <PriceRow>{Number(0).tofix(2)} %</PriceRow>
+                          )}
                         </td>
                       </tr>
                     )

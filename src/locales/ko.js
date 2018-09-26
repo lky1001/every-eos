@@ -1,6 +1,7 @@
 export default {
   Name: '이름',
   'Last Price': '현재가',
+  Change: '변동',
   'Today Change': '전일대비',
   'Today High': '금일 고가',
   'Today Low': '금일 저가',

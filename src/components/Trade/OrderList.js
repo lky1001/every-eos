@@ -10,6 +10,7 @@ import {
   ORDER_STATUS_PARTIAL_DEALED
 } from '../../constants/Values'
 import { isNumber } from 'util'
+import ColorsConstant from '../Colors/ColorsConstant'
 
 class OrderList extends Component {
   constructor(props) {
@@ -71,11 +72,11 @@ class OrderList extends Component {
               <th style={{ width: '30%' }}>
                 <FormattedMessage id="Price(EOS)" />
               </th>
-              <th style={{ width: '35%' }}>
+              <th style={{ width: '40%' }}>
                 <FormattedMessage id="Amount" />
                 {`(${token.symbol})`}
               </th>
-              <th style={{ width: '35%' }}>
+              <th style={{ width: '30%' }}>
                 <FormattedMessage id="Total(EOS)" />
               </th>
             </tr>
@@ -92,10 +93,10 @@ class OrderList extends Component {
                     <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td style={{ width: '30%' }}>
                         <a href="#">
-                          <PriceRow>{o.token_price.toFixed(4)}</PriceRow>
+                          <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
                         </a>
                       </td>
-                      <td style={{ width: '35%' }}>
+                      <td style={{ width: '40%' }}>
                         <a href="#">
                           <PriceBack
                             down
@@ -113,7 +114,7 @@ class OrderList extends Component {
                           </PriceRow>
                         </a>
                       </td>
-                      <td style={{ width: '35%' }}>
+                      <td style={{ width: '30%' }}>
                         <a href="#">
                           <PriceRow>
                             {Math.abs(
@@ -131,16 +132,23 @@ class OrderList extends Component {
         </div>
 
         <TokenPrice className="table-responsive">
-          <Text color={token.last_price - token.last_previous_price > 0 ? 'Red' : 'Blue'}>{`${
-            token.last_price
-          }`}</Text>{' '}
+          <Text
+            color={
+              token.last_price - token.last_previous_price > 0
+                ? ColorsConstant.Thick_blue
+                : ColorsConstant.Thick_red
+            }>{`${token.last_price}`}</Text>{' '}
           <PriceIcon
             className={
               token.last_price - token.last_previous_price > 0
                 ? 'ion-arrow-up-c'
                 : 'ion-arrow-down-c'
             }
-            color={token.last_price - token.last_previous_price > 0 ? 'Red' : 'Blue'}
+            color={
+              token.last_price - token.last_previous_price > 0
+                ? ColorsConstant.Thick_blue
+                : ColorsConstant.Thick_red
+            }
           />
         </TokenPrice>
 
@@ -155,7 +163,7 @@ class OrderList extends Component {
                     <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td style={{ width: '30%' }}>
                         <a href="#">
-                          <PriceRow>{o.token_price.toFixed(4)}</PriceRow>
+                          <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
                         </a>
                       </td>
                       <td style={{ width: '40%' }}>

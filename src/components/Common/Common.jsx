@@ -10,6 +10,7 @@ import './UiCheckboxRadio.scss'
 import './UiNoteArea.scss'
 import './UiSwitch.scss'
 import styled from 'styled-components'
+import ColorsConstant from '../Colors/ColorsConstant.js'
 
 import { Container } from 'reactstrap'
 
@@ -31,14 +32,14 @@ export const PriceBack = styled.div`
 export const PriceRow = styled.p`
   padding-top: 1px;
   margin-bottom: 0px;
-  color: #6c7177;
+  color: ${props =>
+    props.up ? ColorsConstant.Thick_blue : props.down ? ColorsConstant.Thick_red : '#6c7177'};
   font-size: 12px;
 `
 
 export const PriceIcon = styled.em`
   color: ${props => props.color};
 `
-
 export const Text = styled.span`
   color: ${props => props.color};
 `
