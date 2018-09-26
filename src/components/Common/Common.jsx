@@ -17,13 +17,13 @@ export const NoPaddingCol = styled.div`
   padding: 0px;
   padding: 0px !important;
   background: white;
-  border: ${props => props.border ? 'solid 1px #d9d9d9' : ''};
+  border: ${props => (props.border ? 'solid 1px #d9d9d9' : '')};
 `
 
 export const PriceBack = styled.div`
-  background-color: ${props => props.up ? '#ddedfe' : '#fee9f1'};
+  background-color: ${props => (props.up ? '#ddedfe' : '#fee9f1')};
   height: 100%;
-  color: ${props => props.up ? '#ddedfe' : '#fee9f1'};
+  color: ${props => (props.up ? '#ddedfe' : '#fee9f1')};
   float: right;
   overflow: hidden;
 `
@@ -48,14 +48,13 @@ export const HeaderTable = styled.table`
 `
 
 export const TokenPrice = styled.div`
-  height: 30px;
-  background: #d9d9d9;
+  height: 44px;
+  background: white;
   vertical-align: middle;
   text-align: center;
   font-size: 18px;
-  padding-top: 3px;
+  padding: 8px;
 `
-
 
 export const Header6 = styled.h6`
   font-size: 14px;

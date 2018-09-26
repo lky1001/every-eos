@@ -98,19 +98,17 @@ class OrderList extends Component {
                       <td style={{ width: '35%' }}>
                         <a href="#">
                           <PriceBack
-                            up
+                            down
                             style={{
                               width: width + '%'
-                            }}
-                          >
+                            }}>
                             -
                           </PriceBack>
                           <PriceRow
                             style={{
                               position: 'absolute',
                               right: '18px'
-                            }}
-                          >
+                            }}>
                             {o.stacked_amount.toFixed(4)}
                           </PriceRow>
                         </a>
@@ -163,19 +161,17 @@ class OrderList extends Component {
                       <td style={{ width: '40%' }}>
                         <a href="#">
                           <PriceBack
-                            down
+                            up
                             style={{
                               width: width + '%'
-                            }}
-                          >
+                            }}>
                             -
                           </PriceBack>
                           <PriceRow
                             style={{
                               position: 'absolute',
                               right: '18px'
-                            }}
-                          >
+                            }}>
                             {o.stacked_amount.toFixed(4)}
                           </PriceRow>
                         </a>
