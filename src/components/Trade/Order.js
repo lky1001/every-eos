@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import classnames from 'classnames'
-import { Row, Col } from 'reactstrap'
+import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { FormattedMessage } from 'react-intl'
 import {
@@ -126,7 +126,7 @@ class Order extends Component {
       symbol: token.symbol,
       market: 'EOS',
       price: 0.0,
-      qty: 0.0,
+      qty: 0.0001,
       amount: eosAmount
     }
 
@@ -251,6 +251,8 @@ class Order extends Component {
   }
 
   render() {
+    const { token } = this.props
+
     return (
       <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
         <TabList>
@@ -262,42 +264,53 @@ class Order extends Component {
           </Tab>
         </TabList>
 
-        <TabPanel>
+        <TabPanel style={{ fontSize: '1.25rem' }}>
           <Row>
             <Col sm="6">
-              <Row>
-                <Col sm="3" style={{ textAlign: 'center' }}>
+              <Row style={{ height: '40px', margin: '12px', alignItems: 'center' }}>
+                <Col sm="3" style={{ textAlign: 'right', paddingRight: '8px' }}>
                   Available
                 </Col>
                 <Col sm="9">234.22 EOS</Col>
               </Row>
-              <Row>
-                <Col sm="3">Price</Col>
+              <Row style={{ height: '40px', margin: '12px', alignItems: 'center' }}>
+                <Col sm="3" style={{ textAlign: 'right', paddingRight: '8px' }}>
+                  Price
+                </Col>
                 <Col sm="9">
-                  <input
-                    type="text"
-                    name="buyPrice"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.buyPrice}
-                    placeholder="buy price"
-                  />
+                  <InputGroup>
+                    <Input
+                      type="number"
+                      value={this.state.buyPrice}
+                      onChange={this.handleChange.bind(this)}
+                      step="1"
+                      style={{ height: '40px', fontSize: '1.5rem' }}
+                    />
+                    <InputGroupAddon addonType="append">EOS</InputGroupAddon>
+                  </InputGroup>
+                </Col>
+              </Row>
+              <Row style={{ height: '40px', margin: '12px', alignItems: 'center' }}>
+                <Col sm="3" style={{ textAlign: 'right', paddingRight: '8px' }}>
+                  Amount
+                </Col>
+                <Col sm="9">
+                  <InputGroup>
+                    <Input
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange.bind(this)}
+                      value={this.state.buyQty}
+                      style={{ height: '40px', fontSize: '1.5rem' }}
+                    />
+                    <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
+                  </InputGroup>
                 </Col>
               </Row>
               <Row>
-                <Col sm="2">Amount</Col>
-                <Col sm="10">
-                  <input
-                    type="text"
-                    name="buyQty"
-                    onChange={this.handleChange.bind(this)}
-                    value={this.state.buyQty}
-                    placeholder="buy qty"
-                  />
-                </Col>
-              </Row>
-              <Row>
-                <Col sm="2" />
-                <Col sm="10">
+                <Col sm="3" />
+                <Col sm="9">
                   <button onClick={this.onBuyLimitClick}>Buy</button>
                 </Col>
               </Row>
