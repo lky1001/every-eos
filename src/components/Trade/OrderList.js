@@ -110,10 +110,10 @@ class OrderList extends Component {
                   return (
                     <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <BaseColumn>
-                        <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
+                        <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
                       </BaseColumn>
                       <AmountColumn>
-                        <PriceBack width={width} up>
+                        <PriceBack width={width} down>
                           -
                         </PriceBack>
                         <PriceRow position="absolute" right="18px">
@@ -139,8 +139,8 @@ class OrderList extends Component {
           <Text
             color={
               token.last_price - token.last_previous_price > 0
-                ? ColorsConstant.Thick_red
-                : ColorsConstant.Thick_blue
+                ? ColorsConstant.Thick_blue
+                : ColorsConstant.Thick_red
             }>{`${token.last_price}`}</Text>{' '}
           <PriceIcon
             className={
@@ -150,8 +150,8 @@ class OrderList extends Component {
             }
             color={
               token.last_price - token.last_previous_price > 0
-                ? ColorsConstant.Thick_red
-                : ColorsConstant.Thick_blue
+                ? ColorsConstant.Thick_blue
+                : ColorsConstant.Thick_red
             }
           />
         </TokenPrice>
@@ -166,10 +166,10 @@ class OrderList extends Component {
                   return (
                     <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <BaseColumn>
-                        <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
+                        <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
                       </BaseColumn>
                       <AmountColumn>
-                        <PriceBack down width={width}>
+                        <PriceBack up width={width}>
                           -
                         </PriceBack>
                         <PriceRow position="absolute" right="18px">
