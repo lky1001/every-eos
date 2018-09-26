@@ -77,7 +77,7 @@ class Market extends Component {
                           className="msg-display clickable"
                           onClick={() => this.goTrade(t.symbol)}>
                           <FavoriteColumn>
-                            <em data-pack="default" className="ion-ios-star-outline" />
+                            <em data-pack="default" className="ion-android-star-outline" />
                           </FavoriteColumn>
                           <PairColumn style={{ textAlign: 'left' }}>
                             <PriceRow>

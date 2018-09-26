@@ -107,45 +107,6 @@ class OrderList extends Component {
                   const width = (o.stacked_amount / sellMax) * 100
 
                   return (
-<<<<<<< HEAD
-                    <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
-                      <td style={{ width: '30%' }}>
-                        <a href="#">
-                          <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
-                        </a>
-                      </td>
-                      <td style={{ width: '40%' }}>
-                        <a href="#">
-                          <PriceBack
-                            down
-                            style={{
-                              width: width + '%'
-                            }}
-                          >
-                            -
-                          </PriceBack>
-                          <PriceRow
-                            style={{
-                              position: 'absolute',
-                              right: '18px'
-                            }}
-                          >
-                            {o.stacked_amount.toFixed(4)}
-                          </PriceRow>
-                        </a>
-                      </td>
-                      <td style={{ width: '30%' }}>
-                        <a href="#">
-                          <PriceRow>
-                            {Math.abs(
-                              o.token_price.toFixed(token.precision) *
-                                o.stacked_amount.toFixed(token.precision)
-                            ).toFixed(token.precision)}
-                          </PriceRow>
-                        </a>
-                      </td>
-                    </tr>
-=======
                     <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <BaseColumn>
                         <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
@@ -175,7 +136,6 @@ class OrderList extends Component {
                         </PriceRow>
                       </BaseColumn>
                     </BaseRow>
->>>>>>> styling
                   )
                 })}
             </tbody>
@@ -188,8 +148,7 @@ class OrderList extends Component {
               token.last_price - token.last_previous_price > 0
                 ? ColorsConstant.Thick_red
                 : ColorsConstant.Thick_blue
-            }
-          >{`${token.last_price}`}</Text>{' '}
+            }>{`${token.last_price}`}</Text>{' '}
           <PriceIcon
             className={
               token.last_price - token.last_previous_price > 0
@@ -212,45 +171,6 @@ class OrderList extends Component {
                   const width = (o.stacked_amount / buyMax) * 100
 
                   return (
-<<<<<<< HEAD
-                    <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
-                      <td style={{ width: '30%' }}>
-                        <a href="#">
-                          <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
-                        </a>
-                      </td>
-                      <td style={{ width: '40%' }}>
-                        <a href="#">
-                          <PriceBack
-                            up
-                            style={{
-                              width: width + '%'
-                            }}
-                          >
-                            -
-                          </PriceBack>
-                          <PriceRow
-                            style={{
-                              position: 'absolute',
-                              right: '18px'
-                            }}
-                          >
-                            {o.stacked_amount.toFixed(4)}
-                          </PriceRow>
-                        </a>
-                      </td>
-                      <td style={{ width: '35%' }}>
-                        <a href="#">
-                          <PriceRow>
-                            {Math.abs(
-                              o.token_price.toFixed(token.precision) *
-                                o.stacked_amount.toFixed(token.precision)
-                            ).toFixed(token.precision)}
-                          </PriceRow>
-                        </a>
-                      </td>
-                    </tr>
-=======
                     <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <BaseColumn>
                         <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
@@ -280,7 +200,6 @@ class OrderList extends Component {
                         </PriceRow>
                       </BaseColumn>
                     </BaseRow>
->>>>>>> styling
                   )
                 })}
             </tbody>

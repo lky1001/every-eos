@@ -4,6 +4,29 @@ import { FormattedMessage } from 'react-intl'
 import { Table } from 'reactstrap'
 import { PriceRow, TokenPrice } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
+import styled from 'styled-components'
+
+const TokenRow = styled.tr`
+  line-height: 26px;
+  min-height: 26px;
+  height: 26px;
+`
+
+const BaseColumn = styled.td`
+  text-align: left;
+`
+
+const ThumbnailColumn = styled(BaseColumn)`
+  width: 10%;
+`
+
+const PairColumn = styled(BaseColumn)`
+  width: 45%;
+`
+
+const QuantityColumn = styled(BaseColumn)`
+  width: 45%;
+`
 
 class Wallet extends Component {
   constructor(props) {
@@ -122,14 +145,17 @@ class Wallet extends Component {
                 {accountStore.isLogin &&
                   this.state.tokens.map((token, idx) => {
                     return (
-                      <tr key={idx}>
-                        <td style={{ width: '50%' }}>
+                      <TokenRow key={idx}>
+                        <ThumbnailColumn>
+                          <em data-pack="default" className="ion-social-usd" />
+                        </ThumbnailColumn>
+                        <PairColumn style={{ textAlign: 'left' }}>
                           <PriceRow>{token.name}</PriceRow>
-                        </td>
-                        <td style={{ width: '50%' }}>
+                        </PairColumn>
+                        <QuantityColumn>
                           <PriceRow>{token.balance}</PriceRow>
-                        </td>
-                      </tr>
+                        </QuantityColumn>
+                      </TokenRow>
                     )
                   })}
               </tbody>
