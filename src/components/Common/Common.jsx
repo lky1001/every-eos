@@ -27,6 +27,7 @@ export const PriceBack = styled.div`
   color: ${props => (props.up ? ColorsConstant.Thick_back_blue : props.down ? ColorsConstant.Thick_back_red : 'white')};
   float: right;
   overflow: hidden;
+  width: ${props => props.width + '%'};
 `
 
 export const PriceRow = styled.p`
@@ -35,6 +36,8 @@ export const PriceRow = styled.p`
   color: ${props =>
     props.up ? ColorsConstant.Thick_blue : props.down ? ColorsConstant.Thick_red : ColorsConstant.Thick_normal};
   font-size: 12px;
+  position: ${props => props.position && props.position};
+  right: ${props => props.right && props.right};
 `
 
 export const PriceIcon = styled.em`

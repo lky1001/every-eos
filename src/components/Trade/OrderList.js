@@ -15,7 +15,7 @@ import styled from 'styled-components'
 
 const BaseRow = styled.tr`
   height: 21px;
-  :hover {
+  &:hover {
     color: white;
   }
 `
@@ -109,23 +109,13 @@ class OrderList extends Component {
                   return (
                     <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <BaseColumn>
-                        <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
+                        <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
                       </BaseColumn>
                       <AmountColumn>
-                        <PriceBack
-                          up
-                          style={{
-                            width: width + '%'
-                          }}
-                        >
+                        <PriceBack width={width} up>
                           -
                         </PriceBack>
-                        <PriceRow
-                          style={{
-                            position: 'absolute',
-                            right: '18px'
-                          }}
-                        >
+                        <PriceRow position="absolute" right="18px">
                           {o.stacked_amount.toFixed(4)}
                         </PriceRow>
                       </AmountColumn>
@@ -175,23 +165,13 @@ class OrderList extends Component {
                   return (
                     <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <BaseColumn>
-                        <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
+                        <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
                       </BaseColumn>
                       <AmountColumn>
-                        <PriceBack
-                          down
-                          style={{
-                            width: width + '%'
-                          }}
-                        >
+                        <PriceBack down width={width}>
                           -
                         </PriceBack>
-                        <PriceRow
-                          style={{
-                            position: 'absolute',
-                            right: '18px'
-                          }}
-                        >
+                        <PriceRow position="absolute" right="18px">
                           {o.stacked_amount.toFixed(4)}
                         </PriceRow>
                       </AmountColumn>

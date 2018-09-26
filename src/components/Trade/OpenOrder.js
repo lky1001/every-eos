@@ -150,6 +150,7 @@ class OpenOrder extends Component {
             </NavLink>
           </NavItem>
         </Nav>
+
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1">
             <div className="table-responsive bootgrid">
