@@ -13,6 +13,10 @@ import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant.js'
 import { Container, Col } from 'reactstrap'
 
+export const RightAlignCol = styled(Col)`
+  text-align: right;
+`
+
 export const NoMarginPaddingCol = styled(Col)`
   padding: 0;
   margin: 0;

@@ -1,13 +1,50 @@
 import React, { Component, Fragment } from 'react'
 import classnames from 'classnames'
-import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input } from 'reactstrap'
+import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input, Button } from 'reactstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { FormattedMessage } from 'react-intl'
+import ColorsConstant from '../Colors/ColorsConstant'
+import { RightAlignCol } from '../Common/Common'
 import {
   EOS_TOKEN,
   SCATTER_ERROR_LOCKED,
   SCATTER_ERROR_REJECT_TRANSACTION_BY_USER
 } from '../../constants/Values'
+
+import styled from 'styled-components'
+
+const OrderTabPanel = styled(TabPanel)`
+  font-size: 1.25rem;
+`
+
+const OrderRowPanel = styled(Row)`
+  height: 40px;
+  margin: 12px;
+  align-items: center;
+`
+
+const OrderColPanel = styled(Col)`
+  text-align: right;
+  padding-right: 8px;
+`
+
+const PrimaryOrderColPanel = styled(OrderColPanel)`
+  text-align: left;
+  color: ${props =>
+    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
+`
+
+const OrderInput = styled(Input)`
+  height: 40px;
+  font-size: 1.25rem;
+`
+
+const OrderButton = styled(Button)`
+  width: 100%;
+  height: 40px;
+  background: ${props =>
+    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
+`
 
 class Order extends Component {
   constructor(props) {
@@ -17,9 +54,9 @@ class Order extends Component {
     this.state = {
       tabIndex: 0,
       buyPrice: 0.0,
-      buyQty: 0.0,
+      buyQty: 0.0001,
       sellPrice: 0.0,
-      sellQty: 0.0,
+      sellQty: 0.0001,
       buyMarketTotalEos: 0.0,
       sellMarketAmount: 0.0
     }
@@ -126,7 +163,7 @@ class Order extends Component {
       symbol: token.symbol,
       market: 'EOS',
       price: 0.0,
-      qty: 0.0001,
+      qty: 0.0,
       amount: eosAmount
     }
 
@@ -264,85 +301,109 @@ class Order extends Component {
           </Tab>
         </TabList>
 
-        <TabPanel style={{ fontSize: '1.25rem' }}>
+        <OrderTabPanel>
           <Row>
             <Col sm="6">
-              <Row style={{ height: '40px', margin: '12px', alignItems: 'center' }}>
-                <Col sm="3" style={{ textAlign: 'right', paddingRight: '8px' }}>
-                  Available
-                </Col>
-                <Col sm="9">234.22 EOS</Col>
-              </Row>
-              <Row style={{ height: '40px', margin: '12px', alignItems: 'center' }}>
-                <Col sm="3" style={{ textAlign: 'right', paddingRight: '8px' }}>
-                  Price
-                </Col>
+              <OrderRowPanel>
+                <PrimaryOrderColPanel sm="3" />
+                <PrimaryOrderColPanel sm="3" buy>
+                  <FormattedMessage id="Available" />
+                </PrimaryOrderColPanel>
+                <RightAlignCol sm="6">234.22 EOS</RightAlignCol>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3">Price</OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <Input
+                    <OrderInput
                       type="number"
                       value={this.state.buyPrice}
                       onChange={this.handleChange.bind(this)}
                       step="1"
-                      style={{ height: '40px', fontSize: '1.5rem' }}
                     />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
-              </Row>
-              <Row style={{ height: '40px', margin: '12px', alignItems: 'center' }}>
-                <Col sm="3" style={{ textAlign: 'right', paddingRight: '8px' }}>
-                  Amount
-                </Col>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3">Amount</OrderColPanel>
                 <Col sm="9">
-                  <InputGroup>
-                    <Input
+                  <InputGroup style={{ width: '100%' }}>
+                    <OrderInput
                       placeholder="Amount"
                       type="number"
                       step="1"
                       onChange={this.handleChange.bind(this)}
                       value={this.state.buyQty}
-                      style={{ height: '40px', fontSize: '1.5rem' }}
                     />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>
-              </Row>
-              <Row>
-                <Col sm="3" />
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3" />
                 <Col sm="9">
-                  <button onClick={this.onBuyLimitClick}>Buy</button>
+                  <OrderButton buy onClick={this.onBuyLimitClick}>
+                    BUY
+                  </OrderButton>
                 </Col>
-              </Row>
+              </OrderRowPanel>
             </Col>
+
             <Col sm="6">
-              sell price{' '}
-              <input
-                type="text"
-                name="sellPrice"
-                onChange={this.handleChange.bind(this)}
-                value={this.state.sellPrice}
-                placeholder="sell price"
-              />
-              <br />
-              sell amount{' '}
-              <input
-                type="text"
-                name="sellQty"
-                onChange={this.handleChange.bind(this)}
-                value={this.state.sellQty}
-                placeholder="sell qty"
-              />
-              <br />
-              <button onClick={this.onSellLimitClick}>Sell Limit</button>
+              <OrderRowPanel>
+                <PrimaryOrderColPanel sm="3" />
+                <PrimaryOrderColPanel sm="3" sell>
+                  <FormattedMessage id="Available" />
+                </PrimaryOrderColPanel>
+                <RightAlignCol sm="6">301.22 {token.symbol}</RightAlignCol>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3">Price</OrderColPanel>
+                <Col sm="9">
+                  <InputGroup>
+                    <OrderInput
+                      type="number"
+                      onChange={this.handleChange.bind(this)}
+                      value={this.state.sellPrice}
+                      step="1"
+                    />
+                    <InputGroupAddon addonType="append">EOS</InputGroupAddon>
+                  </InputGroup>
+                </Col>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3">Amount</OrderColPanel>
+                <Col sm="9">
+                  <InputGroup style={{ width: '100%' }}>
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange.bind(this)}
+                      value={this.state.sellQty}
+                    />
+                    <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
+                  </InputGroup>
+                </Col>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3" />
+                <Col sm="9">
+                  <OrderButton sell onClick={this.onSellLimitClick}>
+                    SELL
+                  </OrderButton>
+                </Col>
+              </OrderRowPanel>
             </Col>
           </Row>
-        </TabPanel>
+        </OrderTabPanel>
+
         <TabPanel>
           <Row>
             <Col sm="6">
               buy total(EOS){' '}
-              <input
+              <OrderInput
                 type="text"
                 name="buyMarketTotalEos"
                 onChange={this.handleChange.bind(this)}
@@ -354,7 +415,7 @@ class Order extends Component {
             </Col>
             <Col sm="6">
               sell amount{' '}
-              <input
+              <OrderInput
                 type="text"
                 name="sellMarketAmount"
                 onChange={this.handleChange.bind(this)}

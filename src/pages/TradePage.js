@@ -99,16 +99,15 @@ class TradePage extends Component {
               <Col md={6} style={{ height: '660px' }}>
                 <Row
                   style={{
-                    height: '400px',
+                    height: '380px',
                     background: 'white',
-                    borderTop: ColorsConstant.Trade_border_style,
-                    borderBottom: ColorsConstant.Trade_border_style
+                    borderTop: ColorsConstant.Trade_border_style
                   }}>
                   <Col md={12}>{/* <TradingChart /> */}</Col>
                 </Row>
                 <Row
                   style={{
-                    height: '260px',
+                    height: '280px',
                     background: 'white'
                   }}>
                   <NoMarginPaddingCol xs={12}>
