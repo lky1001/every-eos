@@ -24,7 +24,6 @@ class OpenOrder extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1',
       currentPage: 1,
       pageCount: 1,
       token_symbol: null,

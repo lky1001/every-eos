@@ -34,5 +34,7 @@ export default {
   Orders: '주문 기록',
   'No Data': '기록 없음',
   'Open Orders': '현재 주문',
-  'Order History': '예전 주문'
+  'Order History': '예전 주문',
+  'Limit Order': '제한 거래',
+  'Market Order': '시가 거래'
 }

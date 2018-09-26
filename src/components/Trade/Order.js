@@ -1,6 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import classnames from 'classnames'
-import { TabContent, TabPane, Nav, NavItem, NavLink, Row, Col } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import { FormattedMessage } from 'react-intl'
 import {
   EOS_TOKEN,
   SCATTER_ERROR_LOCKED,
@@ -13,7 +15,7 @@ class Order extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      activeTab: '1',
+      tabIndex: 0,
       buyPrice: 0.0,
       buyQty: 0.0,
       sellPrice: 0.0,
@@ -250,106 +252,108 @@ class Order extends Component {
 
   render() {
     return (
-      <div>
-        <Nav tabs>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
-              onClick={() => {
-                this.toggle('1')
-              }}
-            >
-              Limit Order
-            </NavLink>
-          </NavItem>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === '2' })}
-              onClick={() => {
-                this.toggle('2')
-              }}
-            >
-              Market Order
-            </NavLink>
-          </NavItem>
-        </Nav>
-        <TabContent activeTab={this.state.activeTab}>
-          <TabPane tabId="1">
-            <Row>
-              <Col sm="6">
-                buy price{' '}
-                <input
-                  type="text"
-                  name="buyPrice"
-                  onChange={this.handleChange.bind(this)}
-                  value={this.state.buyPrice}
-                  placeholder="buy price"
-                />
-                <br />
-                buy amount{' '}
-                <input
-                  type="text"
-                  name="buyQty"
-                  onChange={this.handleChange.bind(this)}
-                  value={this.state.buyQty}
-                  placeholder="buy qty"
-                />
-                <br />
-                <button onClick={this.onBuyLimitClick}>Buy Limit</button>
-              </Col>
-              <Col sm="6">
-                sell price{' '}
-                <input
-                  type="text"
-                  name="sellPrice"
-                  onChange={this.handleChange.bind(this)}
-                  value={this.state.sellPrice}
-                  placeholder="sell price"
-                />
-                <br />
-                sell amount{' '}
-                <input
-                  type="text"
-                  name="sellQty"
-                  onChange={this.handleChange.bind(this)}
-                  value={this.state.sellQty}
-                  placeholder="sell qty"
-                />
-                <br />
-                <button onClick={this.onSellLimitClick}>Sell Limit</button>
-              </Col>
-            </Row>
-          </TabPane>
-          <TabPane tabId="2">
-            <Row>
-              <Col sm="6">
-                buy total(EOS){' '}
-                <input
-                  type="text"
-                  name="buyMarketTotalEos"
-                  onChange={this.handleChange.bind(this)}
-                  value={this.state.buyMarketTotalEos}
-                  placeholder="buy total in eos"
-                />
-                <br />
-                <button onClick={this.onBuyMarketClick}>Buy Market</button>
-              </Col>
-              <Col sm="6">
-                sell amount{' '}
-                <input
-                  type="text"
-                  name="sellMarketAmount"
-                  onChange={this.handleChange.bind(this)}
-                  value={this.state.sellMarketAmount}
-                  placeholder="sell amount"
-                />
-                <br />
-                <button onClick={this.onSellMarketClick}>Sell Market</button>
-              </Col>
-            </Row>
-          </TabPane>
-        </TabContent>
-      </div>
+      <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
+        <TabList>
+          <Tab>
+            <FormattedMessage id="Limit Order" />
+          </Tab>
+          <Tab>
+            <FormattedMessage id="Market Order" />
+          </Tab>
+        </TabList>
+
+        <TabPanel>
+          <Row>
+            <Col sm="6">
+              <Row>
+                <Col sm="3" style={{ textAlign: 'center' }}>
+                  Available
+                </Col>
+                <Col sm="9">234.22 EOS</Col>
+              </Row>
+              <Row>
+                <Col sm="3">Price</Col>
+                <Col sm="9">
+                  <input
+                    type="text"
+                    name="buyPrice"
+                    onChange={this.handleChange.bind(this)}
+                    value={this.state.buyPrice}
+                    placeholder="buy price"
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col sm="2">Amount</Col>
+                <Col sm="10">
+                  <input
+                    type="text"
+                    name="buyQty"
+                    onChange={this.handleChange.bind(this)}
+                    value={this.state.buyQty}
+                    placeholder="buy qty"
+                  />
+                </Col>
+              </Row>
+              <Row>
+                <Col sm="2" />
+                <Col sm="10">
+                  <button onClick={this.onBuyLimitClick}>Buy</button>
+                </Col>
+              </Row>
+            </Col>
+            <Col sm="6">
+              sell price{' '}
+              <input
+                type="text"
+                name="sellPrice"
+                onChange={this.handleChange.bind(this)}
+                value={this.state.sellPrice}
+                placeholder="sell price"
+              />
+              <br />
+              sell amount{' '}
+              <input
+                type="text"
+                name="sellQty"
+                onChange={this.handleChange.bind(this)}
+                value={this.state.sellQty}
+                placeholder="sell qty"
+              />
+              <br />
+              <button onClick={this.onSellLimitClick}>Sell Limit</button>
+            </Col>
+          </Row>
+        </TabPanel>
+        <TabPanel>
+          <Row>
+            <Col sm="6">
+              buy total(EOS){' '}
+              <input
+                type="text"
+                name="buyMarketTotalEos"
+                onChange={this.handleChange.bind(this)}
+                value={this.state.buyMarketTotalEos}
+                placeholder="buy total in eos"
+              />
+              <br />
+              <button onClick={this.onBuyMarketClick}>Buy Market</button>
+            </Col>
+            <Col sm="6">
+              sell amount{' '}
+              <input
+                type="text"
+                name="sellMarketAmount"
+                onChange={this.handleChange.bind(this)}
+                value={this.state.sellMarketAmount}
+                placeholder="sell amount"
+              />
+              <br />
+              <button onClick={this.onSellMarketClick}>Sell Market</button>
+            </Col>
+          </Row>
+        </TabPanel>
+      </Tabs>
     )
   }
 }

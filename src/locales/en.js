@@ -34,5 +34,7 @@ export default {
   Orders: 'Orders',
   'No Data': 'No Data',
   'Open Orders': 'Open Orders',
-  'Order History': 'Order History'
+  'Order History': 'Order History',
+  'Limit Order': 'Limit Order',
+  'Market Order': 'Market Order'
 }

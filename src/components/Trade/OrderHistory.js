@@ -6,16 +6,7 @@ import classnames from 'classnames'
 import Select from 'react-select'
 import { ProgressBar } from 'react-bootstrap'
 import { Scrollbars } from 'react-custom-scrollbars'
-import {
-  TabContent,
-  TabPane,
-  Nav,
-  NavItem,
-  NavLink,
-  Pagination,
-  PaginationItem,
-  PaginationLink
-} from 'reactstrap'
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 import {
   ORDER_TYPE_BUY,
   ORDER_STATUS_ALL_DEALED,
@@ -36,7 +27,6 @@ class OrderHistory extends Component {
     this.toggle = this.toggle.bind(this)
 
     this.state = {
-      activeTab: '1',
       currentPage: 1,
       pageCount: 1,
       token_symbol: null,

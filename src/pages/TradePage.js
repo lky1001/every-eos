@@ -99,21 +99,20 @@ class TradePage extends Component {
                     background: 'white',
                     borderBottom: 'solid 1px #d9d9d9'
                   }}>
-                  <Col xs={12}>
+                  <NoMarginPaddingCol xs={12}>
                     <Order
                       token={token}
                       accountStore={accountStore}
                       tradeStore={tradeStore}
                       eosioStore={eosioStore}
                     />
-                  </Col>
+                  </NoMarginPaddingCol>
                 </Row>
               </Col>
               <Col md={3} style={{ height: '660px' }}>
                 <Row
                   style={{
                     height: '410px',
-
                     background: 'white'
                   }}>
                   <NoPaddingCol className="col-md-12" showBorderLeft showBorderTop showBorderBottom>
