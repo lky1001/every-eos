@@ -4,12 +4,19 @@ import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router'
 import { HeaderTable, PriceRow } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
+import ColorsConstant from '../Colors/ColorsConstant'
 import styled from 'styled-components'
 
 const MarketRow = styled.tr`
   line-height: 32px;
   min-height: 32px;
   height: 32px;
+
+  &:hover {
+    font-weight: 700;
+    cursor: pointer;
+    background-color: ${ColorsConstant.grayLighter};
+  }
 `
 
 const BaseColumn = styled.td`
@@ -67,7 +74,7 @@ class Market extends Component {
         <Scrollbars style={{ height: '380px' }}>
           <Row style={{ height: '380px', margin: '0px' }}>
             <Col xs={12} md={12} style={{ padding: '0px' }}>
-              <Table className="order-list-table responsive hover ">
+              <Table className="order-list-table responsive hover">
                 <tbody>
                   {tokens &&
                     tokens.map((t, idx) => {
