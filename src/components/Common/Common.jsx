@@ -52,7 +52,7 @@ export const PriceBack = styled.div`
 `
 
 export const PriceRow = styled.p`
-  padding-top: 1px;
+  padding-top: 7px;
   margin-bottom: 0px;
   color: ${props =>
     props.up

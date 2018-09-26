@@ -84,7 +84,7 @@ class TradePage extends Component {
             </Row>
             <Row
               style={{
-                height: '660px',
+                height: '674px',
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
               }}>
@@ -96,7 +96,7 @@ class TradePage extends Component {
                   sellOrdersList={tradeStore.sellOrdersList}
                 />
               </NoPaddingCol>
-              <Col md={6} style={{ height: '660px' }}>
+              <Col md={6} style={{ height: '674px' }}>
                 <Row
                   style={{
                     height: '380px',
@@ -120,10 +120,10 @@ class TradePage extends Component {
                   </NoMarginPaddingCol>
                 </Row>
               </Col>
-              <Col md={3} style={{ height: '660px' }}>
+              <Col md={3} style={{ height: '674px' }}>
                 <Row
                   style={{
-                    height: '396px',
+                    height: '410px',
                     background: 'white'
                   }}>
                   <NoPaddingCol className="col-md-12" showBorderLeft showBorderTop showBorderBottom>
