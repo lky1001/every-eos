@@ -64,7 +64,7 @@ export const Header6 = styled.h6`
 `
 
 export const FavoriteIcon = styled.em`
-  font-size: 20px;
+  font-size: 25px;
 `
 
 export const CardContainer = styled(Container)`
