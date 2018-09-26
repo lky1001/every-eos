@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { GET_BALANCE_INTERVAL } from '../../constants/Values'
 import { FormattedMessage } from 'react-intl'
 import { Table } from 'reactstrap'
-import { PriceRow, TokenPrice } from '../Common/Common'
+import { PriceRow, TradeWalletTitle } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
 import styled from 'styled-components'
 
@@ -127,15 +127,16 @@ class Wallet extends Component {
 
     return (
       <Fragment>
-        <TokenPrice className="table-responsive">
+        <TradeWalletTitle className="table-responsive">
           <FormattedMessage id="Wallet" />
-        </TokenPrice>
+        </TradeWalletTitle>
         <Scrollbars style={{ height: '220px' }}>
           <div
             className="table-responsive"
             style={{
               background: 'white'
-            }}>
+            }}
+          >
             <Table className="order-list-table">
               <tbody>
                 {accountStore.isLogin &&

@@ -14,6 +14,8 @@ const ColorsConstant = {
   warning: '#FFB300',
   danger: '#F44336',
 
+  Trade_border_style: 'solid 1px #d9d9d9',
+
   Thick_green: '#70A800',
   Thick_red: '#D50000',
   Thick_blue: '#1565C0',

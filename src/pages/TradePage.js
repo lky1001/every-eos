@@ -15,6 +15,8 @@ import Wallet from '../components/Trade/Wallet'
 import OrderHistory from '../components/Trade/OrderHistory'
 import OpenOrder from '../components/Trade/OpenOrder'
 
+import ColorsConstant from '../components/Colors/ColorsConstant'
+
 import { PAGE_SIZE_TEN } from '../constants/Values'
 
 class TradePage extends Component {
@@ -66,15 +68,28 @@ class TradePage extends Component {
       <section>
         {token && (
           <Grid style={{ minWidth: '1440px' }}>
-            <Row className="bg-white content-heading" style={{ height: '116px' }}>
-              <Col xs={12} md={7} style={{ borderRight: 'solid 1px #d9d9d9' }}>
+            <Row
+              className="bg-white content-heading"
+              style={{
+                height: '116px',
+                borderLeft: ColorsConstant.Trade_border_style,
+                borderRight: ColorsConstant.Trade_border_style
+              }}
+            >
+              <Col xs={12} md={7} style={{ borderRight: ColorsConstant.Trade_border_style }}>
                 <TokenInfo marketStore={marketStore} symbol={token.symbol} />
               </Col>
               <Col xs={12} md={5} style={{ margin: 'auto' }}>
                 <Resource accountStore={accountStore} />
               </Col>
             </Row>
-            <Row style={{ height: '660px' }}>
+            <Row
+              style={{
+                height: '660px',
+                borderLeft: ColorsConstant.Trade_border_style,
+                borderRight: ColorsConstant.Trade_border_style
+              }}
+            >
               <NoPaddingCol className="col-md-3" showBorderRight showBorderTop showBorderBottom>
                 <OrderList
                   token={token}
@@ -88,17 +103,18 @@ class TradePage extends Component {
                   style={{
                     height: '510px',
                     background: 'white',
-                    borderTop: 'solid 1px #d9d9d9',
-                    borderBottom: 'solid 1px #d9d9d9'
-                  }}>
+                    borderTop: ColorsConstant.Trade_border_style,
+                    borderBottom: ColorsConstant.Trade_border_style
+                  }}
+                >
                   <Col md={12}>{/* <TradingChart /> */}</Col>
                 </Row>
                 <Row
                   style={{
                     height: '150px',
-                    background: 'white',
-                    borderBottom: 'solid 1px #d9d9d9'
-                  }}>
+                    background: 'white'
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <Order
                       token={token}
@@ -114,7 +130,8 @@ class TradePage extends Component {
                   style={{
                     height: '410px',
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoPaddingCol className="col-md-12" showBorderLeft showBorderTop showBorderBottom>
                     <Market tokens={tokens} />
                   </NoPaddingCol>
@@ -130,12 +147,13 @@ class TradePage extends Component {
                 </Row>
               </Col>
             </Row>
-            <Row>
+            <Row style={{ border: ColorsConstant.Trade_border_style }}>
               <Col xs={12} md={12}>
                 <Row
                   style={{
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <OpenOrder
                       tradeStore={tradeStore}
@@ -149,8 +167,10 @@ class TradePage extends Component {
                 </Row>
                 <Row
                   style={{
-                    background: 'white'
-                  }}>
+                    background: 'white',
+                    borderTop: ColorsConstant.Trade_border_style
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <OrderHistory
                       accountStore={accountStore}

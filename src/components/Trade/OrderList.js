@@ -135,7 +135,10 @@ class OrderList extends Component {
           </Table>
         </div>
 
-        <TokenPrice className="table-responsive">
+        <TokenPrice
+          className="table-responsive"
+          style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}
+        >
           <Text
             color={
               token.last_price - token.last_previous_price > 0

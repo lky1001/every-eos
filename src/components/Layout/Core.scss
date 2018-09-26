@@ -2,8 +2,8 @@
  * Main Layout
  */
 
-@import '../Common/Variables';
-@import '../Common/Mixins';
+@import "../Common/Variables";
+@import "../Common/Mixins";
 
 // Angular
 [ng\:cloak],
@@ -33,6 +33,7 @@ body,
   background-color: $body-bg;
   min-width: 320px;
   direction: ltr;
+  overflow: hidden;
 }
 
 body {
@@ -64,7 +65,7 @@ body {
   position: relative;
   height: calc(100% - #{$header-hg});
   // background-color: $main-content-bg;
-  overflow: auto;
+  overflow: hidden auto;
   -webkit-overflow-scrolling: touch;
   @media #{$min-desktop} {
     margin-left: $sidebar-wd;
@@ -106,7 +107,7 @@ footer {
   // min-height: calc(100vh - #{$header-hg});
   > .row {
     margin: 0;
-    > [class*='col-'] {
+    > [class*="col-"] {
       &:first-child {
         padding-left: 0;
       }
@@ -156,7 +157,7 @@ footer {
     padding: 0;
     > .row {
       margin: 0;
-      > [class*='col-'] {
+      > [class*="col-"] {
         padding-left: 0;
         padding-right: 0;
       }
@@ -190,7 +191,7 @@ footer {
   }
   &:before {
     background-color: inherit;
-    content: '';
+    content: "";
     position: absolute;
     top: 0;
     left: 0;

@@ -7,6 +7,7 @@ import { ProgressBar } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Header6, FavoriteIcon } from '../Common/Common'
 import styled from 'styled-components'
+import ColorsConstant from '../Colors/ColorsConstant.js'
 
 const MarketHeader = styled.th`
   font-size: 14px !important;
@@ -107,12 +108,24 @@ class MarketView extends Component {
                             <Header6>{token.name}</Header6>
                           </td>
                           <td className="va-middle text-right">
-                            <Header6 color={todayChanged > 0 ? 'Red' : 'Blue'}>
+                            <Header6
+                              color={
+                                todayChanged > 0
+                                  ? ColorsConstant.Thick_green
+                                  : ColorsConstant.Thick_red
+                              }
+                            >
                               {token.last_price.toFixed(4)}
                             </Header6>
                           </td>
                           <td className="va-middle text-center">
-                            <Header6 color={todayChanged > 0 ? 'Red' : 'Blue'}>
+                            <Header6
+                              color={
+                                todayChanged > 0
+                                  ? ColorsConstant.Thick_green
+                                  : ColorsConstant.Thick_red
+                              }
+                            >
                               {todayChanged.toFixed(4)}
                             </Header6>
                           </td>
