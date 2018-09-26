@@ -1,5 +1,6 @@
 export const ACCOUNT_NAME_PATTERN = /([a-z1-5]){12,}/
-export const API_SERVER_URI = 'http://192.168.2.57:4000'
+// export const API_SERVER_URI = 'http://192.168.2.57:4000'
+export const API_SERVER_URI = 'http://localhost:4000'
 export const actionPerPage = 1000
 
 const protocol = 'https'

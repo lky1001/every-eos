@@ -16,7 +16,8 @@ import styled from 'styled-components'
 const BaseRow = styled.tr`
   height: 21px;
   &:hover {
-    color: white;
+    font-weight: 700;
+    cursor: pointer;
   }
 `
 const BaseColumn = styled.td`
