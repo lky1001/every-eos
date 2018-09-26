@@ -6,7 +6,7 @@ const ColorsConstant = {
 
   // styled에서 - 케이스 문법오류 때문에 나중에 다시 살펴봐야함
   'gray-lighter': '#ECEFF1',
-  grayLighter: '#FAFAFA',
+  grayLighter: '#f1f2f3',
 
   primary: '#448AFF',
   success: '#4CAF50',

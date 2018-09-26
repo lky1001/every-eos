@@ -32,5 +32,7 @@ export default {
   LANG: '언어',
   BALANCE: '잔액',
   Orders: '주문 기록',
-  'No Data': '기록 없음'
+  'No Data': '기록 없음',
+  'Open Orders': '현재 주문',
+  'Order History': '예전 주문'
 }

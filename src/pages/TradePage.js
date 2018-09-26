@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
-import { NoPaddingCol } from '../components/Common/Common'
+import { NoPaddingCol, NoMarginPaddingCol } from '../components/Common/Common'
 
 import { Grid, Row, Col } from 'react-bootstrap'
 import { ProgressBar } from 'react-bootstrap'
@@ -137,7 +137,7 @@ class TradePage extends Component {
                   style={{
                     background: 'white'
                   }}>
-                  <Col xs={12}>
+                  <NoMarginPaddingCol xs={12}>
                     <OpenOrder
                       tradeStore={tradeStore}
                       openOrdersList={tradeStore.openOrdersList}
@@ -146,13 +146,13 @@ class TradePage extends Component {
                       openOrdersError={tradeStore.openOrdersError}
                       accountStore={accountStore}
                     />
-                  </Col>
+                  </NoMarginPaddingCol>
                 </Row>
                 <Row
                   style={{
                     background: 'white'
                   }}>
-                  <Col xs={12}>
+                  <NoMarginPaddingCol xs={12}>
                     <OrderHistory
                       accountStore={accountStore}
                       tradeStore={tradeStore}
@@ -161,7 +161,7 @@ class TradePage extends Component {
                       ordersHistoryLoading={tradeStore.ordersHistoryLoading}
                       ordersHistoryError={tradeStore.ordersHistoryError}
                     />
-                  </Col>
+                  </NoMarginPaddingCol>
                 </Row>
               </Col>
             </Row>

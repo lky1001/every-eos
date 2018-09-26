@@ -11,7 +11,12 @@ import './UiNoteArea.scss'
 import './UiSwitch.scss'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant.js'
-import { Container } from 'reactstrap'
+import { Container, Col } from 'reactstrap'
+
+export const NoMarginPaddingCol = styled(Col)`
+  padding: 0;
+  margin: 0;
+`
 
 export const NoPaddingCol = styled.div`
   padding: 0px;

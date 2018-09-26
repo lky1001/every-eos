@@ -32,5 +32,7 @@ export default {
   LANG: 'LANG',
   BALANCE: 'BALANCE',
   Orders: 'Orders',
-  'No Data': 'No Data'
+  'No Data': 'No Data',
+  'Open Orders': 'Open Orders',
+  'Order History': 'Order History'
 }

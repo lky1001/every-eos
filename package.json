@@ -72,6 +72,7 @@
     "react-select": "^2.0.0",
     "react-sizeme": "^2.5.2",
     "react-stockcharts": "^0.7.8",
+    "react-tabs": "^2.3.0",
     "reactstrap": "^6.4.0",
     "recompose": "^0.28.2",
     "resolve": "1.6.0",

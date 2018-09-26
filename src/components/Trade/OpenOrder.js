@@ -1,10 +1,7 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
-import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
-import classnames from 'classnames'
-import { TabContent, TabPane, Nav, NavItem, NavLink } from 'reactstrap'
+import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import '../Common/React-tabs.scss'
 import { Scrollbars } from 'react-custom-scrollbars'
 import {
   ORDER_STATUS_NOT_DEAL,
@@ -14,7 +11,7 @@ import {
   ORDER_TYPE_BUY,
   ORDER_DATE_FORMAT
 } from '../../constants/Values'
-import { Text, ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
+import { Header6 } from '../Common/Common'
 import { ProgressBar } from 'react-bootstrap'
 
 import { typeOptions, getTypeFilter } from '../../utils/OrderSearchFilter'
@@ -139,133 +136,124 @@ class OpenOrder extends Component {
     } = this.props
 
     return (
-      <div>
-        <Nav tabs>
-          <NavItem>
-            <NavLink
-              className={classnames({ active: this.state.activeTab === '1' })}
-              onClick={() => {
-                this.toggle('1')
-              }}>
-              Open Orders
-            </NavLink>
-          </NavItem>
-        </Nav>
+      <Tabs>
+        <TabList>
+          <Tab>
+            <FormattedMessage id="Open Orders" />
+          </Tab>
+        </TabList>
 
-        <TabContent activeTab={this.state.activeTab}>
-          <TabPane tabId="1">
-            <Scrollbars style={{ height: `${32 * 20}px` }}>
-              <div className="table-responsive bootgrid">
-                <table id="bootgrid-basic" className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th data-type="date">
-                        <FormattedMessage id="Date" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Pair" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Type" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Price" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Average" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Amount" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Dealed" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Entrusted" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Status" />
-                      </th>
-                      <th>
-                        <FormattedMessage id="Action" />
-                      </th>
-                    </tr>
-                  </thead>
-                  {accountStore.isLogin &&
-                    openOrdersList &&
-                    openOrdersCount > 0 && (
-                      <tbody>
-                        {openOrdersList.map(o => {
-                          return (
-                            <tr key={o.id}>
-                              <td>
-                                <Header6>{format(o.created, ORDER_DATE_FORMAT)}</Header6>
-                              </td>
-                              <td>
-                                <Header6 color={'Blue'}>
-                                  {o.token.symbol} / {o.token.market}
-                                </Header6>
-                              </td>
-                              <td>
-                                <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
-                                  {o.type}
-                                </Header6>
-                              </td>
-                              <td>{o.token_price}</td>
-                              <td>
-                                <Header6>
-                                  {o.status === ORDER_STATUS_PARTIAL_DEALED
-                                    ? Math.round(
-                                      o.orderDetails.reduce(
-                                        (acc, curr) => acc + curr.amount * curr.token_price,
-                                        0
-                                      ) /
-                                          o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                                    )
-                                    : '-'}
-                                </Header6>
-                              </td>
-                              <td>
-                                <Header6>{o.total_amount}</Header6>
-                              </td>
-                              <td>
-                                <Header6>{o.deal_amount}</Header6>
-                              </td>
-                              <td>
-                                <Header6>-</Header6>
-                              </td>
-                              <td>
-                                <Header6>{o.status}</Header6>
-                              </td>
-                              <td>
-                                <button onClick={() => this.cancelOrder(o.id)}>Cancel</button>
-                              </td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    )}
-                </table>
-                {accountStore.isLogin ? (
-                  openOrdersLoading ? (
-                    <ProgressBar striped bsStyle="success" now={40} />
-                  ) : (
-                    (!openOrdersList || openOrdersCount === 0) && (
-                      <div style={{ textAlign: 'center' }}>
-                        <FormattedMessage id="No Data" />
-                      </div>
-                    )
-                  )
+        <TabPanel>
+          <Scrollbars style={{ height: `${32 * 20}px` }}>
+            <div className="table-responsive bootgrid">
+              <table id="bootgrid-basic" className="table table-hover">
+                <thead>
+                  <tr>
+                    <th data-type="date">
+                      <FormattedMessage id="Date" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Pair" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Type" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Price" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Average" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Amount" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Dealed" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Entrusted" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Status" />
+                    </th>
+                    <th>
+                      <FormattedMessage id="Action" />
+                    </th>
+                  </tr>
+                </thead>
+                {accountStore.isLogin &&
+                  openOrdersList &&
+                  openOrdersCount > 0 && (
+                    <tbody>
+                      {openOrdersList.map(o => {
+                        return (
+                          <tr key={o.id}>
+                            <td>
+                              <Header6>{format(o.created, ORDER_DATE_FORMAT)}</Header6>
+                            </td>
+                            <td>
+                              <Header6 color={'Blue'}>
+                                {o.token.symbol} / {o.token.market}
+                              </Header6>
+                            </td>
+                            <td>
+                              <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
+                                {o.type}
+                              </Header6>
+                            </td>
+                            <td>{o.token_price}</td>
+                            <td>
+                              <Header6>
+                                {o.status === ORDER_STATUS_PARTIAL_DEALED
+                                  ? Math.round(
+                                    o.orderDetails.reduce(
+                                      (acc, curr) => acc + curr.amount * curr.token_price,
+                                      0
+                                    ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                                  )
+                                  : '-'}
+                              </Header6>
+                            </td>
+                            <td>
+                              <Header6>{o.total_amount}</Header6>
+                            </td>
+                            <td>
+                              <Header6>{o.deal_amount}</Header6>
+                            </td>
+                            <td>
+                              <Header6>-</Header6>
+                            </td>
+                            <td>
+                              <Header6>{o.status}</Header6>
+                            </td>
+                            <td>
+                              <button onClick={() => this.cancelOrder(o.id)}>Cancel</button>
+                            </td>
+                          </tr>
+                        )
+                      })}
+                    </tbody>
+                  )}
+              </table>
+              {accountStore.isLogin ? (
+                openOrdersLoading ? (
+                  <ProgressBar striped bsStyle="success" now={40} />
                 ) : (
-                  <div style={{ textAlign: 'center' }}>
-                    <FormattedMessage id="Please Login" />
-                  </div>
-                )}
-              </div>
-            </Scrollbars>
-          </TabPane>
-        </TabContent>
-      </div>
+                  (!openOrdersList || openOrdersCount === 0) && (
+                    <div style={{ textAlign: 'center' }}>
+                      <FormattedMessage id="No Data" />
+                    </div>
+                  )
+                )
+              ) : (
+                <div style={{ textAlign: 'center' }}>
+                  <FormattedMessage id="Please Login" />
+                </div>
+              )}
+            </div>
+          </Scrollbars>
+        </TabPanel>
+      </Tabs>
     )
   }
 }
