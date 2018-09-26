@@ -128,7 +128,7 @@ class TradePage extends Component {
               <Col md={3} style={{ height: '660px' }}>
                 <Row
                   style={{
-                    height: '410px',
+                    height: '396px',
                     background: 'white'
                   }}
                 >
