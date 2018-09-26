@@ -42,6 +42,8 @@ const OrderInput = styled(Input)`
 const OrderButton = styled(Button)`
   width: 100%;
   height: 40px;
+  border: hidden;
+  border-radius: 0;
   background: ${props =>
     props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
 `
