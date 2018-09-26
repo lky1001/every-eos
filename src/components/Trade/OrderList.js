@@ -11,6 +11,23 @@ import {
 } from '../../constants/Values'
 import { isNumber } from 'util'
 import ColorsConstant from '../Colors/ColorsConstant'
+import styled from 'styled-components'
+
+const BaseRow = styled.tr`
+  height: 21px;
+  :hover {
+    color: white;
+  }
+`
+const BaseColumn = styled.td`
+  width: 30%;
+  border-style: hidden;
+`
+
+const AmountColumn = styled.td`
+  width: 40%;
+  border-style: hidden;
+`
 
 class OrderList extends Component {
   constructor(props) {
@@ -90,6 +107,7 @@ class OrderList extends Component {
                   const width = (o.stacked_amount / sellMax) * 100
 
                   return (
+<<<<<<< HEAD
                     <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td style={{ width: '30%' }}>
                         <a href="#">
@@ -127,6 +145,37 @@ class OrderList extends Component {
                         </a>
                       </td>
                     </tr>
+=======
+                    <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                      <BaseColumn>
+                        <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
+                      </BaseColumn>
+                      <AmountColumn>
+                        <PriceBack
+                          down
+                          style={{
+                            width: width + '%'
+                          }}>
+                          -
+                        </PriceBack>
+                        <PriceRow
+                          style={{
+                            position: 'absolute',
+                            right: '18px'
+                          }}>
+                          {o.stacked_amount.toFixed(4)}
+                        </PriceRow>
+                      </AmountColumn>
+                      <BaseColumn>
+                        <PriceRow>
+                          {Math.abs(
+                            o.token_price.toFixed(token.precision) *
+                              o.stacked_amount.toFixed(token.precision)
+                          ).toFixed(token.precision)}
+                        </PriceRow>
+                      </BaseColumn>
+                    </BaseRow>
+>>>>>>> styling
                   )
                 })}
             </tbody>
@@ -163,6 +212,7 @@ class OrderList extends Component {
                   const width = (o.stacked_amount / buyMax) * 100
 
                   return (
+<<<<<<< HEAD
                     <tr key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
                       <td style={{ width: '30%' }}>
                         <a href="#">
@@ -200,6 +250,37 @@ class OrderList extends Component {
                         </a>
                       </td>
                     </tr>
+=======
+                    <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                      <BaseColumn>
+                        <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
+                      </BaseColumn>
+                      <AmountColumn>
+                        <PriceBack
+                          up
+                          style={{
+                            width: width + '%'
+                          }}>
+                          -
+                        </PriceBack>
+                        <PriceRow
+                          style={{
+                            position: 'absolute',
+                            right: '18px'
+                          }}>
+                          {o.stacked_amount.toFixed(4)}
+                        </PriceRow>
+                      </AmountColumn>
+                      <BaseColumn>
+                        <PriceRow>
+                          {Math.abs(
+                            o.token_price.toFixed(token.precision) *
+                              o.stacked_amount.toFixed(token.precision)
+                          ).toFixed(token.precision)}
+                        </PriceRow>
+                      </BaseColumn>
+                    </BaseRow>
+>>>>>>> styling
                   )
                 })}
             </tbody>

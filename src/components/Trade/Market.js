@@ -4,6 +4,36 @@ import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router'
 import { HeaderTable, PriceRow } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
+import styled from 'styled-components'
+
+const MarketRow = styled.tr`
+  line-height: 32px;
+  min-height: 32px;
+  height: 32px;
+`
+
+const BaseColumn = styled.td`
+  text-align: left;
+`
+
+const FavoriteColumn = styled(BaseColumn)`
+  width: 10%;
+`
+
+const PairColumn = styled(BaseColumn)`
+  width: 45%;
+  text-align: left;
+`
+
+const LastPriceColumn = styled(BaseColumn)`
+  width: 25%;
+  text-align: right;
+`
+
+const ChangeColumn = styled(BaseColumn)`
+  width: 20%;
+  text-align: right;
+`
 
 class Market extends Component {
   goTrade = symbol => {
@@ -21,13 +51,13 @@ class Market extends Component {
           <thead>
             <tr>
               <th style={{ width: '10%' }} />
-              <th style={{ width: '40%', textAlign: 'left' }}>
+              <th style={{ width: '45%', textAlign: 'left' }}>
                 <FormattedMessage id="Market" />
               </th>
               <th style={{ width: '25%', textAlign: 'right' }}>
                 <FormattedMessage id="Last Price" />
               </th>
-              <th style={{ width: '25%', textAlign: 'right' }}>
+              <th style={{ width: '20%', textAlign: 'right' }}>
                 <FormattedMessage id="Change" />
               </th>
             </tr>
@@ -37,24 +67,24 @@ class Market extends Component {
         <Scrollbars style={{ height: '380px' }}>
           <Row style={{ height: '380px', margin: '0px' }}>
             <Col xs={12} md={12} style={{ padding: '0px' }}>
-              <Table responsive hover size="sm" className="order-list-table">
+              <Table className="order-list-table responsive hover ">
                 <tbody>
                   {tokens &&
                     tokens.map((t, idx) => {
                       return (
-                        <tr
+                        <MarketRow
                           key={idx}
                           className="msg-display clickable"
                           onClick={() => this.goTrade(t.symbol)}>
-                          <td style={{ width: '10%' }}>
+                          <FavoriteColumn>
                             <em data-pack="default" className="ion-ios-star-outline" />
-                          </td>
-                          <td style={{ width: '40%', textAlign: 'left' }}>
+                          </FavoriteColumn>
+                          <PairColumn style={{ textAlign: 'left' }}>
                             <PriceRow>
                               {t.symbol} / {t.market}
                             </PriceRow>
-                          </td>
-                          <td style={{ width: '25%', textAlign: 'right' }}>
+                          </PairColumn>
+                          <LastPriceColumn>
                             {t.last_price - t.last_previous_price > 0 ? (
                               <PriceRow up>{t.last_price.toFixed(4)}</PriceRow>
                             ) : t.last_price - t.last_previous_price < 0 ? (
@@ -62,10 +92,10 @@ class Market extends Component {
                             ) : (
                               <PriceRow>{t.last_price.toFixed(4)}</PriceRow>
                             )}
-                          </td>
+                          </LastPriceColumn>
 
                           {/* 이쪽 변화율 계산 로직 TODO */}
-                          <td style={{ width: '25%', textAlign: 'right' }}>
+                          <ChangeColumn>
                             {t.last_price - t.last_previous_price > 0 ? (
                               <PriceRow up>
                                 {(t.last_price - t.last_previous_price).toFixed(2)} %
@@ -77,8 +107,8 @@ class Market extends Component {
                             ) : (
                               <PriceRow>{Number(0).tofix(2)} %</PriceRow>
                             )}
-                          </td>
-                        </tr>
+                          </ChangeColumn>
+                        </MarketRow>
                       )
                     })}
                 </tbody>
