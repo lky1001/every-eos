@@ -121,3 +121,22 @@ export const InputPairContainer = styled.div`
   display: flex;
   align-items: center;
 `
+
+export const TableMdRow = styled.tr`
+  line-height: 32px;
+  min-height: 32px;
+  height: 32px;
+
+  &:hover {
+    font-weight: 700;
+    cursor: pointer;
+    background-color: ${ColorsConstant.grayLighter};
+  }
+`
+
+export const TableLgRow = styled(TableMdRow)`
+  line-height: 38px;
+  min-height: 38px;
+  height: 38px;
+  font-size: 1.2rem;
+`

@@ -141,7 +141,11 @@ class TradePage extends Component {
                 </Row>
               </Col>
             </Row>
-            <Row style={{ border: ColorsConstant.Trade_border_style }}>
+            <Row
+              style={{
+                borderLeft: ColorsConstant.Trade_border_style,
+                borderRight: ColorsConstant.Trade_border_style
+              }}>
               <Col xs={12} md={12}>
                 <Row
                   style={{
@@ -160,8 +164,7 @@ class TradePage extends Component {
                 </Row>
                 <Row
                   style={{
-                    background: 'white',
-                    borderTop: ColorsConstant.Trade_border_style
+                    background: 'white'
                   }}>
                   <NoMarginPaddingCol xs={12}>
                     <OrderHistory

@@ -346,16 +346,8 @@ class SearchableOrderHistory extends Component {
                           return (
                             <tr key={o.id}>
                               <td>
-                                <span
-                                  data-type="date"
-                                  data-mode="popup"
-                                  className="is-editable text-inherit">
-                                  10/11/2000
-                                </span>
-                              </td>
-                              {/* <td>
                                 <Header6>{format(o.created, ORDER_DATE_FORMAT)}</Header6>
-                              </td> */}
+                              </td>
                               <td>
                                 <Header6 color={'Blue'}>
                                   {o.token.symbol} / {o.token.market}

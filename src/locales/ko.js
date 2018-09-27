@@ -46,5 +46,6 @@ export default {
   DEAL: '거래',
   WAIT: '대기중',
   DONE: '완료',
-  Cancel: '취소'
+  Cancel: '취소',
+  Available: '유동액'
 }

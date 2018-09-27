@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import classnames from 'classnames'
-import { Row, Col, InputGroup, InputGroupAddon, InputGroupText, Input, Button } from 'reactstrap'
+import { Row, Col, InputGroup, InputGroupAddon, Input, Button } from 'reactstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { FormattedMessage } from 'react-intl'
 import ColorsConstant from '../Colors/ColorsConstant'
@@ -44,8 +44,15 @@ const OrderButton = styled(Button)`
   height: 40px;
   border: hidden;
   border-radius: 0;
-  background: ${props =>
-    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
+  background: ${ColorsConstant.Thick_normal};
+`
+
+const BuyOrderButton = styled(OrderButton)`
+  background: ${ColorsConstant.Thick_green};
+`
+
+const SellOrderButton = styled(OrderButton)`
+  background: ${ColorsConstant.Thick_red};
 `
 
 class Order extends Component {
@@ -98,14 +105,6 @@ class Order extends Component {
       [name]: event.target.value
     })
   }
-
-  // handleChange = event => {
-  //   let obj = {}
-  //   console.log(event.target.name)
-  //   obj[event.target.name] = event.target.value
-
-  //   this.setState(obj)
-  // }
 
   onBuyLimitClick = async () => {
     const { eosioStore, accountStore, tradeStore, token } = this.props
@@ -296,7 +295,7 @@ class Order extends Component {
   }
 
   render() {
-    const { token } = this.props
+    const { token, accountStore } = this.props
 
     return (
       <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
@@ -317,7 +316,7 @@ class Order extends Component {
                 <PrimaryOrderColPanel sm="3" buy>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="6">234.22 EOS</RightAlignCol>
+                <RightAlignCol sm="6">{`${accountStore.liquid} EOS`}</RightAlignCol>
               </OrderRowPanel>
               <OrderRowPanel>
                 <OrderColPanel sm="3">Price</OrderColPanel>
@@ -351,9 +350,7 @@ class Order extends Component {
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
                 <Col sm="9">
-                  <OrderButton buy onClick={this.onBuyLimitClick}>
-                    BUY
-                  </OrderButton>
+                  <BuyOrderButton onClick={this.onBuyLimitClick}>BUY</BuyOrderButton>
                 </Col>
               </OrderRowPanel>
             </Col>
@@ -398,9 +395,7 @@ class Order extends Component {
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
                 <Col sm="9">
-                  <OrderButton sell onClick={this.onSellLimitClick}>
-                    SELL
-                  </OrderButton>
+                  <SellOrderButton onClick={this.onSellLimitClick}>SELL</SellOrderButton>
                 </Col>
               </OrderRowPanel>
             </Col>

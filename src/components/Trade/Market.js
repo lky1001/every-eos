@@ -2,22 +2,10 @@ import React, { Component, Fragment } from 'react'
 import { Row, Col, Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router'
-import { HeaderTable, PriceRow } from '../Common/Common'
+import { HeaderTable, PriceRow, TableMdRow } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
 import ColorsConstant from '../Colors/ColorsConstant'
 import styled from 'styled-components'
-
-const MarketRow = styled.tr`
-  line-height: 32px;
-  min-height: 32px;
-  height: 32px;
-
-  &:hover {
-    font-weight: 700;
-    cursor: pointer;
-    background-color: ${ColorsConstant.grayLighter};
-  }
-`
 
 const BaseColumn = styled.td`
   text-align: left;
@@ -79,7 +67,7 @@ class Market extends Component {
                   {tokens &&
                     tokens.map((t, idx) => {
                       return (
-                        <MarketRow
+                        <TableMdRow
                           key={idx}
                           className="msg-display clickable"
                           onClick={() => this.goTrade(t.symbol)}>
@@ -115,7 +103,7 @@ class Market extends Component {
                               <PriceRow>{Number(0).tofix(2)} %</PriceRow>
                             )}
                           </ChangeColumn>
-                        </MarketRow>
+                        </TableMdRow>
                       )
                     })}
                 </tbody>
