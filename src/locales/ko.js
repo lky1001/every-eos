@@ -47,5 +47,5 @@ export default {
   WAIT: '대기중',
   DONE: '완료',
   Cancel: '취소',
-  Available: '유동액'
+  Available: '이용 가능액'
 }
