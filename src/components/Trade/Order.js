@@ -1,17 +1,17 @@
-import React, { Component, Fragment } from 'react'
-import classnames from 'classnames'
+import React, { Component } from 'react'
 import { Row, Col, InputGroup, InputGroupAddon, Input, Button } from 'reactstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
+import { withAlert } from 'react-alert'
 import { FormattedMessage } from 'react-intl'
 import ColorsConstant from '../Colors/ColorsConstant'
 import { RightAlignCol } from '../Common/Common'
-import {
-  EOS_TOKEN,
-  SCATTER_ERROR_LOCKED,
-  SCATTER_ERROR_REJECT_TRANSACTION_BY_USER
-} from '../../constants/Values'
+import { EOS_TOKEN, SCATTER_ERROR_LOCKED, SCATTER_ERROR_REJECT_TRANSACTION_BY_USER } from '../../constants/Values'
 
 import styled from 'styled-components'
+
+const CustomSwal = withReactContent(Swal)
 
 const OrderTabPanel = styled(TabPanel)`
   font-size: 1.25rem;
@@ -30,8 +30,7 @@ const OrderColPanel = styled(Col)`
 
 const PrimaryOrderColPanel = styled(OrderColPanel)`
   text-align: left;
-  color: ${props =>
-    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
+  color: ${props => (props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red)};
 `
 
 const OrderInput = styled(Input)`
@@ -95,11 +94,6 @@ class Order extends Component {
     }
   }
 
-  onTestClick = () => {
-    const { tradeStore } = this.props
-    tradeStore.test()
-  }
-
   handleChange = name => event => {
     this.setState({
       [name]: event.target.value
@@ -109,12 +103,17 @@ class Order extends Component {
   onBuyLimitClick = async () => {
     const { eosioStore, accountStore, tradeStore, token } = this.props
 
+    if (!accountStore.isLogin) {
+      this.props.alert.show('Please login.')
+      return
+    }
+
     const eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
 
     const eosAmount = (this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)
 
     if (eosAmount > eosBalance) {
-      // todo - error balance
+      this.props.alert.show('Please check your eos balance.')
       return
     }
 
@@ -130,38 +129,40 @@ class Order extends Component {
       amount: eosAmount
     }
 
-    if (accountStore.isLogin) {
-      const data = {
-        accountName: accountStore.loginAccountInfo.account_name,
-        authority: accountStore.permissions[0].perm_name,
-        quantity: eosAmount,
-        precision: EOS_TOKEN.precision,
-        symbol: EOS_TOKEN.symbol,
-        memo: JSON.stringify(memo)
-      }
+    const data = {
+      accountName: accountStore.loginAccountInfo.account_name,
+      authority: accountStore.permissions[0].perm_name,
+      quantity: eosAmount,
+      precision: EOS_TOKEN.precision,
+      symbol: EOS_TOKEN.symbol,
+      memo: JSON.stringify(memo)
+    }
 
-      try {
-        const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
+    try {
+      const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
-        if (result) {
-          tradeStore.getPollingOrderByTxId(result.transaction_id)
-        }
-      } catch (e) {
-        this.handleError(e)
+      if (result) {
+        tradeStore.getPollingOrderByTxId(result.transaction_id)
       }
-    } else {
+    } catch (e) {
+      this.handleError(e)
     }
   }
 
   onBuyMarketClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
+    if (!accountStore.isLogin) {
+      this.props.alert.show('Please login.')
+      return
+    }
+
     const eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
 
     const eosAmount = parseFloat(this.state.buyMarketTotalEos).toFixed(EOS_TOKEN.precision)
 
     if (eosAmount > eosBalance) {
-      // todo - error balance
+      this.props.alert.show('Please check your eos balance.')
       return
     }
 
@@ -174,37 +175,39 @@ class Order extends Component {
       amount: eosAmount
     }
 
-    if (accountStore.isLogin) {
-      const data = {
-        accountName: accountStore.loginAccountInfo.account_name,
-        authority: accountStore.permissions[0].perm_name,
-        quantity: eosAmount,
-        precision: EOS_TOKEN.precision,
-        symbol: EOS_TOKEN.symbol,
-        memo: JSON.stringify(memo)
-      }
+    const data = {
+      accountName: accountStore.loginAccountInfo.account_name,
+      authority: accountStore.permissions[0].perm_name,
+      quantity: eosAmount,
+      precision: EOS_TOKEN.precision,
+      symbol: EOS_TOKEN.symbol,
+      memo: JSON.stringify(memo)
+    }
 
-      try {
-        const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
+    try {
+      const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
-        if (result) {
-          alert(JSON.stringify(result))
-        }
-      } catch (e) {
-        this.handleError(e)
+      if (result) {
+        alert(JSON.stringify(result))
       }
-    } else {
+    } catch (e) {
+      this.handleError(e)
     }
   }
 
   onSellLimitClick = async () => {
     const { eosioStore, accountStore, tradeStore, token } = this.props
 
+    if (!accountStore.isLogin) {
+      this.props.alert.show('Please login.')
+      return
+    }
+
     const tokenBalance = await accountStore.getTokenBalance(token.symbol, token.contract)
     const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
 
     if (tokenQty > tokenBalance) {
-      // todo
+      this.props.alert.show('Please check your ' + token.name + ' balance.')
       return
     }
 
@@ -220,37 +223,39 @@ class Order extends Component {
       amount: eosAmount
     }
 
-    if (accountStore.isLogin) {
-      const data = {
-        accountName: accountStore.loginAccountInfo.account_name,
-        authority: accountStore.permissions[0].perm_name,
-        quantity: tokenQty,
-        precision: token.precision,
-        symbol: token.symbol,
-        memo: JSON.stringify(memo)
-      }
+    const data = {
+      accountName: accountStore.loginAccountInfo.account_name,
+      authority: accountStore.permissions[0].perm_name,
+      quantity: tokenQty,
+      precision: token.precision,
+      symbol: token.symbol,
+      memo: JSON.stringify(memo)
+    }
 
-      try {
-        const result = await eosioStore.buyToken(token.contract, data)
+    try {
+      const result = await eosioStore.buyToken(token.contract, data)
 
-        if (result) {
-          tradeStore.getPollingOrderByTxId(result.transaction_id)
-        }
-      } catch (e) {
-        this.handleError(e)
+      if (result) {
+        tradeStore.getPollingOrderByTxId(result.transaction_id)
       }
-    } else {
+    } catch (e) {
+      this.handleError(e)
     }
   }
 
   onSellMarketClick = async () => {
     const { eosioStore, accountStore, token } = this.props
 
+    if (!accountStore.isLogin) {
+      this.props.alert.show('Please login.')
+      return
+    }
+
     const tokenBalance = await accountStore.getTokenBalance(token.symbol, token.contract)
     const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
 
     if (tokenQty > tokenBalance) {
-      // todo
+      this.props.alert.show('Please check your ' + token.name + ' balance.')
       return
     }
 
@@ -263,26 +268,23 @@ class Order extends Component {
       amount: 0.0
     }
 
-    if (accountStore.isLogin) {
-      const data = {
-        accountName: accountStore.loginAccountInfo.account_name,
-        authority: accountStore.permissions[0].perm_name,
-        quantity: tokenQty,
-        precision: token.precision,
-        symbol: token.symbol,
-        memo: JSON.stringify(memo)
-      }
+    const data = {
+      accountName: accountStore.loginAccountInfo.account_name,
+      authority: accountStore.permissions[0].perm_name,
+      quantity: tokenQty,
+      precision: token.precision,
+      symbol: token.symbol,
+      memo: JSON.stringify(memo)
+    }
 
-      try {
-        const result = await eosioStore.buyToken(token.contract, data)
+    try {
+      const result = await eosioStore.buyToken(token.contract, data)
 
-        if (result) {
-          alert(JSON.stringify(result))
-        }
-      } catch (e) {
-        this.handleError(e)
+      if (result) {
+        alert(JSON.stringify(result))
       }
-    } else {
+    } catch (e) {
+      this.handleError(e)
     }
   }
 
@@ -322,12 +324,7 @@ class Order extends Component {
                 <OrderColPanel sm="3">Price</OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <OrderInput
-                      type="number"
-                      value={this.state.buyPrice}
-                      onChange={this.handleChange('buyPrice')}
-                      step="1"
-                    />
+                    <OrderInput type="number" value={this.state.buyPrice} onChange={this.handleChange('buyPrice')} step="1" />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -336,13 +333,7 @@ class Order extends Component {
                 <OrderColPanel sm="3">Amount</OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
-                    <OrderInput
-                      placeholder="Amount"
-                      type="number"
-                      step="1"
-                      onChange={this.handleChange('buyQty')}
-                      value={this.state.buyQty}
-                    />
+                    <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('buyQty')} value={this.state.buyQty} />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -367,12 +358,7 @@ class Order extends Component {
                 <OrderColPanel sm="3">Price</OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <OrderInput
-                      type="number"
-                      onChange={this.handleChange('sellPrice')}
-                      value={this.state.sellPrice}
-                      step="1"
-                    />
+                    <OrderInput type="number" onChange={this.handleChange('sellPrice')} value={this.state.sellPrice} step="1" />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -381,13 +367,7 @@ class Order extends Component {
                 <OrderColPanel sm="3">Amount</OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
-                    <OrderInput
-                      placeholder="Amount"
-                      type="number"
-                      step="1"
-                      onChange={this.handleChange('sellQty')}
-                      value={this.state.sellQty}
-                    />
+                    <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('sellQty')} value={this.state.sellQty} />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -435,4 +415,4 @@ class Order extends Component {
   }
 }
 
-export default Order
+export default withAlert(Order)

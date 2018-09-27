@@ -296,20 +296,13 @@ class TradeStore {
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
 
-        if (
-          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
-          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
-        ) {
+        if (arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED || arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED) {
           this.ordersHistory.data.orders.unshift(arrivedOrderByTxId)
         } else {
           this.openOrders.data.orders.unshift(arrivedOrderByTxId)
         }
       }
     }, 1000)
-  }
-
-  test = () => {
-    this.price += 0.1
   }
 }
 
