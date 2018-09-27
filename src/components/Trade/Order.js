@@ -43,15 +43,9 @@ const OrderButton = styled(Button)`
   height: 40px;
   border: hidden;
   border-radius: 0;
-  background: ${ColorsConstant.Thick_normal};
-`
-
-const BuyOrderButton = styled(OrderButton)`
-  background: ${ColorsConstant.Thick_green};
-`
-
-const SellOrderButton = styled(OrderButton)`
-  background: ${ColorsConstant.Thick_red};
+  background: ${props => props.color};
+  color: white;
+  font-size: 16px;
 `
 
 class Order extends Component {
@@ -315,13 +309,15 @@ class Order extends Component {
             <Col sm="6">
               <OrderRowPanel>
                 <PrimaryOrderColPanel sm="3" />
-                <PrimaryOrderColPanel sm="3" buy>
+                <PrimaryOrderColPanel sm="5" buy>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="6">{`${accountStore.liquid} EOS`}</RightAlignCol>
+                <RightAlignCol sm="4">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
               </OrderRowPanel>
               <OrderRowPanel>
-                <OrderColPanel sm="3">Price</OrderColPanel>
+                <OrderColPanel sm="3">
+                  <FormattedMessage id="Price" />
+                </OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
                     <OrderInput type="number" value={this.state.buyPrice} onChange={this.handleChange('buyPrice')} step="1" />
@@ -330,7 +326,9 @@ class Order extends Component {
                 </Col>
               </OrderRowPanel>
               <OrderRowPanel>
-                <OrderColPanel sm="3">Amount</OrderColPanel>
+                <OrderColPanel sm="3">
+                  <FormattedMessage id="Amount" />
+                </OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
                     <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('buyQty')} value={this.state.buyQty} />
@@ -341,7 +339,9 @@ class Order extends Component {
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
                 <Col sm="9">
-                  <BuyOrderButton onClick={this.onBuyLimitClick}>BUY</BuyOrderButton>
+                  <OrderButton onClick={this.onBuyLimitClick} color={ColorsConstant.Thick_green}>
+                    <FormattedMessage id="BUY" />
+                  </OrderButton>
                 </Col>
               </OrderRowPanel>
             </Col>
@@ -349,13 +349,15 @@ class Order extends Component {
             <Col sm="6">
               <OrderRowPanel>
                 <PrimaryOrderColPanel sm="3" />
-                <PrimaryOrderColPanel sm="3" sell>
+                <PrimaryOrderColPanel sm="5" sell>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="6">301.22 {token.symbol}</RightAlignCol>
+                <RightAlignCol sm="4">301.22 {token.symbol}</RightAlignCol>
               </OrderRowPanel>
               <OrderRowPanel>
-                <OrderColPanel sm="3">Price</OrderColPanel>
+                <OrderColPanel sm="3">
+                  <FormattedMessage id="Price" />
+                </OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
                     <OrderInput type="number" onChange={this.handleChange('sellPrice')} value={this.state.sellPrice} step="1" />
@@ -364,7 +366,9 @@ class Order extends Component {
                 </Col>
               </OrderRowPanel>
               <OrderRowPanel>
-                <OrderColPanel sm="3">Amount</OrderColPanel>
+                <OrderColPanel sm="3">
+                  <FormattedMessage id="Amount" />
+                </OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
                     <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('sellQty')} value={this.state.sellQty} />
@@ -375,7 +379,9 @@ class Order extends Component {
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
                 <Col sm="9">
-                  <SellOrderButton onClick={this.onSellLimitClick}>SELL</SellOrderButton>
+                  <OrderButton onClick={this.onSellLimitClick} color={ColorsConstant.Thick_red}>
+                    <FormattedMessage id="SELL" />
+                  </OrderButton>
                 </Col>
               </OrderRowPanel>
             </Col>
