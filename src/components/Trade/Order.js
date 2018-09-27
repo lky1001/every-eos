@@ -7,7 +7,11 @@ import { withAlert } from 'react-alert'
 import { FormattedMessage } from 'react-intl'
 import ColorsConstant from '../Colors/ColorsConstant'
 import { RightAlignCol } from '../Common/Common'
-import { EOS_TOKEN, SCATTER_ERROR_LOCKED, SCATTER_ERROR_REJECT_TRANSACTION_BY_USER } from '../../constants/Values'
+import {
+  EOS_TOKEN,
+  SCATTER_ERROR_LOCKED,
+  SCATTER_ERROR_REJECT_TRANSACTION_BY_USER
+} from '../../constants/Values'
 
 import styled from 'styled-components'
 
@@ -30,7 +34,8 @@ const OrderColPanel = styled(Col)`
 
 const PrimaryOrderColPanel = styled(OrderColPanel)`
   text-align: left;
-  color: ${props => (props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red)};
+  color: ${props =>
+    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
 `
 
 const OrderInput = styled(Input)`
@@ -46,6 +51,12 @@ const OrderButton = styled(Button)`
   background: ${props => props.color};
   color: white;
   font-size: 16px;
+  &:hover,
+  &:focus,
+  &:active {
+    color: white;
+    font-weight: 700;
+  }
 `
 
 class Order extends Component {
@@ -309,10 +320,10 @@ class Order extends Component {
             <Col sm="6">
               <OrderRowPanel>
                 <PrimaryOrderColPanel sm="3" />
-                <PrimaryOrderColPanel sm="5" buy>
+                <PrimaryOrderColPanel sm="3" buy>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="4">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
+                <RightAlignCol sm="6">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
               </OrderRowPanel>
               <OrderRowPanel>
                 <OrderColPanel sm="3">
@@ -320,7 +331,12 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <OrderInput type="number" value={this.state.buyPrice} onChange={this.handleChange('buyPrice')} step="1" />
+                    <OrderInput
+                      type="number"
+                      value={this.state.buyPrice}
+                      onChange={this.handleChange('buyPrice')}
+                      step="1"
+                    />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -331,7 +347,13 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
-                    <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('buyQty')} value={this.state.buyQty} />
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange('buyQty')}
+                      value={this.state.buyQty}
+                    />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -349,10 +371,10 @@ class Order extends Component {
             <Col sm="6">
               <OrderRowPanel>
                 <PrimaryOrderColPanel sm="3" />
-                <PrimaryOrderColPanel sm="5" sell>
+                <PrimaryOrderColPanel sm="3" sell>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="4">301.22 {token.symbol}</RightAlignCol>
+                <RightAlignCol sm="6">301.22 {token.symbol}</RightAlignCol>
               </OrderRowPanel>
               <OrderRowPanel>
                 <OrderColPanel sm="3">
@@ -360,7 +382,12 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <OrderInput type="number" onChange={this.handleChange('sellPrice')} value={this.state.sellPrice} step="1" />
+                    <OrderInput
+                      type="number"
+                      onChange={this.handleChange('sellPrice')}
+                      value={this.state.sellPrice}
+                      step="1"
+                    />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -371,7 +398,13 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
-                    <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('sellQty')} value={this.state.sellQty} />
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange('sellQty')}
+                      value={this.state.sellQty}
+                    />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>

@@ -3,12 +3,14 @@ import { Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant'
 
-const TokenInfoText = styled.h6`
-  font-size: 15px;
+const TokenInfoTitle = styled.h6`
+  font-size: 1.35rem;
+  padding: 0;
+  margin: 0;
 `
 
 const TokenSymbolText = styled.small`
-  font-size: 16px;
+  font-size: 1.5rem;
   color: ${props =>
     props.up
       ? ColorsConstant.Thick_green
@@ -25,44 +27,47 @@ class TokenInfo extends Component {
   }
 
   render() {
-    const { marketStore } = this.props
+    const { marketStore, height } = this.props
     const token = marketStore.token ? marketStore.token.data.token : null
     const todayChanged = token ? token.last_day_price - token.last_price : 0.0
 
     return (
       <Fragment>
         {token && (
-          <Row style={{ marginTop: '25px' }}>
-            <Col xs={2} style={{ marginTop: '4px' }}>
-              <h5 className="m0">{token.name}</h5>
-              <TokenSymbolText>{token.symbol}</TokenSymbolText>
-            </Col>
-            <Col xs={2}>
-              <TokenInfoText className="m0 text-thin">Last Price</TokenInfoText>
+          <div
+            style={{
+              height,
+              display: 'flex',
+              alignItems: 'center',
+              justifyContent: 'space-around'
+            }}>
+            <div>
+              <TokenInfoTitle>Last Price</TokenInfoTitle>
               <TokenSymbolText
                 up={token.last_price - token.last_previous_price > 0}
-                down={token.last_price - token.last_previous_price < 0}
-              >
+                down={token.last_price - token.last_previous_price < 0}>
                 {token.last_price} EOS
               </TokenSymbolText>
-            </Col>
-            <Col xs={2}>
-              <TokenInfoText className="m0 text-thin">Today Changed</TokenInfoText>
-              <TokenSymbolText>{todayChanged.toFixed(4)} EOS</TokenSymbolText>
-            </Col>
-            <Col xs={2}>
-              <TokenInfoText className="m0 text-thin">Today High</TokenInfoText>
+            </div>
+            <div>
+              <TokenInfoTitle>Today Changed</TokenInfoTitle>
+              <TokenSymbolText up={todayChanged > 0} down={todayChanged < 0}>
+                {todayChanged.toFixed(4)} EOS
+              </TokenSymbolText>
+            </div>
+            <div>
+              <TokenInfoTitle>Today High</TokenInfoTitle>
               <TokenSymbolText>{token.high_price_24h.toFixed(4)} EOS</TokenSymbolText>
-            </Col>
-            <Col xs={2}>
-              <TokenInfoText className="m0 text-thin">Today Low</TokenInfoText>
+            </div>
+            <div>
+              <TokenInfoTitle>Today Low</TokenInfoTitle>
               <TokenSymbolText>{token.low_price_24h.toFixed(4)} EOS</TokenSymbolText>
-            </Col>
-            <Col xs={2}>
-              <TokenInfoText className="m0 text-thin">Today Volume</TokenInfoText>
+            </div>
+            <div>
+              <TokenInfoTitle>Today Volume</TokenInfoTitle>
               <TokenSymbolText>{token.volume_24h.toFixed(4)} EOS</TokenSymbolText>
-            </Col>
-          </Row>
+            </div>
+          </div>
         )}
       </Fragment>
     )

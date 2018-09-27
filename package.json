@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@material-ui/core": "^3.1.1",
     "apollo-client": "^2.0.0-rc.7",
     "apollo-client-preset": "^1.0.8",
     "autoprefixer": "7.1.6",
@@ -64,6 +65,7 @@
     "react-dev-utils": "^5.0.2",
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",
+    "react-image": "^1.5.1",
     "react-intl": "^2.4.0",
     "react-intl-locale": "^0.5.3",
     "react-router": "^4.3.1",

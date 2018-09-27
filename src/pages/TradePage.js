@@ -6,6 +6,7 @@ import { NoPaddingCol, NoMarginPaddingCol } from '../components/Common/Common'
 import { Grid, Row, Col } from 'react-bootstrap'
 import { ProgressBar } from 'react-bootstrap'
 import TokenInfo from '../components/Trade/TokenInfo'
+import TokenThumbnailInfo from '../components/Trade/TokenThumbnailInfo'
 import Resource from '../components/Trade/Resource'
 import OrderList from '../components/Trade/OrderList'
 import Order from '../components/Trade/Order'
@@ -64,22 +65,34 @@ class TradePage extends Component {
         : null
       : null
 
+    const height = '90px'
+
     return (
       <section>
         {token && (
           <Grid style={{ minWidth: '1440px' }}>
             <Row
-              className="bg-white content-heading"
               style={{
-                height: '116px',
+                height,
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
               }}>
-              <Col xs={12} md={7} style={{ borderRight: ColorsConstant.Trade_border_style }}>
-                <TokenInfo marketStore={marketStore} symbol={token.symbol} />
+              <Col
+                md={3}
+                style={{
+                  borderRight: ColorsConstant.Trade_border_style
+                }}>
+                <TokenThumbnailInfo
+                  marketStore={marketStore}
+                  symbol={token.symbol}
+                  height={height}
+                />
               </Col>
-              <Col xs={12} md={5} style={{ margin: 'auto' }}>
-                <Resource accountStore={accountStore} />
+              <Col md={6}>
+                <TokenInfo marketStore={marketStore} symbol={token.symbol} height={height} />
+              </Col>
+              <Col md={3} style={{ borderLeft: ColorsConstant.Trade_border_style }}>
+                <Resource accountStore={accountStore} height={height} />
               </Col>
             </Row>
             <Row
