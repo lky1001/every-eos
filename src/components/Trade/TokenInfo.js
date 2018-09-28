@@ -40,13 +40,15 @@ class TokenInfo extends Component {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-around'
-            }}>
+            }}
+          >
             <div>
               <TokenInfoTitle>Last Price</TokenInfoTitle>
               <TokenSymbolText
                 up={token.last_price - token.last_previous_price > 0}
-                down={token.last_price - token.last_previous_price < 0}>
-                {token.last_price} EOS
+                down={token.last_price - token.last_previous_price < 0}
+              >
+                {token.last_price.toFixed(4)} EOS
               </TokenSymbolText>
             </div>
             <div>

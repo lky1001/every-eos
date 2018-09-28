@@ -71,23 +71,52 @@ class Order extends Component {
       sellPrice: 0.1,
       sellQty: 0.0001,
       buyMarketTotalEos: 0.1,
-      sellMarketAmount: 0.0001
+      sellMarketAmount: 0.0001,
+      tokenBalance: 0.0
     }
   }
 
   componentWillMount = () => {
-    const { tradeStore } = this.props
+    const { tradeStore, accountStore, eosioStore, token } = this.props
     this.disposer = tradeStore.setWatchPrice(changed => {
       this.setState({
         buyPrice: parseFloat(changed.newValue),
         sellPrice: parseFloat(changed.newValue)
       })
     })
+
+    this.disposerAccount = accountStore.subscribeLoginState(async changed => {
+      if (changed.oldValue !== changed.newValue) {
+        if (changed.newValue) {
+          const tokenBalance = await eosioStore.getCurrencyBalance({
+            code: token.contract,
+            account: accountStore.loginAccountInfo.account_name,
+            symbol: token.symbol
+          })
+
+          if (tokenBalance.length > 0) {
+            const balance = tokenBalance[0].split(' ')[0]
+
+            this.setState({
+              tokenBalance: parseFloat(balance)
+            })
+          }
+        } else {
+          this.setState({
+            tokenBalance: 0.0
+          })
+        }
+      }
+    })
   }
 
   componentWillUnmount = () => {
     if (this.disposer) {
       this.disposer()
+    }
+
+    if (this.disposerAccount) {
+      this.disposerAccount()
     }
   }
 
@@ -378,7 +407,9 @@ class Order extends Component {
                 <PrimaryOrderColPanel sm="5" sell>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="6">301.22 {token.symbol}</RightAlignCol>
+                <RightAlignCol sm="6">
+                  {this.state.tokenBalance} {token.symbol}
+                </RightAlignCol>
               </OrderRowPanel>
               <OrderRowPanel>
                 <OrderColPanel sm="3">
@@ -467,7 +498,9 @@ class Order extends Component {
                 <PrimaryOrderColPanel sm="5" sell>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="6">301.22 {token.symbol}</RightAlignCol>
+                <RightAlignCol sm="6">
+                  {this.state.tokenBalance} {token.symbol}
+                </RightAlignCol>
               </OrderRowPanel>
               <OrderRowPanel>
                 <OrderColPanel sm="3">
