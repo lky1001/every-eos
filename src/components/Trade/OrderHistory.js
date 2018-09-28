@@ -184,6 +184,7 @@ class OrderHistory extends Component {
                 <th style={{ width: '10%', textAlign: 'right' }}>
                   <FormattedMessage id="Status" />
                 </th>
+                <th style={{ width: '10%', textAlign: 'right' }}>Detail</th>
               </tr>
             </thead>
           </HeaderTable>
@@ -249,6 +250,7 @@ class OrderHistory extends Component {
                           <BaseColumn>
                             <FormattedMessage id={o.status} />
                           </BaseColumn>
+                          <BaseColumn>Detail</BaseColumn>
                         </TableLgRow>
                       )
                     })}
