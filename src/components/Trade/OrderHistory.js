@@ -143,6 +143,7 @@ class OrderHistory extends Component {
     const { selectedPageSize, pageCount, currentPage } = this.state
     const startIndex = (currentPage - 1) * selectedPageSize.value
     const endIndex = startIndex + selectedPageSize.value
+    const openHistoryContentHeight = `${40 * ordersHistoryCount}px`
 
     return (
       <Tabs>
@@ -187,7 +188,11 @@ class OrderHistory extends Component {
             </thead>
           </HeaderTable>
 
-          <Scrollbars style={{ height: `${38 * 10}px` }}>
+          <Scrollbars
+            style={{
+              height: openHistoryContentHeight,
+              maxHeight: `${40 * selectedPageSize.value}px`
+            }}>
             <Table className="order-list-table responsive hover">
               {accountStore.isLogin &&
                 ordersHistoryList &&

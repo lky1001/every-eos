@@ -157,6 +157,7 @@ class OpenOrder extends Component {
       openOrdersError
     } = this.props
 
+    const openOrdersContentHeight = `${40 * openOrdersCount}px`
     return (
       <Tabs>
         <TabList>
@@ -203,7 +204,7 @@ class OpenOrder extends Component {
             </thead>
           </HeaderTable>
 
-          <Scrollbars style={{ height: `${32 * 20}px` }}>
+          <Scrollbars style={{ height: openOrdersContentHeight, maxHeight: `${40 * 20}px` }}>
             <Table className="order-list-table responsive hover">
               {accountStore.isLogin &&
                 openOrdersList &&
