@@ -100,6 +100,10 @@ class Order extends Component {
   }
 
   handleChange = name => event => {
+    if (parseFloat(event.target.value) < 0) {
+      return
+    }
+
     this.setState({
       [name]: event.target.value
     })
