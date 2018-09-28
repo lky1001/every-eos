@@ -66,12 +66,12 @@ class Order extends Component {
     this.toggle = this.toggle.bind(this)
     this.state = {
       tabIndex: 0,
-      buyPrice: 0.0,
+      buyPrice: 0.1,
       buyQty: 0.0001,
-      sellPrice: 0.0,
+      sellPrice: 0.1,
       sellQty: 0.0001,
-      buyMarketTotalEos: 0.0,
-      sellMarketAmount: 0.0
+      buyMarketTotalEos: 0.1,
+      sellMarketAmount: 0.0001
     }
   }
 
@@ -319,8 +319,8 @@ class Order extends Component {
           <Row>
             <Col sm="6">
               <OrderRowPanel>
-                <PrimaryOrderColPanel sm="3" />
-                <PrimaryOrderColPanel sm="3" buy>
+                <PrimaryOrderColPanel sm="1" />
+                <PrimaryOrderColPanel sm="5" buy>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
                 <RightAlignCol sm="6">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
@@ -370,8 +370,8 @@ class Order extends Component {
 
             <Col sm="6">
               <OrderRowPanel>
-                <PrimaryOrderColPanel sm="3" />
-                <PrimaryOrderColPanel sm="3" sell>
+                <PrimaryOrderColPanel sm="1" />
+                <PrimaryOrderColPanel sm="5" sell>
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
                 <RightAlignCol sm="6">301.22 {token.symbol}</RightAlignCol>
@@ -421,34 +421,78 @@ class Order extends Component {
           </Row>
         </OrderTabPanel>
 
-        <TabPanel>
+        <OrderTabPanel>
           <Row>
             <Col sm="6">
-              buy total(EOS){' '}
-              <OrderInput
-                type="text"
-                name="buyMarketTotalEos"
-                onChange={this.handleChange.bind(this)}
-                value={this.state.buyMarketTotalEos}
-                placeholder="buy total in eos"
-              />
-              <br />
-              <button onClick={this.onBuyMarketClick}>Buy Market</button>
+              <OrderRowPanel>
+                <PrimaryOrderColPanel sm="1" />
+                <PrimaryOrderColPanel sm="5" buy>
+                  <FormattedMessage id="Available" />
+                </PrimaryOrderColPanel>
+                <RightAlignCol sm="6">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3">
+                  <FormattedMessage id="Amount" />
+                </OrderColPanel>
+                <Col sm="9">
+                  <InputGroup style={{ width: '100%' }}>
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange('buyMarketTotalEos')}
+                      value={this.state.buyMarketTotalEos}
+                    />
+                    <InputGroupAddon addonType="append">EOS</InputGroupAddon>
+                  </InputGroup>
+                </Col>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3" />
+                <Col sm="9">
+                  <OrderButton onClick={this.onBuyMarketClick} color={ColorsConstant.Thick_green}>
+                    <FormattedMessage id="BUY" />
+                  </OrderButton>
+                </Col>
+              </OrderRowPanel>
             </Col>
             <Col sm="6">
-              sell amount{' '}
-              <OrderInput
-                type="text"
-                name="sellMarketAmount"
-                onChange={this.handleChange.bind(this)}
-                value={this.state.sellMarketAmount}
-                placeholder="sell amount"
-              />
-              <br />
-              <button onClick={this.onSellMarketClick}>Sell Market</button>
+              <OrderRowPanel>
+                <PrimaryOrderColPanel sm="1" />
+                <PrimaryOrderColPanel sm="5" sell>
+                  <FormattedMessage id="Available" />
+                </PrimaryOrderColPanel>
+                <RightAlignCol sm="6">301.22 {token.symbol}</RightAlignCol>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3">
+                  <FormattedMessage id="Amount" />
+                </OrderColPanel>
+                <Col sm="9">
+                  <InputGroup style={{ width: '100%' }}>
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange('sellMarketAmount')}
+                      value={this.state.sellMarketAmount}
+                    />
+                    <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
+                  </InputGroup>
+                </Col>
+              </OrderRowPanel>
+              <OrderRowPanel>
+                <OrderColPanel sm="3" />
+                <Col sm="9">
+                  <OrderButton onClick={this.onSellMarketClick} color={ColorsConstant.Thick_red}>
+                    <FormattedMessage id="SELL" />
+                  </OrderButton>
+                </Col>
+              </OrderRowPanel>
             </Col>
           </Row>
-        </TabPanel>
+        </OrderTabPanel>
       </Tabs>
     )
   }
