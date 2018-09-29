@@ -179,6 +179,7 @@ class OrderHistory extends Component {
 
           <Scrollbars
             style={{
+              height: openHistoryContentHeight,
               maxHeight: `${40 * selectedPageSize.value}px`
             }}
           >
