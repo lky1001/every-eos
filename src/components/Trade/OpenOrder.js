@@ -141,6 +141,7 @@ class OpenOrder extends Component {
       openOrdersError
     } = this.props
 
+    console.log(openOrdersCount)
     const openOrdersContentHeight = `${40 * openOrdersCount}px`
 
     return (
@@ -247,8 +248,7 @@ class OpenOrder extends Component {
                     height: '70px',
                     fontSize: '16px',
                     paddingTop: '25px'
-                  }}
-                >
+                  }}>
                   <FormattedMessage id="No Data" />
                 </div>
               )
@@ -260,8 +260,7 @@ class OpenOrder extends Component {
                 height: '70px',
                 fontSize: '16px',
                 paddingTop: '25px'
-              }}
-            >
+              }}>
               <FormattedMessage id="Please Login" />
             </div>
           )}
