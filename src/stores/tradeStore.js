@@ -1,7 +1,12 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
-import { orderQuery, ordersQuery, stackedOrdersQuery } from '../graphql/query/order'
+import {
+  orderQuery,
+  ordersQuery,
+  ordersForAccountQuery,
+  stackedOrdersQuery
+} from '../graphql/query/order'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
@@ -95,8 +100,10 @@ class TradeStore {
       get ordersHistory() {
         return graphql({
           client: ApiServerAgent,
-          query: ordersQuery,
-          variables: { account_name: '', status: '["ALL_DEALED", "CANCELLED"]' }
+          query: ordersForAccountQuery,
+          variables: {
+            variables: { account_name: '', status: '["ALL_DEALED", "CANCELLED"]' }
+          }
         })
       }
     })
@@ -105,7 +112,7 @@ class TradeStore {
       get openOrders() {
         return graphql({
           client: ApiServerAgent,
-          query: ordersQuery,
+          query: ordersForAccountQuery,
           variables: {
             account_name: '',
             status: '["NOT_DEAL", "PARTIAL_DEALED"]'
@@ -192,7 +199,7 @@ class TradeStore {
   getOrdersHistory = async (account_name, token_symbol, type, status, limit, page, from, to) => {
     this.ordersHistory = await graphql({
       client: ApiServerAgent,
-      query: ordersQuery,
+      query: ordersForAccountQuery,
       variables: {
         account_name: account_name,
         token_symbol: token_symbol,
@@ -207,31 +214,40 @@ class TradeStore {
   }
 
   clearOrdersHistory = () => {
-    if (this.ordersHistory.data && this.ordersHistory.data.orders) {
-      this.ordersHistory.data.orders = []
+    if (this.ordersHistory && this.ordersHistory.data && this.ordersHistory.data.ordersForAccount) {
+      this.ordersHistory.data.ordersForAccount = []
     }
   }
 
   get ordersHistoryError() {
-    return (this.ordersHistory.error && this.ordersHistory.error.message) || null
+    return (
+      (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
+    )
   }
 
   get ordersHistoryLoading() {
-    return this.ordersHistory.loading
+    return this.ordersHistory ? this.ordersHistory.loading : false
   }
 
   get ordersHistoryList() {
-    return (this.ordersHistory.data && toJS(this.ordersHistory.data.orders)) || []
+    return (
+      (this.ordersHistory &&
+        this.ordersHistory.data &&
+        toJS(this.ordersHistory.data.ordersForAccount)) ||
+      []
+    )
   }
 
   get ordersHistoryCount() {
-    return this.ordersHistory.data.orders ? this.ordersHistory.data.orders.length : 0
+    return this.ordersHistory && this.ordersHistory.data && this.ordersHistory.data.ordersForAccount
+      ? this.ordersHistory.data.ordersForAccount.length
+      : 0
   }
 
   getOpenOrders = async (account_name, status, limit, page) => {
     this.openOrders = await graphql({
       client: ApiServerAgent,
-      query: ordersQuery,
+      query: ordersForAccountQuery,
       variables: {
         account_name: account_name,
         status: status,
@@ -242,25 +258,29 @@ class TradeStore {
   }
 
   clearOpenOrders = () => {
-    if (this.openOrders.data && this.openOrders.data.orders) {
-      this.openOrders.data.orders = []
+    if (this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount) {
+      this.openOrders.data.ordersForAccount = []
     }
   }
 
   get openOrdersError() {
-    return (this.openOrders.error && this.openOrders.error.message) || null
+    return (this.openOrders && this.openOrders.error && this.openOrders.error.message) || null
   }
 
   get openOrdersLoading() {
-    return this.openOrders.loading
+    return this.openOrders ? this.openOrders.loading : false
   }
 
   get openOrdersList() {
-    return (this.openOrders.data && toJS(this.openOrders.data.orders)) || []
+    return (
+      (this.openOrders && this.openOrders.data && toJS(this.openOrders.data.ordersForAccount)) || []
+    )
   }
 
   get openOrdersCount() {
-    return this.openOrders.data.orders ? this.openOrders.data.orders.length : 0
+    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount
+      ? this.openOrders.data.ordersForAccount.length
+      : 0
   }
 
   cancelOrder = async (data, signature) => {
@@ -296,7 +316,10 @@ class TradeStore {
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
 
-        if (arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED || arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED) {
+        if (
+          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
+          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
+        ) {
           this.ordersHistory.data.orders.unshift(arrivedOrderByTxId)
         } else {
           this.openOrders.data.orders.unshift(arrivedOrderByTxId)

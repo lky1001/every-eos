@@ -181,8 +181,7 @@ class OrderHistory extends Component {
             style={{
               height: openHistoryContentHeight,
               maxHeight: `${40 * selectedPageSize.value}px`
-            }}
-          >
+            }}>
             <Table className="order-list-table responsive hover">
               {accountStore.isLogin &&
                 ordersHistoryList &&
@@ -258,8 +257,7 @@ class OrderHistory extends Component {
                     height: '70px',
                     fontSize: '16px',
                     paddingTop: '25px'
-                  }}
-                >
+                  }}>
                   <FormattedMessage id="No Data" />
                 </div>
               )
@@ -271,8 +269,7 @@ class OrderHistory extends Component {
                 height: '70px',
                 fontSize: '16px',
                 paddingTop: '25px'
-              }}
-            >
+              }}>
               <FormattedMessage id="Please Login" />
             </div>
           )}
@@ -290,8 +287,7 @@ class OrderHistory extends Component {
             </InputPairContainer>
             <Pagination
               aria-label="orders pagination"
-              style={{ justifyContent: 'center', alignItems: 'center' }}
-            >
+              style={{ justifyContent: 'center', alignItems: 'center' }}>
               <PaginationItem>
                 <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
               </PaginationItem>

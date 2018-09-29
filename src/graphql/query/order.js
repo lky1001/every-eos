@@ -59,7 +59,6 @@ export const ordersQuery = gql`
     $token_symbol: String
     $type: String
     $status: String
-    $account_name: String
     $limit: Int
     $page: Int
     $from: Date
@@ -69,7 +68,49 @@ export const ordersQuery = gql`
       token_symbol: $token_symbol
       type: $type
       status: $status
+      limit: $limit
+      page: $page
+      from: $from
+      to: $to
+    ) {
+      id
+      token_id
+      type
+      token_price
+      total_amount
+      deal_amount
+      account_name
+      status
+      created
+      updated
+      orderDetails {
+        ...orderDetail
+      }
+      token {
+        symbol
+        market
+      }
+    }
+  }
+  ${orderDetailFragment}
+`
+
+export const ordersForAccountQuery = gql`
+  query(
+    $account_name: String!
+    $token_symbol: String
+    $type: String
+    $status: String
+    $limit: Int
+    $page: Int
+    $from: Date
+    $to: Date
+  ) {
+    ordersForAccount(
       account_name: $account_name
+      token_symbol: $token_symbol
+      type: $type
+      status: $status
       limit: $limit
       page: $page
       from: $from
