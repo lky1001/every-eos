@@ -418,13 +418,27 @@ class SearchableOrderHistory extends Component {
                     <ProgressBar striped bsStyle="success" now={40} />
                   ) : (
                     (!ordersHistoryList || ordersHistoryCount === 0) && (
-                      <div style={{ textAlign: 'center' }}>
+                      <div
+                        style={{
+                          textAlign: 'center',
+                          height: '70px',
+                          fontSize: '16px',
+                          paddingTop: '25px'
+                        }}
+                      >
                         <FormattedMessage id="No Data" />
                       </div>
                     )
                   )
                 ) : (
-                  <div style={{ textAlign: 'center' }}>
+                  <div
+                    style={{
+                      textAlign: 'center',
+                      height: '70px',
+                      fontSize: '16px',
+                      paddingTop: '25px'
+                    }}
+                  >
                     <FormattedMessage id="Please Login" />
                   </div>
                 )}
@@ -443,7 +457,8 @@ class SearchableOrderHistory extends Component {
                 </InputPairContainer>
                 <Pagination
                   aria-label="orders pagination"
-                  style={{ justifyContent: 'center', alignItems: 'center' }}>
+                  style={{ justifyContent: 'center', alignItems: 'center' }}
+                >
                   <PaginationItem>
                     <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
                   </PaginationItem>

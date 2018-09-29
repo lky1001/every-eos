@@ -188,7 +188,7 @@ class OpenOrder extends Component {
             </thead>
           </HeaderTable>
 
-          <Scrollbars style={{ height: openOrdersContentHeight, maxHeight: `${40 * 20}px` }}>
+          <Scrollbars style={{ maxHeight: `${40 * 20}px` }}>
             <Table className="order-list-table responsive hover">
               {accountStore.isLogin &&
                 openOrdersList &&
@@ -240,13 +240,27 @@ class OpenOrder extends Component {
               <ProgressBar striped bsStyle="success" now={40} />
             ) : (
               (!openOrdersList || openOrdersCount === 0) && (
-                <div style={{ textAlign: 'center' }}>
+                <div
+                  style={{
+                    textAlign: 'center',
+                    height: '70px',
+                    fontSize: '16px',
+                    paddingTop: '25px'
+                  }}
+                >
                   <FormattedMessage id="No Data" />
                 </div>
               )
             )
           ) : (
-            <div style={{ textAlign: 'center' }}>
+            <div
+              style={{
+                textAlign: 'center',
+                height: '70px',
+                fontSize: '16px',
+                paddingTop: '25px'
+              }}
+            >
               <FormattedMessage id="Please Login" />
             </div>
           )}
