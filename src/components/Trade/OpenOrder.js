@@ -4,7 +4,14 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import '../Common/React-tabs.scss'
 import { Table, ProgressBar, Button } from 'react-bootstrap'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { HeaderTable, PriceRow, TableLgRow } from '../Common/Common'
+import {
+  HeaderTable,
+  TableLgRow,
+  OrderBaseColumn,
+  DateColumn,
+  BuyTypeColumn,
+  SellTypeColumn
+} from '../Common/Common'
 import {
   ORDER_STATUS_NOT_DEAL,
   ORDER_STATUS_PARTIAL_DEALED,
@@ -17,29 +24,6 @@ import {
 import { typeOptions, getTypeFilter } from '../../utils/OrderSearchFilter'
 import eosAgent from '../../EosAgent'
 import { format, subDays } from 'date-fns'
-import ColorsConstant from '../Colors/ColorsConstant'
-import styled from 'styled-components'
-
-const BaseColumn = styled.td`
-  width: 10%;
-  text-align: right;
-`
-const DateColumn = styled(BaseColumn)`
-  width: 15%;
-  text-align: center !important;
-`
-
-const TypeColumnBase = styled(BaseColumn)`
-  width: 5%;
-`
-
-const BuyTypeColumn = styled(TypeColumnBase)`
-  color: ${ColorsConstant.Thick_green};
-`
-
-const SellTypeColumn = styled(TypeColumnBase)`
-  color: ${ColorsConstant.Thick_red};
-`
 
 class OpenOrder extends Component {
   constructor(props) {
@@ -214,16 +198,16 @@ class OpenOrder extends Component {
                       return (
                         <TableLgRow key={o.id}>
                           <DateColumn>{format(o.created, ORDER_DATE_FORMAT)}</DateColumn>
-                          <BaseColumn>
+                          <OrderBaseColumn>
                             {o.token.symbol} / {o.token.market}
-                          </BaseColumn>
+                          </OrderBaseColumn>
                           {o.type === ORDER_TYPE_BUY ? (
                             <BuyTypeColumn>{o.type}</BuyTypeColumn>
                           ) : (
                             <SellTypeColumn>{o.type}</SellTypeColumn>
                           )}
-                          <BaseColumn>{o.token_price.toFixed(4)}</BaseColumn>
-                          <BaseColumn>
+                          <OrderBaseColumn>{o.token_price.toFixed(4)}</OrderBaseColumn>
+                          <OrderBaseColumn>
                             {o.status === ORDER_STATUS_PARTIAL_DEALED
                               ? Math.round(
                                 o.orderDetails.reduce(
@@ -232,18 +216,18 @@ class OpenOrder extends Component {
                                 ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
                               )
                               : '-'}
-                          </BaseColumn>
-                          <BaseColumn>{o.total_amount}</BaseColumn>
-                          <BaseColumn>{o.deal_amount}</BaseColumn>
-                          <BaseColumn>-</BaseColumn>
-                          <BaseColumn>
+                          </OrderBaseColumn>
+                          <OrderBaseColumn>{o.total_amount}</OrderBaseColumn>
+                          <OrderBaseColumn>{o.deal_amount}</OrderBaseColumn>
+                          <OrderBaseColumn>-</OrderBaseColumn>
+                          <OrderBaseColumn>
                             <FormattedMessage id={o.status} />
-                          </BaseColumn>
-                          <BaseColumn>
+                          </OrderBaseColumn>
+                          <OrderBaseColumn>
                             <Button color="link" onClick={() => this.cancelOrder(o.id)}>
                               <FormattedMessage id="Cancel" />
                             </Button>
-                          </BaseColumn>
+                          </OrderBaseColumn>
                         </TableLgRow>
                       )
                     })}

@@ -13,6 +13,28 @@ import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant.js'
 import { Container, Col } from 'reactstrap'
 
+export const OrderBaseColumn = styled.td`
+  width: 10%;
+  text-align: right;
+`
+
+const TypeColumnBase = styled(OrderBaseColumn)`
+  width: 5%;
+`
+
+export const DateColumn = styled(OrderBaseColumn)`
+  width: 15%;
+  text-align: center !important;
+`
+
+export const BuyTypeColumn = styled(TypeColumnBase)`
+  color: ${ColorsConstant.Thick_green};
+`
+
+export const SellTypeColumn = styled(TypeColumnBase)`
+  color: ${ColorsConstant.Thick_red};
+`
+
 export const RightAlignCol = styled(Col)`
   text-align: right;
 `

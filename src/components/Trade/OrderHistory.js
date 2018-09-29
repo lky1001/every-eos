@@ -16,31 +16,19 @@ import {
 } from '../../constants/Values'
 
 import { format, subDays } from 'date-fns'
-import { HeaderTable, InputPairContainer, Header6, TableLgRow } from '../Common/Common'
+import {
+  HeaderTable,
+  InputPairContainer,
+  Header6,
+  TableLgRow,
+  OrderBaseColumn,
+  DateColumn,
+  BuyTypeColumn,
+  SellTypeColumn
+} from '../Common/Common'
 import { getTypeFilter, typeOptions, pageSizeOptions } from '../../utils/OrderSearchFilter'
 import ColorsConstant from '../Colors/ColorsConstant'
 import styled from 'styled-components'
-
-const BaseColumn = styled.td`
-  width: 10%;
-  text-align: right;
-`
-const DateColumn = styled(BaseColumn)`
-  width: 15%;
-  text-align: center !important;
-`
-
-const TypeColumnBase = styled(BaseColumn)`
-  width: 5%;
-`
-
-const BuyTypeColumn = styled(TypeColumnBase)`
-  color: ${ColorsConstant.Thick_green};
-`
-
-const SellTypeColumn = styled(TypeColumnBase)`
-  color: ${ColorsConstant.Thick_red};
-`
 
 class OrderHistory extends Component {
   constructor(props) {
@@ -203,16 +191,16 @@ class OrderHistory extends Component {
                       return (
                         <TableLgRow key={o.id}>
                           <DateColumn>{format(o.updated, ORDER_DATE_FORMAT)}</DateColumn>
-                          <BaseColumn>
+                          <OrderBaseColumn>
                             {o.token.symbol} / {o.token.market}
-                          </BaseColumn>
+                          </OrderBaseColumn>
                           {o.type === ORDER_TYPE_BUY ? (
                             <BuyTypeColumn>{o.type}</BuyTypeColumn>
                           ) : (
                             <SellTypeColumn>{o.type}</SellTypeColumn>
                           )}
-                          <BaseColumn>{o.token_price.toFixed(4)}</BaseColumn>
-                          <BaseColumn>
+                          <OrderBaseColumn>{o.token_price.toFixed(4)}</OrderBaseColumn>
+                          <OrderBaseColumn>
                             {o.status === ORDER_STATUS_ALL_DEALED
                               ? o.orderDetails.length === 0
                                 ? 0
@@ -243,14 +231,14 @@ class OrderHistory extends Component {
                                           .reduce((acc, curr) => acc + curr.amount, 0)
                                   )
                                 : '-'}
-                          </BaseColumn>
-                          <BaseColumn>{o.total_amount}</BaseColumn>
-                          <BaseColumn>{o.deal_amount}</BaseColumn>
-                          <BaseColumn>-</BaseColumn>
-                          <BaseColumn>
+                          </OrderBaseColumn>
+                          <OrderBaseColumn>{o.total_amount}</OrderBaseColumn>
+                          <OrderBaseColumn>{o.deal_amount}</OrderBaseColumn>
+                          <OrderBaseColumn>-</OrderBaseColumn>
+                          <OrderBaseColumn>
                             <FormattedMessage id={o.status} />
-                          </BaseColumn>
-                          <BaseColumn>Detail</BaseColumn>
+                          </OrderBaseColumn>
+                          <OrderBaseColumn>Detail</OrderBaseColumn>
                         </TableLgRow>
                       )
                     })}
