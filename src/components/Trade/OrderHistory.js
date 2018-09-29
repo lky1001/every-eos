@@ -49,10 +49,12 @@ class OrderHistory extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { ordersHistoryCount } = nextProps
+    const { ordersHistoryCount, ordersHistoryTotalCount } = nextProps
 
     const pageCount =
-      ordersHistoryCount > 0 ? Math.ceil(ordersHistoryCount / prevState.selectedPageSize.value) : 1
+      ordersHistoryCount > 0
+        ? Math.ceil(ordersHistoryTotalCount / prevState.selectedPageSize.value)
+        : 1
 
     return {
       ...prevState,
@@ -80,15 +82,15 @@ class OrderHistory extends Component {
 
   getOrderHistory = async () => {
     const { tradeStore, accountStore } = this.props
-    const { from, to, selectedType } = this.state
+    const { currentPage, selectedPageSize, from, to, selectedType } = this.state
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
       '',
       getTypeFilter(selectedType),
       JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
-      0,
-      0,
+      selectedPageSize.value,
+      currentPage,
       from,
       to
     )
@@ -99,16 +101,17 @@ class OrderHistory extends Component {
   }
 
   handlePageSizeChange = selectedPageSize => {
-    this.setState({ selectedPageSize })
+    this.state.selectedPageSize = selectedPageSize
+    this.getOrderHistory()
   }
 
   pageClicked = idx => {
     const { pageCount } = this.state
 
     if (idx > 0 && idx <= pageCount) {
-      this.setState({
-        currentPage: idx
-      })
+      //Non-update with state.
+      this.state.currentPage = idx
+      this.getOrderHistory()
     }
   }
 
@@ -129,8 +132,6 @@ class OrderHistory extends Component {
       ordersHistoryError
     } = this.props
     const { selectedPageSize, pageCount, currentPage } = this.state
-    const startIndex = (currentPage - 1) * selectedPageSize.value
-    const endIndex = startIndex + selectedPageSize.value
     const openHistoryContentHeight = `${40 * ordersHistoryCount}px`
 
     return (
@@ -187,7 +188,7 @@ class OrderHistory extends Component {
                 ordersHistoryList &&
                 ordersHistoryCount > 0 && (
                   <tbody>
-                    {ordersHistoryList.slice(startIndex, endIndex).map(o => {
+                    {ordersHistoryList.map(o => {
                       return (
                         <TableLgRow key={o.id}>
                           <DateColumn>{format(o.updated, ORDER_DATE_FORMAT)}</DateColumn>

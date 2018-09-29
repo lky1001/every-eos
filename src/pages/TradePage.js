@@ -166,12 +166,13 @@ class TradePage extends Component {
                   }}>
                   <NoMarginPaddingCol xs={12}>
                     <OpenOrder
+                      accountStore={accountStore}
                       tradeStore={tradeStore}
                       openOrdersList={tradeStore.openOrdersList}
                       openOrdersCount={tradeStore.openOrdersCount}
+                      openOrdersTotalCount={tradeStore.openOrdersTotalCount}
                       openOrdersLoading={tradeStore.openOrdersLoading}
                       openOrdersError={tradeStore.openOrdersError}
-                      accountStore={accountStore}
                     />
                   </NoMarginPaddingCol>
                 </Row>
@@ -185,6 +186,7 @@ class TradePage extends Component {
                       tradeStore={tradeStore}
                       ordersHistoryList={tradeStore.ordersHistoryList}
                       ordersHistoryCount={tradeStore.ordersHistoryCount}
+                      ordersHistoryTotalCount={tradeStore.ordersHistoryTotalCount}
                       ordersHistoryLoading={tradeStore.ordersHistoryLoading}
                       ordersHistoryError={tradeStore.ordersHistoryError}
                     />

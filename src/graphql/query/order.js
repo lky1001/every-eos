@@ -73,23 +73,26 @@ export const ordersQuery = gql`
       from: $from
       to: $to
     ) {
-      id
-      token_id
-      type
-      token_price
-      total_amount
-      deal_amount
-      account_name
-      status
-      created
-      updated
-      orderDetails {
-        ...orderDetail
+      orders {
+        id
+        token_id
+        type
+        token_price
+        total_amount
+        deal_amount
+        account_name
+        status
+        created
+        updated
+        orderDetails {
+          ...orderDetail
+        }
+        token {
+          symbol
+          market
+        }
       }
-      token {
-        symbol
-        market
-      }
+      totalCount
     }
   }
   ${orderDetailFragment}
@@ -116,23 +119,26 @@ export const ordersForAccountQuery = gql`
       from: $from
       to: $to
     ) {
-      id
-      token_id
-      type
-      token_price
-      total_amount
-      deal_amount
-      account_name
-      status
-      created
-      updated
-      orderDetails {
-        ...orderDetail
+      orders {
+        id
+        token_id
+        type
+        token_price
+        total_amount
+        deal_amount
+        account_name
+        status
+        created
+        updated
+        orderDetails {
+          ...orderDetail
+        }
+        token {
+          symbol
+          market
+        }
       }
-      token {
-        symbol
-        market
-      }
+      totalCount
     }
   }
   ${orderDetailFragment}

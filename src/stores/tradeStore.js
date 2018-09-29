@@ -42,7 +42,8 @@ class TradeStore {
 
   ordersHistory = {
     data: {
-      orders: []
+      orders: [],
+      totalCount: 0
     },
     loading: false,
     error: null
@@ -50,7 +51,8 @@ class TradeStore {
 
   openOrders = {
     data: {
-      orders: []
+      orders: [],
+      totalCount: 0
     },
     loading: false,
     error: null
@@ -214,8 +216,14 @@ class TradeStore {
   }
 
   clearOrdersHistory = () => {
-    if (this.ordersHistory && this.ordersHistory.data && this.ordersHistory.data.ordersForAccount) {
-      this.ordersHistory.data.ordersForAccount = []
+    if (
+      this.ordersHistory &&
+      this.ordersHistory.data &&
+      this.ordersHistory.data.ordersForAccount &&
+      this.ordersHistory.data.ordersForAccount.orders
+    ) {
+      this.ordersHistory.data.ordersForAccount.orders = []
+      this.ordersHistory.data.ordersForAccount.totalCount = 0
     }
   }
 
@@ -233,14 +241,24 @@ class TradeStore {
     return (
       (this.ordersHistory &&
         this.ordersHistory.data &&
-        toJS(this.ordersHistory.data.ordersForAccount)) ||
+        this.ordersHistory.data.ordersForAccount &&
+        toJS(this.ordersHistory.data.ordersForAccount.orders)) ||
       []
     )
   }
 
-  get ordersHistoryCount() {
+  get ordersHistoryTotalCount() {
     return this.ordersHistory && this.ordersHistory.data && this.ordersHistory.data.ordersForAccount
-      ? this.ordersHistory.data.ordersForAccount.length
+      ? this.ordersHistory.data.ordersForAccount.totalCount
+      : 0
+  }
+
+  get ordersHistoryCount() {
+    return this.ordersHistory &&
+      this.ordersHistory.data &&
+      this.ordersHistory.data.ordersForAccount &&
+      this.ordersHistory.data.ordersForAccount.orders
+      ? this.ordersHistory.data.ordersForAccount.orders.length
       : 0
   }
 
@@ -258,8 +276,14 @@ class TradeStore {
   }
 
   clearOpenOrders = () => {
-    if (this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount) {
-      this.openOrders.data.ordersForAccount = []
+    if (
+      this.openOrders &&
+      this.openOrders.data &&
+      this.openOrders.data.ordersForAccount &&
+      this.openOrders.data.ordersForAccount.orders
+    ) {
+      this.openOrders.data.ordersForAccount.orders = []
+      this.openOrders.data.ordersForAccount.totalCount = 0
     }
   }
 
@@ -273,13 +297,26 @@ class TradeStore {
 
   get openOrdersList() {
     return (
-      (this.openOrders && this.openOrders.data && toJS(this.openOrders.data.ordersForAccount)) || []
+      (this.openOrders &&
+        this.openOrders.data &&
+        this.openOrders.data.ordersForAccount &&
+        toJS(this.openOrders.data.ordersForAccount.orders)) ||
+      []
     )
   }
 
   get openOrdersCount() {
+    return this.openOrders &&
+      this.openOrders.data &&
+      this.openOrders.data.ordersForAccount &&
+      this.openOrders.data.ordersForAccount.orders
+      ? this.openOrders.data.ordersForAccount.orders.length
+      : 0
+  }
+
+  get openOrdersTotalCount() {
     return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount
-      ? this.openOrders.data.ordersForAccount.length
+      ? this.openOrders.data.ordersForAccount.totalCount
       : 0
   }
 
@@ -346,11 +383,13 @@ decorate(TradeStore, {
   ordersHistoryLoading: computed,
   ordersHistoryList: computed,
   ordersHistoryCount: computed,
+  ordersHistoryTotalCount: computed,
   openOrders: observable,
   openOrdersError: computed,
   openOrdersLoading: computed,
   openOrdersList: computed,
   openOrdersCount: computed,
+  openOrdersTotalCount: computed,
   tokenSymbol: observable,
   price: observable,
   amount: observable,

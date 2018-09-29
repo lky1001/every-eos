@@ -31,8 +31,6 @@ class OpenOrder extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      currentPage: 1,
-      pageCount: 1,
       token_symbol: null,
       selectedType: typeOptions[0]
     }
@@ -141,7 +139,6 @@ class OpenOrder extends Component {
       openOrdersError
     } = this.props
 
-    console.log(openOrdersCount)
     const openOrdersContentHeight = `${40 * openOrdersCount}px`
 
     return (
