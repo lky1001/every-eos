@@ -69,6 +69,43 @@ class AccountStore {
     await eosAgent.logout()
 
     this.isLogin = false
+    this.loginAccountInfo = null
+    this.totalBalance = 0.0
+    this.totalRefund = 0.0
+    this.eosBalance = 0.0
+    this.liquid = 0.0
+    this.cpu = {
+      max: 0,
+      used: 0,
+      avaiable: 0
+    }
+    this.net = {
+      max: 0,
+      used: 0,
+      avaiable: 0
+    }
+    this.ram = {
+      max: 0,
+      used: 0,
+      avaiable: 0
+    }
+    this.totalResource = {
+      cpuWeight: 0.0,
+      netWeight: 0.0
+    }
+    this.selfDelegatedResource = {
+      cpuWeight: 0.0,
+      netWeight: 0.0
+    }
+    this.selfStake = 0.0
+    this.delegatedStake = 0.0
+    this.totalStake = 0.0
+    this.permissions = null
+    this.myVoteProducers = []
+    this.isProxy = 0
+    this.proxy = ''
+
+    this.isLogin = false
     this.loginStateObserveble.set(false)
     this.account = null
   }

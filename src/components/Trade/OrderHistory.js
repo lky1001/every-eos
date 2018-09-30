@@ -173,7 +173,9 @@ class OrderHistory extends Component {
                 <th style={{ width: '10%', textAlign: 'right' }}>
                   <FormattedMessage id="Status" />
                 </th>
-                <th style={{ width: '10%', textAlign: 'right' }}>Detail</th>
+                <th style={{ width: '10%', textAlign: 'right' }}>
+                  <FormattedMessage id="Detail" />
+                </th>
               </tr>
             </thead>
           </HeaderTable>
@@ -182,7 +184,8 @@ class OrderHistory extends Component {
             style={{
               height: openHistoryContentHeight,
               maxHeight: `${40 * selectedPageSize.value}px`
-            }}>
+            }}
+          >
             <Table className="order-list-table responsive hover">
               {accountStore.isLogin &&
                 ordersHistoryList &&
@@ -258,7 +261,8 @@ class OrderHistory extends Component {
                     height: '70px',
                     fontSize: '16px',
                     paddingTop: '25px'
-                  }}>
+                  }}
+                >
                   <FormattedMessage id="No Data" />
                 </div>
               )
@@ -270,25 +274,17 @@ class OrderHistory extends Component {
                 height: '70px',
                 fontSize: '16px',
                 paddingTop: '25px'
-              }}>
+              }}
+            >
               <FormattedMessage id="Please Login" />
             </div>
           )}
 
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <InputPairContainer>
-              <Header6 className="p-1">Total {ordersHistoryCount}</Header6>
-              <div className="p-5" style={{ width: '160px' }}>
-                <Select
-                  value={selectedPageSize}
-                  onChange={this.handlePageSizeChange}
-                  options={pageSizeOptions}
-                />
-              </div>
-            </InputPairContainer>
             <Pagination
               aria-label="orders pagination"
-              style={{ justifyContent: 'center', alignItems: 'center' }}>
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
               <PaginationItem>
                 <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
               </PaginationItem>

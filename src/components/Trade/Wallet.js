@@ -4,6 +4,7 @@ import { FormattedMessage } from 'react-intl'
 import { Table } from 'reactstrap'
 import { PriceRow } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { Row, Col } from 'react-bootstrap'
 import styled from 'styled-components'
 
 const TokenRow = styled.tr`
@@ -145,37 +146,45 @@ class Wallet extends Component {
         <TradeWalletTitle className="table-responsive">
           <FormattedMessage id="Wallet" />
         </TradeWalletTitle>
-        <Scrollbars style={{ height: '220px' }}>
-          <div
-            className="table-responsive"
-            style={{
-              background: 'white'
-            }}
-          >
-            <Table className="order-list-table">
-              <tbody>
-                {accountStore.isLogin &&
-                  this.state.tokens.map((token, idx) => {
-                    return (
-                      <TokenRow key={idx}>
-                        <ThumbnailColumn first={idx === 0}>
-                          <em data-pack="default" className="ion-social-usd" />
-                        </ThumbnailColumn>
-                        <PairColumn style={{ textAlign: 'left' }} first={idx === 0}>
-                          <PriceRow>{token.name}</PriceRow>
-                        </PairColumn>
-                        <QuantityColumn first={idx === 0}>
-                          <PriceRow>{token.balance}</PriceRow>
-                        </QuantityColumn>
-                      </TokenRow>
-                    )
-                  })}
-              </tbody>
-            </Table>
-
-            {!accountStore.isLogin && <FormattedMessage id="Please Login" />}
-          </div>
-        </Scrollbars>
+        {!accountStore.isLogin ? (
+          <Row className="show-grid" style={{ height: '220px' }}>
+            <Col xs={12} className="text-center" style={{ margin: 'auto' }}>
+              <h6 className="m0">
+                <FormattedMessage id="Please Login" />
+              </h6>
+            </Col>
+          </Row>
+        ) : (
+          <Scrollbars style={{ height: '220px' }}>
+            <div
+              className="table-responsive"
+              style={{
+                background: 'white'
+              }}
+            >
+              <Table className="order-list-table">
+                <tbody>
+                  {accountStore.isLogin &&
+                    this.state.tokens.map((token, idx) => {
+                      return (
+                        <TokenRow key={idx}>
+                          <ThumbnailColumn first={idx === 0}>
+                            <em data-pack="default" className="ion-social-usd" />
+                          </ThumbnailColumn>
+                          <PairColumn style={{ textAlign: 'left' }} first={idx === 0}>
+                            <PriceRow>{token.name}</PriceRow>
+                          </PairColumn>
+                          <QuantityColumn first={idx === 0}>
+                            <PriceRow>{token.balance}</PriceRow>
+                          </QuantityColumn>
+                        </TokenRow>
+                      )
+                    })}
+                </tbody>
+              </Table>
+            </div>
+          </Scrollbars>
+        )}
       </Fragment>
     )
   }

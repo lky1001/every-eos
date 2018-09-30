@@ -29,23 +29,23 @@ class Resource extends Component {
 
     return (
       <Fragment>
-        {!accountStore.isLogin && (
-          <Row className="show-grid">
-            <Col xs={12} className="text-center">
-              <h6 className="m0 text-thin">
+        {!accountStore.isLogin ? (
+          <Row className="show-grid" style={{ height: '90px' }}>
+            <Col xs={12} className="text-center" style={{ margin: 'auto' }}>
+              <h6 className="m0">
                 <FormattedMessage id="Please Login" />
               </h6>
             </Col>
           </Row>
-        )}
-        {accountStore.isLogin && (
+        ) : (
           <div
             style={{
               height,
               display: 'flex',
               justifyContent: 'space-around',
               alignItems: 'center'
-            }}>
+            }}
+          >
             <div>
               <TokenInfoTitle>
                 <FormattedMessage id="BALANCE" />

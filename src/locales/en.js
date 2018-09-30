@@ -47,5 +47,6 @@ export default {
   WAIT: 'Wait',
   DONE: 'Done',
   Cancel: 'Cancel',
-  'Available':'Available'
+  Available: 'Available',
+  Detail: 'Detail'
 }
