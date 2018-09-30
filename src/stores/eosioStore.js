@@ -2,7 +2,7 @@ import { decorate, observable, action } from 'mobx'
 import eosAgent from '../EosAgent'
 
 class EosioStore {
-  everyeoswalletAccount = 'dev323band21'
+  everyeoswalletAccount = 'everyeosbank'
   info = null
 
   getInfo = async () => {
