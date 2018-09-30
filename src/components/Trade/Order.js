@@ -150,6 +150,11 @@ class Order extends Component {
 
     const eosAmount = (this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)
 
+    if (eosAmount < 0.1) {
+      this.props.alert.show('Order is must greater then or equal to 0.1000 EOS.')
+      return
+    }
+
     if (eosAmount > eosBalance) {
       this.props.alert.show('Please check your eos balance.')
       return
@@ -198,6 +203,11 @@ class Order extends Component {
     const eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
 
     const eosAmount = parseFloat(this.state.buyMarketTotalEos).toFixed(EOS_TOKEN.precision)
+
+    if (eosAmount < 0.1) {
+      this.props.alert.show('Order is must greater then or equal to 0.1000 EOS.')
+      return
+    }
 
     if (eosAmount > eosBalance) {
       this.props.alert.show('Please check your eos balance.')
@@ -251,6 +261,11 @@ class Order extends Component {
 
     const tokenPriceInEos = parseFloat(this.state.sellPrice).toFixed(token.precision)
     const eosAmount = (tokenPriceInEos * tokenQty).toFixed(token.precision)
+
+    if (eosAmount < 0.1) {
+      this.props.alert.show('Order is must greater then or equal to 0.1000 EOS.')
+      return
+    }
 
     const memo = {
       type: 'SELL_LIMIT',
