@@ -19,6 +19,7 @@ class OrderHistoryPage extends Component {
                 tradeStore={tradeStore}
                 ordersHistoryList={tradeStore.ordersHistoryList}
                 ordersHistoryCount={tradeStore.ordersHistoryCount}
+                ordersHistoryTotalCount={tradeStore.ordersHistoryTotalCount}
                 ordersHistoryLoading={tradeStore.ordersHistoryLoading}
                 ordersHistoryError={tradeStore.ordersHistoryError}
               />

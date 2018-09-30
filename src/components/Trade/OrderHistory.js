@@ -35,8 +35,6 @@ class OrderHistory extends Component {
     super(props)
     const today = new Date()
 
-    this.toggle = this.toggle.bind(this)
-
     this.state = {
       currentPage: 1,
       pageCount: 1,
@@ -49,10 +47,10 @@ class OrderHistory extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { ordersHistoryCount, ordersHistoryTotalCount } = nextProps
+    const { ordersHistoryTotalCount } = nextProps
 
     const pageCount =
-      ordersHistoryCount > 0
+      ordersHistoryTotalCount > 0
         ? Math.ceil(ordersHistoryTotalCount / prevState.selectedPageSize.value)
         : 1
 
@@ -102,6 +100,7 @@ class OrderHistory extends Component {
 
   handlePageSizeChange = selectedPageSize => {
     this.state.selectedPageSize = selectedPageSize
+    this.state.currentPage = 1
     this.getOrderHistory()
   }
 
@@ -112,14 +111,6 @@ class OrderHistory extends Component {
       //Non-update with state.
       this.state.currentPage = idx
       this.getOrderHistory()
-    }
-  }
-
-  toggle = tab => {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      })
     }
   }
 

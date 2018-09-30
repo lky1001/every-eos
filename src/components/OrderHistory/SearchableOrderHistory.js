@@ -35,7 +35,7 @@ import {
   statusOptions,
   pageSizeOptions
 } from '../../utils/OrderSearchFilter'
-import { Text, ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
+import { ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
 
 class SearchableOrderHistory extends Component {
   constructor(props) {
@@ -43,7 +43,6 @@ class SearchableOrderHistory extends Component {
     const today = new Date()
 
     this.state = {
-      activeTab: '1',
       currentPage: 1,
       pageCount: 1,
       token_symbol: null,
@@ -56,10 +55,12 @@ class SearchableOrderHistory extends Component {
   }
 
   static getDerivedStateFromProps(nextProps, prevState) {
-    const { ordersHistoryCount } = nextProps
+    const { ordersHistoryTotalCount } = nextProps
 
     const pageCount =
-      ordersHistoryCount > 0 ? Math.ceil(ordersHistoryCount / prevState.selectedPageSize.value) : 1
+      ordersHistoryTotalCount > 0
+        ? Math.ceil(ordersHistoryTotalCount / prevState.selectedPageSize.value)
+        : 1
 
     return {
       ...prevState,
@@ -87,15 +88,23 @@ class SearchableOrderHistory extends Component {
 
   getOrderHistory = async () => {
     const { tradeStore, accountStore } = this.props
-    const { token_symbol, from, to, selectedType, selectedStatus } = this.state
+    const {
+      currentPage,
+      token_symbol,
+      from,
+      to,
+      selectedPageSize,
+      selectedType,
+      selectedStatus
+    } = this.state
 
     await tradeStore.getOrdersHistory(
       accountStore.loginAccountInfo.account_name,
       token_symbol,
       getTypeFilter(selectedType),
       getStatusFilter(selectedStatus),
-      0,
-      0,
+      selectedPageSize.value,
+      currentPage,
       from,
       to
     )
@@ -123,7 +132,9 @@ class SearchableOrderHistory extends Component {
   }
 
   handlePageSizeChange = selectedPageSize => {
-    this.setState({ selectedPageSize })
+    this.state.selectedPageSize = selectedPageSize
+    this.state.currentPage = 1
+    this.getOrderHistory()
   }
 
   showFromMonth = () => {
@@ -161,9 +172,8 @@ class SearchableOrderHistory extends Component {
     const { pageCount } = this.state
 
     if (idx > 0 && idx <= pageCount) {
-      this.setState({
-        currentPage: idx
-      })
+      this.state.currentPage = idx
+      this.getOrderHistory()
     }
   }
 
@@ -342,7 +352,7 @@ class SearchableOrderHistory extends Component {
                     ordersHistoryList &&
                     ordersHistoryCount > 0 && (
                       <tbody>
-                        {ordersHistoryList.slice(startIndex, endIndex).map(o => {
+                        {ordersHistoryList.map(o => {
                           return (
                             <tr key={o.id}>
                               <td>
@@ -424,8 +434,7 @@ class SearchableOrderHistory extends Component {
                           height: '70px',
                           fontSize: '16px',
                           paddingTop: '25px'
-                        }}
-                      >
+                        }}>
                         <FormattedMessage id="No Data" />
                       </div>
                     )
@@ -437,8 +446,7 @@ class SearchableOrderHistory extends Component {
                       height: '70px',
                       fontSize: '16px',
                       paddingTop: '25px'
-                    }}
-                  >
+                    }}>
                     <FormattedMessage id="Please Login" />
                   </div>
                 )}
@@ -457,8 +465,7 @@ class SearchableOrderHistory extends Component {
                 </InputPairContainer>
                 <Pagination
                   aria-label="orders pagination"
-                  style={{ justifyContent: 'center', alignItems: 'center' }}
-                >
+                  style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <PaginationItem>
                     <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
                   </PaginationItem>
