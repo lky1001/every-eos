@@ -70,6 +70,8 @@ class OrderList extends Component {
 
   render() {
     const { token, buyOrdersList, sellOrdersList } = this.props
+
+    console.log('호가창 보자', buyOrdersList)
     const sellMax =
       sellOrdersList.length > 0
         ? sellOrdersList.reduce((a, b) => {
@@ -139,15 +141,13 @@ class OrderList extends Component {
 
         <TokenPrice
           className="table-responsive"
-          style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}
-        >
+          style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}>
           <Text
             color={
               token.last_price - token.last_previous_price > 0
                 ? ColorsConstant.Thick_green
                 : ColorsConstant.Thick_red
-            }
-          >{`${token.last_price}`}</Text>{' '}
+            }>{`${token.last_price}`}</Text>{' '}
           <PriceIcon
             className={
               token.last_price - token.last_previous_price > 0

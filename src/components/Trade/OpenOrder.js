@@ -73,8 +73,8 @@ class OpenOrder extends Component {
       '',
       getTypeFilter(selectedType),
       JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
-      0,
-      0,
+      10,
+      1,
       subDays(today, 30),
       today
     )

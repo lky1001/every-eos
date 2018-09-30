@@ -1,12 +1,7 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
-import {
-  orderQuery,
-  ordersQuery,
-  ordersForAccountQuery,
-  stackedOrdersQuery
-} from '../graphql/query/order'
+import { orderQuery, ordersForAccountQuery, stackedOrdersQuery } from '../graphql/query/order'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
@@ -99,28 +94,11 @@ class TradeStore {
     })
 
     set(this, {
-      get ordersHistory() {
-        return graphql({
-          client: ApiServerAgent,
-          query: ordersForAccountQuery,
-          variables: {
-            variables: { account_name: '', status: '["ALL_DEALED", "CANCELLED"]' }
-          }
-        })
-      }
+      get ordersHistory() {}
     })
 
     set(this, {
-      get openOrders() {
-        return graphql({
-          client: ApiServerAgent,
-          query: ordersForAccountQuery,
-          variables: {
-            account_name: '',
-            status: '["NOT_DEAL", "PARTIAL_DEALED"]'
-          }
-        })
-      }
+      get openOrders() {}
     })
 
     this.chartData = observable.box([])
@@ -242,6 +220,7 @@ class TradeStore {
       (this.ordersHistory &&
         this.ordersHistory.data &&
         this.ordersHistory.data.ordersForAccount &&
+        this.ordersHistory.data.ordersForAccount.orders &&
         toJS(this.ordersHistory.data.ordersForAccount.orders)) ||
       []
     )
@@ -300,6 +279,7 @@ class TradeStore {
       (this.openOrders &&
         this.openOrders.data &&
         this.openOrders.data.ordersForAccount &&
+        this.openOrders.data.ordersForAccount.orders &&
         toJS(this.openOrders.data.ordersForAccount.orders)) ||
       []
     )

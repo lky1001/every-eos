@@ -368,7 +368,7 @@ class Order extends Component {
             <Col sm="6">
               <OrderRowPanel>
                 <PrimaryOrderColPanel sm="1" />
-                <PrimaryOrderColPanel sm="5" buy>
+                <PrimaryOrderColPanel sm="5" buy="true">
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
                 <RightAlignCol sm="6">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
@@ -419,7 +419,7 @@ class Order extends Component {
             <Col sm="6">
               <OrderRowPanel>
                 <PrimaryOrderColPanel sm="1" />
-                <PrimaryOrderColPanel sm="5" sell>
+                <PrimaryOrderColPanel sm="5" sell="true">
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
                 <RightAlignCol sm="6">
@@ -476,7 +476,7 @@ class Order extends Component {
             <Col sm="6">
               <OrderRowPanel>
                 <PrimaryOrderColPanel sm="1" />
-                <PrimaryOrderColPanel sm="5" buy>
+                <PrimaryOrderColPanel sm="5" buy="true">
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
                 <RightAlignCol sm="6">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
