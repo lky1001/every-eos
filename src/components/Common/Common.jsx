@@ -107,17 +107,6 @@ export const TokenPrice = styled.div`
   padding: 8px;
 `
 
-export const TradeWalletTitle = styled.div`
-  height: 44px;
-  background: white;
-  vertical-align: middle;
-  text-align: center;
-  font-size: 18px;
-  padding: 8px;
-  overflow: hidden;
-  border-top: solid 1px rgba(162, 162, 162, 0.16);
-`
-
 export const Header6 = styled.h6`
   font-size: 16px;
   color: ${props => props.color};

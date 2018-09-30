@@ -2,7 +2,7 @@ import React, { Component, Fragment } from 'react'
 import { GET_BALANCE_INTERVAL } from '../../constants/Values'
 import { FormattedMessage } from 'react-intl'
 import { Table } from 'reactstrap'
-import { PriceRow, TradeWalletTitle } from '../Common/Common'
+import { PriceRow } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
 import styled from 'styled-components'
 
@@ -17,15 +17,30 @@ const BaseColumn = styled.td`
 `
 
 const ThumbnailColumn = styled(BaseColumn)`
+  border-top: ${props => (props.first ? '0px !important' : '')};
   width: 10%;
 `
 
 const PairColumn = styled(BaseColumn)`
+  border-top: ${props => (props.first ? '0px !important' : '')};
   width: 45%;
 `
 
 const QuantityColumn = styled(BaseColumn)`
+  border-top: ${props => (props.first ? '0px !important' : '')};
   width: 45%;
+`
+
+const TradeWalletTitle = styled.div`
+  height: 44px;
+  background: white;
+  vertical-align: middle;
+  text-align: center;
+  font-size: 18px;
+  padding: 8px;
+  overflow: hidden;
+  border-bottom: 1px solid rgb(217, 217, 217);
+  border-top: 1px solid rgb(217, 217, 217);
 `
 
 class Wallet extends Component {
@@ -143,13 +158,13 @@ class Wallet extends Component {
                   this.state.tokens.map((token, idx) => {
                     return (
                       <TokenRow key={idx}>
-                        <ThumbnailColumn>
+                        <ThumbnailColumn first={idx === 0}>
                           <em data-pack="default" className="ion-social-usd" />
                         </ThumbnailColumn>
-                        <PairColumn style={{ textAlign: 'left' }}>
+                        <PairColumn style={{ textAlign: 'left' }} first={idx === 0}>
                           <PriceRow>{token.name}</PriceRow>
                         </PairColumn>
-                        <QuantityColumn>
+                        <QuantityColumn first={idx === 0}>
                           <PriceRow>{token.balance}</PriceRow>
                         </QuantityColumn>
                       </TokenRow>
