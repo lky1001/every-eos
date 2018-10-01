@@ -1,22 +1,5 @@
 import gql from 'graphql-tag'
 
-const orderFragment = gql`
-  fragment order on Order {
-    id
-    token_id
-    type
-    token_price
-    total_amount
-    deal_amount
-    total_transfer_fee
-    total_trade_fee
-    account_name
-    transaction_id
-    status
-    created
-  }
-`
-
 const orderDetailFragment = gql`
   fragment orderDetail on OrderDetail {
     id
@@ -35,7 +18,30 @@ const orderDetailFragment = gql`
     deleted
   }
 `
-
+const orderFragment = gql`
+  fragment order on Order {
+    id
+    token_id
+    token {
+      symbol
+      market
+    }
+    orderDetails {
+      ...orderDetail
+    }
+    type
+    token_price
+    total_amount
+    deal_amount
+    total_transfer_fee
+    total_trade_fee
+    account_name
+    transaction_id
+    status
+    created
+  }
+  ${orderDetailFragment}
+`
 // export const ordersQuery = gql`
 //   {
 //     orders {

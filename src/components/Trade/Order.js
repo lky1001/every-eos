@@ -146,9 +146,12 @@ class Order extends Component {
       return
     }
 
-    const eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
+    let eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
+    eosBalance = parseFloat(eosBalance)
 
-    const eosAmount = (this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)
+    const eosAmount = parseFloat(this.state.buyPrice * this.state.buyQty).toFixed(
+      EOS_TOKEN.precision
+    )
 
     if (eosAmount < 0.1) {
       this.props.alert.show('Order is must greater then or equal to 0.1000 EOS.')
@@ -160,15 +163,15 @@ class Order extends Component {
       return
     }
 
-    const tokenPriceInEos = parseFloat(this.state.buyPrice).toFixed(EOS_TOKEN.precision)
-    const tokenQty = parseFloat(this.state.buyQty).toFixed(EOS_TOKEN.precision)
+    const tokenPriceInEos = parseFloat(parseFloat(this.state.buyPrice).toFixed(EOS_TOKEN.precision))
+    const tokenQty = parseFloat(parseFloat(this.state.buyQty).toFixed(EOS_TOKEN.precision))
 
     const memo = {
       type: 'BUY_LIMIT',
       symbol: token.symbol,
       market: 'EOS',
-      price: parseFloat(tokenPriceInEos),
-      qty: parseFloat(tokenQty),
+      price: tokenPriceInEos,
+      qty: tokenQty,
       amount: eosAmount
     }
 
@@ -251,16 +254,17 @@ class Order extends Component {
       return
     }
 
-    const tokenBalance = await accountStore.getTokenBalance(token.symbol, token.contract)
-    const tokenQty = parseFloat(this.state.sellQty).toFixed(token.precision)
+    let tokenBalance = await accountStore.getTokenBalance(token.symbol, token.contract)
+    tokenBalance = parseFloat(tokenBalance)
+    const tokenQty = parseFloat(this.state.sellQty)
 
     if (tokenQty > tokenBalance) {
       this.props.alert.show('Please check your ' + token.name + ' balance.')
       return
     }
 
-    const tokenPriceInEos = parseFloat(this.state.sellPrice).toFixed(token.precision)
-    const eosAmount = (tokenPriceInEos * tokenQty).toFixed(token.precision)
+    const tokenPriceInEos = parseFloat(parseFloat(this.state.sellPrice).toFixed(token.precision))
+    const eosAmount = parseFloat((tokenPriceInEos * tokenQty).toFixed(token.precision))
 
     if (eosAmount < 0.1) {
       this.props.alert.show('Order is must greater then or equal to 0.1000 EOS.')
@@ -271,8 +275,8 @@ class Order extends Component {
       type: 'SELL_LIMIT',
       symbol: token.symbol,
       market: 'EOS',
-      price: parseFloat(tokenPriceInEos),
-      qty: parseFloat(tokenQty),
+      price: tokenPriceInEos,
+      qty: tokenQty,
       amount: eosAmount
     }
 

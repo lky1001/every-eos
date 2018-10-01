@@ -37,8 +37,10 @@ class TradeStore {
 
   ordersHistory = {
     data: {
-      orders: [],
-      totalCount: 0
+      ordersHistory: {
+        orders: [],
+        totalCount: 0
+      }
     },
     loading: false,
     error: null
@@ -46,8 +48,10 @@ class TradeStore {
 
   openOrders = {
     data: {
-      orders: [],
-      totalCount: 0
+      openOrders: {
+        orders: [],
+        totalCount: 0
+      }
     },
     loading: false,
     error: null
@@ -332,14 +336,14 @@ class TradeStore {
         isDone = true
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
-
+        console.log('폴링 오더', arrivedOrderByTxId)
         if (
           arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
           arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
         ) {
-          this.ordersHistory.data.orders.unshift(arrivedOrderByTxId)
+          this.ordersHistory.data.ordersForAccount.orders.unshift(arrivedOrderByTxId)
         } else {
-          this.openOrders.data.orders.unshift(arrivedOrderByTxId)
+          this.openOrders.data.ordersForAccount.orders.unshift(arrivedOrderByTxId)
         }
       }
     }, 1000)

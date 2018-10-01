@@ -71,7 +71,6 @@ class OrderList extends Component {
   render() {
     const { token, buyOrdersList, sellOrdersList } = this.props
 
-    console.log('호가창 보자', buyOrdersList)
     const sellMax =
       sellOrdersList.length > 0
         ? sellOrdersList.reduce((a, b) => {
