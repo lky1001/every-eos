@@ -100,7 +100,7 @@ class Market extends Component {
                                 {(t.last_price - t.last_previous_price).toFixed(2)} %
                               </PriceRow>
                             ) : (
-                              <PriceRow>{Number(0).tofix(2)} %</PriceRow>
+                              <PriceRow>{Number(0).toFixed(2)} %</PriceRow>
                             )}
                           </ChangeColumn>
                         </TableMdRow>
