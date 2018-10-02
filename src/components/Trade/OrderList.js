@@ -110,9 +110,11 @@ class OrderList extends Component {
             <tbody>
               {(!sellOrdersList || sellOrdersList.length === 0) && (
                 <BaseRow>
-                  <NoOrderColumn>
-                    <FormattedMessage id="No Orders" />
-                  </NoOrderColumn>
+                  <BaseColumn>
+                    <NoOrderColumn>
+                      <FormattedMessage id="No Orders" />
+                    </NoOrderColumn>
+                  </BaseColumn>
                 </BaseRow>
               )}
               {sellOrdersList &&
@@ -159,9 +161,11 @@ class OrderList extends Component {
             <tbody>
               {(!buyOrdersList || buyOrdersList.length === 0) && (
                 <BaseRow>
-                  <NoOrderColumn>
-                    <FormattedMessage id="No Orders" />
-                  </NoOrderColumn>
+                  <BaseColumn>
+                    <NoOrderColumn>
+                      <FormattedMessage id="No Orders" />
+                    </NoOrderColumn>
+                  </BaseColumn>
                 </BaseRow>
               )}
               {buyOrdersList &&
