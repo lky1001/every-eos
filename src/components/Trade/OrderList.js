@@ -3,12 +3,7 @@ import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { Text, HeaderTable, TokenPrice, PriceIcon, PriceRow, PriceBack } from '../Common/Common'
 
-import {
-  ORDER_PAGE_LIMIT,
-  GET_ORDER_LIST_INTERVAL,
-  ORDER_STATUS_NOT_DEAL,
-  ORDER_STATUS_PARTIAL_DEALED
-} from '../../constants/Values'
+import { ORDER_PAGE_LIMIT, GET_ORDER_LIST_INTERVAL, ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED } from '../../constants/Values'
 import { isNumber } from 'util'
 import ColorsConstant from '../Colors/ColorsConstant'
 import styled from 'styled-components'
@@ -30,6 +25,13 @@ const AmountColumn = styled.td`
   width: 40%;
   border-style: hidden;
   padding-right: 8px !important;
+`
+
+const NoOrderColumn = styled.div`
+  text-align: center !important;
+  font-size: 14px;
+  padding: 25px;
+  border-top: 1px solid rgba(0, 0, 0, 0.045);
 `
 
 class OrderList extends Component {
@@ -106,6 +108,13 @@ class OrderList extends Component {
         <div className="table-responsive">
           <Table className="order-list-table">
             <tbody>
+              {(!sellOrdersList || sellOrdersList.length === 0) && (
+                <BaseRow>
+                  <NoOrderColumn>
+                    <FormattedMessage id="No Orders" />
+                  </NoOrderColumn>
+                </BaseRow>
+              )}
               {sellOrdersList &&
                 sellOrdersList.map((o, i) => {
                   const width = (o.stacked_amount / sellMax) * 100
@@ -125,10 +134,7 @@ class OrderList extends Component {
                       </AmountColumn>
                       <BaseColumn>
                         <PriceRow>
-                          {Math.abs(
-                            o.token_price.toFixed(token.precision) *
-                              o.stacked_amount.toFixed(token.precision)
-                          ).toFixed(token.precision)}
+                          {Math.abs(o.token_price.toFixed(token.precision) * o.stacked_amount.toFixed(token.precision)).toFixed(token.precision)}
                         </PriceRow>
                       </BaseColumn>
                     </BaseRow>
@@ -138,32 +144,26 @@ class OrderList extends Component {
           </Table>
         </div>
 
-        <TokenPrice
-          className="table-responsive"
-          style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}>
-          <Text
-            color={
-              token.last_price - token.last_previous_price > 0
-                ? ColorsConstant.Thick_green
-                : ColorsConstant.Thick_red
-            }>{`${token.last_price}`}</Text>{' '}
+        <TokenPrice className="table-responsive" style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}>
+          <Text color={token.last_price - token.last_previous_price > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}>{`${
+            token.last_price
+          }`}</Text>{' '}
           <PriceIcon
-            className={
-              token.last_price - token.last_previous_price > 0
-                ? 'ion-arrow-up-c'
-                : 'ion-arrow-down-c'
-            }
-            color={
-              token.last_price - token.last_previous_price > 0
-                ? ColorsConstant.Thick_green
-                : ColorsConstant.Thick_red
-            }
+            className={token.last_price - token.last_previous_price > 0 ? 'ion-arrow-up-c' : 'ion-arrow-down-c'}
+            color={token.last_price - token.last_previous_price > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}
           />
         </TokenPrice>
 
         <div className="table-responsive">
           <Table className="order-list-table">
             <tbody>
+              {(!buyOrdersList || buyOrdersList.length === 0) && (
+                <BaseRow>
+                  <NoOrderColumn>
+                    <FormattedMessage id="No Orders" />
+                  </NoOrderColumn>
+                </BaseRow>
+              )}
               {buyOrdersList &&
                 buyOrdersList.map((o, i) => {
                   const width = (o.stacked_amount / buyMax) * 100
@@ -183,10 +183,7 @@ class OrderList extends Component {
                       </AmountColumn>
                       <BaseColumn>
                         <PriceRow>
-                          {Math.abs(
-                            o.token_price.toFixed(token.precision) *
-                              o.stacked_amount.toFixed(token.precision)
-                          ).toFixed(token.precision)}
+                          {Math.abs(o.token_price.toFixed(token.precision) * o.stacked_amount.toFixed(token.precision)).toFixed(token.precision)}
                         </PriceRow>
                       </BaseColumn>
                     </BaseRow>

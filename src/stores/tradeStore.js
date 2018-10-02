@@ -57,6 +57,14 @@ class TradeStore {
     error: null
   }
 
+  chartDatas = {
+    data: {
+      datas: []
+    },
+    loading: false,
+    error: null
+  }
+
   constructor() {
     const initialTokenId = 1
 
@@ -95,6 +103,10 @@ class TradeStore {
           }
         })
       }
+    })
+
+    set(this, {
+      get chartDatas() {}
     })
 
     set(this, {
@@ -210,9 +222,7 @@ class TradeStore {
   }
 
   get ordersHistoryError() {
-    return (
-      (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
-    )
+    return (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
   }
 
   get ordersHistoryLoading() {
@@ -259,12 +269,7 @@ class TradeStore {
   }
 
   clearOpenOrders = () => {
-    if (
-      this.openOrders &&
-      this.openOrders.data &&
-      this.openOrders.data.ordersForAccount &&
-      this.openOrders.data.ordersForAccount.orders
-    ) {
+    if (this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount && this.openOrders.data.ordersForAccount.orders) {
       this.openOrders.data.ordersForAccount.orders = []
       this.openOrders.data.ordersForAccount.totalCount = 0
     }
@@ -290,18 +295,13 @@ class TradeStore {
   }
 
   get openOrdersCount() {
-    return this.openOrders &&
-      this.openOrders.data &&
-      this.openOrders.data.ordersForAccount &&
-      this.openOrders.data.ordersForAccount.orders
+    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount && this.openOrders.data.ordersForAccount.orders
       ? this.openOrders.data.ordersForAccount.orders.length
       : 0
   }
 
   get openOrdersTotalCount() {
-    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount
-      ? this.openOrders.data.ordersForAccount.totalCount
-      : 0
+    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount ? this.openOrders.data.ordersForAccount.totalCount : 0
   }
 
   cancelOrder = async (data, signature) => {
@@ -337,10 +337,7 @@ class TradeStore {
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
         console.log('폴링 오더', arrivedOrderByTxId)
-        if (
-          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
-          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
-        ) {
+        if (arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED || arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED) {
           this.ordersHistory.data.ordersForAccount.orders.unshift(arrivedOrderByTxId)
         } else {
           this.openOrders.data.ordersForAccount.orders.unshift(arrivedOrderByTxId)

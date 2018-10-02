@@ -48,5 +48,6 @@ export default {
   DONE: '완료',
   Cancel: '취소',
   Available: '이용 가능액',
-  Detail: '상세'
+  Detail: '상세',
+  'No Orders': '주문이 없습니다.'
 }

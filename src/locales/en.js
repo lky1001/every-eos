@@ -48,5 +48,6 @@ export default {
   DONE: 'Done',
   Cancel: 'Cancel',
   Available: 'Available',
-  Detail: 'Detail'
+  Detail: 'Detail',
+  'No Orders': 'No Orders'
 }

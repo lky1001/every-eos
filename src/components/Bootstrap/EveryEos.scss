@@ -2,9 +2,9 @@
  * Bootstrap Override
  */
 
-@import "../Common/Variables";
-@import "../Common/Mixins";
-@import "./Reset";
+@import '../Common/Variables';
+@import '../Common/Mixins';
+@import './Reset';
 
 .order-list-table {
   @extend .table;
