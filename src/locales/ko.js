@@ -49,5 +49,6 @@ export default {
   Cancel: '취소',
   Available: '이용 가능액',
   Detail: '상세',
-  'No Orders': '주문이 없습니다.'
+  'No Orders': '주문이 없습니다.',
+  TOTAL: '주문 총액'
 }

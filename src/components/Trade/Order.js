@@ -7,7 +7,11 @@ import { withAlert } from 'react-alert'
 import { FormattedMessage } from 'react-intl'
 import ColorsConstant from '../Colors/ColorsConstant'
 import { RightAlignCol } from '../Common/Common'
-import { EOS_TOKEN, SCATTER_ERROR_LOCKED, SCATTER_ERROR_REJECT_TRANSACTION_BY_USER } from '../../constants/Values'
+import {
+  EOS_TOKEN,
+  SCATTER_ERROR_LOCKED,
+  SCATTER_ERROR_REJECT_TRANSACTION_BY_USER
+} from '../../constants/Values'
 
 import styled from 'styled-components'
 
@@ -28,9 +32,16 @@ const OrderColPanel = styled(Col)`
   padding-right: 8px;
 `
 
+const OrderAmountRow = styled.div`
+  height: 14px;
+  text-align: right;
+  margin-right: 25px;
+`
+
 const PrimaryOrderColPanel = styled(OrderColPanel)`
   text-align: left;
-  color: ${props => (props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red)};
+  color: ${props =>
+    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
 `
 
 const OrderInput = styled(Input)`
@@ -144,7 +155,9 @@ class Order extends Component {
     let eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
     eosBalance = parseFloat(eosBalance)
 
-    const eosAmount = parseFloat(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)
+    const eosAmount = parseFloat(this.state.buyPrice * this.state.buyQty).toFixed(
+      EOS_TOKEN.precision
+    )
 
     if (eosAmount < 0.1) {
       this.props.alert.show('Order is must greater then or equal to 0.1000 EOS.')
@@ -367,12 +380,11 @@ class Order extends Component {
         <OrderTabPanel>
           <Row>
             <Col sm="6">
-              <OrderRowPanel>
-                <PrimaryOrderColPanel sm="1" />
+              <OrderRowPanel style={{ height: '25px' }}>
                 <PrimaryOrderColPanel sm="5" buy="true">
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="6">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
+                <RightAlignCol sm="7">{`${accountStore.liquid.toFixed(4)} EOS`}</RightAlignCol>
               </OrderRowPanel>
               <OrderRowPanel>
                 <OrderColPanel sm="3">
@@ -380,7 +392,12 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <OrderInput type="number" value={this.state.buyPrice} onChange={this.handleChange('buyPrice')} step="1" />
+                    <OrderInput
+                      type="number"
+                      value={this.state.buyPrice}
+                      onChange={this.handleChange('buyPrice')}
+                      step="1"
+                    />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -391,11 +408,22 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
-                    <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('buyQty')} value={this.state.buyQty} />
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange('buyQty')}
+                      value={this.state.buyQty}
+                    />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>
               </OrderRowPanel>
+              <OrderAmountRow>
+                <FormattedMessage id="TOTAL" />
+                {' : '}
+                {(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)}
+              </OrderAmountRow>
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
                 <Col sm="9">
@@ -407,12 +435,11 @@ class Order extends Component {
             </Col>
 
             <Col sm="6">
-              <OrderRowPanel>
-                <PrimaryOrderColPanel sm="1" />
+              <OrderRowPanel style={{ height: '25px' }}>
                 <PrimaryOrderColPanel sm="5" sell="true">
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
-                <RightAlignCol sm="6">
+                <RightAlignCol sm="7">
                   {this.state.tokenBalance} {token.symbol}
                 </RightAlignCol>
               </OrderRowPanel>
@@ -422,7 +449,12 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <OrderInput type="number" onChange={this.handleChange('sellPrice')} value={this.state.sellPrice} step="1" />
+                    <OrderInput
+                      type="number"
+                      onChange={this.handleChange('sellPrice')}
+                      value={this.state.sellPrice}
+                      step="1"
+                    />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -433,11 +465,22 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
-                    <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('sellQty')} value={this.state.sellQty} />
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange('sellQty')}
+                      value={this.state.sellQty}
+                    />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>
               </OrderRowPanel>
+              <OrderAmountRow>
+                <FormattedMessage id="TOTAL" />
+                {' : '}
+                {(this.state.sellPrice * this.state.sellQty).toFixed(EOS_TOKEN.precision)}
+              </OrderAmountRow>
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
                 <Col sm="9">
