@@ -9,16 +9,7 @@ import { format, subDays } from 'date-fns'
 import moment from 'moment'
 import { formatDate, parseDate } from 'react-day-picker/moment'
 import { ProgressBar } from 'react-bootstrap'
-import {
-  Container,
-  Row,
-  Col,
-  Input,
-  Table,
-  Pagination,
-  PaginationItem,
-  PaginationLink
-} from 'reactstrap'
+import { Row, Col, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
 import {
   ORDER_STATUS_ALL_DEALED,
@@ -28,13 +19,7 @@ import {
   ORDER_DATE_FORMAT
 } from '../../constants/Values'
 
-import {
-  getTypeFilter,
-  getStatusFilter,
-  typeOptions,
-  statusOptions,
-  pageSizeOptions
-} from '../../utils/OrderSearchFilter'
+import { typeOptions, statusOptions, pageSizeOptions } from '../../utils/OrderSearchFilter'
 import { ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
 
 class SearchableOrderHistory extends Component {

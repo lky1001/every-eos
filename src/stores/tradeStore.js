@@ -5,6 +5,7 @@ import { format, subDays } from 'date-fns'
 import { orderQuery, ordersForAccountQuery, stackedOrdersQuery } from '../graphql/query/order'
 import {
   getTypeFilter,
+  getStatusFilter,
   typeOptions,
   pageSizeOptions,
   statusOptions
@@ -140,6 +141,11 @@ class TradeStore {
     this.ordersHistoryStatus = statusOptions[0]
   }
 
+  initExchangeOrdersHistoryFilter = () => {
+    this.initOrdersHistoryFilter()
+    this.ordersHistoryStatus = statusOptions[2]
+  }
+
   setTokenSymbol = symbol => {
     this.tokenSymbol = symbol
   }
@@ -240,8 +246,8 @@ class TradeStore {
           account_name: account_name,
           token_symbol: this.tokenSymbolForSearch,
           type: getTypeFilter(this.ordersHistoryType),
-          status: this.ordersHistoryStatus,
-          limit: this.ordersHistoryPageSize,
+          status: getStatusFilter(this.ordersHistoryStatus),
+          limit: this.ordersHistoryPageSize.value,
           page: this.ordersHistoryPage,
           from: this.ordersHistoryFrom,
           to: this.ordersHistoryTo
@@ -467,7 +473,8 @@ decorate(TradeStore, {
   setChartData: action,
   setWatchChartData: action,
   test: action,
-  initOrdersHistoryFilter: action
+  initOrdersHistoryFilter: action,
+  initExchangeOrdersHistoryFilter: action
 })
 
 export default new TradeStore()

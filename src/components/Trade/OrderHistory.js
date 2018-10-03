@@ -27,13 +27,13 @@ class OrderHistory extends Component {
     const { accountStore, tradeStore } = this.props
 
     if (accountStore.isLogin) {
-      tradeStore.initOrdersHistoryFilter()
+      tradeStore.initExchangeOrdersHistoryFilter()
       tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
     } else {
       this.disposer = accountStore.subscribeLoginState(changed => {
         if (changed.oldValue !== changed.newValue) {
           if (changed.newValue) {
-            tradeStore.initOrdersHistoryFilter()
+            tradeStore.initExchangeOrdersHistoryFilter()
             tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
           } else {
             tradeStore.clearOrdersHistory()

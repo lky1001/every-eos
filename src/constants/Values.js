@@ -71,6 +71,7 @@ export const SELECT_ORDER_TYPE_SELL = 'Sell'
 
 export const SELECT_ORDER_STATUS_ALL = 'All'
 export const SELECT_ORDER_STATUS_IN_PROGRESS = 'In progress'
+export const SELECT_ORDER_STATUS_COMPLETED_OR_CANCELLED = 'Completed or Cancelled'
 export const SELECT_ORDER_STATUS_COMPLETED = 'Completed'
 export const SELECT_ORDER_STATUS_CANCELLED = 'Cancelled'
 export const ORDER_DATE_FORMAT = 'MM-DD-YYYY HH:mm:ss'
