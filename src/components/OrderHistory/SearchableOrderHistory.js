@@ -20,7 +20,8 @@ import {
 } from '../../constants/Values'
 
 import { typeOptions, statusOptions, pageSizeOptions } from '../../utils/OrderSearchFilter'
-import { ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
+import { ShadowedCard, InputPairContainer, Header6, RightAlignCol } from '../Common/Common'
+import ColorsConstant from '../Colors/ColorsConstant'
 
 class SearchableOrderHistory extends Component {
   componentDidMount = () => {
@@ -251,6 +252,25 @@ class SearchableOrderHistory extends Component {
                 </Col>
               </Row>
 
+              <Row
+                style={{
+                  padding: '32px 0px',
+                  borderTop: ColorsConstant.Trade_border_style
+                }}>
+                <Col sm="10">
+                  <Header6 style={{ textAlign: 'left' }} className="p-1">
+                    Total {ordersHistoryCount}
+                  </Header6>
+                </Col>
+                <RightAlignCol sm="2">
+                  <Select
+                    value={ordersHistoryPageSize}
+                    onChange={this.handlePageSizeChange}
+                    options={pageSizeOptions}
+                  />
+                </RightAlignCol>
+              </Row>
+
               <div className="table-responsive bootgrid">
                 <table id="bootgrid-basic" className="table table-hover">
                   <thead>
@@ -389,16 +409,6 @@ class SearchableOrderHistory extends Component {
               </div>
 
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <InputPairContainer>
-                  <Header6 className="p-1">Total {ordersHistoryCount}</Header6>
-                  <div className="p-5" style={{ width: '160px' }}>
-                    <Select
-                      value={ordersHistoryPageSize}
-                      onChange={this.handlePageSizeChange}
-                      options={pageSizeOptions}
-                    />
-                  </div>
-                </InputPairContainer>
                 <Pagination
                   aria-label="orders pagination"
                   style={{ justifyContent: 'center', alignItems: 'center' }}>
