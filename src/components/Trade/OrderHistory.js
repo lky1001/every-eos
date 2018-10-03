@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { FormattedMessage } from 'react-intl'
-import classnames from 'classnames'
-import Select from 'react-select'
 import { ProgressBar, Table } from 'react-bootstrap'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
@@ -15,61 +12,27 @@ import {
   ORDER_DATE_FORMAT
 } from '../../constants/Values'
 
-import { format, subDays } from 'date-fns'
+import { format } from 'date-fns'
 import {
   HeaderTable,
-  InputPairContainer,
-  Header6,
   TableLgRow,
   OrderBaseColumn,
   DateColumn,
   BuyTypeColumn,
   SellTypeColumn
 } from '../Common/Common'
-import { getTypeFilter, typeOptions, pageSizeOptions } from '../../utils/OrderSearchFilter'
-import ColorsConstant from '../Colors/ColorsConstant'
-import styled from 'styled-components'
 
 class OrderHistory extends Component {
-  constructor(props) {
-    super(props)
-    const today = new Date()
-
-    this.state = {
-      currentPage: 1,
-      pageCount: 1,
-      token_symbol: null,
-      from: subDays(today, 30),
-      to: today,
-      selectedPageSize: pageSizeOptions[0],
-      selectedType: typeOptions[0]
-    }
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { ordersHistoryTotalCount } = nextProps
-
-    const pageCount =
-      ordersHistoryTotalCount > 0
-        ? Math.ceil(ordersHistoryTotalCount / prevState.selectedPageSize.value)
-        : 1
-
-    return {
-      ...prevState,
-      pageCount: pageCount
-    }
-  }
-
   componentDidMount = () => {
     const { accountStore, tradeStore } = this.props
 
     if (accountStore.isLogin) {
-      this.getOrderHistory()
+      tradeStore.setOrdersHistoryPage(accountStore.loginAccountInfo.account_name, 1)
     } else {
       this.disposer = accountStore.subscribeLoginState(changed => {
         if (changed.oldValue !== changed.newValue) {
           if (changed.newValue) {
-            this.getOrderHistory()
+            tradeStore.setOrdersHistoryPage(accountStore.loginAccountInfo.account_name, 1)
           } else {
             tradeStore.clearOrdersHistory()
           }
@@ -78,39 +41,25 @@ class OrderHistory extends Component {
     }
   }
 
-  getOrderHistory = async () => {
-    const { tradeStore, accountStore } = this.props
-    const { currentPage, selectedPageSize, from, to, selectedType } = this.state
-
-    await tradeStore.getOrdersHistory(
-      accountStore.loginAccountInfo.account_name,
-      '',
-      getTypeFilter(selectedType),
-      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
-      selectedPageSize.value,
-      currentPage,
-      from,
-      to
-    )
-  }
-
   componentWillUnmount = () => {
     if (this.disposer) this.disposer()
   }
 
-  handlePageSizeChange = selectedPageSize => {
-    this.state.selectedPageSize = selectedPageSize
-    this.state.currentPage = 1
-    this.getOrderHistory()
-  }
-
   pageClicked = idx => {
-    const { pageCount } = this.state
+    const {
+      tradeStore,
+      accountStore,
+      ordersHistoryTotalCount,
+      selectedOrderHistoryPageSize
+    } = this.props
+
+    const pageCount =
+      ordersHistoryTotalCount > 0
+        ? Math.ceil(ordersHistoryTotalCount / selectedOrderHistoryPageSize.value)
+        : 1
 
     if (idx > 0 && idx <= pageCount) {
-      //Non-update with state.
-      this.state.currentPage = idx
-      this.getOrderHistory()
+      tradeStore.setOrdersHistoryPage(accountStore.loginAccountInfo.account_name, idx)
     }
   }
 
@@ -119,10 +68,17 @@ class OrderHistory extends Component {
       accountStore,
       ordersHistoryList,
       ordersHistoryCount,
+      ordersHistoryTotalCount,
       ordersHistoryLoading,
-      ordersHistoryError
+      ordersHistoryError,
+      orderHistoryPage,
+      selectedOrderHistoryPageSize
     } = this.props
-    const { selectedPageSize, pageCount, currentPage } = this.state
+
+    const pageCount =
+      ordersHistoryTotalCount > 0
+        ? Math.ceil(ordersHistoryTotalCount / selectedOrderHistoryPageSize.value)
+        : 1
     const openHistoryContentHeight = `${40 * ordersHistoryCount}px`
 
     return (
@@ -174,7 +130,7 @@ class OrderHistory extends Component {
           <Scrollbars
             style={{
               height: openHistoryContentHeight,
-              maxHeight: `${40 * selectedPageSize.value}px`
+              maxHeight: `${40 * selectedOrderHistoryPageSize.value}px`
             }}>
             <Table className="order-list-table responsive hover">
               {accountStore.isLogin &&
@@ -273,19 +229,19 @@ class OrderHistory extends Component {
               aria-label="orders pagination"
               style={{ justifyContent: 'center', alignItems: 'center' }}>
               <PaginationItem>
-                <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
+                <PaginationLink previous onClick={() => this.pageClicked(orderHistoryPage - 1)} />
               </PaginationItem>
               {Array(pageCount)
                 .fill(null)
                 .map((v, idx) => (
-                  <PaginationItem key={idx} active={currentPage === idx + 1}>
+                  <PaginationItem key={idx} active={orderHistoryPage === idx + 1}>
                     <PaginationLink onClick={() => this.pageClicked(idx + 1)}>
                       {idx + 1}
                     </PaginationLink>
                   </PaginationItem>
                 ))}
               <PaginationItem>
-                <PaginationLink next onClick={() => this.pageClicked(currentPage + 1)} />
+                <PaginationLink next onClick={() => this.pageClicked(orderHistoryPage + 1)} />
               </PaginationItem>
             </Pagination>
           </div>

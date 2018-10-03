@@ -15,27 +15,14 @@ import {
 import {
   ORDER_STATUS_NOT_DEAL,
   ORDER_STATUS_PARTIAL_DEALED,
-  ORDER_STATUS_ALL_DEALED,
-  ORDER_STATUS_CANCELLED,
   ORDER_TYPE_BUY,
   ORDER_DATE_FORMAT
 } from '../../constants/Values'
 
-import { typeOptions, getTypeFilter } from '../../utils/OrderSearchFilter'
 import eosAgent from '../../EosAgent'
-import { format, subDays } from 'date-fns'
+import { format } from 'date-fns'
 
 class OpenOrder extends Component {
-  constructor(props) {
-    super(props)
-
-    this.toggle = this.toggle.bind(this)
-    this.state = {
-      token_symbol: null,
-      selectedType: typeOptions[0]
-    }
-  }
-
   componentDidMount = () => {
     const { accountStore, tradeStore } = this.props
 
@@ -63,34 +50,15 @@ class OpenOrder extends Component {
     )
   }
 
-  getOrderHistory = async () => {
+  loadRecentOrderHistory = async () => {
     const { tradeStore, accountStore } = this.props
-    const { selectedType } = this.state
 
-    const today = new Date()
-    await tradeStore.getOrdersHistory(
-      accountStore.loginAccountInfo.account_name,
-      '',
-      getTypeFilter(selectedType),
-      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
-      10,
-      1,
-      subDays(today, 30),
-      today
-    )
+    await tradeStore.setOrdersHistoryPage(accountStore.loginAccountInfo.account_name, 1)
   }
 
   componentWillUnmount = () => {
     if (this.disposer) {
       this.disposer()
-    }
-  }
-
-  toggle = tab => {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      })
     }
   }
 
@@ -125,7 +93,7 @@ class OpenOrder extends Component {
       if (result && result.data.cancelOrder) {
         alert('cancel success')
         this.getOpenOrders()
-        this.getOrderHistory()
+        this.loadRecentOrderHistory()
       }
     }
   }

@@ -1,7 +1,9 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
+import { format, subDays } from 'date-fns'
 import { orderQuery, ordersForAccountQuery, stackedOrdersQuery } from '../graphql/query/order'
+import { getTypeFilter, typeOptions, pageSizeOptions } from '../utils/OrderSearchFilter'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
@@ -66,7 +68,13 @@ class TradeStore {
   }
 
   constructor() {
+    const today = new Date()
     const initialTokenId = 1
+    this.orderHistoryPage = 1
+    this.orderHistoryFrom = subDays(today, 30)
+    this.orderHistoryTo = today
+    this.selectedOrderHistoryPageSize = pageSizeOptions[0]
+    this.selectedOrderHistoryType = typeOptions[0]
 
     set(this, {
       get order() {
@@ -135,6 +143,10 @@ class TradeStore {
 
   setAmount = amount => {
     this.amount = amount
+  }
+
+  setSelectedOrderHistoryPageSize = newValue => {
+    this.selectedOrderHistoryPageSize = newValue
   }
 
   setChartData = async chartData => {
@@ -209,6 +221,20 @@ class TradeStore {
     })
   }
 
+  setOrdersHistoryPage = async (account_name, page) => {
+    await this.getOrdersHistory(
+      account_name,
+      this.tokenSymbol,
+      getTypeFilter(this.selectedOrderHistoryType),
+      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
+      this.selectedOrderHistoryPageSize.value,
+      page,
+      this.orderHistoryFrom,
+      this.orderHistoryTo
+    )
+    this.orderHistoryPage = page
+  }
+
   clearOrdersHistory = () => {
     if (
       this.ordersHistory &&
@@ -222,7 +248,9 @@ class TradeStore {
   }
 
   get ordersHistoryError() {
-    return (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
+    return (
+      (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
+    )
   }
 
   get ordersHistoryLoading() {
@@ -269,7 +297,12 @@ class TradeStore {
   }
 
   clearOpenOrders = () => {
-    if (this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount && this.openOrders.data.ordersForAccount.orders) {
+    if (
+      this.openOrders &&
+      this.openOrders.data &&
+      this.openOrders.data.ordersForAccount &&
+      this.openOrders.data.ordersForAccount.orders
+    ) {
       this.openOrders.data.ordersForAccount.orders = []
       this.openOrders.data.ordersForAccount.totalCount = 0
     }
@@ -295,13 +328,18 @@ class TradeStore {
   }
 
   get openOrdersCount() {
-    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount && this.openOrders.data.ordersForAccount.orders
+    return this.openOrders &&
+      this.openOrders.data &&
+      this.openOrders.data.ordersForAccount &&
+      this.openOrders.data.ordersForAccount.orders
       ? this.openOrders.data.ordersForAccount.orders.length
       : 0
   }
 
   get openOrdersTotalCount() {
-    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount ? this.openOrders.data.ordersForAccount.totalCount : 0
+    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount
+      ? this.openOrders.data.ordersForAccount.totalCount
+      : 0
   }
 
   cancelOrder = async (data, signature) => {
@@ -326,7 +364,7 @@ class TradeStore {
     })
   }
 
-  getPollingOrderByTxId = txid => {
+  getPollingOrderByTxId = (txid, account_name) => {
     if (!txid) return
     let isDone = false
     const pollingId = setInterval(async () => {
@@ -336,11 +374,17 @@ class TradeStore {
         isDone = true
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
-        console.log('폴링 오더', arrivedOrderByTxId)
-        if (arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED || arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED) {
-          this.ordersHistory.data.ordersForAccount.orders.unshift(arrivedOrderByTxId)
+
+        if (
+          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
+          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
+        ) {
+          this.setOrdersHistoryPage(account_name, 1)
         } else {
-          this.openOrders.data.ordersForAccount.orders.unshift(arrivedOrderByTxId)
+          this.getOpenOrders(
+            account_name,
+            JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+          )
         }
       }
     }, 1000)
@@ -348,6 +392,11 @@ class TradeStore {
 }
 
 decorate(TradeStore, {
+  orderHistoryPage: observable,
+  orderHistoryFrom: observable,
+  orderHistoryTo: observable,
+  selectedOrderHistoryPageSize: observable,
+  selectedOrderHistoryType: observable,
   buyOrders: observable,
   buyOrdersError: computed,
   buyOrdersLoading: computed,
@@ -378,10 +427,12 @@ decorate(TradeStore, {
   setTokenSymbol: action,
   setPrice: action,
   setAmount: action,
+  setSelectedOrderHistoryPageSize: action,
   setWatchPrice: action,
   getBuyOrders: action,
   getSellOrders: action,
   getOrdersHistory: action,
+  setOrdersHistoryPage: action,
   getOpenOrders: action,
   getPollingOrderByTxId: action,
   clearOrdersHistory: action,
