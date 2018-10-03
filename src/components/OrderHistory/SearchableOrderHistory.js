@@ -80,9 +80,10 @@ class SearchableOrderHistory extends Component {
     }
   }
 
-  handleTokenSymbolChange = symbol => {
+  handleTokenSymbolChange = s => {
     const { tradeStore } = this.props
-    tradeStore.setTokenSymbolForSearch(symbol)
+
+    tradeStore.setTokenSymbolForSearch(s.target.value)
   }
 
   handleFromChange = from => {

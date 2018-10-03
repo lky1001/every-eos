@@ -150,6 +150,10 @@ class TradeStore {
     this.tokenSymbol = symbol
   }
 
+  setTokenSymbolForSearch = symbol => {
+    this.tokenSymbolForSearch = symbol
+  }
+
   setPrice = price => {
     this.price.set(price)
   }
