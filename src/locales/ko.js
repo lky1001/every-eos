@@ -50,5 +50,12 @@ export default {
   Available: '이용 가능액',
   Detail: '상세',
   'No Orders': '주문이 없습니다.',
-  TOTAL: '주문 총액'
+  TOTAL: '주문 총액',
+  'Token Balance': '토큰 잔액',
+  Token: '토큰',
+  Frozen: '위탁',
+  'EOS valuation': 'EOS 평가액',
+  Exchange: '거래소',
+  Move: '이동',
+  'Account Resource': '계정 자원'
 }

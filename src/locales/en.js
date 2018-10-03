@@ -50,5 +50,12 @@ export default {
   Available: 'Available',
   Detail: 'Detail',
   'No Orders': 'No Orders',
-  TOTAL: 'TOTAL'
+  TOTAL: 'TOTAL',
+  'Token Balance': 'Token Balance',
+  Token: 'Token',
+  Frozen: 'Frozen',
+  'EOS valuation': 'EOS valuation',
+  Exchange: 'Exchange',
+  Move: 'Move',
+  'Account Resource': 'Account Resource'
 }
