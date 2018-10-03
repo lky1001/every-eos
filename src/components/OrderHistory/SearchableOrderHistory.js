@@ -38,46 +38,18 @@ import {
 import { ShadowedCard, InputPairContainer, Header6 } from '../Common/Common'
 
 class SearchableOrderHistory extends Component {
-  constructor(props) {
-    super(props)
-    const today = new Date()
-
-    this.state = {
-      currentPage: 1,
-      pageCount: 1,
-      token_symbol: null,
-      from: subDays(today, 7),
-      to: today,
-      selectedPageSize: pageSizeOptions[0],
-      selectedType: typeOptions[0],
-      selectedStatus: statusOptions[0]
-    }
-  }
-
-  static getDerivedStateFromProps(nextProps, prevState) {
-    const { ordersHistoryTotalCount } = nextProps
-
-    const pageCount =
-      ordersHistoryTotalCount > 0
-        ? Math.ceil(ordersHistoryTotalCount / prevState.selectedPageSize.value)
-        : 1
-
-    return {
-      ...prevState,
-      pageCount: pageCount
-    }
-  }
-
   componentDidMount = () => {
     const { accountStore, tradeStore } = this.props
 
     if (accountStore.isLogin) {
-      this.getOrderHistory()
+      tradeStore.initOrdersHistoryFilter()
+      tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
     } else {
       this.disposer = accountStore.subscribeLoginState(changed => {
         if (changed.oldValue !== changed.newValue) {
           if (changed.newValue) {
-            this.getOrderHistory()
+            tradeStore.initOrdersHistoryFilter()
+            tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
           } else {
             tradeStore.clearOrdersHistory()
           }
@@ -86,37 +58,11 @@ class SearchableOrderHistory extends Component {
     }
   }
 
-  getOrderHistory = async () => {
-    const { tradeStore, accountStore } = this.props
-    const {
-      currentPage,
-      token_symbol,
-      from,
-      to,
-      selectedPageSize,
-      selectedType,
-      selectedStatus
-    } = this.state
-
-    await tradeStore.getOrdersHistory(
-      accountStore.loginAccountInfo.account_name,
-      token_symbol,
-      getTypeFilter(selectedType),
-      getStatusFilter(selectedStatus),
-      selectedPageSize.value,
-      currentPage,
-      from,
-      to
-    )
-  }
-
   handleSearch = () => {
-    const { tradeStore } = this.props
-    tradeStore.clearOrdersHistory()
-    this.getOrderHistory()
-    this.setState({
-      currentPage: 1
-    })
+    const { tradeStore, accountStore } = this.props
+
+    tradeStore.setOrdersHistoryPage(1)
+    tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
   }
 
   componentWillUnmount = () => {
@@ -124,56 +70,57 @@ class SearchableOrderHistory extends Component {
   }
 
   handleTypeChange = selectedType => {
-    this.setState({ selectedType })
+    const { tradeStore } = this.props
+    tradeStore.setOrdersHistoryType(selectedType)
   }
 
   handleStatusChange = selectedStatus => {
-    this.setState({ selectedStatus })
+    const { tradeStore } = this.props
+    tradeStore.setOrdersHistoryStatus(selectedStatus)
   }
 
-  handlePageSizeChange = selectedPageSize => {
-    this.state.selectedPageSize = selectedPageSize
-    this.state.currentPage = 1
-    this.getOrderHistory()
+  handlePageSizeChange = async selectedPageSize => {
+    const { accountStore, tradeStore } = this.props
+    tradeStore.setOrdersHistoryPageSize(selectedPageSize)
+    await tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
   }
 
   showFromMonth = () => {
-    const { from, to } = this.state
-    if (!from) {
+    const { ordersHistoryFrom, ordersHistoryTo } = this.props
+    if (!ordersHistoryFrom) {
       return
     }
-    if (moment(to).diff(moment(from), 'months') < 2) {
-      this.to.getDayPicker().showMonth(from)
+    if (moment(ordersHistoryTo).diff(moment(ordersHistoryFrom), 'months') < 2) {
+      this.to.getDayPicker().showMonth(ordersHistoryFrom)
     }
   }
 
   handleTokenSymbolChange = symbol => {
-    this.setState({
-      token_symbol: symbol.target.value
-    })
+    const { tradeStore } = this.props
+    tradeStore.setTokenSymbolForSearch(symbol)
   }
 
   handleFromChange = from => {
-    this.setState({
-      from
-    })
+    const { tradeStore } = this.props
+    tradeStore.setOrdersHistoryFrom(from)
   }
 
   handleToChange = to => {
-    this.setState(
-      {
-        to
-      },
-      this.showFromMonth
-    )
+    const { tradeStore } = this.props
+    tradeStore.setOrdersHistoryTo(to)
   }
 
-  pageClicked = idx => {
-    const { pageCount } = this.state
+  pageClicked = async idx => {
+    const { accountStore, tradeStore, ordersHistoryTotalCount, ordersHistoryPageSize } = this.props
+
+    const pageCount =
+      ordersHistoryTotalCount > 0
+        ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value)
+        : 1
 
     if (idx > 0 && idx <= pageCount) {
-      this.state.currentPage = idx
-      this.getOrderHistory()
+      tradeStore.setOrdersHistoryPage(idx)
+      await tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
     }
   }
 
@@ -183,20 +130,23 @@ class SearchableOrderHistory extends Component {
       ordersHistoryList,
       ordersHistoryCount,
       ordersHistoryLoading,
-      ordersHistoryError
+      ordersHistoryError,
+      ordersHistoryFrom,
+      ordersHistoryTo,
+      ordersHistoryType,
+      ordersHistoryStatus,
+      ordersHistoryPageSize,
+      ordersHistoryPage,
+      ordersHistoryTotalCount
     } = this.props
-    const {
-      from,
-      to,
-      selectedType,
-      selectedStatus,
-      selectedPageSize,
-      pageCount,
-      currentPage
-    } = this.state
-    const modifiers = { start: from, end: to }
-    const startIndex = (currentPage - 1) * selectedPageSize.value
-    const endIndex = startIndex + selectedPageSize.value
+
+    const pageCount =
+      ordersHistoryTotalCount > 0
+        ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value)
+        : 1
+    const modifiers = { start: ordersHistoryFrom, end: ordersHistoryTo }
+    const startIndex = (ordersHistoryPage - 1) * ordersHistoryPageSize.value
+    const endIndex = startIndex + ordersHistoryPageSize.value
 
     return (
       <Fragment>
@@ -223,7 +173,7 @@ class SearchableOrderHistory extends Component {
                     <Header6 className="p-1">Type</Header6>
                     <div className="p-5" style={{ width: '100%' }}>
                       <Select
-                        value={selectedType}
+                        value={ordersHistoryType}
                         onChange={this.handleTypeChange}
                         options={typeOptions}
                       />
@@ -236,7 +186,7 @@ class SearchableOrderHistory extends Component {
                     <Header6 className="p-1">Status</Header6>
                     <div className="p-5" style={{ width: '100%' }}>
                       <Select
-                        value={selectedStatus}
+                        value={ordersHistoryStatus}
                         onChange={this.handleStatusChange}
                         options={statusOptions}
                       />
@@ -248,15 +198,15 @@ class SearchableOrderHistory extends Component {
                   <div className="InputFromTo p-5 h-100">
                     <DayPickerInput
                       style={{ height: '38px important!' }}
-                      value={from}
+                      value={ordersHistoryFrom}
                       placeholder="From"
                       format="LL"
                       formatDate={formatDate}
                       parseDate={parseDate}
                       dayPickerProps={{
-                        selectedDays: [from, { from, to }],
-                        disabledDays: { after: to },
-                        toMonth: to,
+                        selectedDays: [ordersHistoryFrom, { ordersHistoryFrom, ordersHistoryTo }],
+                        disabledDays: { after: ordersHistoryTo },
+                        toMonth: ordersHistoryTo,
                         modifiers,
                         numberOfMonths: 2,
                         onDayClick: () => this.to.getInput().focus()
@@ -267,17 +217,17 @@ class SearchableOrderHistory extends Component {
                     <span className="InputFromTo-to">
                       <DayPickerInput
                         ref={el => (this.to = el)}
-                        value={to}
+                        value={ordersHistoryTo}
                         placeholder="To"
                         format="LL"
                         formatDate={formatDate}
                         parseDate={parseDate}
                         dayPickerProps={{
-                          selectedDays: [from, { from, to }],
-                          disabledDays: { before: from },
+                          selectedDays: [ordersHistoryFrom, { ordersHistoryFrom, ordersHistoryTo }],
+                          disabledDays: { before: ordersHistoryFrom },
                           modifiers,
-                          month: from,
-                          fromMonth: from,
+                          month: ordersHistoryFrom,
+                          fromMonth: ordersHistoryFrom,
                           numberOfMonths: 2
                         }}
                         onDayChange={this.handleToChange}
@@ -457,7 +407,7 @@ class SearchableOrderHistory extends Component {
                   <Header6 className="p-1">Total {ordersHistoryCount}</Header6>
                   <div className="p-5" style={{ width: '160px' }}>
                     <Select
-                      value={selectedPageSize}
+                      value={ordersHistoryPageSize}
                       onChange={this.handlePageSizeChange}
                       options={pageSizeOptions}
                     />
@@ -467,19 +417,22 @@ class SearchableOrderHistory extends Component {
                   aria-label="orders pagination"
                   style={{ justifyContent: 'center', alignItems: 'center' }}>
                   <PaginationItem>
-                    <PaginationLink previous onClick={() => this.pageClicked(currentPage - 1)} />
+                    <PaginationLink
+                      previous
+                      onClick={() => this.pageClicked(ordersHistoryPage - 1)}
+                    />
                   </PaginationItem>
                   {Array(pageCount)
                     .fill(null)
                     .map((v, idx) => (
-                      <PaginationItem key={idx} active={currentPage === idx + 1}>
+                      <PaginationItem key={idx} active={ordersHistoryPage === idx + 1}>
                         <PaginationLink onClick={() => this.pageClicked(idx + 1)}>
                           {idx + 1}
                         </PaginationLink>
                       </PaginationItem>
                     ))}
                   <PaginationItem>
-                    <PaginationLink next onClick={() => this.pageClicked(currentPage + 1)} />
+                    <PaginationLink next onClick={() => this.pageClicked(ordersHistoryPage + 1)} />
                   </PaginationItem>
                 </Pagination>
               </div>

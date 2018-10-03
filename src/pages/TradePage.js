@@ -189,8 +189,8 @@ class TradePage extends Component {
                       ordersHistoryTotalCount={tradeStore.ordersHistoryTotalCount}
                       ordersHistoryLoading={tradeStore.ordersHistoryLoading}
                       ordersHistoryError={tradeStore.ordersHistoryError}
-                      orderHistoryPage={tradeStore.orderHistoryPage}
-                      selectedOrderHistoryPageSize={tradeStore.selectedOrderHistoryPageSize}
+                      ordersHistoryPage={tradeStore.ordersHistoryPage}
+                      ordersHistoryPageSize={tradeStore.ordersHistoryPageSize}
                     />
                   </NoMarginPaddingCol>
                 </Row>

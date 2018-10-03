@@ -53,7 +53,8 @@ class OpenOrder extends Component {
   loadRecentOrderHistory = async () => {
     const { tradeStore, accountStore } = this.props
 
-    await tradeStore.setOrdersHistoryPage(accountStore.loginAccountInfo.account_name, 1)
+    tradeStore.setOrdersHistoryPage(1)
+    await tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
   }
 
   componentWillUnmount = () => {

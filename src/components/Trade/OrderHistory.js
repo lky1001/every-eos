@@ -27,12 +27,14 @@ class OrderHistory extends Component {
     const { accountStore, tradeStore } = this.props
 
     if (accountStore.isLogin) {
-      tradeStore.setOrdersHistoryPage(accountStore.loginAccountInfo.account_name, 1)
+      tradeStore.initOrdersHistoryFilter()
+      tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
     } else {
       this.disposer = accountStore.subscribeLoginState(changed => {
         if (changed.oldValue !== changed.newValue) {
           if (changed.newValue) {
-            tradeStore.setOrdersHistoryPage(accountStore.loginAccountInfo.account_name, 1)
+            tradeStore.initOrdersHistoryFilter()
+            tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
           } else {
             tradeStore.clearOrdersHistory()
           }
@@ -46,20 +48,16 @@ class OrderHistory extends Component {
   }
 
   pageClicked = idx => {
-    const {
-      tradeStore,
-      accountStore,
-      ordersHistoryTotalCount,
-      selectedOrderHistoryPageSize
-    } = this.props
+    const { tradeStore, accountStore, ordersHistoryTotalCount, ordersHistoryPageSize } = this.props
 
     const pageCount =
       ordersHistoryTotalCount > 0
-        ? Math.ceil(ordersHistoryTotalCount / selectedOrderHistoryPageSize.value)
+        ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value)
         : 1
 
     if (idx > 0 && idx <= pageCount) {
-      tradeStore.setOrdersHistoryPage(accountStore.loginAccountInfo.account_name, idx)
+      tradeStore.setOrdersHistoryPage(idx)
+      tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
     }
   }
 
@@ -71,13 +69,13 @@ class OrderHistory extends Component {
       ordersHistoryTotalCount,
       ordersHistoryLoading,
       ordersHistoryError,
-      orderHistoryPage,
-      selectedOrderHistoryPageSize
+      ordersHistoryPage,
+      ordersHistoryPageSize
     } = this.props
 
     const pageCount =
       ordersHistoryTotalCount > 0
-        ? Math.ceil(ordersHistoryTotalCount / selectedOrderHistoryPageSize.value)
+        ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value)
         : 1
     const openHistoryContentHeight = `${40 * ordersHistoryCount}px`
 
@@ -130,7 +128,7 @@ class OrderHistory extends Component {
           <Scrollbars
             style={{
               height: openHistoryContentHeight,
-              maxHeight: `${40 * selectedOrderHistoryPageSize.value}px`
+              maxHeight: `${40 * ordersHistoryPageSize.value}px`
             }}>
             <Table className="order-list-table responsive hover">
               {accountStore.isLogin &&
@@ -229,19 +227,19 @@ class OrderHistory extends Component {
               aria-label="orders pagination"
               style={{ justifyContent: 'center', alignItems: 'center' }}>
               <PaginationItem>
-                <PaginationLink previous onClick={() => this.pageClicked(orderHistoryPage - 1)} />
+                <PaginationLink previous onClick={() => this.pageClicked(ordersHistoryPage - 1)} />
               </PaginationItem>
               {Array(pageCount)
                 .fill(null)
                 .map((v, idx) => (
-                  <PaginationItem key={idx} active={orderHistoryPage === idx + 1}>
+                  <PaginationItem key={idx} active={ordersHistoryPage === idx + 1}>
                     <PaginationLink onClick={() => this.pageClicked(idx + 1)}>
                       {idx + 1}
                     </PaginationLink>
                   </PaginationItem>
                 ))}
               <PaginationItem>
-                <PaginationLink next onClick={() => this.pageClicked(orderHistoryPage + 1)} />
+                <PaginationLink next onClick={() => this.pageClicked(ordersHistoryPage + 1)} />
               </PaginationItem>
             </Pagination>
           </div>

@@ -22,6 +22,8 @@ class OrderHistoryPage extends Component {
                 ordersHistoryTotalCount={tradeStore.ordersHistoryTotalCount}
                 ordersHistoryLoading={tradeStore.ordersHistoryLoading}
                 ordersHistoryError={tradeStore.ordersHistoryError}
+                ordersHistoryPage={tradeStore.ordersHistoryPage}
+                selectedOrdersHistoryPageSize={tradeStore.selectedOrdersHistoryPageSize}
               />
             </Col>
           </Row>

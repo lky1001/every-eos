@@ -3,7 +3,12 @@ import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
 import { format, subDays } from 'date-fns'
 import { orderQuery, ordersForAccountQuery, stackedOrdersQuery } from '../graphql/query/order'
-import { getTypeFilter, typeOptions, pageSizeOptions } from '../utils/OrderSearchFilter'
+import {
+  getTypeFilter,
+  typeOptions,
+  pageSizeOptions,
+  statusOptions
+} from '../utils/OrderSearchFilter'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
@@ -68,13 +73,8 @@ class TradeStore {
   }
 
   constructor() {
-    const today = new Date()
     const initialTokenId = 1
-    this.orderHistoryPage = 1
-    this.orderHistoryFrom = subDays(today, 30)
-    this.orderHistoryTo = today
-    this.selectedOrderHistoryPageSize = pageSizeOptions[0]
-    this.selectedOrderHistoryType = typeOptions[0]
+    this.initOrdersHistoryFilter()
 
     set(this, {
       get order() {
@@ -129,6 +129,17 @@ class TradeStore {
     this.price = observable.box(0.0)
   }
 
+  initOrdersHistoryFilter = () => {
+    const today = new Date()
+    this.tokenSymbolForSearch = ''
+    this.ordersHistoryPage = 1
+    this.ordersHistoryFrom = subDays(today, 30)
+    this.ordersHistoryTo = today
+    this.ordersHistoryPageSize = pageSizeOptions[0]
+    this.ordersHistoryType = typeOptions[0]
+    this.ordersHistoryStatus = statusOptions[0]
+  }
+
   setTokenSymbol = symbol => {
     this.tokenSymbol = symbol
   }
@@ -145,8 +156,24 @@ class TradeStore {
     this.amount = amount
   }
 
-  setSelectedOrderHistoryPageSize = newValue => {
-    this.selectedOrderHistoryPageSize = newValue
+  setOrdersHistoryPageSize = newPageSize => {
+    this.ordersHistoryPageSize = newPageSize
+  }
+
+  setOrdersHistoryType = newType => {
+    this.ordersHistoryType = newType
+  }
+
+  setOrdersHistoryStatus = newStatus => {
+    this.ordersHistoryStatus = newStatus
+  }
+
+  setOrdersHistoryFrom = newFrom => {
+    this.ordersHistoryFrom = newFrom
+  }
+
+  setOrdersHistoryTo = newTo => {
+    this.ordersHistoryTo = newTo
   }
 
   setChartData = async chartData => {
@@ -204,35 +231,27 @@ class TradeStore {
     return this.sellOrders.data.stackedOrders ? this.sellOrders.data.stackedOrders.length : 0
   }
 
-  getOrdersHistory = async (account_name, token_symbol, type, status, limit, page, from, to) => {
-    this.ordersHistory = await graphql({
-      client: ApiServerAgent,
-      query: ordersForAccountQuery,
-      variables: {
-        account_name: account_name,
-        token_symbol: token_symbol,
-        type: type,
-        status: status,
-        limit: limit,
-        page: page,
-        from: from,
-        to: to
-      }
-    })
+  getOrdersHistory = async account_name => {
+    if (account_name) {
+      this.ordersHistory = await graphql({
+        client: ApiServerAgent,
+        query: ordersForAccountQuery,
+        variables: {
+          account_name: account_name,
+          token_symbol: this.tokenSymbolForSearch,
+          type: getTypeFilter(this.ordersHistoryType),
+          status: this.ordersHistoryStatus,
+          limit: this.ordersHistoryPageSize,
+          page: this.ordersHistoryPage,
+          from: this.ordersHistoryFrom,
+          to: this.ordersHistoryTo
+        }
+      })
+    }
   }
 
-  setOrdersHistoryPage = async (account_name, page) => {
-    await this.getOrdersHistory(
-      account_name,
-      this.tokenSymbol,
-      getTypeFilter(this.selectedOrderHistoryType),
-      JSON.stringify([ORDER_STATUS_ALL_DEALED, ORDER_STATUS_CANCELLED]),
-      this.selectedOrderHistoryPageSize.value,
-      page,
-      this.orderHistoryFrom,
-      this.orderHistoryTo
-    )
-    this.orderHistoryPage = page
+  setOrdersHistoryPage = async page => {
+    this.ordersHistoryPage = page
   }
 
   clearOrdersHistory = () => {
@@ -379,7 +398,8 @@ class TradeStore {
           arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
           arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
         ) {
-          this.setOrdersHistoryPage(account_name, 1)
+          this.setOrdersHistoryPage(1)
+          this.getOrdersHistory(account_name)
         } else {
           this.getOpenOrders(
             account_name,
@@ -392,11 +412,12 @@ class TradeStore {
 }
 
 decorate(TradeStore, {
-  orderHistoryPage: observable,
-  orderHistoryFrom: observable,
-  orderHistoryTo: observable,
-  selectedOrderHistoryPageSize: observable,
-  selectedOrderHistoryType: observable,
+  ordersHistoryPage: observable,
+  ordersHistoryFrom: observable,
+  ordersHistoryTo: observable,
+  ordersHistoryPageSize: observable,
+  ordersHistoryType: observable,
+  ordersHistoryStatus: observable,
   buyOrders: observable,
   buyOrdersError: computed,
   buyOrdersLoading: computed,
@@ -421,13 +442,19 @@ decorate(TradeStore, {
   openOrdersCount: computed,
   openOrdersTotalCount: computed,
   tokenSymbol: observable,
+  tokenSymbolForSearch: observable,
   price: observable,
   amount: observable,
   chartData: observable,
   setTokenSymbol: action,
+  setTokenSymbolForSearch: action,
   setPrice: action,
   setAmount: action,
-  setSelectedOrderHistoryPageSize: action,
+  setOrdersHistoryPageSize: action,
+  setOrdersHistoryType: action,
+  setOrdersHistoryStatus: action,
+  setOrdersHistoryFrom: action,
+  setOrdersHistoryTo: action,
   setWatchPrice: action,
   getBuyOrders: action,
   getSellOrders: action,
@@ -439,7 +466,8 @@ decorate(TradeStore, {
   clearOpenOrders: action,
   setChartData: action,
   setWatchChartData: action,
-  test: action
+  test: action,
+  initOrdersHistoryFilter: action
 })
 
 export default new TradeStore()

@@ -69,7 +69,6 @@ class Order extends Component {
   constructor(props) {
     super(props)
 
-    this.toggle = this.toggle.bind(this)
     this.state = {
       tabIndex: 0,
       buyPrice: 0.1,
@@ -123,14 +122,6 @@ class Order extends Component {
 
     if (this.disposerAccount) {
       this.disposerAccount()
-    }
-  }
-
-  toggle = tab => {
-    if (this.state.activeTab !== tab) {
-      this.setState({
-        activeTab: tab
-      })
     }
   }
 
@@ -206,7 +197,7 @@ class Order extends Component {
   }
 
   onBuyMarketClick = async () => {
-    const { eosioStore, accountStore, token } = this.props
+    const { eosioStore, tradeStore, accountStore, token } = this.props
 
     if (!accountStore.isLogin) {
       this.props.alert.show('Please login.')
@@ -249,8 +240,11 @@ class Order extends Component {
       const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
       if (result) {
+        tradeStore.getPollingOrderByTxId(
+          result.transaction_id,
+          accountStore.loginAccountInfo.account_name
+        )
         this.props.alert.show('Success(' + result.transaction_id + ')')
-        alert(JSON.stringify(result))
       }
     } catch (e) {
       this.handleError(e)
@@ -316,7 +310,7 @@ class Order extends Component {
   }
 
   onSellMarketClick = async () => {
-    const { eosioStore, accountStore, token } = this.props
+    const { eosioStore, accountStore, tradeStore, token } = this.props
 
     if (!accountStore.isLogin) {
       this.props.alert.show('Please login.')
@@ -353,8 +347,11 @@ class Order extends Component {
       const result = await eosioStore.buyToken(token.contract, data)
 
       if (result) {
+        tradeStore.getPollingOrderByTxId(
+          result.transaction_id,
+          accountStore.loginAccountInfo.account_name
+        )
         this.props.alert.show('Success(' + result.transaction_id + ')')
-        alert(JSON.stringify(result))
       }
     } catch (e) {
       this.handleError(e)
