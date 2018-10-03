@@ -170,9 +170,13 @@ class OpenOrder extends Component {
                             {o.token.symbol} / {o.token.market}
                           </OrderBaseColumn>
                           {o.type === ORDER_TYPE_BUY ? (
-                            <BuyTypeColumn>{o.type}</BuyTypeColumn>
+                            <BuyTypeColumn>
+                              <FormattedMessage id={o.type} />
+                            </BuyTypeColumn>
                           ) : (
-                            <SellTypeColumn>{o.type}</SellTypeColumn>
+                            <SellTypeColumn>
+                              <FormattedMessage id={o.type} />
+                            </SellTypeColumn>
                           )}
                           <OrderBaseColumn>{o.token_price.toFixed(4)}</OrderBaseColumn>
                           <OrderBaseColumn>
@@ -214,7 +218,8 @@ class OpenOrder extends Component {
                     height: '70px',
                     fontSize: '16px',
                     paddingTop: '25px'
-                  }}>
+                  }}
+                >
                   <FormattedMessage id="No Data" />
                 </div>
               )
@@ -226,7 +231,8 @@ class OpenOrder extends Component {
                 height: '70px',
                 fontSize: '16px',
                 paddingTop: '25px'
-              }}>
+              }}
+            >
               <FormattedMessage id="Please Login" />
             </div>
           )}

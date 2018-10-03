@@ -129,7 +129,8 @@ class OrderHistory extends Component {
             style={{
               height: openHistoryContentHeight,
               maxHeight: `${40 * ordersHistoryPageSize.value}px`
-            }}>
+            }}
+          >
             <Table className="order-list-table responsive hover">
               {accountStore.isLogin &&
                 ordersHistoryList &&
@@ -143,9 +144,13 @@ class OrderHistory extends Component {
                             {o.token.symbol} / {o.token.market}
                           </OrderBaseColumn>
                           {o.type === ORDER_TYPE_BUY ? (
-                            <BuyTypeColumn>{o.type}</BuyTypeColumn>
+                            <BuyTypeColumn>
+                              <FormattedMessage id={o.type} />
+                            </BuyTypeColumn>
                           ) : (
-                            <SellTypeColumn>{o.type}</SellTypeColumn>
+                            <SellTypeColumn>
+                              <FormattedMessage id={o.type} />
+                            </SellTypeColumn>
                           )}
                           <OrderBaseColumn>{o.token_price.toFixed(4)}</OrderBaseColumn>
                           <OrderBaseColumn>
@@ -186,7 +191,9 @@ class OrderHistory extends Component {
                           <OrderBaseColumn>
                             <FormattedMessage id={o.status} />
                           </OrderBaseColumn>
-                          <OrderBaseColumn>Detail</OrderBaseColumn>
+                          <OrderBaseColumn>
+                            <FormattedMessage id="Detail" />
+                          </OrderBaseColumn>
                         </TableLgRow>
                       )
                     })}
@@ -205,7 +212,8 @@ class OrderHistory extends Component {
                     height: '70px',
                     fontSize: '16px',
                     paddingTop: '25px'
-                  }}>
+                  }}
+                >
                   <FormattedMessage id="No Data" />
                 </div>
               )
@@ -217,7 +225,8 @@ class OrderHistory extends Component {
                 height: '70px',
                 fontSize: '16px',
                 paddingTop: '25px'
-              }}>
+              }}
+            >
               <FormattedMessage id="Please Login" />
             </div>
           )}
@@ -225,7 +234,8 @@ class OrderHistory extends Component {
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
             <Pagination
               aria-label="orders pagination"
-              style={{ justifyContent: 'center', alignItems: 'center' }}>
+              style={{ justifyContent: 'center', alignItems: 'center' }}
+            >
               <PaginationItem>
                 <PaginationLink previous onClick={() => this.pageClicked(ordersHistoryPage - 1)} />
               </PaginationItem>
