@@ -11,12 +11,7 @@ const TokenInfoTitle = styled.h6`
 
 const TokenSymbolText = styled.small`
   font-size: 1.5rem;
-  color: ${props =>
-    props.up
-      ? ColorsConstant.Thick_green
-      : props.down
-        ? ColorsConstant.Thick_red
-        : ColorsConstant.Thick_normal};
+  color: ${props => (props.up ? ColorsConstant.Thick_green : props.down ? ColorsConstant.Thick_red : ColorsConstant.Thick_normal)};
 `
 
 class TokenInfo extends Component {
@@ -29,7 +24,7 @@ class TokenInfo extends Component {
   render() {
     const { marketStore, height } = this.props
     const token = marketStore.token ? marketStore.token.data.token : null
-    const todayChanged = token ? token.last_day_price - token.last_price : 0.0
+    const todayChanged = token ? token.last_price - token.last_day_price : 0.0
 
     return (
       <Fragment>
@@ -44,10 +39,7 @@ class TokenInfo extends Component {
           >
             <div>
               <TokenInfoTitle>Last Price</TokenInfoTitle>
-              <TokenSymbolText
-                up={token.last_price - token.last_previous_price > 0}
-                down={token.last_price - token.last_previous_price < 0}
-              >
+              <TokenSymbolText up={token.last_price - token.last_previous_price > 0} down={token.last_price - token.last_previous_price < 0}>
                 {token.last_price.toFixed(4)} EOS
               </TokenSymbolText>
             </div>

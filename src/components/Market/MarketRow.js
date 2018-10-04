@@ -6,15 +6,13 @@ import ColorsConstant from '../Colors/ColorsConstant.js'
 class MarketRow extends Component {
   render() {
     const { token } = this.props
-    const todayChanged = token.last_day_price - token.last_price
+    const todayChanged = token.last_price - token.last_day_price
 
     return (
       <Row className="show-grid">
         <Col xs={2}>{token.name}</Col>
         <Col xs={2}>
-          <Text color={todayChanged > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}>
-            {token.last_price}
-          </Text>
+          <Text color={todayChanged > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}>{token.last_price}</Text>
         </Col>
         <Col xs={2}>
           <Text>{todayChanged}</Text>
