@@ -75,16 +75,16 @@ class OrderList extends Component {
 
     const sellMax =
       sellOrdersList.length > 0
-        ? sellOrdersList.reduce((a, b) => {
-          return Math.max(isNumber(a) ? a : a.stacked_amount, b.stacked_amount)
-        })
+        ? sellOrdersList.reduce((prev, curr) => {
+          return Math.max(prev, curr.stacked_amount)
+        }, 0)
         : 0.0
 
     const buyMax =
       buyOrdersList.length > 0
-        ? buyOrdersList.reduce((a, b) => {
-          return Math.max(isNumber(a) ? a : a.stacked_amount, b.stacked_amount)
-        })
+        ? buyOrdersList.reduce((prev, curr) => {
+          return Math.max(prev, curr.stacked_amount)
+        }, 0)
         : 0.0
 
     return (
