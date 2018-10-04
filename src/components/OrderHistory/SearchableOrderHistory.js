@@ -27,14 +27,14 @@ class SearchableOrderHistory extends Component {
   componentDidMount = () => {
     const { accountStore, tradeStore } = this.props
 
+    tradeStore.initOrdersHistoryFilter()
+
     if (accountStore.isLogin) {
-      tradeStore.initOrdersHistoryFilter()
       tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
     } else {
       this.disposer = accountStore.subscribeLoginState(changed => {
         if (changed.oldValue !== changed.newValue) {
           if (changed.newValue) {
-            tradeStore.initOrdersHistoryFilter()
             tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
           } else {
             tradeStore.clearOrdersHistory()

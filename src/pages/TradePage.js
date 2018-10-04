@@ -191,6 +191,11 @@ class TradePage extends Component {
                       ordersHistoryError={tradeStore.ordersHistoryError}
                       ordersHistoryPage={tradeStore.ordersHistoryPage}
                       ordersHistoryPageSize={tradeStore.ordersHistoryPageSize}
+                      ordersHistoryFrom={tradeStore.ordersHistoryFrom}
+                      ordersHistoryTo={tradeStore.ordersHistoryTo}
+                      ordersHistoryType={tradeStore.ordersHistoryType}
+                      ordersHistoryStatus={tradeStore.ordersHistoryStatus}
+                      tokenSymbolForSearch={tradeStore.tokenSymbolForSearch}
                     />
                   </NoMarginPaddingCol>
                 </Row>
