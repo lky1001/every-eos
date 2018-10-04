@@ -25,8 +25,8 @@ class Wallet extends Component {
     const { accountStore } = this.props
 
     if (accountStore.isLogin) {
-      this.getWalletBalace()
-      const balanceIntervalId = setInterval(this.getWalletBalace, GET_BALANCE_INTERVAL)
+      this.getWalletBalance()
+      const balanceIntervalId = setInterval(this.getWalletBalance, GET_BALANCE_INTERVAL)
 
       this.setState({
         balanceIntervalId: balanceIntervalId
@@ -36,8 +36,8 @@ class Wallet extends Component {
     this.disposer = accountStore.subscribeLoginState(changed => {
       if (changed.oldValue !== changed.newValue) {
         if (changed.newValue) {
-          this.getWalletBalace()
-          const balanceIntervalId = setInterval(this.getWalletBalace, GET_BALANCE_INTERVAL)
+          this.getWalletBalance()
+          const balanceIntervalId = setInterval(this.getWalletBalance, GET_BALANCE_INTERVAL)
 
           this.setState({
             balanceIntervalId: balanceIntervalId
@@ -59,7 +59,7 @@ class Wallet extends Component {
     }
   }
 
-  getWalletBalace = async () => {
+  getWalletBalance = async () => {
     const { accountStore, marketStore, eosioStore } = this.props
 
     const tokens = marketStore.tokens ? (marketStore.tokens.data ? marketStore.tokens.data.tokens : null) : null
@@ -112,7 +112,7 @@ class Wallet extends Component {
       searchKeyword: value
     })
 
-    this.getWalletBalace()
+    this.getWalletBalance()
   }
 
   render() {
