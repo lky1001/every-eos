@@ -57,6 +57,7 @@ class Wallet extends Component {
     const { accountStore } = this.props
 
     if (accountStore.isLogin) {
+      this.getWalletBalace()
       const balanceIntervalId = setInterval(this.getWalletBalace, GET_BALANCE_INTERVAL)
 
       this.setState({
@@ -83,17 +84,11 @@ class Wallet extends Component {
   getWalletBalace = async () => {
     const { accountStore, marketStore, eosioStore } = this.props
 
-    const tokens = marketStore.tokens
-      ? marketStore.tokens.data
-        ? marketStore.tokens.data.tokens
-        : null
-      : null
+    const tokens = marketStore.tokens ? (marketStore.tokens.data ? marketStore.tokens.data.tokens : null) : null
 
     let tokenBalance = []
 
-    const accountName = accountStore.loginAccountInfo
-      ? accountStore.loginAccountInfo.account_name
-      : null
+    const accountName = accountStore.loginAccountInfo ? accountStore.loginAccountInfo.account_name : null
 
     if (accountName && tokens) {
       // eos
