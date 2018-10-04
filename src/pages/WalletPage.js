@@ -5,6 +5,7 @@ import { compose } from 'recompose'
 import { Grid, Row, Col, Button, Dropdown, MenuItem } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { GET_BALANCE_INTERVAL } from '../constants/Values'
+import _ from 'lodash'
 
 class Wallet extends Component {
   constructor(props) {
@@ -15,6 +16,9 @@ class Wallet extends Component {
       searchKeyword: '',
       tokens: []
     }
+
+    this.handleTokenSymbolChangeDelayed = _.debounce(this.handleTokenSymbolChangeDelayed, 500)
+    this.handleChange = this.handleChange.bind(this)
   }
 
   componentDidMount = async () => {
@@ -77,7 +81,7 @@ class Wallet extends Component {
 
             return true
           })
-          .map(async (token, idx) => {
+          .map(async token => {
             const balance = await eosioStore.getCurrencyBalance({
               code: token.contract,
               account: accountStore.loginAccountInfo.account_name,
@@ -99,10 +103,16 @@ class Wallet extends Component {
     }
   }
 
-  handleTokenSymbolChange = event => {
+  handleChange = event => {
+    this.handleTokenSymbolChangeDelayed(event.target.value)
+  }
+
+  handleTokenSymbolChangeDelayed = value => {
     this.setState({
-      searchKeyword: event.target.value
+      searchKeyword: value
     })
+
+    this.getWalletBalace()
   }
 
   render() {
@@ -132,12 +142,7 @@ class Wallet extends Component {
                     <div className="card-body">
                       <Row>
                         <Col xs={6}>
-                          <input
-                            type="text"
-                            className="form-control form-control-lg"
-                            placeholder="Enter Symbol"
-                            onChange={s => this.handleTokenSymbolChange(s)}
-                          />
+                          <input type="text" className="form-control form-control-lg" placeholder="Enter Symbol" onChange={this.handleChange} />
                         </Col>
                         <Col xs={6} className="text-right">
                           <label className="checkbox checkbox-inline">
