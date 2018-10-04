@@ -13,14 +13,7 @@ import {
 } from '../../constants/Values'
 
 import { format } from 'date-fns'
-import {
-  HeaderTable,
-  TableLgRow,
-  OrderBaseColumn,
-  DateColumn,
-  BuyTypeColumn,
-  SellTypeColumn
-} from '../Common/Common'
+import { HeaderTable, TableLgRow, OrderBaseColumn, DateColumn, BuyTypeColumn, SellTypeColumn } from '../Common/Common'
 
 class OrderHistory extends Component {
   componentDidMount = () => {
@@ -50,10 +43,7 @@ class OrderHistory extends Component {
   pageClicked = idx => {
     const { tradeStore, accountStore, ordersHistoryTotalCount, ordersHistoryPageSize } = this.props
 
-    const pageCount =
-      ordersHistoryTotalCount > 0
-        ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value)
-        : 1
+    const pageCount = ordersHistoryTotalCount > 0 ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value) : 1
 
     if (idx > 0 && idx <= pageCount) {
       tradeStore.setOrdersHistoryPage(idx)
@@ -73,10 +63,7 @@ class OrderHistory extends Component {
       ordersHistoryPageSize
     } = this.props
 
-    const pageCount =
-      ordersHistoryTotalCount > 0
-        ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value)
-        : 1
+    const pageCount = ordersHistoryTotalCount > 0 ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value) : 1
     const openHistoryContentHeight = `${40 * ordersHistoryCount}px`
 
     return (
@@ -152,42 +139,45 @@ class OrderHistory extends Component {
                               <FormattedMessage id={o.type} />
                             </SellTypeColumn>
                           )}
-                          <OrderBaseColumn>{o.token_price.toFixed(4)}</OrderBaseColumn>
+                          <OrderBaseColumn>{o.token_price.toFixed(4)} EOS</OrderBaseColumn>
                           <OrderBaseColumn>
                             {o.status === ORDER_STATUS_ALL_DEALED
                               ? o.orderDetails.length === 0
                                 ? 0
                                 : Math.round(
-                                  o.orderDetails.reduce(
-                                    (acc, curr) => acc + curr.amount * curr.token_price,
-                                    0
-                                  ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                                )
+                                  o.orderDetails.reduce((acc, curr) => acc + curr.amount * curr.token_price, 0) /
+                                      o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                                ).toFixed(4) + ' EOS'
                               : o.status === ORDER_STATUS_CANCELLED
                                 ? o.orderDetails.length === 0
                                   ? 0
                                   : Math.round(
                                     o.orderDetails
-                                      .filter(
-                                        od =>
-                                          od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                      )
-                                      .reduce(
-                                        (acc, curr) => acc + curr.amount * curr.token_price,
-                                        0
-                                      ) /
+                                      .filter(od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED)
+                                      .reduce((acc, curr) => acc + curr.amount * curr.token_price, 0) /
                                         o.orderDetails
-                                          .filter(
-                                            od =>
-                                              od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                          )
+                                          .filter(od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED)
                                           .reduce((acc, curr) => acc + curr.amount, 0)
-                                  )
+                                  ).toFixed(4) + ' EOS'
                                 : '-'}
                           </OrderBaseColumn>
                           <OrderBaseColumn>{o.total_amount}</OrderBaseColumn>
                           <OrderBaseColumn>{o.deal_amount}</OrderBaseColumn>
-                          <OrderBaseColumn>-</OrderBaseColumn>
+                          <OrderBaseColumn>
+                            {o.status === ORDER_STATUS_ALL_DEALED
+                              ? o.orderDetails.length === 0
+                                ? 0
+                                : Math.round(o.orderDetails.reduce((acc, curr) => acc + curr.amount * curr.token_price, 0)).toFixed(4) + ' EOS'
+                              : o.status === ORDER_STATUS_CANCELLED
+                                ? o.orderDetails.length === 0
+                                  ? 0
+                                  : Math.round(
+                                    o.orderDetails
+                                      .filter(od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED)
+                                      .reduce((acc, curr) => acc + curr.amount * curr.token_price, 0)
+                                  ).toFixed(4) + ' EOS'
+                                : '-'}
+                          </OrderBaseColumn>
                           <OrderBaseColumn>
                             <FormattedMessage id={o.status} />
                           </OrderBaseColumn>
@@ -232,10 +222,7 @@ class OrderHistory extends Component {
           )}
 
           <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-            <Pagination
-              aria-label="orders pagination"
-              style={{ justifyContent: 'center', alignItems: 'center' }}
-            >
+            <Pagination aria-label="orders pagination" style={{ justifyContent: 'center', alignItems: 'center' }}>
               <PaginationItem>
                 <PaginationLink previous onClick={() => this.pageClicked(ordersHistoryPage - 1)} />
               </PaginationItem>
@@ -243,9 +230,7 @@ class OrderHistory extends Component {
                 .fill(null)
                 .map((v, idx) => (
                   <PaginationItem key={idx} active={ordersHistoryPage === idx + 1}>
-                    <PaginationLink onClick={() => this.pageClicked(idx + 1)}>
-                      {idx + 1}
-                    </PaginationLink>
+                    <PaginationLink onClick={() => this.pageClicked(idx + 1)}>{idx + 1}</PaginationLink>
                   </PaginationItem>
                 ))}
               <PaginationItem>

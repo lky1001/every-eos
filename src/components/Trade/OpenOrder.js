@@ -4,20 +4,8 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import '../Common/React-tabs.scss'
 import { Table, ProgressBar, Button } from 'react-bootstrap'
 import { Scrollbars } from 'react-custom-scrollbars'
-import {
-  HeaderTable,
-  TableLgRow,
-  OrderBaseColumn,
-  DateColumn,
-  BuyTypeColumn,
-  SellTypeColumn
-} from '../Common/Common'
-import {
-  ORDER_STATUS_NOT_DEAL,
-  ORDER_STATUS_PARTIAL_DEALED,
-  ORDER_TYPE_BUY,
-  ORDER_DATE_FORMAT
-} from '../../constants/Values'
+import { HeaderTable, TableLgRow, OrderBaseColumn, DateColumn, BuyTypeColumn, SellTypeColumn } from '../Common/Common'
+import { ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED, ORDER_TYPE_BUY, ORDER_DATE_FORMAT } from '../../constants/Values'
 
 import eosAgent from '../../EosAgent'
 import { format } from 'date-fns'
@@ -44,10 +32,7 @@ class OpenOrder extends Component {
   getOpenOrders = async () => {
     const { tradeStore, accountStore } = this.props
 
-    await tradeStore.getOpenOrders(
-      accountStore.loginAccountInfo.account_name,
-      JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-    )
+    await tradeStore.getOpenOrders(accountStore.loginAccountInfo.account_name, JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED]))
   }
 
   loadRecentOrderHistory = async () => {
@@ -100,13 +85,7 @@ class OpenOrder extends Component {
   }
 
   render() {
-    const {
-      accountStore,
-      openOrdersList,
-      openOrdersCount,
-      openOrdersLoading,
-      openOrdersError
-    } = this.props
+    const { accountStore, openOrdersList, openOrdersCount, openOrdersLoading, openOrdersError } = this.props
 
     const openOrdersContentHeight = `${40 * openOrdersCount}px`
 
@@ -178,15 +157,13 @@ class OpenOrder extends Component {
                               <FormattedMessage id={o.type} />
                             </SellTypeColumn>
                           )}
-                          <OrderBaseColumn>{o.token_price.toFixed(4)}</OrderBaseColumn>
+                          <OrderBaseColumn>{o.token_price.toFixed(4)} EOS</OrderBaseColumn>
                           <OrderBaseColumn>
                             {o.status === ORDER_STATUS_PARTIAL_DEALED
                               ? Math.round(
-                                o.orderDetails.reduce(
-                                  (acc, curr) => acc + curr.amount * curr.token_price,
-                                  0
-                                ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                              )
+                                o.orderDetails.reduce((acc, curr) => acc + curr.amount * curr.token_price, 0) /
+                                    o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                              ).toFixed(4) + ' EOS'
                               : '-'}
                           </OrderBaseColumn>
                           <OrderBaseColumn>{o.total_amount}</OrderBaseColumn>
