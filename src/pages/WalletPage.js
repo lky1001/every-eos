@@ -12,6 +12,7 @@ class Wallet extends Component {
 
     this.state = {
       balanceIntervalId: 0,
+      searchKeyword: '',
       tokens: []
     }
   }
@@ -59,34 +60,50 @@ class Wallet extends Component {
 
     const tokens = marketStore.tokens ? (marketStore.tokens.data ? marketStore.tokens.data.tokens : null) : null
 
-    let tokenBalance = []
-
     const accountName = accountStore.loginAccountInfo ? accountStore.loginAccountInfo.account_name : null
 
+    const searchKeyword = this.state.searchKeyword
+
     if (accountName && tokens) {
-      for (let i = 0; i < tokens.length; i++) {
-        const token = tokens[i]
-        const balance = await eosioStore.getCurrencyBalance({
-          code: token.contract,
-          account: accountStore.loginAccountInfo.account_name,
-          symbol: token.symbol
-        })
+      const tokenBalance = await Promise.all(
+        tokens
+          .filter(token => {
+            if (searchKeyword) {
+              return (
+                token.name.toLowerCase().indexOf(searchKeyword.toLowerCase()) > -1 ||
+                token.symbol.toLowerCase().indexOf(searchKeyword.toLowerCase()) > -1
+              )
+            }
 
-        tokenBalance.push({
-          id: token.id,
-          name: token.name,
-          symbol: token.symbol,
-          balance: balance.length > 0 ? balance[0].split(' ')[0] : 0.0
-        })
-      }
+            return true
+          })
+          .map(async (token, idx) => {
+            const balance = await eosioStore.getCurrencyBalance({
+              code: token.contract,
+              account: accountStore.loginAccountInfo.account_name,
+              symbol: token.symbol
+            })
+
+            return {
+              id: token.id,
+              name: token.name,
+              symbol: token.symbol,
+              balance: balance.length > 0 ? balance[0].split(' ')[0] : 0.0
+            }
+          })
+      )
+
+      this.setState({
+        tokens: tokenBalance
+      })
     }
-
-    this.setState({
-      tokens: tokenBalance
-    })
   }
 
-  handleTokenSymbolChange = async () => {}
+  handleTokenSymbolChange = event => {
+    this.setState({
+      searchKeyword: event.target.value
+    })
+  }
 
   render() {
     const { accountStore } = this.props
@@ -123,7 +140,7 @@ class Wallet extends Component {
                           />
                         </Col>
                         <Col xs={6} className="text-right">
-                          <label class="checkbox checkbox-inline">
+                          <label className="checkbox checkbox-inline">
                             <input type="checkbox" value="" />
                             Hide no balance
                           </label>
@@ -157,10 +174,8 @@ class Wallet extends Component {
                             this.state.tokens.map((token, idx) => {
                               return (
                                 <tr key={idx}>
-                                  <td style={{ textAlign: 'left' }} first={idx === 0}>
-                                    {token.name}
-                                  </td>
-                                  <td first={idx === 0}>{token.balance}</td>
+                                  <td style={{ textAlign: 'left' }}>{token.name}</td>
+                                  <td>{token.balance}</td>
                                   <td>0.0000</td>
                                   <td>1.000</td>
                                   <td>
