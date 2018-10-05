@@ -1,7 +1,8 @@
 import React, { Component, Fragment } from 'react'
-import { Row, Col } from 'react-bootstrap'
+import NumberFormat from 'react-number-format'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant'
+import { EOS_TOKEN } from '../../constants/Values'
 
 const TokenInfoTitle = styled.h6`
   font-size: 1.35rem;
@@ -40,26 +41,57 @@ class TokenInfo extends Component {
             <div>
               <TokenInfoTitle>Last Price</TokenInfoTitle>
               <TokenSymbolText up={token.last_price - token.last_previous_price > 0} down={token.last_price - token.last_previous_price < 0}>
-                {token.last_price.toFixed(4)} EOS
+                <NumberFormat
+                  displayType={'text'}
+                  suffix=" EOS"
+                  value={token.last_price}
+                  fixedDecimalScale={true}
+                  decimalScale={EOS_TOKEN.precision}
+                />
               </TokenSymbolText>
             </div>
             <div>
               <TokenInfoTitle>Today Changed</TokenInfoTitle>
               <TokenSymbolText up={todayChanged > 0} down={todayChanged < 0}>
-                {todayChanged.toFixed(4)} EOS
+                <NumberFormat displayType={'text'} suffix=" EOS" value={todayChanged} fixedDecimalScale={true} decimalScale={EOS_TOKEN.precision} />
               </TokenSymbolText>
             </div>
             <div>
               <TokenInfoTitle>Today High</TokenInfoTitle>
-              <TokenSymbolText>{token.high_price_24h.toFixed(4)} EOS</TokenSymbolText>
+              <TokenSymbolText>
+                <NumberFormat
+                  displayType={'text'}
+                  suffix=" EOS"
+                  value={token.high_price_24h}
+                  fixedDecimalScale={true}
+                  decimalScale={EOS_TOKEN.precision}
+                />
+              </TokenSymbolText>
             </div>
             <div>
               <TokenInfoTitle>Today Low</TokenInfoTitle>
-              <TokenSymbolText>{token.low_price_24h.toFixed(4)} EOS</TokenSymbolText>
+              <TokenSymbolText>
+                <NumberFormat
+                  displayType={'text'}
+                  suffix=" EOS"
+                  value={token.low_price_24h}
+                  fixedDecimalScale={true}
+                  decimalScale={EOS_TOKEN.precision}
+                />
+              </TokenSymbolText>
             </div>
             <div>
               <TokenInfoTitle>Today Volume</TokenInfoTitle>
-              <TokenSymbolText>{token.volume_24h.toFixed(4)} EOS</TokenSymbolText>
+              <TokenSymbolText>
+                <NumberFormat
+                  displayType={'text'}
+                  suffix=" EOS"
+                  value={token.volume_24h}
+                  thousandSeparator={true}
+                  fixedDecimalScale={true}
+                  decimalScale={EOS_TOKEN.precision}
+                />
+              </TokenSymbolText>
             </div>
           </div>
         )}
