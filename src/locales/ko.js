@@ -59,8 +59,8 @@ export default {
   Move: '이동',
   'Account Resource': '계정 자원',
   'Last Price': '현재가',
-  'Today Changed': '금일 변동',
+  'Today Changed': '전일 대비',
   'Today High': '금일 고가',
   'Today Low': '금일 저가',
-  'Today Volume': '금일 거래량'
+  'Today Volume': '금일 거래대금'
 }

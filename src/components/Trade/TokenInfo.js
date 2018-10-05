@@ -7,6 +7,7 @@ import { EOS_TOKEN } from '../../constants/Values'
 
 const TokenInfoTitle = styled.h6`
   font-size: 1.35rem;
+  text-align: center;
   padding: 0;
   margin: 0;
 `
