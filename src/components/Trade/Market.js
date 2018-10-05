@@ -1,10 +1,11 @@
 import React, { Component, Fragment } from 'react'
 import { Row, Col, Table } from 'react-bootstrap'
+import NumberFormat from 'react-number-format'
 import { FormattedMessage } from 'react-intl'
 import { withRouter } from 'react-router'
 import { HeaderTable, PriceRow, TableMdRow } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
-import ColorsConstant from '../Colors/ColorsConstant'
+import { EOS_TOKEN } from '../../constants/Values'
 import styled from 'styled-components'
 
 const BaseColumn = styled.td`
@@ -67,10 +68,7 @@ class Market extends Component {
                   {tokens &&
                     tokens.map((t, idx) => {
                       return (
-                        <TableMdRow
-                          key={idx}
-                          className="msg-display clickable"
-                          onClick={() => this.goTrade(t.symbol)}>
+                        <TableMdRow key={idx} className="msg-display clickable" onClick={() => this.goTrade(t.symbol)}>
                           <FavoriteColumn>
                             <em data-pack="default" className="ion-android-star-outline" />
                           </FavoriteColumn>
@@ -80,28 +78,31 @@ class Market extends Component {
                             </PriceRow>
                           </PairColumn>
                           <LastPriceColumn>
-                            {t.last_price - t.last_previous_price > 0 ? (
-                              <PriceRow up>{t.last_price.toFixed(4)}</PriceRow>
-                            ) : t.last_price - t.last_previous_price < 0 ? (
-                              <PriceRow down>{t.last_price.toFixed(4)}</PriceRow>
-                            ) : (
-                              <PriceRow>{t.last_price.toFixed(4)}</PriceRow>
-                            )}
+                            <PriceRow up={t.last_price - t.last_previous_price > 0} down={t.last_price - t.last_previous_price < 0}>
+                              <NumberFormat
+                                displayType={'text'}
+                                suffix=" EOS"
+                                value={t.last_price}
+                                fixedDecimalScale={true}
+                                decimalScale={EOS_TOKEN.precision}
+                              />
+                            </PriceRow>
                           </LastPriceColumn>
 
                           {/* 이쪽 변화율 계산 로직 TODO */}
                           <ChangeColumn>
-                            {t.last_price - t.last_previous_price > 0 ? (
-                              <PriceRow up>
-                                {(t.last_price - t.last_previous_price).toFixed(2)} %
-                              </PriceRow>
-                            ) : t.last_price - t.last_previous_price < 0 ? (
-                              <PriceRow down>
-                                {(t.last_price - t.last_previous_price).toFixed(2)} %
-                              </PriceRow>
-                            ) : (
-                              <PriceRow>{Number(0).toFixed(2)} %</PriceRow>
-                            )}
+                            <PriceRow up={t.last_price - t.last_day_price > 0} down={t.last_price - t.last_day_price < 0}>
+                              <NumberFormat
+                                displayType={'text'}
+                                prefix={t.last_price - t.last_day_price < 0 ? '-' : ''}
+                                suffix="%"
+                                value={
+                                  t.last_price - t.last_day_price === 0 ? 0 : (Math.abs(t.last_day_price - t.last_price) / t.last_day_price) * 100
+                                }
+                                fixedDecimalScale={true}
+                                decimalScale={2}
+                              />
+                            </PriceRow>
                           </ChangeColumn>
                         </TableMdRow>
                       )
