@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import NumberFormat from 'react-number-format'
+import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant'
 import { EOS_TOKEN } from '../../constants/Values'
@@ -39,7 +40,9 @@ class TokenInfo extends Component {
             }}
           >
             <div>
-              <TokenInfoTitle>Last Price</TokenInfoTitle>
+              <TokenInfoTitle>
+                <FormattedMessage id="Last Price" />
+              </TokenInfoTitle>
               <TokenSymbolText up={token.last_price - token.last_previous_price > 0} down={token.last_price - token.last_previous_price < 0}>
                 <NumberFormat
                   displayType={'text'}
@@ -51,13 +54,17 @@ class TokenInfo extends Component {
               </TokenSymbolText>
             </div>
             <div>
-              <TokenInfoTitle>Today Changed</TokenInfoTitle>
+              <TokenInfoTitle>
+                <FormattedMessage id="Today Changed" />
+              </TokenInfoTitle>
               <TokenSymbolText up={todayChanged > 0} down={todayChanged < 0}>
                 <NumberFormat displayType={'text'} suffix=" EOS" value={todayChanged} fixedDecimalScale={true} decimalScale={EOS_TOKEN.precision} />
               </TokenSymbolText>
             </div>
             <div>
-              <TokenInfoTitle>Today High</TokenInfoTitle>
+              <TokenInfoTitle>
+                <FormattedMessage id="Today High" />
+              </TokenInfoTitle>
               <TokenSymbolText>
                 <NumberFormat
                   displayType={'text'}
@@ -69,7 +76,9 @@ class TokenInfo extends Component {
               </TokenSymbolText>
             </div>
             <div>
-              <TokenInfoTitle>Today Low</TokenInfoTitle>
+              <TokenInfoTitle>
+                <FormattedMessage id="Today Low" />
+              </TokenInfoTitle>
               <TokenSymbolText>
                 <NumberFormat
                   displayType={'text'}
@@ -81,7 +90,9 @@ class TokenInfo extends Component {
               </TokenSymbolText>
             </div>
             <div>
-              <TokenInfoTitle>Today Volume</TokenInfoTitle>
+              <TokenInfoTitle>
+                <FormattedMessage id="Today Volume" />
+              </TokenInfoTitle>
               <TokenSymbolText>
                 <NumberFormat
                   displayType={'text'}
