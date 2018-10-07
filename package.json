@@ -58,6 +58,7 @@
     "react-alert": "^4.0.4",
     "react-alert-template-basic": "^1.0.0",
     "react-bootstrap": "^0.32.3",
+    "react-bootstrap-daterangepicker": "^4.1.0",
     "react-circular-progressbar": "^1.0.0",
     "react-component-queries": "^2.3.0",
     "react-custom-scrollbars": "^4.2.1",
