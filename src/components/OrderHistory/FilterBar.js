@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import Select from 'react-select'
 import { format } from 'date-fns'
 import { Row, Col, Button } from 'reactstrap'
-import { InputPairContainer, Header6 } from '../Common/Common'
+import { InputPairContainer, Header6, CommonSearchBoxDiv, BaseLargeButton } from '../Common/Common'
 import { typeOptions, statusOptions } from '../../utils/OrderSearchFilter'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
 import 'bootstrap/dist/css/bootstrap.css'
@@ -75,30 +75,19 @@ class FilterBar extends Component {
                 onApply={this.handleDateRangeChange}
                 startDate={ordersHistoryFrom}
                 endDate={ordersHistoryTo}>
-                <Button
-                  style={{ height: '36px' }}
-                  size="lg"
-                  block
-                  outline
-                  color="primary">{`${format(ordersHistoryFrom, 'MM/DD/YYYY')} ~ ${format(
-                    ordersHistoryTo,
-                    'MM/DD/YYYY'
-                  )}`}</Button>
+                <BaseLargeButton size="lg" block outline color="primary">{`${format(
+                  ordersHistoryFrom,
+                  'MM/DD/YYYY'
+                )} ~ ${format(ordersHistoryTo, 'MM/DD/YYYY')}`}</BaseLargeButton>
               </DateRangePicker>
             </div>
           </InputPairContainer>
         </Col>
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            width: '132px',
-            padding: '16px'
-          }}>
-          <Button style={{ height: '36px' }} size="lg" block color="primary" onClick={handleSearch}>
+        <CommonSearchBoxDiv>
+          <BaseLargeButton size="lg" block color="primary" onClick={handleSearch}>
             Search
-          </Button>
-        </div>
+          </BaseLargeButton>
+        </CommonSearchBoxDiv>
       </Row>
     )
   }

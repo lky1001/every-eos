@@ -11,7 +11,7 @@ import './UiNoteArea.scss'
 import './UiSwitch.scss'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant.js'
-import { Container, Col } from 'reactstrap'
+import { Container, Col, Button } from 'reactstrap'
 
 export const OrderBaseColumn = styled.td`
   width: 10%;
@@ -133,6 +133,13 @@ export const InputPairContainer = styled.div`
   align-items: center;
 `
 
+export const CommonSearchBoxDiv = styled.div`
+  display: flex;
+  align-items: center;
+  width: 132px;
+  padding: 16px;
+`
+
 export const TableMdRow = styled.tr`
   line-height: 32px;
   min-height: 32px;
@@ -150,4 +157,8 @@ export const TableLgRow = styled(TableMdRow)`
   min-height: 38px;
   height: 38px;
   font-size: 1.2rem;
+`
+
+export const BaseLargeButton = styled(Button)`
+  height: 36px;
 `
