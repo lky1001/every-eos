@@ -9,6 +9,7 @@ class OrdersHistoryPagenationView extends Component {
       ordersHistoryPageSize,
       pageClicked
     } = this.props
+
     const pageCount =
       ordersHistoryTotalCount > 0
         ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value)
