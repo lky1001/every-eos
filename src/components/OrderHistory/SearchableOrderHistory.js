@@ -1,10 +1,6 @@
 import React, { Component, Fragment } from 'react'
-import { FormattedMessage } from 'react-intl'
-import Select from 'react-select'
-import { format, subDays } from 'date-fns'
 import moment from 'moment'
-import { ProgressBar } from 'react-bootstrap'
-import { Row, Col, Pagination, PaginationItem, PaginationLink } from 'reactstrap'
+import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
 import {
   ORDER_STATUS_ALL_DEALED,
@@ -14,10 +10,10 @@ import {
   ORDER_DATE_FORMAT
 } from '../../constants/Values'
 
-import { pageSizeOptions } from '../../utils/OrderSearchFilter'
-import { ShadowedCard, Header6, RightAlignCol } from '../Common/Common'
-import ColorsConstant from '../Colors/ColorsConstant'
+import { ShadowedCard } from '../Common/Common'
 import FilterBar from './FilterBar'
+import PageSummaryView from './PageSummaryView'
+import OrdersHistoryView from './OrdersHistoryView'
 
 class SearchableOrderHistory extends Component {
   componentDidMount = () => {
@@ -42,6 +38,49 @@ class SearchableOrderHistory extends Component {
 
   componentWillUnmount = () => {
     if (this.disposer) this.disposer()
+  }
+
+  handleSearch = () => {
+    const { tradeStore, accountStore } = this.props
+
+    tradeStore.setOrdersHistoryPage(1)
+    tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
+  }
+
+  handleTypeChange = selectedType => {
+    const { tradeStore } = this.props
+    tradeStore.setOrdersHistoryType(selectedType)
+  }
+
+  handleStatusChange = selectedStatus => {
+    const { tradeStore } = this.props
+    tradeStore.setOrdersHistoryStatus(selectedStatus)
+  }
+
+  showFromMonth = () => {
+    const { ordersHistoryFrom, ordersHistoryTo } = this.props
+    if (!ordersHistoryFrom) {
+      return
+    }
+    if (moment(ordersHistoryTo).diff(moment(ordersHistoryFrom), 'months') < 2) {
+      this.to.getDayPicker().showMonth(ordersHistoryFrom)
+    }
+  }
+
+  handleTokenSymbolChange = s => {
+    const { tradeStore } = this.props
+
+    tradeStore.setTokenSymbolForSearch(s.target.value)
+  }
+
+  handleFromChange = from => {
+    const { tradeStore } = this.props
+    tradeStore.setOrdersHistoryFrom(from)
+  }
+
+  handleToChange = to => {
+    const { tradeStore } = this.props
+    tradeStore.setOrdersHistoryTo(to)
   }
 
   handlePageSizeChange = async selectedPageSize => {
@@ -96,163 +135,26 @@ class SearchableOrderHistory extends Component {
                 ordersHistoryTo={ordersHistoryTo}
                 ordersHistoryType={ordersHistoryType}
                 ordersHistoryStatus={ordersHistoryStatus}
+                handleSearch={this.handleSearch}
+                handleTypeChange={this.handleTypeChange}
+                handleStatusChange={this.handleStatusChange}
+                showFromMonth={this.showFromMonth}
+                handleTokenSymbolChange={this.handleTokenSymbolChange}
+                handleFromChange={this.handleFromChange}
+                handleToChange={this.handleToChange}
               />
 
-              <Row
-                style={{
-                  padding: '32px 0px',
-                  borderTop: ColorsConstant.Trade_border_style
-                }}>
-                <Col sm="10">
-                  <Header6 style={{ textAlign: 'left' }} className="p-1">
-                    Total {ordersHistoryCount}
-                  </Header6>
-                </Col>
-                <RightAlignCol sm="2">
-                  <Select
-                    value={ordersHistoryPageSize}
-                    onChange={this.handlePageSizeChange}
-                    options={pageSizeOptions}
-                  />
-                </RightAlignCol>
-              </Row>
+              <PageSummaryView
+                ordersHistoryCount={ordersHistoryCount}
+                ordersHistoryPageSize={ordersHistoryPageSize}
+                handlePageSizeChange={this.handlePageSizeChange}
+              />
 
-              <div className="table-responsive bootgrid">
-                <table id="bootgrid-basic" className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th data-column-id="date" data-type="date">
-                        <FormattedMessage id="Date" />
-                      </th>
-                      <th data-column-id="pair">
-                        <FormattedMessage id="Pair" />
-                      </th>
-                      <th data-column-id="type">
-                        <FormattedMessage id="Type" />
-                      </th>
-                      <th data-column-id="price">
-                        <FormattedMessage id="Price" />
-                      </th>
-                      <th data-column-id="avg">
-                        <FormattedMessage id="Average" />
-                      </th>
-                      <th data-column-id="amount">
-                        <FormattedMessage id="Amount" />
-                      </th>
-                      <th data-column-id="dealed">
-                        <FormattedMessage id="Dealed" />
-                      </th>
-                      <th data-column-id="total">
-                        <FormattedMessage id="Total" />
-                      </th>
-                      <th data-column-id="status">
-                        <FormattedMessage id="Status" />
-                      </th>
-                    </tr>
-                  </thead>
-                  {accountStore.isLogin &&
-                    ordersHistoryList &&
-                    ordersHistoryCount > 0 && (
-                      <tbody>
-                        {ordersHistoryList.map(o => {
-                          return (
-                            <tr key={o.id}>
-                              <td>
-                                <Header6>{format(o.created, ORDER_DATE_FORMAT)}</Header6>
-                              </td>
-                              <td>
-                                <Header6 color={'Blue'}>
-                                  {o.token.symbol} / {o.token.market}
-                                </Header6>
-                              </td>
-                              <td>
-                                <Header6 color={o.type === ORDER_TYPE_BUY ? 'Green' : 'Red'}>
-                                  {o.type}
-                                </Header6>
-                              </td>
-                              <td>{o.token_price}</td>
-                              <td>
-                                {o.status === ORDER_STATUS_ALL_DEALED
-                                  ? o.orderDetails.length === 0
-                                    ? 0
-                                    : Math.round(
-                                      o.orderDetails.reduce(
-                                        (acc, curr) => acc + curr.amount * curr.token_price,
-                                        0
-                                      ) /
-                                          o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                                    )
-                                  : o.status === ORDER_STATUS_CANCELLED
-                                    ? o.orderDetails.length === 0
-                                      ? 0
-                                      : Math.round(
-                                        o.orderDetails
-                                          .filter(
-                                            od =>
-                                              od.deal_status ===
-                                                ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                          )
-                                          .reduce(
-                                            (acc, curr) => acc + curr.amount * curr.token_price,
-                                            0
-                                          ) /
-                                            o.orderDetails
-                                              .filter(
-                                                od =>
-                                                  od.deal_status ===
-                                                  ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                              )
-                                              .reduce((acc, curr) => acc + curr.amount, 0)
-                                      )
-                                    : '-'}
-                              </td>
-                              <td>
-                                <Header6>{o.total_amount}</Header6>
-                              </td>
-                              <td>
-                                <Header6>{o.deal_amount}</Header6>
-                              </td>
-                              <td>
-                                <Header6>-</Header6>
-                              </td>
-                              <td>
-                                <Header6>{o.status}</Header6>
-                              </td>
-                            </tr>
-                          )
-                        })}
-                      </tbody>
-                    )}
-                </table>
-
-                {accountStore.isLogin ? (
-                  ordersHistoryLoading ? (
-                    <ProgressBar striped bsStyle="success" now={40} />
-                  ) : (
-                    (!ordersHistoryList || ordersHistoryCount === 0) && (
-                      <div
-                        style={{
-                          textAlign: 'center',
-                          height: '70px',
-                          fontSize: '16px',
-                          paddingTop: '25px'
-                        }}>
-                        <FormattedMessage id="No Data" />
-                      </div>
-                    )
-                  )
-                ) : (
-                  <div
-                    style={{
-                      textAlign: 'center',
-                      height: '70px',
-                      fontSize: '16px',
-                      paddingTop: '25px'
-                    }}>
-                    <FormattedMessage id="Please Login" />
-                  </div>
-                )}
-              </div>
+              <OrdersHistoryView
+                ordersHistoryList={ordersHistoryList}
+                ordersHistoryCount={ordersHistoryCount}
+                ordersHistoryLoading={ordersHistoryLoading}
+              />
 
               <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
                 <Pagination
