@@ -1,6 +1,5 @@
 import React, { Component, Fragment } from 'react'
 import moment from 'moment'
-import { Pagination, PaginationItem, PaginationLink } from 'reactstrap'
 
 import {
   ORDER_STATUS_ALL_DEALED,
@@ -14,6 +13,7 @@ import { ShadowedCard } from '../Common/Common'
 import FilterBar from './FilterBar'
 import PageSummaryView from './PageSummaryView'
 import OrdersHistoryView from './OrdersHistoryView'
+import OrdersHistoryPagenationView from './OrdersHistoryPagenationView'
 
 class SearchableOrderHistory extends Component {
   componentDidMount = () => {
@@ -119,11 +119,6 @@ class SearchableOrderHistory extends Component {
       ordersHistoryTotalCount
     } = this.props
 
-    const pageCount =
-      ordersHistoryTotalCount > 0
-        ? Math.ceil(ordersHistoryTotalCount / ordersHistoryPageSize.value)
-        : 1
-
     return (
       <Fragment>
         <section>
@@ -151,35 +146,18 @@ class SearchableOrderHistory extends Component {
               />
 
               <OrdersHistoryView
+                accountStore={accountStore}
                 ordersHistoryList={ordersHistoryList}
                 ordersHistoryCount={ordersHistoryCount}
                 ordersHistoryLoading={ordersHistoryLoading}
               />
 
-              <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <Pagination
-                  aria-label="orders pagination"
-                  style={{ justifyContent: 'center', alignItems: 'center' }}>
-                  <PaginationItem>
-                    <PaginationLink
-                      previous
-                      onClick={() => this.pageClicked(ordersHistoryPage - 1)}
-                    />
-                  </PaginationItem>
-                  {Array(pageCount)
-                    .fill(null)
-                    .map((v, idx) => (
-                      <PaginationItem key={idx} active={ordersHistoryPage === idx + 1}>
-                        <PaginationLink onClick={() => this.pageClicked(idx + 1)}>
-                          {idx + 1}
-                        </PaginationLink>
-                      </PaginationItem>
-                    ))}
-                  <PaginationItem>
-                    <PaginationLink next onClick={() => this.pageClicked(ordersHistoryPage + 1)} />
-                  </PaginationItem>
-                </Pagination>
-              </div>
+              <OrdersHistoryPagenationView
+                ordersHistoryPage={ordersHistoryPage}
+                ordersHistoryTotalCount={ordersHistoryTotalCount}
+                ordersHistoryPageSize={ordersHistoryPageSize}
+                pageClicked={this.pageClicked}
+              />
             </ShadowedCard>
           </div>
         </section>
