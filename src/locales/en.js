@@ -58,9 +58,5 @@ export default {
   Exchange: 'Exchange',
   Move: 'Move',
   'Account Resource': 'Account Resource',
-  'Last Price': 'Last Price',
-  'Today Changed': 'Today Changed',
-  'Today High': 'Today High',
-  'Today Low': 'Today Low',
-  'Today Volume': 'Today Volume'
-}
+  'Today Changed': 'Today Changed'
+};
