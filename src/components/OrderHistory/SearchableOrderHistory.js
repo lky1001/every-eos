@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import moment from 'moment'
+import { FormattedMessage } from 'react-intl'
 
 import {
   ORDER_STATUS_ALL_DEALED,
@@ -123,7 +124,9 @@ class SearchableOrderHistory extends Component {
       <Fragment>
         <section>
           <div className="container-fluid">
-            <h5 className="mt0">Order History</h5>
+            <h5 className="mt0">
+              <FormattedMessage id="Order History" />
+            </h5>
             <ShadowedCard>
               <FilterBar
                 ordersHistoryFrom={ordersHistoryFrom}
