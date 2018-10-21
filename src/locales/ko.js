@@ -57,5 +57,7 @@ export default {
   'EOS valuation': 'EOS 평가액',
   Exchange: '거래소',
   Move: '이동',
-  'Account Resource': '계정 자원'
-};
+  'Account Resource': '계정 자원',
+  Range: '기간',
+  Search: '검색'
+}

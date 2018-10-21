@@ -58,5 +58,7 @@ export default {
   Exchange: 'Exchange',
   Move: 'Move',
   'Account Resource': 'Account Resource',
-  'Today Changed': 'Today Changed'
-};
+  'Today Changed': 'Today Changed',
+  Range: 'Range',
+  Search: 'Search'
+}

@@ -1,10 +1,11 @@
 import React, { Component } from 'react'
 import Select from 'react-select'
 import { format } from 'date-fns'
-import { Row, Col, Button } from 'reactstrap'
+import { Row, Col } from 'reactstrap'
 import { InputPairContainer, Header6, CommonSearchBoxDiv, BaseLargeButton } from '../Common/Common'
 import { typeOptions, statusOptions } from '../../utils/OrderSearchFilter'
 import DateRangePicker from 'react-bootstrap-daterangepicker'
+import { FormattedMessage } from 'react-intl'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-daterangepicker/daterangepicker.css'
 
@@ -34,7 +35,9 @@ class FilterBar extends Component {
       <Row>
         <Col>
           <InputPairContainer>
-            <Header6 className="p-1">Token</Header6>
+            <Header6 className="p-1">
+              <FormattedMessage id="Token" />
+            </Header6>
             <div className="p-5">
               <input
                 type="text"
@@ -47,7 +50,9 @@ class FilterBar extends Component {
         </Col>
         <Col>
           <InputPairContainer>
-            <Header6 className="p-1">Type</Header6>
+            <Header6 className="p-1">
+              <FormattedMessage id="Type" />
+            </Header6>
             <div className="p-5" style={{ width: '100%' }}>
               <Select value={ordersHistoryType} onChange={handleTypeChange} options={typeOptions} />
             </div>
@@ -56,7 +61,9 @@ class FilterBar extends Component {
 
         <Col>
           <InputPairContainer>
-            <Header6 className="p-1">Status</Header6>
+            <Header6 className="p-1">
+              <FormattedMessage id="Status" />
+            </Header6>
             <div className="p-5" style={{ width: '100%' }}>
               <Select
                 value={ordersHistoryStatus}
@@ -69,12 +76,15 @@ class FilterBar extends Component {
 
         <Col>
           <InputPairContainer>
-            <Header6 className="p-1">Range</Header6>
+            <Header6 className="p-1">
+              <FormattedMessage id="Range" />
+            </Header6>
             <div className="p-5" style={{ width: '100%' }}>
               <DateRangePicker
                 onApply={this.handleDateRangeChange}
                 startDate={ordersHistoryFrom}
-                endDate={ordersHistoryTo}>
+                endDate={ordersHistoryTo}
+              >
                 <BaseLargeButton size="lg" block outline color="primary">{`${format(
                   ordersHistoryFrom,
                   'MM/DD/YYYY'
@@ -85,7 +95,7 @@ class FilterBar extends Component {
         </Col>
         <CommonSearchBoxDiv>
           <BaseLargeButton size="lg" block color="primary" onClick={handleSearch}>
-            Search
+            <FormattedMessage id="Search" />
           </BaseLargeButton>
         </CommonSearchBoxDiv>
       </Row>

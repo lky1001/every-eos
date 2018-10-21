@@ -13,7 +13,8 @@ class PageSummaryView extends Component {
         style={{
           padding: '32px 0px',
           borderTop: ColorsConstant.Trade_border_style
-        }}>
+        }}
+      >
         <Col sm="10">
           <Header6 style={{ textAlign: 'left' }} className="p-1">
             Total {ordersHistoryCount}
