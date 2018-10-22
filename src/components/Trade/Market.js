@@ -33,9 +33,8 @@ const ChangeColumn = styled(BaseColumn)`
 
 class Market extends Component {
   goTrade = symbol => {
-    // todo - router
     //this.props.history.push('/trades/' + symbol)
-    window.location = '/trades/' + symbol
+    window.location = symbol
   }
 
   render() {
