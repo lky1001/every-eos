@@ -10,14 +10,10 @@ import Colors from './components/Colors/Colors'
 
 import { HomePage, TradePage, MarketPage, OrderHistoryPage, WalletPage } from './pages'
 
-const getBasename = () => {
-  return `/${process.env.PUBLIC_URL.split('/').pop()}`
-}
-
 class App extends Component {
   render() {
     return (
-      <BrowserRouter basename={getBasename()}>
+      <BrowserRouter basename={process.env.PUBLIC_URL}>
         <Switch>
           <LayoutRoute exact path="/" layout={MainLayout} component={HomePage} />
           <LayoutRoute exact path="/markets" layout={MainLayout} component={MarketPage} />
