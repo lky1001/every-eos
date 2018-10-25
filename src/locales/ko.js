@@ -59,5 +59,10 @@ export default {
   Move: '이동',
   'Account Resource': '계정 자원',
   Range: '기간',
-  Search: '검색'
+  Search: '검색',
+  LastTradeListTitle: '최근 거래 내역(20개)',
+  Tx: 'Tx',
+  TradeType: '거래',
+  TradePrice: '가격',
+  TradeQuantity: '수량'
 }

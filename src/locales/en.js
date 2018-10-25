@@ -60,5 +60,10 @@ export default {
   'Account Resource': 'Account Resource',
   'Today Changed': 'Today Changed',
   Range: 'Range',
-  Search: 'Search'
+  Search: 'Search',
+  LastTradeListTitle: 'Last Trade(Recent 20)',
+  Tx: 'Tx',
+  TradeType: 'Type',
+  TradePrice: 'Price',
+  TradeQuantity: 'Qty'
 }
