@@ -419,6 +419,10 @@ class TradeStore {
       }
     }, 1000)
   }
+
+  getLastTrades = (tokenId) => {
+    // todo
+  }
 }
 
 decorate(TradeStore, {
@@ -476,6 +480,7 @@ decorate(TradeStore, {
   clearOpenOrders: action,
   setChartData: action,
   setWatchChartData: action,
+  getLastTrades: action,
   test: action,
   initOrdersHistoryFilter: action,
   initExchangeOrdersHistoryFilter: action

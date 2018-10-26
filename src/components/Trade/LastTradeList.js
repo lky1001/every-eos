@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from 'react'
 import styled from 'styled-components'
-import { GET_BALANCE_INTERVAL } from '../../constants/Values'
+import { GET_LAST_TRADE_INTERVAL } from '../../constants/Values'
 import { FormattedMessage } from 'react-intl'
 import { Table } from 'reactstrap'
 import { PriceRow } from '../Common/Common'
@@ -23,6 +23,30 @@ const LastTradeListTitle = styled.div`
 class LastTradeList extends Component {
   constructor(props) {
     super(props)
+
+    this.state = {
+      lastTradeIntervalId: 0
+    }
+  }
+
+  componentDidMount = () => {
+    const { tradeStore, token } = this.props
+
+    tradeStore.getLastTrades(token.id)
+
+    const lastTradeIntervalId = setInterval(async () => {
+      tradeStore.getLastTrades(token.id)
+    }, GET_LAST_TRADE_INTERVAL)
+
+    this.setState({
+      lastTradeIntervalId: lastTradeIntervalId
+    })
+  }
+
+  componentWillUnmount = () => {
+    if (this.state.lastTradeIntervalId > 0) {
+      clearInterval(this.state.lastTradeIntervalId)
+    }
   }
 
   render() {

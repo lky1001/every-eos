@@ -1,7 +1,7 @@
 {
   "name": "everyeos",
   "version": "0.1.0",
-  "homepage": "https://lky1001.github.io/every-eos",
+  "homepage": "https://everyeos.github.io",
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.1.1",

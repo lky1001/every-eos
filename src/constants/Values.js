@@ -65,6 +65,7 @@ export const GET_OPEN_ORDER_INTERVAL = 5000
 export const GET_ORDER_LIST_INTERVAL = 2000
 export const GET_ORDER_HISTORY_INTERVAL = 5000
 export const GET_CHART_DATA_INTERVAL = 5000
+export const GET_LAST_TRADE_INTERVAL = 5000
 
 export const SELECT_ORDER_TYPE_ALL = 'All'
 export const SELECT_ORDER_TYPE_BUY = 'Buy'
