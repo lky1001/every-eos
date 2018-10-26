@@ -152,11 +152,7 @@ class TradePage extends Component {
                 </Row>
                 <Row>
                   <NoPaddingCol className="col-md-12" showBorderLeft showBorderBottom>
-                    <LastTradeList
-                      accountStore={accountStore}
-                      marketStore={marketStore}
-                      eosioStore={eosioStore}
-                    />
+                    <LastTradeList token={token} tradeStore={tradeStore} />
                   </NoPaddingCol>
                 </Row>
               </Col>

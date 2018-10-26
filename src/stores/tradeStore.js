@@ -420,7 +420,7 @@ class TradeStore {
     }, 1000)
   }
 
-  getLastTrades = (tokenId) => {
+  getLastTrades = async tokenId => {
     // todo
   }
 }
