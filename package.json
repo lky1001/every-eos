@@ -67,6 +67,7 @@
     "react-component-queries": "^2.3.0",
     "react-custom-scrollbars": "^4.2.1",
     "react-date-range": "^1.0.0-beta",
+    "react-scripts": "1.1.4",
     "react-dev-utils": "^5.0.2",
     "react-dom": "^16.4.2",
     "react-helmet": "^5.2.0",
