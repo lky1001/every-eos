@@ -120,7 +120,7 @@ class TradePage extends Component {
                   }}>
                   <Col md={12}>
                     {/* 여기에 DataFeed 바인딩 할 것 */}
-                    {/* <TVChartContainer /> */}
+                    <TVChartContainer />
                     {/* <TradingChart /> */}
                   </Col>
                 </Row>

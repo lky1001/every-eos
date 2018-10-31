@@ -19,7 +19,7 @@ export class TVChartContainer extends React.PureComponent {
     chartsStorageApiVersion: '1.1',
     clientId: 'tradingview.com',
     userId: 'public_user_id',
-    fullscreen: true,
+    fullscreen: false,
     autosize: true,
     studiesOverrides: {}
   }
@@ -77,10 +77,10 @@ export class TVChartContainer extends React.PureComponent {
   }
 
   componentWillUnmount() {
-    if (this.tvWidget !== null) {
-      this.tvWidget.remove()
-      this.tvWidget = null
-    }
+    // if (this.tvWidget !== null) {
+    //   this.tvWidget.remove()
+    //   this.tvWidget = null
+    // }
   }
 
   render() {
