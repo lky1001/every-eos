@@ -3,6 +3,8 @@ import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
 import { format, subDays } from 'date-fns'
 import { orderQuery, ordersForAccountQuery, stackedOrdersQuery } from '../graphql/query/order'
+
+import { barChartQuery } from '../graphql/query/bars'
 import {
   getTypeFilter,
   getStatusFilter,
@@ -25,7 +27,6 @@ class TradeStore {
   tokenSymbol = ''
   price = 0.0
   amount = 0.0
-  chartData = []
 
   buyOrders = {
     data: {
@@ -67,7 +68,7 @@ class TradeStore {
 
   chartDatas = {
     data: {
-      datas: []
+      chartDatas: []
     },
     loading: false,
     error: null
@@ -126,7 +127,6 @@ class TradeStore {
       get openOrders() {}
     })
 
-    this.chartData = observable.box([])
     this.price = observable.box(0.0)
   }
 
@@ -186,11 +186,18 @@ class TradeStore {
     this.ordersHistoryTo = newTo
   }
 
-  setChartData = async chartData => {
-    this.chartData.set(chartData)
-  }
-  setWatchChartData = observer => {
-    this.chartData.observe(observer)
+  getChartDatas = async (statistic_type, token_id, resolution, from, to) => {
+    this.chartDatas = await graphql({
+      client: ApiServerAgent,
+      query: barChartQuery,
+      variables: {
+        statistic_type: statistic_type,
+        token_id: token_id,
+        resolution: resolution,
+        from: from,
+        to: to
+      }
+    })
   }
 
   getBuyOrders = async (token_id, limit) => {
@@ -459,7 +466,7 @@ decorate(TradeStore, {
   tokenSymbolForSearch: observable,
   price: observable,
   amount: observable,
-  chartData: observable,
+  chartDatas: observable,
   setTokenSymbol: action,
   setTokenSymbolForSearch: action,
   setPrice: action,
@@ -478,8 +485,7 @@ decorate(TradeStore, {
   getPollingOrderByTxId: action,
   clearOrdersHistory: action,
   clearOpenOrders: action,
-  setChartData: action,
-  setWatchChartData: action,
+  getChartDatas: action,
   getLastTrades: action,
   test: action,
   initOrdersHistoryFilter: action,

@@ -1,6 +1,7 @@
 import * as React from 'react'
 import './index.css'
 import { widget } from '../../charting_library/charting_library.min'
+import addDays from 'date-fns/add_days'
 
 function getLanguageFromURL() {
   const regex = new RegExp('[\\?&]lang=([^&#]*)')
@@ -27,7 +28,25 @@ export class TVChartContainer extends React.PureComponent {
   tvWidget = null
 
   componentDidMount() {
-    console.log(window.Datafeeds)
+    const { accountStore, tradeStore } = this.props
+
+    if (accountStore.isLogin) {
+      console.log('요청 시작')
+      tradeStore.getChartDatas('1MIN', 2, 1, addDays(new Date(), -30), new Date())
+      console.log('요청 완료')
+    } else {
+      // this.disposer = accountStore.subscribeLoginState(changed => {
+      //   if (changed.oldValue !== changed.newValue) {
+      //     if (changed.newValue) {
+      //       tradeStore.initExchangeOrdersHistoryFilter()
+      //       tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
+      //     } else {
+      //       tradeStore.clearOrdersHistory()
+      //     }
+      //   }
+      // })
+    }
+
     const widgetOptions = {
       symbol: this.props.symbol,
       // BEWARE: no trailing slash is expected in feed URL
@@ -84,6 +103,10 @@ export class TVChartContainer extends React.PureComponent {
   }
 
   render() {
+    const { accountStore, tradeStore } = this.props
+
+    console.log('가져온 데이터', tradeStore.chartDatas)
+
     return <div id={this.props.containerId} className={'TVChartContainer'} />
   }
 }
