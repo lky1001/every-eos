@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react'
+import Resource from '../components/Wallet/Resource'
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
@@ -62,9 +63,15 @@ class Wallet extends Component {
   getWalletBalance = async () => {
     const { accountStore, marketStore, eosioStore } = this.props
 
-    const tokens = marketStore.tokens ? (marketStore.tokens.data ? marketStore.tokens.data.tokens : null) : null
+    const tokens = marketStore.tokens
+      ? marketStore.tokens.data
+        ? marketStore.tokens.data.tokens
+        : null
+      : null
 
-    const accountName = accountStore.loginAccountInfo ? accountStore.loginAccountInfo.account_name : null
+    const accountName = accountStore.loginAccountInfo
+      ? accountStore.loginAccountInfo.account_name
+      : null
 
     const searchKeyword = this.state.searchKeyword
 
@@ -142,10 +149,15 @@ class Wallet extends Component {
                     <div className="card-body">
                       <Row>
                         <Col xs={6}>
-                          <input type="text" className="form-control form-control-lg" placeholder="Enter Symbol" onChange={this.handleChange} />
+                          <input
+                            type="text"
+                            className="form-control form-control-lg"
+                            placeholder="Enter Symbol"
+                            onChange={this.handleChange}
+                          />
                         </Col>
                         <Col xs={6} className="text-right">
-                          <label className="checkbox checkbox-inline">
+                          <label className="checkbox checkbox-inline" style={{ fontSize: '15px' }}>
                             <input type="checkbox" value="" />
                             Hide no balance
                           </label>
@@ -157,19 +169,19 @@ class Wallet extends Component {
                       <table className="table table-striped">
                         <thead>
                           <tr>
-                            <th>
+                            <th style={{ fontSize: '17px' }}>
                               <FormattedMessage id="Token" />
                             </th>
-                            <th>
+                            <th style={{ fontSize: '17px' }}>
                               <FormattedMessage id="Available" />
                             </th>
-                            <th>
+                            <th style={{ fontSize: '17px' }}>
                               <FormattedMessage id="Frozen" />
                             </th>
-                            <th>
+                            <th style={{ fontSize: '17px' }}>
                               <FormattedMessage id="EOS valuation" />
                             </th>
-                            <th>
+                            <th style={{ fontSize: '17px' }}>
                               <FormattedMessage id="Exchange" />
                             </th>
                           </tr>
@@ -179,11 +191,13 @@ class Wallet extends Component {
                             this.state.tokens.map((token, idx) => {
                               return (
                                 <tr key={idx}>
-                                  <td style={{ textAlign: 'left' }}>{token.name}</td>
-                                  <td>{token.balance}</td>
-                                  <td>0.0000</td>
-                                  <td>1.000</td>
-                                  <td>
+                                  <td style={{ textAlign: 'left', fontSize: '15px' }}>
+                                    {token.name}
+                                  </td>
+                                  <td style={{ fontSize: '15px' }}>{token.balance}</td>
+                                  <td style={{ fontSize: '15px' }}>0.0000</td>
+                                  <td style={{ fontSize: '15px' }}>1.000</td>
+                                  <td style={{ fontSize: '15px' }}>
                                     <Link to={'/trades/' + token.symbol}>
                                       <FormattedMessage id="Move" />
                                     </Link>
@@ -202,7 +216,9 @@ class Wallet extends Component {
                     <h5 className="card-heading">
                       <FormattedMessage id="Account Resource" />
                     </h5>
-                    <div className="card-body pb0">Cpu, Net, Ram</div>
+                    <div className="card-body pb0">
+                      <Resource accountStore={accountStore} />
+                    </div>
                   </div>
                 </Col>
               </Row>
