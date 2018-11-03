@@ -1,8 +1,8 @@
-import { API_SERVER_URI_REST } from '../../../constants/Values'
+import { API_SERVER_REST_URI } from '../../../constants/Values'
 
 var rp = require('request-promise').defaults({ json: true })
 
-const api_root = API_SERVER_URI_REST
+const api_root = API_SERVER_REST_URI
 const history = {}
 
 export default {

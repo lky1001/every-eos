@@ -1,5 +1,5 @@
 import { ApolloClient, HttpLink, InMemoryCache } from 'apollo-client-preset'
-import { API_SERVER_URI } from './constants/Values'
+import { API_SERVER_GRAPHQL_URI } from './constants/Values'
 
 const defaultOptions = {
   watchQuery: {
@@ -13,7 +13,7 @@ const defaultOptions = {
 }
 
 const ApiServerAgent = new ApolloClient({
-  link: new HttpLink({ uri: API_SERVER_URI }),
+  link: new HttpLink({ uri: API_SERVER_GRAPHQL_URI }),
   cache: new InMemoryCache(),
   defaultOptions: defaultOptions
 })
