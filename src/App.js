@@ -1,7 +1,12 @@
 import React, { Component } from 'react'
 import componentQueries from 'react-component-queries'
-import { BrowserRouter, Switch } from 'react-router-dom'
-import { LayoutRoute, MainLayout } from './components/Layout'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+
+import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
+import { Footer, Header } from './components/Layout'
+
+import './components/Layout/Core.scss'
+import './components/Layout/LayoutVariants.scss'
 
 import Bootstrap from './components/Bootstrap/Bootstrap'
 import Cards from './components/Bootstrap/Cards.scss'
@@ -12,16 +17,32 @@ import { HomePage, TradePage, MarketPage, OrderHistoryPage, WalletPage } from '.
 
 class App extends Component {
   render() {
+    const animationName = 'rag-fadeIn'
+
     return (
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
-        <Switch>
-          <LayoutRoute exact path="/" layout={MainLayout} component={HomePage} />
-          <LayoutRoute exact path="/markets" layout={MainLayout} component={MarketPage} />
-          <LayoutRoute exact path="/orders" layout={MainLayout} component={OrderHistoryPage} />
-          <LayoutRoute exact path="/wallets" layout={MainLayout} component={WalletPage} />
-          <LayoutRoute exact path="/trades/:token" layout={MainLayout} component={TradePage} />
-        </Switch>
-      </BrowserRouter>
+      <Router basename={process.env.PUBLIC_URL}>
+        <div className="layout-container">
+          <Header />
+          <div className="sidebar-layout-obfuscator" />
+
+          <ReactCSSTransitionGroup
+            component="main"
+            className="main-container"
+            transitionName={animationName}
+            transitionEnterTimeout={500}
+            transitionLeaveTimeout={500}
+          >
+            <Switch>
+              <Route exact path="/" component={HomePage} />
+              <Route exact path="/markets" component={MarketPage} />
+              <Route exact path="/orders" component={OrderHistoryPage} />
+              <Route exact path="/wallets" component={WalletPage} />
+              <Route exact path="/trades/:token" component={TradePage} />
+            </Switch>
+            <Footer />
+          </ReactCSSTransitionGroup>
+        </div>
+      </Router>
     )
   }
 }
