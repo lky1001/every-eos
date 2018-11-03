@@ -8,6 +8,8 @@ import styled from 'styled-components'
 
 const ResourceProgress = styled.div`
   width: 60px;
+  text-align: center;
+  font-size: 15px;
 `
 
 const TokenInfoTitle = styled.h6`
@@ -46,7 +48,7 @@ class Resource extends Component {
               alignItems: 'center'
             }}
           >
-            <div>
+            <div style={{ textAlign: 'center' }}>
               <TokenInfoTitle>
                 <FormattedMessage id="BALANCE" />
               </TokenInfoTitle>
@@ -54,9 +56,7 @@ class Resource extends Component {
             </div>
 
             <div>
-              <ResourceProgress>
-                <StyledProgressbar percentage={cpuUsageRate} text={`${cpuUsageRate}%`} />
-              </ResourceProgress>
+              <ResourceProgress>CPU Usage {`${cpuUsageRate}%`}</ResourceProgress>
               {/* {`${(accountStore.cpu.used / 1000).toFixed(4)} ms`} /{' '}
               {`${(accountStore.cpu.max / 1000).toFixed(4)} ms`}
               <br />
@@ -64,9 +64,7 @@ class Resource extends Component {
             </div>
 
             <div>
-              <ResourceProgress>
-                <StyledProgressbar percentage={netUsageRate} text={`${netUsageRate}%`} />
-              </ResourceProgress>
+              <ResourceProgress>NET Usage {`${netUsageRate}%`}</ResourceProgress>
               {/* {`${(accountStore.net.used / 1024).toFixed(4)} KB`} /{' '}
               {`${(accountStore.net.max / 1024).toFixed(4)} KB`}
               <br />
@@ -74,9 +72,7 @@ class Resource extends Component {
             </div>
 
             <div>
-              <ResourceProgress>
-                <StyledProgressbar percentage={ramUsageRate} text={`${ramUsageRate}%`} />
-              </ResourceProgress>
+              <ResourceProgress>RAM Usage {`${ramUsageRate}%`}</ResourceProgress>
               {/* {`${(accountStore.ram.used / 1024).toFixed(4)} KB`} /{' '}
               {`${(accountStore.ram.max / 1024).toFixed(4)} KB`}
               <br />
