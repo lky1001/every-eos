@@ -67,7 +67,10 @@ class Market extends Component {
                   {tokens &&
                     tokens.map((t, idx) => {
                       return (
-                        <TableMdRow key={idx} className="msg-display clickable" onClick={() => this.goTrade(t.symbol)}>
+                        <TableMdRow
+                          key={idx}
+                          className="msg-display clickable"
+                          onClick={() => this.goTrade(t.symbol)}>
                           <FavoriteColumn>
                             <em data-pack="default" className="ion-android-star-outline" />
                           </FavoriteColumn>
@@ -77,7 +80,9 @@ class Market extends Component {
                             </PriceRow>
                           </PairColumn>
                           <LastPriceColumn>
-                            <PriceRow up={t.last_price - t.last_previous_price > 0} down={t.last_price - t.last_previous_price < 0}>
+                            <PriceRow
+                              up={t.last_price - t.last_previous_price > 0}
+                              down={t.last_price - t.last_previous_price < 0}>
                               <NumberFormat
                                 displayType={'text'}
                                 suffix=" EOS"
@@ -90,13 +95,19 @@ class Market extends Component {
 
                           {/* 이쪽 변화율 계산 로직 TODO */}
                           <ChangeColumn>
-                            <PriceRow up={t.last_price - t.last_day_price > 0} down={t.last_price - t.last_day_price < 0}>
+                            <PriceRow
+                              up={t.last_price - t.last_day_price > 0}
+                              down={t.last_price - t.last_day_price < 0}>
                               <NumberFormat
                                 displayType={'text'}
                                 prefix={t.last_price - t.last_day_price < 0 ? '-' : ''}
                                 suffix="%"
                                 value={
-                                  t.last_price - t.last_day_price === 0 ? 0 : (Math.abs(t.last_day_price - t.last_price) / t.last_day_price) * 100
+                                  t.last_price - t.last_day_price === 0
+                                    ? 0
+                                    : (Math.abs(t.last_day_price - t.last_price) /
+                                        t.last_day_price) *
+                                      100
                                 }
                                 fixedDecimalScale={true}
                                 decimalScale={2}

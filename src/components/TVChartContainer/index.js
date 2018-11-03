@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './index.css'
 import { widget } from '../../charting_library/charting_library.min'
-import addDays from 'date-fns/add_days'
+import Datafeed from './api'
 
 function getLanguageFromURL() {
   const regex = new RegExp('[\\?&]lang=([^&#]*)')
@@ -11,10 +11,9 @@ function getLanguageFromURL() {
 
 export class TVChartContainer extends React.PureComponent {
   static defaultProps = {
-    symbol: 'AAPL',
-    interval: 'D',
+    symbol: 'EveryEX:KARMA/EOS',
+    interval: '60',
     containerId: 'tv_chart_container',
-    datafeedUrl: 'https://demo_feed.tradingview.com',
     libraryPath: '/charting_library/',
     chartsStorageUrl: 'https://saveload.tradingview.com',
     chartsStorageApiVersion: '1.1',
@@ -28,33 +27,14 @@ export class TVChartContainer extends React.PureComponent {
   tvWidget = null
 
   componentDidMount() {
-    const { accountStore, tradeStore } = this.props
-
-    if (accountStore.isLogin) {
-      console.log('요청 시작')
-      tradeStore.getChartDatas('1MIN', 2, 1, addDays(new Date(), -30), new Date())
-      console.log('요청 완료')
-    } else {
-      // this.disposer = accountStore.subscribeLoginState(changed => {
-      //   if (changed.oldValue !== changed.newValue) {
-      //     if (changed.newValue) {
-      //       tradeStore.initExchangeOrdersHistoryFilter()
-      //       tradeStore.getOrdersHistory(accountStore.loginAccountInfo.account_name)
-      //     } else {
-      //       tradeStore.clearOrdersHistory()
-      //     }
-      //   }
-      // })
-    }
-
     const widgetOptions = {
+      debug: false,
       symbol: this.props.symbol,
       // BEWARE: no trailing slash is expected in feed URL
-      datafeed: new window.Datafeeds.UDFCompatibleDatafeed(this.props.datafeedUrl),
+      datafeed: Datafeed,
       interval: this.props.interval,
       container_id: this.props.containerId,
       library_path: this.props.libraryPath,
-
       locale: getLanguageFromURL() || 'en',
       disabled_features: [
         'use_localstorage_for_settings',
@@ -95,18 +75,14 @@ export class TVChartContainer extends React.PureComponent {
     })
   }
 
-  componentWillUnmount() {
-    // if (this.tvWidget !== null) {
-    //   this.tvWidget.remove()
-    //   this.tvWidget = null
-    // }
-  }
+  // componentWillUnmount() {
+  //   if (this.tvWidget !== null) {
+  //     this.tvWidget.remove()
+  //     this.tvWidget = null
+  //   }
+  // }
 
   render() {
-    const { accountStore, tradeStore } = this.props
-
-    console.log('가져온 데이터', tradeStore.chartDatas)
-
     return <div id={this.props.containerId} className={'TVChartContainer'} />
   }
 }
