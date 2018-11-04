@@ -33,8 +33,7 @@ const ChangeColumn = styled(BaseColumn)`
 
 class Market extends Component {
   goTrade = symbol => {
-    //this.props.history.push('/trades/' + symbol)
-    window.location = symbol
+    this.props.history.push('/trades/' + symbol)
   }
 
   render() {
@@ -70,7 +69,8 @@ class Market extends Component {
                         <TableMdRow
                           key={idx}
                           className="msg-display clickable"
-                          onClick={() => this.goTrade(t.symbol)}>
+                          onClick={() => this.goTrade(t.symbol)}
+                        >
                           <FavoriteColumn>
                             <em data-pack="default" className="ion-android-star-outline" />
                           </FavoriteColumn>
@@ -82,7 +82,8 @@ class Market extends Component {
                           <LastPriceColumn>
                             <PriceRow
                               up={t.last_price - t.last_previous_price > 0}
-                              down={t.last_price - t.last_previous_price < 0}>
+                              down={t.last_price - t.last_previous_price < 0}
+                            >
                               <NumberFormat
                                 displayType={'text'}
                                 suffix=" EOS"
@@ -97,7 +98,8 @@ class Market extends Component {
                           <ChangeColumn>
                             <PriceRow
                               up={t.last_price - t.last_day_price > 0}
-                              down={t.last_price - t.last_day_price < 0}>
+                              down={t.last_price - t.last_day_price < 0}
+                            >
                               <NumberFormat
                                 displayType={'text'}
                                 prefix={t.last_price - t.last_day_price < 0 ? '-' : ''}
