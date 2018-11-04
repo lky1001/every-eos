@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
-import { NoPaddingCol, NoMarginPaddingCol } from '../components/Common/Common'
+import { withRouter } from 'react-router'
 
+import { NoPaddingCol, NoMarginPaddingCol } from '../components/Common/Common'
 import { Grid, Row, Col } from 'react-bootstrap'
-import { ProgressBar } from 'react-bootstrap'
 import TokenInfo from '../components/Trade/TokenInfo'
 import TokenThumbnailInfo from '../components/Trade/TokenThumbnailInfo'
 import Resource from '../components/Trade/Resource'
 import OrderList from '../components/Trade/OrderList'
 import Order from '../components/Trade/Order'
-import TradingChart from '../components/Trade/TradingChart'
 import { TVChartContainer } from '../components/TVChartContainer/index'
 import Market from '../components/Trade/Market'
-import Wallet from '../components/Trade/Wallet'
 import LastTradeList from '../components/Trade/LastTradeList'
 import OrderHistory from '../components/Trade/OrderHistory'
 import OpenOrder from '../components/Trade/OpenOrder'
@@ -31,6 +29,20 @@ class TradePage extends Component {
       token: token,
       chartIntervalId: 0
     }
+
+    this.props.history.listen(async (location, action) => {
+      const token = location.pathname.replace('/trades/', '')
+      const { marketStore, tradeStore } = this.props
+
+      this.state = {
+        token: token
+      }
+
+      tradeStore.setTokenSymbol(token)
+      await marketStore.getTokenBySymbol(token)
+
+      this.forceUpdate()
+    })
   }
 
   componentDidMount = async () => {
@@ -78,12 +90,14 @@ class TradePage extends Component {
                 height,
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}>
+              }}
+            >
               <Col
                 md={3}
                 style={{
                   borderRight: ColorsConstant.Trade_border_style
-                }}>
+                }}
+              >
                 <TokenThumbnailInfo
                   marketStore={marketStore}
                   symbol={token.symbol}
@@ -102,7 +116,8 @@ class TradePage extends Component {
                 height: '674px',
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}>
+              }}
+            >
               <NoPaddingCol className="col-md-3" showBorderRight showBorderTop showBorderBottom>
                 <OrderList
                   token={token}
@@ -117,10 +132,11 @@ class TradePage extends Component {
                     height: '380px',
                     background: 'white',
                     borderTop: ColorsConstant.Trade_border_style
-                  }}>
+                  }}
+                >
                   <Col md={12}>
                     {/* 여기에 DataFeed 바인딩 할 것 */}
-                    <TVChartContainer token={token} accountStore={accountStore} tradeStore={tradeStore} />
+                    <TVChartContainer accountStore={accountStore} tradeStore={tradeStore} />
                     {/* <TradingChart /> */}
                   </Col>
                 </Row>
@@ -128,7 +144,8 @@ class TradePage extends Component {
                   style={{
                     height: '280px',
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <Order
                       token={token}
@@ -144,7 +161,8 @@ class TradePage extends Component {
                   style={{
                     height: '410px',
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoPaddingCol className="col-md-12" showBorderLeft showBorderTop showBorderBottom>
                     <Market tokens={tokens} />
                   </NoPaddingCol>
@@ -160,12 +178,14 @@ class TradePage extends Component {
               style={{
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}>
+              }}
+            >
               <Col xs={12} md={12}>
                 <Row
                   style={{
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <OpenOrder
                       accountStore={accountStore}
@@ -181,7 +201,8 @@ class TradePage extends Component {
                 <Row
                   style={{
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <OrderHistory
                       accountStore={accountStore}
@@ -210,7 +231,9 @@ class TradePage extends Component {
   }
 }
 
-export default compose(
-  inject('marketStore', 'eosioStore', 'tradeStore', 'accountStore'),
-  observer
-)(TradePage)
+export default withRouter(
+  compose(
+    inject('marketStore', 'eosioStore', 'tradeStore', 'accountStore'),
+    observer
+  )(TradePage)
+)
