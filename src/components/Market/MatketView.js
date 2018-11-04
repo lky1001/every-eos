@@ -53,9 +53,13 @@ class MarketView extends Component {
     return !tokenList ? (
       <ProgressBar striped bsStyle="success" now={40} />
     ) : (
-      <Grid fluid>
+      <Grid fluid style={{ marginTop: '50px' }}>
         <Row>
-          <Col xs={12} className="text-right mr-sm mb-sm" style={{ fontSize: '14px' }}>{`${new Date().toLocaleDateString()} 00:00 기준`}</Col>
+          <Col
+            xs={12}
+            className="text-right mr-sm mb-sm"
+            style={{ fontSize: '14px' }}
+          >{`${new Date().toLocaleDateString()} 00:00 기준`}</Col>
         </Row>
         <Row>
           <Col xs={12}>
@@ -92,7 +96,11 @@ class MarketView extends Component {
                     {tokenList.map(token => {
                       const todayChanged = token.last_price - token.last_day_price
                       return (
-                        <tr key={token.id} className="msg-display clickable" onClick={() => this.goTrade(token.symbol)}>
+                        <tr
+                          key={token.id}
+                          className="msg-display clickable"
+                          onClick={() => this.goTrade(token.symbol)}
+                        >
                           <td className="va-middle text-center">
                             <FavoriteIcon className="ion-ios-star-outline" />
                           </td>
@@ -100,12 +108,24 @@ class MarketView extends Component {
                             <Header6>{token.name}</Header6>
                           </td>
                           <td className="va-middle text-right">
-                            <Header6 color={todayChanged > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}>
+                            <Header6
+                              color={
+                                todayChanged > 0
+                                  ? ColorsConstant.Thick_green
+                                  : ColorsConstant.Thick_red
+                              }
+                            >
                               {token.last_price.toFixed(4)}
                             </Header6>
                           </td>
                           <td className="va-middle text-center">
-                            <Header6 color={todayChanged > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}>
+                            <Header6
+                              color={
+                                todayChanged > 0
+                                  ? ColorsConstant.Thick_green
+                                  : ColorsConstant.Thick_red
+                              }
+                            >
                               {todayChanged.toFixed(4)}
                             </Header6>
                           </td>

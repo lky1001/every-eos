@@ -97,7 +97,7 @@ class Header extends Component {
         <nav>
           <h2 className="header-title">
             <Link to="/" style={{ color: 'white' }}>
-              EVERYEOS
+              EVERYEOS beta
             </Link>
           </h2>
           <h6 className="header-title" style={{ fontSize: '15px', marginLeft: '30px' }}>

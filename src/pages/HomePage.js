@@ -5,10 +5,6 @@ import styled from 'styled-components'
 import MarketView from '../components/Market/MatketView'
 import Faq from '../components/Home/Faq'
 
-const TitleView = styled.span`
-  color: white;
-  font-size: 40px;
-`
 const TopView = styled.div`
   height: 500px;
 `
@@ -41,14 +37,11 @@ class Home extends Component {
   render() {
     return (
       <section>
-        <TopView className="bg-blue-500">
-          <Row>
-            <Col xs={3} />
-            <Col xs={6}>
-              <TitleView>Everyeos</TitleView>
-            </Col>
-            <Col xs={3} />
-          </Row>
+        <TopView className="container-overlap bg-indigo-500">
+          <div class="container container-md">
+            <h2>EVERYEOS</h2>
+            <h3>Decentralized exchange based on eos.io</h3>
+          </div>
         </TopView>
         <div className="container container-lg">
           <MarketView />
