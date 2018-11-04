@@ -197,7 +197,6 @@ export interface LibrarySymbolInfo {
   sector?: string
   industry?: string
   currency_code?: string
-  statistic_type: string
   token_id: number
 }
 export interface DOMLevel {

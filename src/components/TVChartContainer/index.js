@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './index.css'
 import { widget } from '../../charting_library/charting_library.min'
-import Datafeed from './api'
+import { TVChartAPIContainer } from './api'
 
 function getLanguageFromURL() {
   const regex = new RegExp('[\\?&]lang=([^&#]*)')
@@ -27,11 +27,14 @@ export class TVChartContainer extends React.PureComponent {
   tvWidget = null
 
   componentDidMount() {
+    const { token } = this.props
+    if (!token) return
+
     const widgetOptions = {
       debug: false,
-      symbol: this.props.symbol,
+      symbol: `EveryEX:${token.symbol}/EOS`,
       // BEWARE: no trailing slash is expected in feed URL
-      datafeed: Datafeed,
+      datafeed: new TVChartAPIContainer(token),
       interval: this.props.interval,
       container_id: this.props.containerId,
       library_path: this.props.libraryPath,
@@ -50,29 +53,24 @@ export class TVChartContainer extends React.PureComponent {
       user_id: this.props.userId,
       fullscreen: this.props.fullscreen,
       autosize: this.props.autosize,
-      studies_overrides: this.props.studiesOverrides
+      studies_overrides: this.props.studiesOverrides,
+      time_frames: [
+        { text: '1M', resolution: '1' },
+        { text: '5M', resolution: '5' },
+        { text: '15M', resolution: '15' },
+        { text: '30M', resolution: '30' },
+        { text: '1H', resolution: '60' },
+        { text: '1D', resolution: '1440' },
+        { text: '1W', resolution: '10080' },
+        { text: '1M', resolution: '43200' },
+        { text: '1Y', resolution: '525600' }
+      ]
     }
 
     const tvWidget = new widget(widgetOptions)
     this.tvWidget = tvWidget
 
-    tvWidget.onChartReady(() => {
-      const button = tvWidget
-        .createButton()
-        .attr('title', 'Click to show a notification popup')
-        .addClass('apply-common-tooltip')
-        .on('click', () =>
-          tvWidget.showNoticeDialog({
-            title: 'Notification',
-            body: 'TradingView Charting Library API works correctly',
-            callback: () => {
-              console.log('Noticed!')
-            }
-          })
-        )
-
-      button[0].innerHTML = 'Check API'
-    })
+    tvWidget.onChartReady(() => {})
   }
 
   // componentWillUnmount() {

@@ -1,23 +1,28 @@
 import historyProvider from './historyProvider'
-
-const supportedResolutions = ['1', '3', '5', '15', '30', '60', '120', '240', 'D']
+const supportedResolutions = ['1', '5', '15', '30', '60', '1440', '10080', '43200', '525600']
 
 const config = {
   supported_resolutions: supportedResolutions
 }
 
-export default {
-  onReady: cb => {
+export class TVChartAPIContainer {
+  constructor(token) {
+    this.token = token
+  }
+
+  onReady(cb) {
     console.log('=====onReady running')
     setTimeout(() => cb(config), 0)
-  },
-  searchSymbols: (userInput, exchange, symbolType, onResultReadyCallback) => {
+  }
+
+  searchSymbols(userInput, exchange, symbolType, onResultReadyCallback) {
     console.log('====Search Symbols running')
-  },
-  resolveSymbol: (symbolName, onSymbolResolvedCallback, onResolveErrorCallback) => {
+  }
+  resolveSymbol(symbolName, onSymbolResolvedCallback, onResolveErrorCallback) {
     // expects a symbolInfo object in response
     console.log('======resolveSymbol running')
     // console.log('resolveSymbol:',{symbolName})
+
     var split_data = symbolName.split(/[:/]/)
     var symbol_stub = {
       name: symbolName,
@@ -30,12 +35,11 @@ export default {
       minmov: 1,
       pricescale: 100000000,
       has_intraday: true,
-      intraday_multipliers: ['1', '60'],
+      intraday_multipliers: supportedResolutions,
       supported_resolution: supportedResolutions,
       volume_precision: 8,
       data_status: 'streaming',
-      statistic_type: '1DAY',
-      token_id: 2
+      token_id: this.token.id
     }
 
     if (split_data[2].match(/USD|EUR|JPY|AUD|GBP|KRW|CNY/)) {
@@ -47,19 +51,11 @@ export default {
     }, 0)
 
     // onResolveErrorCallback('Not feeling it today')
-  },
-  getBars: function(
-    symbolInfo,
-    resolution,
-    from,
-    to,
-    onHistoryCallback,
-    onErrorCallback,
-    firstDataRequest
-  ) {
+  }
+  getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
     console.log('=====getBars running')
 
-    console.log('여기 봐라', symbolInfo, resolution)
+    console.log('레졸루션 보자', resolution)
     // console.log('function args',arguments)
     // console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
     historyProvider
@@ -75,35 +71,35 @@ export default {
         console.log({ err })
         onErrorCallback(err)
       })
-  },
-  subscribeBars: (
+  }
+  subscribeBars(
     symbolInfo,
     resolution,
     onRealtimeCallback,
     subscribeUID,
     onResetCacheNeededCallback
-  ) => {
+  ) {
     console.log('=====subscribeBars runnning')
-  },
-  unsubscribeBars: subscriberUID => {
+  }
+  unsubscribeBars(subscriberUID) {
     console.log('=====unsubscribeBars running')
-  },
-  calculateHistoryDepth: (resolution, resolutionBack, intervalBack) => {
+  }
+  calculateHistoryDepth(resolution, resolutionBack, intervalBack) {
     //optional
     console.log('=====calculateHistoryDepth running')
     // while optional, this makes sure we request 24 hours of minute data at a time
     // CryptoCompare's minute data endpoint will throw an error if we request data beyond 7 days in the past, and return no data
     return resolution < 60 ? { resolutionBack: 'D', intervalBack: '1' } : undefined
-  },
-  getMarks: (symbolInfo, startDate, endDate, onDataCallback, resolution) => {
+  }
+  getMarks(symbolInfo, startDate, endDate, onDataCallback, resolution) {
     //optional
     console.log('=====getMarks running')
-  },
-  getTimeScaleMarks: (symbolInfo, startDate, endDate, onDataCallback, resolution) => {
+  }
+  getTimeScaleMarks(symbolInfo, startDate, endDate, onDataCallback, resolution) {
     //optional
     console.log('=====getTimeScaleMarks running')
-  },
-  getServerTime: cb => {
+  }
+  getServerTime(cb) {
     console.log('=====getServerTime running')
   }
 }

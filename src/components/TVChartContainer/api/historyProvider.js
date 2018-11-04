@@ -11,8 +11,8 @@ export default {
   getBars: function(symbolInfo, resolution, from, to, first, limit) {
     const split_symbol = symbolInfo.name.split(/[:/]/)
     const token_id = symbolInfo.token_id
-    const statistic_type = symbolInfo.statistic_type
-    const url = `/bars?token_id=${token_id}&statistic_type=${statistic_type}&resolution=${resolution}&from=${from}&to=${to}`
+    const statistic_type = this.getStatisticType(resolution)
+    const url = `/bars?token_id=${token_id}&statistic_type=${statistic_type}&from=${from}&to=${to}`
 
     console.log('요청 url', url)
     // const url =
@@ -76,5 +76,40 @@ export default {
       //   return []
       // }
     })
+  },
+
+  getStatisticType: function(resolution) {
+    switch (resolution) {
+    case '1': {
+      return '1MIN'
+    }
+    case '5': {
+      return '5MIN'
+    }
+    case '15': {
+      return '15MIN'
+    }
+    case '30': {
+      return '30MIN'
+    }
+    case '60': {
+      return '1HOUR'
+    }
+    case '1440': {
+      return '1DAY'
+    }
+    case '10080': {
+      return '1WEEK'
+    }
+    case '43200': {
+      return '1MON'
+    }
+    case '525600': {
+      return '1YEAR'
+    }
+    default: {
+      return '15MIN'
+    }
+    }
   }
 }
