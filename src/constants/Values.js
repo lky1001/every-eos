@@ -1,11 +1,10 @@
 export const ACCOUNT_NAME_PATTERN = /([a-z1-5]){12,}/
 // export const API_SERVER_URI = 'http://192.168.2.57:4000'
 
-// export const API_SERVER_URI = 'http://localhost:4000'
-export const API_SERVER_GRAPHQL_URI = 'https://graph.everyeos.com/graphql'
-export const API_SERVER_REST_URI = 'https://graph.everyeos.com'
-// export const API_SERVER_URI = 'http://localhost:4000/graphql'
-// export const API_SERVER_URI_REST = 'http://localhost:4000'
+// export const API_SERVER_GRAPHQL_URI = 'https://graph.everyeos.com/graphql'
+// export const API_SERVER_REST_URI = 'https://graph.everyeos.com'
+export const API_SERVER_GRAPHQL_URI = 'http://localhost:4000/graphql'
+export const API_SERVER_REST_URI = 'http://localhost:4000'
 
 export const actionPerPage = 1000
 
