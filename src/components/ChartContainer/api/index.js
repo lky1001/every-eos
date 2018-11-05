@@ -5,7 +5,7 @@ const config = {
   supported_resolutions: supportedResolutions
 }
 
-export class TVChartAPIContainer {
+export class ChartAPIContainer {
   constructor(token) {
     this.token = token
   }

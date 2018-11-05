@@ -10,7 +10,11 @@ import TokenThumbnailInfo from '../components/Trade/TokenThumbnailInfo'
 import Resource from '../components/Trade/Resource'
 import OrderList from '../components/Trade/OrderList'
 import Order from '../components/Trade/Order'
+<<<<<<< HEAD
 import { TVChartContainer } from '../components/TVChartContainer/index'
+=======
+import { ChartContainer } from '../components/ChartContainer/index'
+>>>>>>> update tradingview properties
 import Market from '../components/Trade/Market'
 import LastTradeList from '../components/Trade/LastTradeList'
 import OrderHistory from '../components/Trade/OrderHistory'
@@ -120,13 +124,16 @@ class TradePage extends Component {
                     height: '380px',
                     background: 'white',
                     borderTop: ColorsConstant.Trade_border_style
-                  }}
-                >
-                  <Col md={12} style={{ padding: '0px' }}>
-                    {/* 여기에 DataFeed 바인딩 할 것 */}
-                    <TVChartContainer accountStore={accountStore} tradeStore={tradeStore} token={token} />
-                    {/* <TradingChart /> */}
-                  </Col>
+
+                  }}>
+                  <NoMarginPaddingCol xs={12}>
+                    <ChartContainer
+                      token={token}
+                      accountStore={accountStore}
+                      tradeStore={tradeStore}
+                    />
+                  </NoMarginPaddingCol>
+
                 </Row>
                 <Row
                   style={{

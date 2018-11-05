@@ -46,6 +46,11 @@ export default {
           }
         })
 
+        if (first) {
+          var lastBar = bars[bars.length - 1]
+          history[symbolInfo.name] = { lastBar: lastBar }
+        }
+
         return bars
       }
 

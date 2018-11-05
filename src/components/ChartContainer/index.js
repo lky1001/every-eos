@@ -1,7 +1,7 @@
 import * as React from 'react'
 import './index.css'
 import { widget } from '../../charting_library/charting_library.min'
-import { TVChartAPIContainer } from './api'
+import { ChartAPIContainer } from './api'
 
 function getLanguageFromURL() {
   const regex = new RegExp('[\\?&]lang=([^&#]*)')
@@ -9,11 +9,11 @@ function getLanguageFromURL() {
   return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }
 
-export class TVChartContainer extends React.PureComponent {
+export class ChartContainer extends React.PureComponent {
   static defaultProps = {
     symbol: 'EveryEX:KARMA/EOS',
     interval: '60',
-    containerId: 'tv_chart_container',
+    containerId: 'chart_container',
     libraryPath: '/charting_library/',
     chartsStorageUrl: 'https://saveload.tradingview.com',
     chartsStorageApiVersion: '1.1',
@@ -24,7 +24,7 @@ export class TVChartContainer extends React.PureComponent {
     studiesOverrides: {}
   }
 
-  tvWidget = null
+  chartWidget = null
 
   componentDidMount() {
     const { token } = this.props
@@ -34,25 +34,27 @@ export class TVChartContainer extends React.PureComponent {
       debug: false,
       symbol: `EveryEX:${token.symbol}/EOS`,
       // BEWARE: no trailing slash is expected in feed URL
-      datafeed: new TVChartAPIContainer(token),
+      datafeed: new ChartAPIContainer(token),
       interval: this.props.interval,
       container_id: this.props.containerId,
       library_path: this.props.libraryPath,
       locale: getLanguageFromURL() || 'en',
       disabled_features: [
-        'use_localstorage_for_settings',
         'header_widget',
         'context_menus',
         'edit_buttons_in_legend',
-        'left_toolbar'
+        'left_toolbar',
+        'go_to_date',
+        'volume_force_overlay'
       ],
-      enabled_features: ['study_templates'],
+      enabled_features: ['study_templates', 'move_logo_to_main_pane'],
       charts_storage_url: this.props.chartsStorageUrl,
       charts_storage_api_version: this.props.chartsStorageApiVersion,
       client_id: this.props.clientId,
       user_id: this.props.userId,
       fullscreen: this.props.fullscreen,
       autosize: this.props.autosize,
+
       studies_overrides: this.props.studiesOverrides,
       time_frames: [
         { text: '1M', resolution: '1' },
@@ -67,20 +69,20 @@ export class TVChartContainer extends React.PureComponent {
       ]
     }
 
-    const tvWidget = new widget(widgetOptions)
-    this.tvWidget = tvWidget
+    const chartWidget = new widget(widgetOptions)
+    this.chartWidget = chartWidget
 
-    tvWidget.onChartReady(() => {})
+    chartWidget.onChartReady(() => {})
   }
 
   // componentWillUnmount() {
-  //   if (this.tvWidget !== null) {
-  //     this.tvWidget.remove()
-  //     this.tvWidget = null
+  //   if (this.chartWidget !== null) {
+  //     this.chartWidget.remove()
+  //     this.chartWidget = null
   //   }
   // }
 
   render() {
-    return <div id={this.props.containerId} className={'TVChartContainer'} />
+    return <div id={this.props.containerId} className={'ChartContainer'} />
   }
 }
