@@ -127,6 +127,10 @@ class TradeStore {
       get openOrders() {}
     })
 
+    set(this, {
+      get lastTrades() {}
+    })
+
     this.price = observable.box(0.0)
   }
 
@@ -429,6 +433,14 @@ class TradeStore {
 
   getLastTrades = async tokenId => {
     // todo
+  }
+
+  get lastTradesError() {
+    return (this.lastTrades && this.lastTrades.error && this.lastTrades.error.message) || null
+  }
+
+  get lastTradesLoading() {
+    return this.lastTrades ? this.lastTrades.loading : false
   }
 }
 
