@@ -67,17 +67,9 @@ class TradePage extends Component {
   render() {
     const { accountStore, marketStore, tradeStore, eosioStore } = this.props
 
-    const token = marketStore.token
-      ? marketStore.token.data
-        ? marketStore.token.data.token
-        : null
-      : null
+    const token = marketStore.token ? (marketStore.token.data ? marketStore.token.data.token : null) : null
 
-    const tokens = marketStore.tokens
-      ? marketStore.tokens.data
-        ? marketStore.tokens.data.tokens
-        : null
-      : null
+    const tokens = marketStore.tokens ? (marketStore.tokens.data ? marketStore.tokens.data.tokens : null) : null
 
     const height = '90px'
 
@@ -98,11 +90,7 @@ class TradePage extends Component {
                   borderRight: ColorsConstant.Trade_border_style
                 }}
               >
-                <TokenThumbnailInfo
-                  marketStore={marketStore}
-                  symbol={token.symbol}
-                  height={height}
-                />
+                <TokenThumbnailInfo marketStore={marketStore} symbol={token.symbol} height={height} />
               </Col>
               <Col md={6}>
                 <TokenInfo marketStore={marketStore} symbol={token.symbol} height={height} />
@@ -134,9 +122,9 @@ class TradePage extends Component {
                     borderTop: ColorsConstant.Trade_border_style
                   }}
                 >
-                  <Col md={12}>
+                  <Col md={12} style={{ padding: '0px' }}>
                     {/* 여기에 DataFeed 바인딩 할 것 */}
-                    <TVChartContainer accountStore={accountStore} tradeStore={tradeStore} />
+                    <TVChartContainer accountStore={accountStore} tradeStore={tradeStore} token={token} />
                     {/* <TradingChart /> */}
                   </Col>
                 </Row>
@@ -147,12 +135,7 @@ class TradePage extends Component {
                   }}
                 >
                   <NoMarginPaddingCol xs={12}>
-                    <Order
-                      token={token}
-                      accountStore={accountStore}
-                      tradeStore={tradeStore}
-                      eosioStore={eosioStore}
-                    />
+                    <Order token={token} accountStore={accountStore} tradeStore={tradeStore} eosioStore={eosioStore} />
                   </NoMarginPaddingCol>
                 </Row>
               </Col>
