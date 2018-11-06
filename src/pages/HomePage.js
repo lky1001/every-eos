@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Grid, Row, Col, Button, Dropdown, MenuItem, Modal } from 'react-bootstrap'
+import { Grid, Row, Col, Button, Dropdown, MenuItem, Modal, Image } from 'react-bootstrap'
 import styled from 'styled-components'
 
 import MarketView from '../components/Market/MatketView'
@@ -37,10 +37,23 @@ class Home extends Component {
   render() {
     return (
       <section>
-        <TopView className="container-overlap bg-indigo-500">
+        <TopView className="container-overlap bg-blue-700">
           <div class="container container-md">
-            <h2>EVERYEOS</h2>
-            <h3>Decentralized exchange based on eos.io</h3>
+            <Grid style={{ minWidth: '1440px' }}>
+              <Row>
+                <Col xs={6}>
+                  <h1>
+                    <strong>
+                      <i>EVERY EOS</i>
+                    </strong>
+                  </h1>
+                  <h4>Decentralized exchange based on eos.io</h4>
+                </Col>
+                <Col xs={6}>
+                  <Image src="every_eos_landing_laptop.png" width="512" height="256" />
+                </Col>
+              </Row>
+            </Grid>
           </div>
         </TopView>
         <div className="container container-lg">

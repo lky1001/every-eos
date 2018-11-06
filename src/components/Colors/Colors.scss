@@ -2,8 +2,8 @@
  * Google Material Colors (customization)
  */
 
-@import "../Common/Variables";
-@import "../Common/Mixins";
+@import '../Common/Variables';
+@import '../Common/Mixins';
 
 // Google material colors customization
 // https://github.com/shuhei/material-colors
@@ -13,34 +13,37 @@
 // its own background color
 
 .bg-pink-500 {
-  @include make-bg($mdc-pink-500);
+    @include make-bg($mdc-pink-500);
 }
 .bg-purple-400 {
-  @include make-bg($mdc-purple-400);
+    @include make-bg($mdc-purple-400);
 }
 .bg-purple-500 {
-  @include make-bg($mdc-purple-500);
+    @include make-bg($mdc-purple-500);
 }
 .bg-deep-purple-500 {
-  @include make-bg($mdc-deep-purple-500);
+    @include make-bg($mdc-deep-purple-500);
 }
 .bg-indigo-500 {
-  @include make-bg($mdc-indigo-500);
+    @include make-bg($mdc-indigo-500);
 }
 .bg-green-50 {
-  @include make-bg($mdc-green-50);
+    @include make-bg($mdc-green-50);
 }
 .bg-green-500 {
-  @include make-bg($mdc-green-500);
+    @include make-bg($mdc-green-500);
 }
 .bg-blue-500 {
-  @include make-bg($mdc-blue-500);
+    @include make-bg($mdc-blue-500);
+}
+.bg-blue-700 {
+    @include make-bg($mdc-blue-700);
 }
 .bg-blue-grey-900 {
-  @include make-bg($mdc-blue-grey-900);
+    @include make-bg($mdc-blue-grey-900);
 }
 .bg-red-500 {
-  @include make-bg($mdc-red-500);
+    @include make-bg($mdc-red-500);
 }
 
 // White color for some backgrounds
@@ -93,13 +96,13 @@
 .bg-grey-700,
 .bg-grey-800,
 .bg-grey-900 {
-  color: rgba(255, 255, 255, 0.97);
-  .text-muted {
-    color: rgba(255, 255, 255, 0.57);
-  }
-  .text-soft {
-    color: rgba(255, 255, 255, 0.26);
-  }
+    color: rgba(255, 255, 255, 0.97);
+    .text-muted {
+        color: rgba(255, 255, 255, 0.57);
+    }
+    .text-soft {
+        color: rgba(255, 255, 255, 0.26);
+    }
 }
 
 .bg-red,
@@ -171,11 +174,11 @@
 .bg-blue-grey,
 .bg-blue-grey-400,
 .bg-blue-grey-500 {
-  color: #fff;
-  .text-muted {
-    color: rgba(255, 255, 255, 0.57);
-  }
-  .text-soft {
-    color: rgba(255, 255, 255, 0.26);
-  }
+    color: #fff;
+    .text-muted {
+        color: rgba(255, 255, 255, 0.57);
+    }
+    .text-soft {
+        color: rgba(255, 255, 255, 0.26);
+    }
 }

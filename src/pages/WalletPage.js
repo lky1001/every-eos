@@ -129,7 +129,7 @@ class Wallet extends Component {
       <Fragment>
         {accountStore.isLogin ? (
           <section>
-            <div className="container-overlap bg-blue-500">
+            <div className="container-overlap bg-blue-700">
               <div className="media m0 pv">
                 <div className="media-left" />
                 <div className="media-body media-middle">
