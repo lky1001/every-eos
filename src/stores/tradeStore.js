@@ -5,13 +5,7 @@ import { format, subDays } from 'date-fns'
 import { orderQuery, ordersForAccountQuery, stackedOrdersQuery } from '../graphql/query/order'
 
 import { barChartQuery } from '../graphql/query/bars'
-import {
-  getTypeFilter,
-  getStatusFilter,
-  typeOptions,
-  pageSizeOptions,
-  statusOptions
-} from '../utils/OrderSearchFilter'
+import { getTypeFilter, getStatusFilter, typeOptions, pageSizeOptions, statusOptions } from '../utils/OrderSearchFilter'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
@@ -288,9 +282,7 @@ class TradeStore {
   }
 
   get ordersHistoryError() {
-    return (
-      (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
-    )
+    return (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
   }
 
   get ordersHistoryLoading() {
@@ -337,12 +329,7 @@ class TradeStore {
   }
 
   clearOpenOrders = () => {
-    if (
-      this.openOrders &&
-      this.openOrders.data &&
-      this.openOrders.data.ordersForAccount &&
-      this.openOrders.data.ordersForAccount.orders
-    ) {
+    if (this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount && this.openOrders.data.ordersForAccount.orders) {
       this.openOrders.data.ordersForAccount.orders = []
       this.openOrders.data.ordersForAccount.totalCount = 0
     }
@@ -368,18 +355,13 @@ class TradeStore {
   }
 
   get openOrdersCount() {
-    return this.openOrders &&
-      this.openOrders.data &&
-      this.openOrders.data.ordersForAccount &&
-      this.openOrders.data.ordersForAccount.orders
+    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount && this.openOrders.data.ordersForAccount.orders
       ? this.openOrders.data.ordersForAccount.orders.length
       : 0
   }
 
   get openOrdersTotalCount() {
-    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount
-      ? this.openOrders.data.ordersForAccount.totalCount
-      : 0
+    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount ? this.openOrders.data.ordersForAccount.totalCount : 0
   }
 
   cancelOrder = async (data, signature) => {
@@ -407,6 +389,7 @@ class TradeStore {
   getPollingOrderByTxId = (txid, account_name) => {
     if (!txid) return
     let isDone = false
+    // todo - move to component
     const pollingId = setInterval(async () => {
       const pollingOrder = await this.getPollingOrder(txid)
 
@@ -415,17 +398,11 @@ class TradeStore {
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
 
-        if (
-          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
-          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
-        ) {
+        if (arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED || arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED) {
           this.setOrdersHistoryPage(1)
           this.getOrdersHistory(account_name)
         } else {
-          this.getOpenOrders(
-            account_name,
-            JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-          )
+          this.getOpenOrders(account_name, JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED]))
         }
       }
     }, 1000)
@@ -474,6 +451,8 @@ decorate(TradeStore, {
   openOrdersList: computed,
   openOrdersCount: computed,
   openOrdersTotalCount: computed,
+  lastTradesError: computed,
+  lastTradesLoading: computed,
   tokenSymbol: observable,
   tokenSymbolForSearch: observable,
   price: observable,
