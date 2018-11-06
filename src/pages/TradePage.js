@@ -10,11 +10,7 @@ import TokenThumbnailInfo from '../components/Trade/TokenThumbnailInfo'
 import Resource from '../components/Trade/Resource'
 import OrderList from '../components/Trade/OrderList'
 import Order from '../components/Trade/Order'
-<<<<<<< HEAD
-import { TVChartContainer } from '../components/TVChartContainer/index'
-=======
 import { ChartContainer } from '../components/ChartContainer/index'
->>>>>>> update tradingview properties
 import Market from '../components/Trade/Market'
 import LastTradeList from '../components/Trade/LastTradeList'
 import OrderHistory from '../components/Trade/OrderHistory'
