@@ -49,7 +49,7 @@ class Resource extends Component {
                     <div className="card-offset-item text-right">
                       <a href="https://www.eosuite.app/account/staking" target="_blank">
                         <ResourceActionButton bsStyle="success" className="btn-oval mr ripple">
-                          Stake
+                          <FormattedMessage id="Stake" />
                         </ResourceActionButton>
                       </a>
                     </div>

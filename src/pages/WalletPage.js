@@ -15,6 +15,7 @@ class Wallet extends Component {
     this.state = {
       balanceIntervalId: 0,
       searchKeyword: '',
+      hideNoBalace: false,
       tokens: []
     }
 
@@ -74,6 +75,7 @@ class Wallet extends Component {
       : null
 
     const searchKeyword = this.state.searchKeyword
+    const hideNoBalace = this.state.hideNoBalace
 
     if (accountName && tokens) {
       const tokenBalance = await Promise.all(
@@ -108,6 +110,12 @@ class Wallet extends Component {
         tokens: tokenBalance
       })
     }
+  }
+
+  onHideChanged = event => {
+    this.setState({
+      hideNoBalace: event.target.checked
+    })
   }
 
   handleChange = event => {
@@ -158,7 +166,7 @@ class Wallet extends Component {
                         </Col>
                         <Col xs={6} className="text-right">
                           <label className="checkbox checkbox-inline" style={{ fontSize: '15px' }}>
-                            <input type="checkbox" value="" />
+                            <input type="checkbox" value="" onChange={this.onHideChanged} />
                             Hide no balance
                           </label>
                         </Col>

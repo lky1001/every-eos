@@ -37,7 +37,7 @@ class HomePage extends Component {
     return (
       <section>
         <TopView className="container-overlap bg-blue-700" style={{ height: '400px' }}>
-          <div class="container container-md">
+          <div className="container container-md">
             <Grid style={{ minWidth: '1440px' }}>
               <Row>
                 <Col xs={5} className="col-xs-offset-1">
