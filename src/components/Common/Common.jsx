@@ -108,7 +108,7 @@ export const TokenPrice = styled.div`
 `
 
 export const Header6 = styled.h6`
-  font-size: 16px;
+  font-size: 14px;
   color: ${props => props.color};
   margin: 0px;
 `

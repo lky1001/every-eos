@@ -4,12 +4,11 @@ import styled from 'styled-components'
 
 import MarketView from '../components/Market/MatketView'
 import Faq from '../components/Home/Faq'
-
 const TopView = styled.div`
   height: 500px;
 `
 
-class Home extends Component {
+class HomePage extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -59,12 +58,11 @@ class Home extends Component {
         <div className="container container-lg">
           <MarketView />
         </div>
-        <div className="container container-lg">
-          <Faq />
-        </div>
+
+        <div className="container container-lg" />
       </section>
     )
   }
 }
 
-export default Home
+export default HomePage

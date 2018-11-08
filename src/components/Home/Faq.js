@@ -40,8 +40,7 @@ class Faq extends React.Component {
                     <Panel
                       header={accordionHeader('What Assets Can I Use In My Items?')}
                       eventKey="1"
-                      className="b0"
-                    >
+                      className="b0">
                       <p>
                         Donec congue sagittis mi sit amet tincidunt. Quisque sollicitudin massa vel
                         erat tincidunt blandit. Curabitur quis leo nulla. Phasellus faucibus
@@ -65,8 +64,7 @@ class Faq extends React.Component {
                     <Panel
                       header={accordionHeader('Where is the Market Terms?')}
                       eventKey="2"
-                      className="b0"
-                    >
+                      className="b0">
                       <p>
                         Donec congue sagittis mi sit amet tincidunt. Quisque sollicitudin massa vel
                         erat tincidunt blandit. Curabitur quis leo nulla. Phasellus faucibus
@@ -90,8 +88,7 @@ class Faq extends React.Component {
                     <Panel
                       header={accordionHeader('Morbi pretium varius aliquam?')}
                       eventKey="3"
-                      className="b0"
-                    >
+                      className="b0">
                       <p>
                         Donec congue sagittis mi sit amet tincidunt. Quisque sollicitudin massa vel
                         erat tincidunt blandit. Curabitur quis leo nulla. Phasellus faucibus
@@ -119,8 +116,7 @@ class Faq extends React.Component {
                     <Panel
                       header={accordionHeader('How to Contact an Author')}
                       eventKey="1"
-                      className="b0"
-                    >
+                      className="b0">
                       <p>
                         Donec congue sagittis mi sit amet tincidunt. Quisque sollicitudin massa vel
                         erat tincidunt blandit. Curabitur quis leo nulla. Phasellus faucibus
@@ -144,8 +140,7 @@ class Faq extends React.Component {
                     <Panel
                       header={accordionHeader('What is Item Support?')}
                       eventKey="2"
-                      className="b0"
-                    >
+                      className="b0">
                       <p>
                         Donec congue sagittis mi sit amet tincidunt. Quisque sollicitudin massa vel
                         erat tincidunt blandit. Curabitur quis leo nulla. Phasellus faucibus
@@ -169,8 +164,7 @@ class Faq extends React.Component {
                     <Panel
                       header={accordionHeader('Where Is My Purchase Code?')}
                       eventKey="3"
-                      className="b0"
-                    >
+                      className="b0">
                       <p>
                         Donec congue sagittis mi sit amet tincidunt. Quisque sollicitudin massa vel
                         erat tincidunt blandit. Curabitur quis leo nulla. Phasellus faucibus

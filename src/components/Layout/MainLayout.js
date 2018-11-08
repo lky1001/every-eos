@@ -1,7 +1,6 @@
 import React from 'react'
 import ReactCSSTransitionGroup from 'react-addons-css-transition-group'
-import { Footer, Header } from '../../components/Layout'
-
+import { Header, Footer } from '../../components/Layout'
 import './Core.scss'
 import './LayoutVariants.scss'
 
@@ -20,8 +19,7 @@ class MainLayout extends React.Component {
           className="main-container"
           transitionName={animationName}
           transitionEnterTimeout={500}
-          transitionLeaveTimeout={500}
-        >
+          transitionLeaveTimeout={500}>
           {children}
           <Footer />
         </ReactCSSTransitionGroup>

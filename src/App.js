@@ -26,7 +26,6 @@ class App extends Component {
     )
   }
 }
-
 const query = ({ width }) => {
   if (width < 575) {
     return { breakpoint: 'xs' }
