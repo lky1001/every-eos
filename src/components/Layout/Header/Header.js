@@ -96,17 +96,18 @@ class Header extends Component {
       <header className="header-container" style={{ marginLeft: '0px' }}>
         <nav>
           <h2 className="header-title">
-            <Link to="/" style={{ color: 'white' }}>
-              <img src="favicon.png" style={{ width: '27px', marginTop: '-4px' }} /> EVERYEOS beta
+            <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
+              <img src="favicon.png" alt="yo!" style={{ width: '27px', marginTop: '-4px' }} />{' '}
+              EVERYEOS beta
             </Link>
           </h2>
           <h6 className="header-title" style={{ fontSize: '15px', marginLeft: '30px' }}>
-            <Link to="/trades/karma" style={{ color: 'white' }}>
+            <Link to="/trades/karma" style={{ color: 'white', textDecoration: 'none' }}>
               <FormattedMessage id="EXCHANGE" />
             </Link>
           </h6>
           <h6 className="header-title" style={{ fontSize: '15px' }}>
-            <Link to="/markets" style={{ color: 'white' }}>
+            <Link to="/markets" style={{ color: 'white', textDecoration: 'none' }}>
               <FormattedMessage id="MARKET" />
             </Link>
           </h6>
@@ -147,14 +148,12 @@ class Header extends Component {
               id="basic-nav-dropdown"
               pullRight
               componentClass="li"
-              style={{ paddingTop: '3px' }}
-            >
+              style={{ paddingTop: '3px' }}>
               <Dropdown.Toggle
                 useAnchor
                 noCaret
                 className="has-badge ripple"
-                style={{ fontSize: '16px' }}
-              >
+                style={{ fontSize: '16px' }}>
                 <FormattedMessage id="LANG" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="md-dropdown-menu">
