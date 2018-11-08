@@ -37,11 +37,11 @@ class Home extends Component {
   render() {
     return (
       <section>
-        <TopView className="container-overlap bg-blue-700">
+        <TopView className="container-overlap bg-blue-700" style={{ height: '400px' }}>
           <div class="container container-md">
             <Grid style={{ minWidth: '1440px' }}>
               <Row>
-                <Col xs={6}>
+                <Col xs={5} className="col-xs-offset-1">
                   <h1>
                     <strong>
                       <i>EVERY EOS</i>
@@ -49,7 +49,7 @@ class Home extends Component {
                   </h1>
                   <h4>Decentralized exchange based on eos.io</h4>
                 </Col>
-                <Col xs={6}>
+                <Col xs={6} style={{ textAlign: 'center' }}>
                   <Image src="every_eos_landing_laptop.png" width="512" height="256" />
                 </Col>
               </Row>
