@@ -65,5 +65,9 @@ export default {
   TradeType: '거래',
   TradePrice: '가격',
   TradeQuantity: '수량',
-  Manage: '관리'
+  Manage: '관리',
+  Stake: '스테이크',
+  Staked: '스테이킹 EOS',
+  Used: '사용중',
+  Max: '최대값'
 }

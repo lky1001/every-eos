@@ -66,5 +66,9 @@ export default {
   TradeType: 'Type',
   TradePrice: 'Price',
   TradeQuantity: 'Qty',
-  Manage: 'Manage'
+  Manage: 'Manage',
+  Stake: 'Stake',
+  Staked: 'Staked',
+  Used: 'Used',
+  Max: 'Max'
 }
