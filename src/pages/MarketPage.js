@@ -7,7 +7,7 @@ import MarketView from '../components/Market/MatketView'
 class MarketPage extends Component {
   render() {
     return (
-      <div>
+      <div className="container container-lg">
         <MarketView />
       </div>
     )
