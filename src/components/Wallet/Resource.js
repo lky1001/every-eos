@@ -63,7 +63,7 @@ class Resource extends Component {
                       </Col>
                       <Col xs={8}>
                         <ResourceText>
-                          Staked :{' '}
+                          <FormattedMessage id="Staked" /> :{' '}
                           <NumberFormat
                             displayType={'text'}
                             suffix=" EOS"
@@ -73,22 +73,12 @@ class Resource extends Component {
                           />
                         </ResourceText>
                         <ResourceText>
-                          Used :{' '}
-                          <NumberFormat
-                            displayType={'text'}
-                            suffix=" us"
-                            value={accountStore.cpu.used}
-                            thousandSeparator={true}
-                          />
+                          <FormattedMessage id="Used" /> :{' '}
+                          <NumberFormat displayType={'text'} suffix=" us" value={accountStore.cpu.used} thousandSeparator={true} />
                         </ResourceText>
                         <ResourceText>
-                          Max :{' '}
-                          <NumberFormat
-                            displayType={'text'}
-                            suffix=" us"
-                            value={accountStore.cpu.max}
-                            thousandSeparator={true}
-                          />
+                          <FormattedMessage id="Max" /> :{' '}
+                          <NumberFormat displayType={'text'} suffix=" us" value={accountStore.cpu.max} thousandSeparator={true} />
                         </ResourceText>
                       </Col>
                     </Row>
@@ -106,7 +96,7 @@ class Resource extends Component {
                     <div className="card-offset-item text-right">
                       <a href="https://www.eosuite.app/account/staking" target="_blank">
                         <ResourceActionButton bsStyle="success" className="btn-oval mr ripple">
-                          Stake
+                          <FormattedMessage id="Stake" />
                         </ResourceActionButton>
                       </a>
                     </div>
@@ -120,7 +110,7 @@ class Resource extends Component {
                       </Col>
                       <Col xs={8}>
                         <ResourceText>
-                          Staked :{' '}
+                          <FormattedMessage id="Staked" /> :{' '}
                           <NumberFormat
                             displayType={'text'}
                             suffix=" EOS"
@@ -130,22 +120,12 @@ class Resource extends Component {
                           />
                         </ResourceText>
                         <ResourceText>
-                          Used :{' '}
-                          <NumberFormat
-                            displayType={'text'}
-                            suffix=" bytes"
-                            value={accountStore.net.used}
-                            thousandSeparator={true}
-                          />
+                          <FormattedMessage id="Used" /> :{' '}
+                          <NumberFormat displayType={'text'} suffix=" bytes" value={accountStore.net.used} thousandSeparator={true} />
                         </ResourceText>
                         <ResourceText>
-                          Max :{' '}
-                          <NumberFormat
-                            displayType={'text'}
-                            suffix=" bytes"
-                            value={accountStore.net.max}
-                            thousandSeparator={true}
-                          />
+                          <FormattedMessage id="Max" /> :{' '}
+                          <NumberFormat displayType={'text'} suffix=" bytes" value={accountStore.net.max} thousandSeparator={true} />
                         </ResourceText>
                       </Col>
                     </Row>
@@ -163,7 +143,7 @@ class Resource extends Component {
                     <div className="card-offset-item text-right">
                       <a href="https://www.eosuite.app/account/rammarket" target="_blank">
                         <ResourceActionButton bsStyle="success" className="btn-oval mr ripple">
-                          Manage
+                          <FormattedMessage id="Manage" />
                         </ResourceActionButton>
                       </a>
                     </div>
@@ -177,7 +157,7 @@ class Resource extends Component {
                       </Col>
                       <Col xs={8}>
                         <ResourceText>
-                          Used :{' '}
+                          <FormattedMessage id="Used" /> :{' '}
                           <NumberFormat
                             displayType={'text'}
                             suffix=" KB"
@@ -188,7 +168,7 @@ class Resource extends Component {
                           />
                         </ResourceText>
                         <ResourceText>
-                          Max :{' '}
+                          <FormattedMessage id="Max" /> :{' '}
                           <NumberFormat
                             displayType={'text'}
                             suffix=" KB"

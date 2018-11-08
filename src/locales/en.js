@@ -65,5 +65,6 @@ export default {
   Tx: 'Tx',
   TradeType: 'Type',
   TradePrice: 'Price',
-  TradeQuantity: 'Qty'
+  TradeQuantity: 'Qty',
+  Manage: 'Manage'
 }

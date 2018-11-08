@@ -64,5 +64,6 @@ export default {
   Tx: 'Tx',
   TradeType: '거래',
   TradePrice: '가격',
-  TradeQuantity: '수량'
+  TradeQuantity: '수량',
+  Manage: '관리'
 }
