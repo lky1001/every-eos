@@ -106,15 +106,28 @@ class Wallet extends Component {
           })
       )
 
+      const filterTokens = tokenBalance.filter(token => {
+        if (hideNoBalace) {
+          if (token.balance > 0) {
+            return true
+          } else {
+            return false
+          }
+        } else {
+          return true
+        }
+      })
+
       this.setState({
-        tokens: tokenBalance
+        tokens: filterTokens
       })
     }
   }
 
   onHideChanged = event => {
     this.setState({
-      hideNoBalace: event.target.checked
+      hideNoBalace: event.target.checked,
+      tokens: []
     })
   }
 
