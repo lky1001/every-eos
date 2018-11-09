@@ -73,19 +73,6 @@ class MarketStore {
   getOrderHistory = async accountName => {}
 
   getChart = async (tokenId, group) => {}
-
-  updateFavoriteForToken = symbol => {
-    const filteredToken = this.tokens.data.tokens.filter(t => t.symbol === symbol)
-
-    const targetToken = filteredToken.length > 0 ? filteredToken[0] : null
-
-    if (targetToken) {
-      const updatedToken = { ...targetToken, favorite: true }
-
-      console.log('업데이트 됨', updatedToken)
-      this.tokens.data.tokens.splice(this.tokens.data.tokens.indexOf(targetToken), 1, updatedToken)
-    }
-  }
 }
 
 decorate(MarketStore, {
@@ -96,8 +83,7 @@ decorate(MarketStore, {
   tokenList: computed,
   count: computed,
   getTokensById: action,
-  getTokenBySymbol: action,
-  updateFavoriteForToken: action
+  getTokenBySymbol: action
 })
 
 export default new MarketStore()
