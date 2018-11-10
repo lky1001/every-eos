@@ -64,7 +64,7 @@ class TradePage extends Component {
   }
 
   render() {
-    const { classes, accountStore, marketStore, tradeStore, eosioStore } = this.props
+    const { accountStore, marketStore, tradeStore, eosioStore } = this.props
     const token = marketStore.token
       ? marketStore.token.data
         ? marketStore.token.data.token

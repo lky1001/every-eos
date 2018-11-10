@@ -12,7 +12,7 @@ function getLanguageFromURL() {
 export class ChartContainer extends React.PureComponent {
   static defaultProps = {
     symbol: 'EveryEX:KARMA/EOS',
-    interval: '60',
+    interval: '30',
     containerId: 'chart_container',
     libraryPath: '/charting_library/',
     chartsStorageUrl: 'https://saveload.tradingview.com',
@@ -72,7 +72,14 @@ export class ChartContainer extends React.PureComponent {
     const chartWidget = new widget(widgetOptions)
     this.chartWidget = chartWidget
 
-    chartWidget.onChartReady(() => {})
+    chartWidget.onChartReady(() => {
+      chartWidget
+        .chart()
+        .onIntervalChanged()
+        .subscribe(null, function(interval, obj) {
+          obj.timeframe = interval
+        })
+    })
   }
 
   componentWillUnmount() {

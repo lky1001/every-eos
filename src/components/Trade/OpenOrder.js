@@ -2,13 +2,26 @@ import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import '../Common/React-tabs.scss'
-import { Table, ProgressBar, Button } from 'react-bootstrap'
+import { Table, Button } from 'react-bootstrap'
 import { Scrollbars } from 'react-custom-scrollbars'
-import { HeaderTable, TableLgRow, OrderBaseColumn, DateColumn, BuyTypeColumn, SellTypeColumn } from '../Common/Common'
-import { ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED, ORDER_TYPE_BUY, ORDER_DATE_FORMAT } from '../../constants/Values'
+import {
+  HeaderTable,
+  TableLgRow,
+  OrderBaseColumn,
+  DateColumn,
+  BuyTypeColumn,
+  SellTypeColumn
+} from '../Common/Common'
+import {
+  ORDER_STATUS_NOT_DEAL,
+  ORDER_STATUS_PARTIAL_DEALED,
+  ORDER_TYPE_BUY,
+  ORDER_DATE_FORMAT
+} from '../../constants/Values'
 
 import eosAgent from '../../EosAgent'
 import { format } from 'date-fns'
+import Loader from 'react-loader-spinner'
 
 class OpenOrder extends Component {
   componentDidMount = () => {
@@ -32,7 +45,10 @@ class OpenOrder extends Component {
   getOpenOrders = async () => {
     const { tradeStore, accountStore } = this.props
 
-    await tradeStore.getOpenOrders(accountStore.loginAccountInfo.account_name, JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED]))
+    await tradeStore.getOpenOrders(
+      accountStore.loginAccountInfo.account_name,
+      JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+    )
   }
 
   loadRecentOrderHistory = async () => {
@@ -85,7 +101,13 @@ class OpenOrder extends Component {
   }
 
   render() {
-    const { accountStore, openOrdersList, openOrdersCount, openOrdersLoading, openOrdersError } = this.props
+    const {
+      accountStore,
+      openOrdersList,
+      openOrdersCount,
+      openOrdersLoading,
+      openOrdersError
+    } = this.props
 
     const openOrdersContentHeight = `${40 * openOrdersCount}px`
 
@@ -137,56 +159,64 @@ class OpenOrder extends Component {
 
           <Scrollbars style={{ height: openOrdersContentHeight, maxHeight: `${40 * 20}px` }}>
             <Table className="order-list-table responsive hover">
-              {accountStore.isLogin &&
-                openOrdersList &&
-                openOrdersCount > 0 && (
-                  <tbody>
-                    {openOrdersList.map(o => {
-                      return (
-                        <TableLgRow key={o.id}>
-                          <DateColumn>{format(o.created, ORDER_DATE_FORMAT)}</DateColumn>
-                          <OrderBaseColumn>
-                            {o.token.symbol} / {o.token.market}
-                          </OrderBaseColumn>
-                          {o.type === ORDER_TYPE_BUY ? (
-                            <BuyTypeColumn>
-                              <FormattedMessage id={o.type} />
-                            </BuyTypeColumn>
-                          ) : (
-                            <SellTypeColumn>
-                              <FormattedMessage id={o.type} />
-                            </SellTypeColumn>
-                          )}
-                          <OrderBaseColumn>{o.token_price.toFixed(4)} EOS</OrderBaseColumn>
-                          <OrderBaseColumn>
-                            {o.status === ORDER_STATUS_PARTIAL_DEALED
-                              ? Math.round(
-                                o.orderDetails.reduce((acc, curr) => acc + curr.amount * curr.token_price, 0) /
-                                    o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                              ).toFixed(4) + ' EOS'
-                              : '-'}
-                          </OrderBaseColumn>
-                          <OrderBaseColumn>{o.total_amount}</OrderBaseColumn>
-                          <OrderBaseColumn>{o.deal_amount}</OrderBaseColumn>
-                          <OrderBaseColumn>-</OrderBaseColumn>
-                          <OrderBaseColumn>
-                            <FormattedMessage id={o.status} />
-                          </OrderBaseColumn>
-                          <OrderBaseColumn>
-                            <Button color="link" onClick={() => this.cancelOrder(o.id)}>
-                              <FormattedMessage id="Cancel" />
-                            </Button>
-                          </OrderBaseColumn>
-                        </TableLgRow>
-                      )
-                    })}
-                  </tbody>
-                )}
+              {accountStore.isLogin && openOrdersList && openOrdersCount > 0 && (
+                <tbody>
+                  {openOrdersList.map(o => {
+                    return (
+                      <TableLgRow key={o.id}>
+                        <DateColumn>{format(o.created, ORDER_DATE_FORMAT)}</DateColumn>
+                        <OrderBaseColumn>
+                          {o.token.symbol} / {o.token.market}
+                        </OrderBaseColumn>
+                        {o.type === ORDER_TYPE_BUY ? (
+                          <BuyTypeColumn>
+                            <FormattedMessage id={o.type} />
+                          </BuyTypeColumn>
+                        ) : (
+                          <SellTypeColumn>
+                            <FormattedMessage id={o.type} />
+                          </SellTypeColumn>
+                        )}
+                        <OrderBaseColumn>{o.token_price.toFixed(4)} EOS</OrderBaseColumn>
+                        <OrderBaseColumn>
+                          {o.status === ORDER_STATUS_PARTIAL_DEALED
+                            ? Math.round(
+                              o.orderDetails.reduce(
+                                (acc, curr) => acc + curr.amount * curr.token_price,
+                                0
+                              ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                            ).toFixed(4) + ' EOS'
+                            : '-'}
+                        </OrderBaseColumn>
+                        <OrderBaseColumn>{o.total_amount}</OrderBaseColumn>
+                        <OrderBaseColumn>{o.deal_amount}</OrderBaseColumn>
+                        <OrderBaseColumn>-</OrderBaseColumn>
+                        <OrderBaseColumn>
+                          <FormattedMessage id={o.status} />
+                        </OrderBaseColumn>
+                        <OrderBaseColumn>
+                          <Button color="link" onClick={() => this.cancelOrder(o.id)}>
+                            <FormattedMessage id="Cancel" />
+                          </Button>
+                        </OrderBaseColumn>
+                      </TableLgRow>
+                    )
+                  })}
+                </tbody>
+              )}
             </Table>
           </Scrollbars>
           {accountStore.isLogin ? (
             openOrdersLoading ? (
-              <ProgressBar striped bsStyle="success" now={40} />
+              <div
+                style={{
+                  width: '40px',
+                  margin: 'auto',
+                  paddingTop: '20px',
+                  paddingBottom: '0px'
+                }}>
+                <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
+              </div>
             ) : (
               (!openOrdersList || openOrdersCount === 0) && (
                 <div
@@ -195,8 +225,7 @@ class OpenOrder extends Component {
                     height: '70px',
                     fontSize: '16px',
                     paddingTop: '25px'
-                  }}
-                >
+                  }}>
                   <FormattedMessage id="No Data" />
                 </div>
               )
@@ -208,8 +237,7 @@ class OpenOrder extends Component {
                 height: '70px',
                 fontSize: '16px',
                 paddingTop: '25px'
-              }}
-            >
+              }}>
               <FormattedMessage id="Please Login" />
             </div>
           )}

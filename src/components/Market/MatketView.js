@@ -2,13 +2,14 @@ import React, { Component } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { inject, observer } from 'mobx-react'
 import { compose } from 'recompose'
-import { Grid, Row, Col, ProgressBar, Button } from 'react-bootstrap'
+import { Grid, Row, Col, Button } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Header6, FavoriteIcon, ShadowedCard, MarketHeader } from '../Common/Common'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant.js'
 import { withCookies, Cookies } from 'react-cookie'
 import { Tabs, Icon } from 'antd'
+import Loader from 'react-loader-spinner'
 import './MarketView.scss'
 
 const TabPane = Tabs.TabPane
@@ -81,7 +82,15 @@ class MarketView extends Component {
     const favoriteTokens = tokenList.filter(t => favorites.some(f => f === t.symbol))
 
     return !tokenList ? (
-      <ProgressBar striped bsStyle="success" now={40} />
+      <div
+        style={{
+          width: '40px',
+          margin: 'auto',
+          paddingTop: '20px',
+          paddingBottom: '0px'
+        }}>
+        <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
+      </div>
     ) : (
       <ShadowedCard>
         <Tabs defaultActiveKey="2" size="large" tabBarExtraContent={operations}>

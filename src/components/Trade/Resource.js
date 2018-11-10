@@ -46,8 +46,7 @@ class Resource extends Component {
               display: 'flex',
               justifyContent: 'space-around',
               alignItems: 'center'
-            }}
-          >
+            }}>
             <div style={{ textAlign: 'center' }}>
               <TokenInfoTitle>
                 <FormattedMessage id="BALANCE" />

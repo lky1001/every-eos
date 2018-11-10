@@ -8,7 +8,8 @@ import {
   ORDER_TYPE_BUY,
   ORDER_DATE_FORMAT
 } from '../../constants/Values'
-import { ProgressBar } from 'react-bootstrap'
+import Loader from 'react-loader-spinner'
+
 import { Header6, MarketHeader } from '../Common/Common'
 
 class OrdersHistoryView extends Component {
@@ -122,7 +123,15 @@ class OrdersHistoryView extends Component {
 
         {accountStore.isLogin ? (
           ordersHistoryLoading ? (
-            <ProgressBar striped bsStyle="success" now={40} />
+            <div
+              style={{
+                width: '40px',
+                margin: 'auto',
+                paddingTop: '20px',
+                paddingBottom: '0px'
+              }}>
+              <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
+            </div>
           ) : (
             (!ordersHistoryList || ordersHistoryCount === 0) && (
               <div
