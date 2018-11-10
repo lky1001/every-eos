@@ -5,27 +5,14 @@ import { FormattedMessage } from 'react-intl'
 import { SCATTER_ERROR_LOCKED, supportLanguage } from '../../../constants/Values'
 import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
+import { withRouter } from 'react-router'
 
-import { Dropdown, MenuItem } from 'react-bootstrap'
-import { LinkContainer } from 'react-router-bootstrap'
+import { Dropdown } from 'react-bootstrap'
 
 import { withAlert } from 'react-alert'
 
 import * as Utils from '../../../utils/Utils'
 
-import {
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-  UncontrolledDropdown,
-  DropdownToggle,
-  DropdownMenu,
-  DropdownItem
-} from 'reactstrap'
 import { Link } from 'react-router-dom'
 import './Header.scss'
 import './HeaderMenuLinks.scss'
@@ -43,8 +30,15 @@ class Header extends Component {
 
     this.toggle = this.toggle.bind(this)
     this.state = {
-      isOpen: false
+      isOpen: false,
+      location: window.location.pathname
     }
+
+    this.props.history.listen(async (location, action) => {
+      this.setState({
+        location: window.location.pathname
+      })
+    })
   }
 
   componentDidMount() {
@@ -89,7 +83,6 @@ class Header extends Component {
 
   render() {
     const { accountStore } = this.props
-    const location = window.location.pathname
     const params = Utils.getJsonFromUrl()
 
     return (
@@ -162,11 +155,15 @@ class Header extends Component {
                 {this.locales.map((locale, idx) => {
                   params['lang'] = locale
                   return (
-                    <LinkContainer to={location + '?' + Utils.getUrlFromJson(params)} key={idx}>
-                      <MenuItem eventKey={idx}>
+                    <li role="presentation" key={idx}>
+                      <a
+                        href={this.state.location + '?' + Utils.getUrlFromJson(params)}
+                        key={idx}
+                        role="menuitem"
+                      >
                         <span style={{ fontSize: '13px' }}>{locale}</span>
-                      </MenuItem>
-                    </LinkContainer>
+                      </a>
+                    </li>
                   )
                 })}
               </Dropdown.Menu>
@@ -178,9 +175,11 @@ class Header extends Component {
   }
 }
 
-export default withAlert(
-  compose(
-    inject('accountStore'),
-    observer
-  )(Header)
+export default withRouter(
+  withAlert(
+    compose(
+      inject('accountStore'),
+      observer
+    )(Header)
+  )
 )
