@@ -5,7 +5,7 @@ import { compose } from 'recompose'
 import { Grid, Row, Col, ProgressBar, Button } from 'react-bootstrap'
 import { withRouter } from 'react-router'
 import { Header6, FavoriteIcon } from '../Common/Common'
-import { ShadowedCard } from '../Common/Common'
+import { ShadowedCard, MarketHeader } from '../Common/Common'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant.js'
 import { withCookies, Cookies } from 'react-cookie'
@@ -13,9 +13,6 @@ import { Tabs, Icon } from 'antd'
 import './MarketView.scss'
 
 const TabPane = Tabs.TabPane
-const MarketHeader = styled.th`
-  font-size: 14px !important;
-`
 
 class MarketView extends Component {
   constructor(props) {

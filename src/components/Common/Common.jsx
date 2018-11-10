@@ -162,3 +162,7 @@ export const TableLgRow = styled(TableMdRow)`
 export const BaseLargeButton = styled(Button)`
   height: 36px;
 `
+
+export const MarketHeader = styled.th`
+  font-size: 14px !important;
+`

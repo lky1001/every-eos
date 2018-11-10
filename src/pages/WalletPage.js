@@ -7,6 +7,7 @@ import { Grid, Row, Col, Button, Dropdown, MenuItem } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { GET_BALANCE_INTERVAL } from '../constants/Values'
 import Loader from 'react-loader-spinner'
+import { MarketHeader } from '../components/Common/Common'
 import _ from 'lodash'
 
 class Wallet extends Component {
@@ -191,21 +192,21 @@ class Wallet extends Component {
                       <table className="table">
                         <thead>
                           <tr>
-                            <th style={{ fontSize: '17px' }}>
+                            <MarketHeader>
                               <FormattedMessage id="Token" />
-                            </th>
-                            <th style={{ fontSize: '17px' }}>
+                            </MarketHeader>
+                            <MarketHeader>
                               <FormattedMessage id="Available" />
-                            </th>
-                            <th style={{ fontSize: '17px' }}>
+                            </MarketHeader>
+                            <MarketHeader>
                               <FormattedMessage id="Frozen" />
-                            </th>
-                            <th style={{ fontSize: '17px' }}>
+                            </MarketHeader>
+                            <MarketHeader>
                               <FormattedMessage id="EOS valuation" />
-                            </th>
-                            <th style={{ fontSize: '17px' }}>
+                            </MarketHeader>
+                            <MarketHeader>
                               <FormattedMessage id="Exchange" />
-                            </th>
+                            </MarketHeader>
                           </tr>
                         </thead>
 
