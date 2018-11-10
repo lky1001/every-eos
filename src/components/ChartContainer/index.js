@@ -17,7 +17,7 @@ export class ChartContainer extends React.PureComponent {
     libraryPath: '/charting_library/',
     chartsStorageUrl: 'https://saveload.tradingview.com',
     chartsStorageApiVersion: '1.1',
-    clientId: 'tradingview.com',
+    clientId: 'everyeos.com',
     userId: 'public_user_id',
     fullscreen: false,
     autosize: true,
@@ -75,12 +75,12 @@ export class ChartContainer extends React.PureComponent {
     chartWidget.onChartReady(() => {})
   }
 
-  // componentWillUnmount() {
-  //   if (this.chartWidget !== null) {
-  //     this.chartWidget.remove()
-  //     this.chartWidget = null
-  //   }
-  // }
+  componentWillUnmount() {
+    if (this.chartWidget !== null) {
+      this.chartWidget.remove()
+      this.chartWidget = null
+    }
+  }
 
   render() {
     return <div id={this.props.containerId} className={'ChartContainer'} />

@@ -35,9 +35,7 @@ const alertOptions = {
 initLocale('en-US', Values.supportLanguage.slice())
 addLocaleData([...en, ...ko])
 
-const lang = Utils.getJsonFromUrl().lang
-
-console.log(lang)
+const lang = Utils.getJsonFromUrl().ln
 
 let i18nLang
 

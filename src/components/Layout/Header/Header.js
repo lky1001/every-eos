@@ -157,7 +157,7 @@ class Header extends Component {
               </Dropdown.Toggle>
               <Dropdown.Menu className="md-dropdown-menu">
                 {this.locales.map((locale, idx) => {
-                  params['lang'] = locale
+                  params['ln'] = locale
                   const temp = Utils.getUrlFromJson(params)
                   return (
                     <li role="presentation" key={idx}>
