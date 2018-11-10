@@ -158,14 +158,13 @@ class Header extends Component {
               <Dropdown.Menu className="md-dropdown-menu">
                 {this.locales.map((locale, idx) => {
                   params['lang'] = locale
+                  const temp = Utils.getUrlFromJson(params)
                   return (
                     <li role="presentation" key={idx}>
                       <a
                         key={idx}
                         role="menuitem"
-                        onClick={() =>
-                          this.changeLang(this.state.location + '?' + Utils.getUrlFromJson(params))
-                        }
+                        onClick={() => this.changeLang(this.state.location + '?' + temp)}
                       >
                         <span style={{ fontSize: '13px' }}>{locale}</span>
                       </a>
