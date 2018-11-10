@@ -81,6 +81,10 @@ class Header extends Component {
     await accountStore.logout()
   }
 
+  changeLang = location => {
+    window.location = location
+  }
+
   render() {
     const { accountStore } = this.props
     const params = Utils.getJsonFromUrl()
@@ -157,9 +161,11 @@ class Header extends Component {
                   return (
                     <li role="presentation" key={idx}>
                       <a
-                        href={this.state.location + '?' + Utils.getUrlFromJson(params)}
                         key={idx}
                         role="menuitem"
+                        onClick={() =>
+                          this.changeLang(this.state.location + '?' + Utils.getUrlFromJson(params))
+                        }
                       >
                         <span style={{ fontSize: '13px' }}>{locale}</span>
                       </a>
