@@ -13,8 +13,6 @@ export default {
     const token_id = symbolInfo.token_id
     const statistic_type = this.getStatisticType(resolution)
     const url = `/bars?token_id=${token_id}&statistic_type=${statistic_type}&from=${from}&to=${to}`
-
-    console.log('요청 url', url)
     // const url =
     //   resolution === 'D'
     //     ? '/data/histoday'

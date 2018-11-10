@@ -28,7 +28,6 @@ class MarketStore {
   }
 
   getTokens = async () => {
-    console.log('겟토큰 왜옴?')
     this.tokens = await graphql({ client: ApiServerAgent, query: tokensQuery })
   }
 

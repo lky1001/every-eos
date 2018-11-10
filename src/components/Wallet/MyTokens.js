@@ -166,7 +166,7 @@ class MyTokens extends Component {
           </Row>
         </div>
         <div className="card-divider" />
-        <iv className="card-body">
+        <div className="card-body">
           <table className="table">
             <thead>
               <tr>
@@ -208,7 +208,14 @@ class MyTokens extends Component {
               ) : (
                 <tr>
                   <td colSpan="5">
-                    <div style={{ width: '100%', margin: '0% 50%', padding: '40px' }}>
+                    <div
+                      style={{
+                        width: '40px',
+                        margin: 'auto',
+                        paddingTop: '20px',
+                        paddingBottom: '0px'
+                      }}
+                    >
                       <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
                     </div>
                   </td>
@@ -216,7 +223,7 @@ class MyTokens extends Component {
               )}
             </tbody>
           </table>
-        </iv>
+        </div>
       </ShadowedCard>
     )
   }
