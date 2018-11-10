@@ -115,9 +115,9 @@ class Header extends Component {
           <ul className="pull-right">
             <li>
               {accountStore.isLogin ? (
-                <a className="ripple" onClick={this.onLogoutClick}>
+                <Link className="ripple" to="/wallets" style={{ color: 'white' }}>
                   <h6>{accountStore.loginAccountInfo.account_name}</h6>
-                </a>
+                </Link>
               ) : (
                 <a className="ripple" onClick={this.onLoginClick}>
                   <h6>
@@ -128,7 +128,7 @@ class Header extends Component {
             </li>
             <li>
               {accountStore.isLogin && (
-                <Link to="/orders" style={{ color: 'white' }}>
+                <Link className="ripple" to="/orders" style={{ color: 'white' }}>
                   <h6>
                     <FormattedMessage id="Orders" />
                   </h6>
@@ -137,23 +137,25 @@ class Header extends Component {
             </li>
             <li>
               {accountStore.isLogin && (
-                <Link to="/wallets" style={{ color: 'white' }}>
+                <a className="ripple" onClick={this.onLogoutClick}>
                   <h6>
-                    <FormattedMessage id="Wallet" />
+                    <FormattedMessage id="SignOut" />
                   </h6>
-                </Link>
+                </a>
               )}
             </li>
             <Dropdown
               id="basic-nav-dropdown"
               pullRight
               componentClass="li"
-              style={{ paddingTop: '3px' }}>
+              style={{ paddingTop: '3px' }}
+            >
               <Dropdown.Toggle
                 useAnchor
                 noCaret
                 className="has-badge ripple"
-                style={{ fontSize: '16px' }}>
+                style={{ fontSize: '16px' }}
+              >
                 <FormattedMessage id="LANG" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="md-dropdown-menu">

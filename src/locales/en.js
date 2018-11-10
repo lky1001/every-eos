@@ -29,6 +29,7 @@ export default {
   Trend: 'Trend',
   EXCHANGE: 'EXCHANGE',
   SignIn: 'SignIn',
+  SignOut: 'SignOut',
   LANG: 'LANG',
   BALANCE: 'BALANCE',
   Orders: 'Orders',
