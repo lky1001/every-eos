@@ -166,3 +166,7 @@ export const BaseLargeButton = styled(Button)`
 export const MarketHeader = styled.th`
   font-size: 14px !important;
 `
+
+export const TopView = styled.div`
+  height: 400px;
+`

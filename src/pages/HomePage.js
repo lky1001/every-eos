@@ -4,9 +4,7 @@ import styled from 'styled-components'
 
 import MarketView from '../components/Market/MatketView'
 import Faq from '../components/Home/Faq'
-const TopView = styled.div`
-  height: 500px;
-`
+import { TopView } from '../components/Common/Common'
 
 class HomePage extends Component {
   constructor(props) {
