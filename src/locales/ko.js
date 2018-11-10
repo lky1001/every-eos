@@ -59,6 +59,7 @@ export default {
   Exchange: '거래소',
   Move: '이동',
   'Account Resource': '계정 자원',
+  'Today Changed': '금일 변동',
   Range: '기간',
   Search: '검색',
   LastTradeListTitle: '최근 거래 내역(20개)',
