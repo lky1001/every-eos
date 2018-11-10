@@ -6,6 +6,7 @@ import { compose } from 'recompose'
 import { Grid, Row, Col, Button, Dropdown, MenuItem } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { GET_BALANCE_INTERVAL } from '../constants/Values'
+import Loader from 'react-loader-spinner'
 import _ from 'lodash'
 
 class Wallet extends Component {
@@ -186,8 +187,8 @@ class Wallet extends Component {
                       </Row>
                     </div>
                     <div className="card-divider" />
-                    <div className="card-body">
-                      <table className="table table-striped">
+                    <iv className="card-body">
+                      <table className="table">
                         <thead>
                           <tr>
                             <th style={{ fontSize: '17px' }}>
@@ -207,8 +208,9 @@ class Wallet extends Component {
                             </th>
                           </tr>
                         </thead>
+
                         <tbody>
-                          {accountStore.isLogin &&
+                          {this.state.tokens && this.state.tokens.length > 0 ? (
                             this.state.tokens.map((token, idx) => {
                               return (
                                 <tr key={idx}>
@@ -225,10 +227,19 @@ class Wallet extends Component {
                                   </td>
                                 </tr>
                               )
-                            })}
+                            })
+                          ) : (
+                            <tr>
+                              <td colSpan="5">
+                                <div style={{ width: '100%', margin: '0% 50%', padding: '40px' }}>
+                                  <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
+                                </div>
+                              </td>
+                            </tr>
+                          )}
                         </tbody>
                       </table>
-                    </div>
+                    </iv>
                   </form>
                 </Col>
                 {/* Right column */}

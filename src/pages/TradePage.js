@@ -15,9 +15,8 @@ import Market from '../components/Trade/Market'
 import LastTradeList from '../components/Trade/LastTradeList'
 import OrderHistory from '../components/Trade/OrderHistory'
 import OpenOrder from '../components/Trade/OpenOrder'
-
+import Loader from 'react-loader-spinner'
 import ColorsConstant from '../components/Colors/ColorsConstant'
-import { Scrollbars } from 'react-custom-scrollbars'
 
 class TradePage extends Component {
   constructor(props) {
@@ -64,8 +63,7 @@ class TradePage extends Component {
   }
 
   render() {
-    const { accountStore, marketStore, tradeStore, eosioStore } = this.props
-
+    const { classes, accountStore, marketStore, tradeStore, eosioStore } = this.props
     const token = marketStore.token
       ? marketStore.token.data
         ? marketStore.token.data.token
@@ -82,7 +80,7 @@ class TradePage extends Component {
 
     return (
       <section>
-        {token && (
+        {token ? (
           <Grid style={{ minWidth: '1440px' }}>
             <Row
               style={{
@@ -217,6 +215,10 @@ class TradePage extends Component {
               </Col>
             </Row>
           </Grid>
+        ) : (
+          <div style={{ width: '100%', margin: '0% 50%', padding: '40px' }}>
+            <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
+          </div>
         )}
       </section>
     )
