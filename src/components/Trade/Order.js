@@ -42,7 +42,8 @@ const OrderAmountRow = styled.div`
 
 const PrimaryOrderColPanel = styled(OrderColPanel)`
   text-align: left;
-  color: ${props => (props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red)};
+  color: ${props =>
+    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
 `
 
 const OrderInput = styled(Input)`
@@ -83,7 +84,7 @@ class Order extends Component {
   }
 
   componentWillMount = () => {
-    const { tradeStore, accountStore, eosioStore, token } = this.props
+    const { tradeStore, accountStore } = this.props
     this.disposer = tradeStore.setWatchPrice(changed => {
       this.setState({
         buyPrice: parseFloat(changed.newValue),
@@ -91,22 +92,12 @@ class Order extends Component {
       })
     })
 
+    this.getTokenBalance()
+
     this.disposerAccount = accountStore.subscribeLoginState(async changed => {
       if (changed.oldValue !== changed.newValue) {
         if (changed.newValue) {
-          const tokenBalance = await eosioStore.getCurrencyBalance({
-            code: token.contract,
-            account: accountStore.loginAccountInfo.account_name,
-            symbol: token.symbol
-          })
-
-          if (tokenBalance.length > 0) {
-            const balance = tokenBalance[0].split(' ')[0]
-
-            this.setState({
-              tokenBalance: parseFloat(balance)
-            })
-          }
+          await this.getTokenBalance()
         } else {
           this.setState({
             tokenBalance: 0.0
@@ -114,6 +105,24 @@ class Order extends Component {
         }
       }
     })
+  }
+
+  getTokenBalance = async () => {
+    const { accountStore, eosioStore, token } = this.props
+
+    const tokenBalance = await eosioStore.getCurrencyBalance({
+      code: token.contract,
+      account: accountStore.loginAccountInfo.account_name,
+      symbol: token.symbol
+    })
+
+    if (tokenBalance.length > 0) {
+      const balance = tokenBalance[0].split(' ')[0]
+
+      this.setState({
+        tokenBalance: parseFloat(balance)
+      })
+    }
   }
 
   componentWillUnmount = () => {
@@ -147,7 +156,9 @@ class Order extends Component {
     let eosBalance = await accountStore.getTokenBalance(EOS_TOKEN.symbol, EOS_TOKEN.contract)
     eosBalance = parseFloat(eosBalance)
 
-    const eosAmount = parseFloat(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)
+    const eosAmount = parseFloat(this.state.buyPrice * this.state.buyQty).toFixed(
+      EOS_TOKEN.precision
+    )
 
     if (eosAmount < 0.1) {
       this.props.alert.show('Order is must greater then or equal to 0.1000 EOS.')
@@ -184,7 +195,10 @@ class Order extends Component {
       const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
       if (result) {
-        tradeStore.getPollingOrderByTxId(result.transaction_id, accountStore.loginAccountInfo.account_name)
+        tradeStore.getPollingOrderByTxId(
+          result.transaction_id,
+          accountStore.loginAccountInfo.account_name
+        )
         this.props.alert.show('Success(' + result.transaction_id + ')')
       }
     } catch (e) {
@@ -236,7 +250,10 @@ class Order extends Component {
       const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
       if (result) {
-        tradeStore.getPollingOrderByTxId(result.transaction_id, accountStore.loginAccountInfo.account_name)
+        tradeStore.getPollingOrderByTxId(
+          result.transaction_id,
+          accountStore.loginAccountInfo.account_name
+        )
         this.props.alert.show('Success(' + result.transaction_id + ')')
       }
     } catch (e) {
@@ -291,7 +308,10 @@ class Order extends Component {
       const result = await eosioStore.buyToken(token.contract, data)
 
       if (result) {
-        tradeStore.getPollingOrderByTxId(result.transaction_id, accountStore.loginAccountInfo.account_name)
+        tradeStore.getPollingOrderByTxId(
+          result.transaction_id,
+          accountStore.loginAccountInfo.account_name
+        )
         this.props.alert.show('Success(' + result.transaction_id + ')')
       }
     } catch (e) {
@@ -337,7 +357,10 @@ class Order extends Component {
       const result = await eosioStore.buyToken(token.contract, data)
 
       if (result) {
-        tradeStore.getPollingOrderByTxId(result.transaction_id, accountStore.loginAccountInfo.account_name)
+        tradeStore.getPollingOrderByTxId(
+          result.transaction_id,
+          accountStore.loginAccountInfo.account_name
+        )
         this.props.alert.show('Success(' + result.transaction_id + ')')
       }
     } catch (e) {
@@ -388,7 +411,12 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <OrderInput type="number" value={this.state.buyPrice} onChange={this.handleChange('buyPrice')} step="1" />
+                    <OrderInput
+                      type="number"
+                      value={this.state.buyPrice}
+                      onChange={this.handleChange('buyPrice')}
+                      step="1"
+                    />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -399,7 +427,13 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
-                    <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('buyQty')} value={this.state.buyQty} />
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange('buyQty')}
+                      value={this.state.buyQty}
+                    />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -434,7 +468,12 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup>
-                    <OrderInput type="number" onChange={this.handleChange('sellPrice')} value={this.state.sellPrice} step="1" />
+                    <OrderInput
+                      type="number"
+                      onChange={this.handleChange('sellPrice')}
+                      value={this.state.sellPrice}
+                      step="1"
+                    />
                     <InputGroupAddon addonType="append">EOS</InputGroupAddon>
                   </InputGroup>
                 </Col>
@@ -445,7 +484,13 @@ class Order extends Component {
                 </OrderColPanel>
                 <Col sm="9">
                   <InputGroup style={{ width: '100%' }}>
-                    <OrderInput placeholder="Amount" type="number" step="1" onChange={this.handleChange('sellQty')} value={this.state.sellQty} />
+                    <OrderInput
+                      placeholder="Amount"
+                      type="number"
+                      step="1"
+                      onChange={this.handleChange('sellQty')}
+                      value={this.state.sellQty}
+                    />
                     <InputGroupAddon addonType="append">{token.symbol}</InputGroupAddon>
                   </InputGroup>
                 </Col>
