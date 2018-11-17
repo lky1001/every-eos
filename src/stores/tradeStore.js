@@ -83,7 +83,7 @@ class TradeStore {
     data: {
       lastTrades: []
     },
-    loading: false,
+    loading: true,
     error: null
   }
 
@@ -453,6 +453,10 @@ class TradeStore {
     })
   }
 
+  get lastTrades() {
+    return this.lastTrades.data
+  }
+
   get lastTradesError() {
     return (this.lastTrades && this.lastTrades.error && this.lastTrades.error.message) || null
   }
@@ -492,6 +496,7 @@ decorate(TradeStore, {
   openOrdersList: computed,
   openOrdersCount: computed,
   openOrdersTotalCount: computed,
+  lastTrades: computed,
   lastTradesError: computed,
   lastTradesLoading: computed,
   tokenSymbol: observable,

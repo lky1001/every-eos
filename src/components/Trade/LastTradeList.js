@@ -50,6 +50,8 @@ class LastTradeList extends Component {
   }
 
   render() {
+    const { tradeStore } = this.props
+
     return (
       <Fragment>
         <LastTradeListTitle className="table-responsive">
@@ -73,7 +75,18 @@ class LastTradeList extends Component {
             </tr>
           </thead>
         </HeaderTable>
-        <Scrollbars style={{ height: '220px' }} />
+        <Scrollbars style={{ height: '220px' }}>
+          <Table className="order-list-table responsive hover">
+            <tbody>
+              {tradeStore.lastTradesLoading && <td style={{ textAlign: 'center' }}>Loading</td>}
+
+              {!tradeStore.lastTradesLoading &&
+                tradeStore.lastTrades.map((lastTrade, idx) => {
+                  return <td style={{ textAlign: 'center' }}>Loading</td>
+                })}
+            </tbody>
+          </Table>
+        </Scrollbars>
       </Fragment>
     )
   }
