@@ -2,10 +2,21 @@ import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
 import { format, subDays } from 'date-fns'
-import { orderQuery, ordersForAccountQuery, stackedOrdersQuery } from '../graphql/query/order'
+import {
+  orderQuery,
+  ordersForAccountQuery,
+  stackedOrdersQuery,
+  lastTradeQuery
+} from '../graphql/query/order'
 
 import { barChartQuery } from '../graphql/query/bars'
-import { getTypeFilter, getStatusFilter, typeOptions, pageSizeOptions, statusOptions } from '../utils/OrderSearchFilter'
+import {
+  getTypeFilter,
+  getStatusFilter,
+  typeOptions,
+  pageSizeOptions,
+  statusOptions
+} from '../utils/OrderSearchFilter'
 import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
@@ -63,6 +74,14 @@ class TradeStore {
   chartDatas = {
     data: {
       chartDatas: []
+    },
+    loading: false,
+    error: null
+  }
+
+  lastTrades = {
+    data: {
+      lastTrades: []
     },
     loading: false,
     error: null
@@ -282,7 +301,9 @@ class TradeStore {
   }
 
   get ordersHistoryError() {
-    return (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
+    return (
+      (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
+    )
   }
 
   get ordersHistoryLoading() {
@@ -329,7 +350,12 @@ class TradeStore {
   }
 
   clearOpenOrders = () => {
-    if (this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount && this.openOrders.data.ordersForAccount.orders) {
+    if (
+      this.openOrders &&
+      this.openOrders.data &&
+      this.openOrders.data.ordersForAccount &&
+      this.openOrders.data.ordersForAccount.orders
+    ) {
       this.openOrders.data.ordersForAccount.orders = []
       this.openOrders.data.ordersForAccount.totalCount = 0
     }
@@ -355,13 +381,18 @@ class TradeStore {
   }
 
   get openOrdersCount() {
-    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount && this.openOrders.data.ordersForAccount.orders
+    return this.openOrders &&
+      this.openOrders.data &&
+      this.openOrders.data.ordersForAccount &&
+      this.openOrders.data.ordersForAccount.orders
       ? this.openOrders.data.ordersForAccount.orders.length
       : 0
   }
 
   get openOrdersTotalCount() {
-    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount ? this.openOrders.data.ordersForAccount.totalCount : 0
+    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount
+      ? this.openOrders.data.ordersForAccount.totalCount
+      : 0
   }
 
   cancelOrder = async (data, signature) => {
@@ -398,18 +429,28 @@ class TradeStore {
         clearInterval(pollingId)
         const arrivedOrderByTxId = toJS(pollingOrder.data.order)
 
-        if (arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED || arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED) {
+        if (
+          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
+          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
+        ) {
           this.setOrdersHistoryPage(1)
           this.getOrdersHistory(account_name)
         } else {
-          this.getOpenOrders(account_name, JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED]))
+          this.getOpenOrders(
+            account_name,
+            JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+          )
         }
       }
     }, 1000)
   }
 
   getLastTrades = async tokenId => {
-    // todo
+    this.lastTrades = await graphql({
+      client: ApiServerAgent,
+      query: lastTradeQuery,
+      variables: { token_id: tokenId }
+    })
   }
 
   get lastTradesError() {
@@ -458,6 +499,7 @@ decorate(TradeStore, {
   price: observable,
   amount: observable,
   chartDatas: observable,
+  lastOrders: observable,
   setTokenSymbol: action,
   setTokenSymbolForSearch: action,
   setPrice: action,
