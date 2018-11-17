@@ -1,4 +1,6 @@
 import React, { Component } from 'react'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 import { Grid, Row, Col, Button, Dropdown, MenuItem, Modal, Image } from 'react-bootstrap'
 import styled from 'styled-components'
 
@@ -13,6 +15,11 @@ class HomePage extends Component {
       showModalMsg: false,
       showModalNew: false
     }
+  }
+
+  componentDidMount = async () => {
+    const { noticeStore } = this.props
+    await noticeStore.getNotices()
   }
 
   closeMsg() {
@@ -32,6 +39,9 @@ class HomePage extends Component {
   }
 
   render() {
+    const { noticeStore } = this.props
+    const { noticesList } = noticeStore
+
     return (
       <section>
         <TopView className="container-overlap bg-blue-700" style={{ height: '400px' }}>
@@ -53,7 +63,26 @@ class HomePage extends Component {
             </Grid>
           </div>
         </TopView>
-        <div className="container container-lg">
+
+        <div
+          className="bg-blue-500"
+          style={{
+            height: '44px',
+            fontSize: '14px',
+            display: 'flex',
+            justifyContent: 'center',
+            alignItems: 'center'
+          }}>
+          {noticesList.map(n => {
+            return (
+              <div>
+                <a>{`${n.title} ${n.created}`}</a>
+              </div>
+            )
+          })}
+        </div>
+
+        <div style={{ marginTop: '100px' }} className="container container-lg">
           <MarketView />
         </div>
 
@@ -63,4 +92,7 @@ class HomePage extends Component {
   }
 }
 
-export default HomePage
+export default compose(
+  inject('noticeStore'),
+  observer
+)(HomePage)

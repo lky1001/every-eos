@@ -18,6 +18,7 @@ import eosioStore from './stores/eosioStore'
 import accountStore from './stores/accountStore'
 import marketStore from './stores/marketStore'
 import tradeStore from './stores/tradeStore'
+import noticeStore from './stores/noticeStore'
 
 import { Provider as AlertProvider } from 'react-alert'
 import AlertTemplate from 'react-alert-template-basic'
@@ -57,7 +58,8 @@ const stores = {
   eosioStore,
   accountStore,
   marketStore,
-  tradeStore
+  tradeStore,
+  noticeStore
 }
 
 document.addEventListener('scatterLoaded', async scatterExtension => {
