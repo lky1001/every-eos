@@ -46,7 +46,6 @@ class HeaderSearch extends React.Component {
 
   onSubmit(e) {
     e.preventDefault()
-    console.log('Search form submitted: [' + this.refs.searchTerm.value + ']')
   }
 
   render() {
@@ -57,7 +56,8 @@ class HeaderSearch extends React.Component {
         className="modal modal-top fade modal-search"
         onEnter={this.onShowModal}
         onExited={this.onHiddenModal}
-        onEntered={this.onShownModal}>
+        onEntered={this.onShownModal}
+      >
         <Modal.Body>
           <div className="pull-left">
             <button type="button" data-dismiss="modal" className="btn btn-flat">

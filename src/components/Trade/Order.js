@@ -92,7 +92,9 @@ class Order extends Component {
       })
     })
 
-    this.getTokenBalance()
+    if (accountStore.loginAccountInfo) {
+      this.getTokenBalance()
+    }
 
     this.disposerAccount = accountStore.subscribeLoginState(async changed => {
       if (changed.oldValue !== changed.newValue) {

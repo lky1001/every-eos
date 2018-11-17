@@ -43,7 +43,6 @@ class EosAgent {
   initEosAgent = id => {
     if (id) {
       this.scatter.useIdentity(id)
-      console.log('Possible identity', this.scatter.identity)
       const loginAccount = this.scatter.identity.accounts.find(
         acc => acc.blockchain === Values.NETWORK.blockchain
       )
@@ -81,8 +80,6 @@ class EosAgent {
       httpEndpoint: ENDPOINT,
       chainId: Values.NETWORK.chainId
     })
-
-    console.log('logout : ' + res)
   }
 
   getScatterAccount = () => {

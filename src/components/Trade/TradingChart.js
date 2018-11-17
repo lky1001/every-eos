@@ -102,7 +102,6 @@ class TradingChart extends Component {
     // this gets called on
     // 1. draw complete of trendline
     // 2. drag complete of trendline
-    console.log(trends_1)
     this.setState({
       enableTrendLine: false,
       trends_1
@@ -112,7 +111,6 @@ class TradingChart extends Component {
     // this gets called on
     // 1. draw complete of trendline
     // 2. drag complete of trendline
-    console.log(trends_3)
     this.setState({
       enableTrendLine: false,
       trends_3
@@ -120,7 +118,6 @@ class TradingChart extends Component {
   }
   onKeyPress(e) {
     const keyCode = e.which
-    console.log(keyCode)
     switch (keyCode) {
     case 46: {
       // DEL
