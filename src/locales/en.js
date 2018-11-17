@@ -62,7 +62,7 @@ export default {
   'Today Changed': 'Today Changed',
   Range: 'Range',
   Search: 'Search',
-  LastTradeListTitle: 'Last Trade(Recent 20)',
+  LatestTradeListTitle: 'Latest Trade(Recent 20)',
   Tx: 'Tx',
   TradeType: 'Type',
   TradePrice: 'Price',

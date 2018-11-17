@@ -62,7 +62,7 @@ export default {
   'Today Changed': '금일 변동',
   Range: '기간',
   Search: '검색',
-  LastTradeListTitle: '최근 거래 내역(20개)',
+  LatestTradeListTitle: '최근 거래 내역(20개)',
   Tx: 'Tx',
   TradeType: '거래',
   TradePrice: '가격',

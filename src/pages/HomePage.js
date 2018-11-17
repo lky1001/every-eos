@@ -73,9 +73,9 @@ class HomePage extends Component {
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-          {noticesList.map(n => {
+          {noticesList.map((n, i) => {
             return (
-              <div>
+              <div key={i}>
                 <a>{`${n.title} ${n.created}`}</a>
               </div>
             )

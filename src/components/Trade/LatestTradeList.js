@@ -8,7 +8,7 @@ import { Scrollbars } from 'react-custom-scrollbars'
 import { Row, Col } from 'react-bootstrap'
 import { HeaderTable } from '../Common/Common'
 
-const LastTradeListTitle = styled.div`
+const LatestTradeListTitle = styled.div`
   height: 44px;
   background: white;
   vertical-align: middle;
@@ -20,12 +20,12 @@ const LastTradeListTitle = styled.div`
   border-top: 1px solid rgb(217, 217, 217);
 `
 
-class LastTradeList extends Component {
+class LatestTradeList extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
-      lastTradeIntervalId: 0
+      latestTradeIntervalId: 0
     }
   }
 
@@ -34,29 +34,30 @@ class LastTradeList extends Component {
 
     tradeStore.getlatestTrades(token.id)
 
-    const lastTradeIntervalId = setInterval(async () => {
+    const latestTradeIntervalId = setInterval(async () => {
       tradeStore.getlatestTrades(token.id)
     }, GET_LAST_TRADE_INTERVAL)
 
     this.setState({
-      lastTradeIntervalId: lastTradeIntervalId
+      latestTradeIntervalId: latestTradeIntervalId
     })
   }
 
   componentWillUnmount = () => {
-    if (this.state.lastTradeIntervalId > 0) {
-      clearInterval(this.state.lastTradeIntervalId)
+    if (this.state.latestTradeIntervalId > 0) {
+      clearInterval(this.state.latestTradeIntervalId)
     }
   }
 
   render() {
-    const { tradeStore } = this.props
+    const { tradeStore, latestTradesError, latestTradesLoading, latestTradesList } = this.props
 
+    console.log(latestTradesList)
     return (
       <Fragment>
-        <LastTradeListTitle className="table-responsive">
-          <FormattedMessage id="LastTradeListTitle" />
-        </LastTradeListTitle>
+        <LatestTradeListTitle className="table-responsive">
+          <FormattedMessage id="LatestTradeListTitle" />
+        </LatestTradeListTitle>
         <HeaderTable className="table order-list-table">
           <thead>
             <tr>
@@ -78,8 +79,8 @@ class LastTradeList extends Component {
         <Scrollbars style={{ height: '220px' }}>
           <Table className="order-list-table responsive hover">
             <tbody>
-              {!tradeStore.latestTradesLoading &&
-                tradeStore.latestTrades.data.latestTrades.map((latestTrade, idx) => {
+              {!latestTradesLoading &&
+                latestTradesList.map((latestTrade, idx) => {
                   return (
                     <tr key={idx}>
                       <td>{latestTrade.transaction_id}</td>
@@ -97,4 +98,4 @@ class LastTradeList extends Component {
   }
 }
 
-export default LastTradeList
+export default LatestTradeList
