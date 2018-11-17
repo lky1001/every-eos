@@ -140,10 +140,6 @@ class TradeStore {
       get openOrders() {}
     })
 
-    set(this, {
-      get latestTrades() {}
-    })
-
     this.price = observable.box(0.0)
   }
 
@@ -453,10 +449,6 @@ class TradeStore {
     })
   }
 
-  get latestTrades() {
-    return this.latestTrades.data.latestTrades
-  }
-
   get latestTradesError() {
     return (this.latestTrades && this.latestTrades.error && this.latestTrades.error.message) || null
   }
@@ -496,7 +488,7 @@ decorate(TradeStore, {
   openOrdersList: computed,
   openOrdersCount: computed,
   openOrdersTotalCount: computed,
-  latestTrades: computed,
+  latestTrades: observable,
   latestTradesError: computed,
   latestTradesLoading: computed,
   tokenSymbol: observable,

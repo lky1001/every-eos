@@ -32,10 +32,10 @@ class LastTradeList extends Component {
   componentDidMount = () => {
     const { tradeStore, token } = this.props
 
-    tradeStore.getLastTrades(token.id)
+    tradeStore.getlatestTrades(token.id)
 
     const lastTradeIntervalId = setInterval(async () => {
-      tradeStore.getLastTrades(token.id)
+      tradeStore.getlatestTrades(token.id)
     }, GET_LAST_TRADE_INTERVAL)
 
     this.setState({
@@ -79,7 +79,7 @@ class LastTradeList extends Component {
           <Table className="order-list-table responsive hover">
             <tbody>
               {!tradeStore.latestTradesLoading &&
-                tradeStore.latestTrades.map((latestTrade, idx) => {
+                tradeStore.latestTrades.data.latestTrades.map((latestTrade, idx) => {
                   return (
                     <tr key={idx}>
                       <td>{latestTrade.transaction_id}</td>
