@@ -6,7 +6,7 @@ import {
   orderQuery,
   ordersForAccountQuery,
   stackedOrdersQuery,
-  lastTradeQuery
+  latestTradeQuery
 } from '../graphql/query/order'
 
 import { barChartQuery } from '../graphql/query/bars'
@@ -79,9 +79,9 @@ class TradeStore {
     error: null
   }
 
-  lastTrades = {
+  latestTrades = {
     data: {
-      lastTrades: []
+      latestTrades: []
     },
     loading: true,
     error: null
@@ -141,7 +141,7 @@ class TradeStore {
     })
 
     set(this, {
-      get lastTrades() {}
+      get latestTrades() {}
     })
 
     this.price = observable.box(0.0)
@@ -445,24 +445,24 @@ class TradeStore {
     }, 1000)
   }
 
-  getLastTrades = async tokenId => {
-    this.lastTrades = await graphql({
+  getlatestTrades = async tokenId => {
+    this.latestTrades = await graphql({
       client: ApiServerAgent,
-      query: lastTradeQuery,
+      query: latestTradeQuery,
       variables: { token_id: tokenId }
     })
   }
 
-  get lastTrades() {
-    return this.lastTrades.data
+  get latestTrades() {
+    return this.latestTrades.data.latestTrades
   }
 
-  get lastTradesError() {
-    return (this.lastTrades && this.lastTrades.error && this.lastTrades.error.message) || null
+  get latestTradesError() {
+    return (this.latestTrades && this.latestTrades.error && this.latestTrades.error.message) || null
   }
 
-  get lastTradesLoading() {
-    return this.lastTrades ? this.lastTrades.loading : false
+  get latestTradesLoading() {
+    return this.latestTrades ? this.latestTrades.loading : false
   }
 }
 
@@ -496,9 +496,9 @@ decorate(TradeStore, {
   openOrdersList: computed,
   openOrdersCount: computed,
   openOrdersTotalCount: computed,
-  lastTrades: computed,
-  lastTradesError: computed,
-  lastTradesLoading: computed,
+  latestTrades: computed,
+  latestTradesError: computed,
+  latestTradesLoading: computed,
   tokenSymbol: observable,
   tokenSymbolForSearch: observable,
   price: observable,

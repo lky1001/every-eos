@@ -160,9 +160,9 @@ export const stackedOrdersQuery = gql`
   }
 `
 
-export const lastTradeQuery = gql`
+export const latestTradeQuery = gql`
   query($token_id: Int!) {
-    lastTrades(token_id: $token_id) {
+    latestTrades(token_id: $token_id) {
       transaction_id
       deal_type
       token_price

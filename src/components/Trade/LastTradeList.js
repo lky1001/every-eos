@@ -78,11 +78,16 @@ class LastTradeList extends Component {
         <Scrollbars style={{ height: '220px' }}>
           <Table className="order-list-table responsive hover">
             <tbody>
-              {tradeStore.lastTradesLoading && <td style={{ textAlign: 'center' }}>Loading</td>}
-
-              {!tradeStore.lastTradesLoading &&
-                tradeStore.lastTrades.map((lastTrade, idx) => {
-                  return <td style={{ textAlign: 'center' }}>Loading</td>
+              {!tradeStore.latestTradesLoading &&
+                tradeStore.latestTrades.map((latestTrade, idx) => {
+                  return (
+                    <tr key={idx}>
+                      <td>{latestTrade.transaction_id}</td>
+                      <td>{latestTrade.deal_type}</td>
+                      <td>{latestTrade.token_price * latestTrade.amount}</td>
+                      <td>{latestTrade.amount}</td>
+                    </tr>
+                  )
                 })}
             </tbody>
           </Table>
