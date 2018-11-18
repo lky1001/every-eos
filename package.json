@@ -83,6 +83,7 @@
         "react-image": "^1.5.1",
         "react-intl": "^2.4.0",
         "react-intl-locale": "^0.5.3",
+        "react-lines-ellipsis": "^0.13.2",
         "react-loader-spinner": "^2.2.0",
         "react-number-format": "^3.6.1",
         "react-router": "^4.3.1",

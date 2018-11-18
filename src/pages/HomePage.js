@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 import MarketView from '../components/Market/MatketView'
 import Faq from '../components/Home/Faq'
+import LinesEllipsis from 'react-lines-ellipsis'
 import { TopView } from '../components/Common/Common'
 
 class HomePage extends Component {
@@ -68,21 +69,49 @@ class HomePage extends Component {
           className="bg-blue-500"
           style={{
             height: '44px',
-            fontSize: '14px',
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
           }}>
-          {noticesList.map((n, i) => {
-            return (
-              <div key={i}>
-                <a>{`${n.title} ${n.created}`}</a>
-              </div>
-            )
-          })}
+          <div
+            className="container "
+            style={{
+              fontSize: '14px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center'
+            }}>
+            {noticesList.slice(0, 3).map((n, i) => {
+              return (
+                <Grid
+                  key={i}
+                  style={{
+                    width: '365px',
+                    height: '24px'
+                  }}>
+                  <a>
+                    <Row>
+                      <Col xs={10}>
+                        <LinesEllipsis
+                          text={n.title}
+                          maxLine="1"
+                          ellipsis="..."
+                          trimRight
+                          basedOn="letters"
+                        />
+                      </Col>
+                      <Col xs={2}>{`${new Date(n.created).getMonth()} - ${new Date(
+                        n.created
+                      ).getDay()}`}</Col>
+                    </Row>
+                  </a>
+                </Grid>
+              )
+            })}
+          </div>
         </div>
 
-        <div style={{ marginTop: '100px' }} className="container container-lg">
+        <div className="container container-lg">
           <MarketView />
         </div>
 
