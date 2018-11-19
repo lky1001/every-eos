@@ -164,9 +164,11 @@ export const latestTradesQuery = gql`
   query($token_id: Int!) {
     latestTrades(token_id: $token_id) {
       transaction_id
-      deal_type
       token_price
       amount
+      order {
+        type
+      }
     }
   }
 `

@@ -7,6 +7,7 @@ import { Table } from 'reactstrap'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { HeaderTable } from '../Common/Common'
 import { EOS_TOKEN } from '../../constants/Values'
+import ColorsConstant from '../Colors/ColorsConstant.js'
 
 const LatestTradeListTitle = styled.div`
   height: 44px;
@@ -18,6 +19,9 @@ const LatestTradeListTitle = styled.div`
   overflow: hidden;
   border-bottom: 1px solid rgb(217, 217, 217);
   border-top: 1px solid rgb(217, 217, 217);
+`
+const OrderTypeText = styled.span`
+  color: ${props => (props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red)};
 `
 
 class LatestTradeList extends Component {
@@ -84,16 +88,15 @@ class LatestTradeList extends Component {
                   return (
                     <tr key={idx}>
                       <td style={{ width: '27%' }}>
-                        <a
-                          href={`https://www.eosuite.app/blockexplorers/${
-                            latestTrade.transaction_id
-                          }`}
-                          target="_blank"
-                        >
+                        <a href={`https://www.eosuite.app/blockexplorers/${latestTrade.transaction_id}`} target="_blank">
                           {latestTrade.transaction_id.substring(0, 12)}....
                         </a>
                       </td>
-                      <td style={{ width: '21%', textAlign: 'center' }}>{latestTrade.deal_type}</td>
+                      <td style={{ width: '21%', textAlign: 'center' }}>
+                        <OrderTypeText buy={latestTrade.order.type === 'BUY'} sell={latestTrade.order.type === 'SELL'}>
+                          <FormattedMessage id={latestTrade.order.type} />
+                        </OrderTypeText>
+                      </td>
                       <td style={{ width: '31%' }}>
                         <NumberFormat
                           displayType={'text'}
@@ -104,12 +107,7 @@ class LatestTradeList extends Component {
                         />
                       </td>
                       <td style={{ width: '25%' }}>
-                        <NumberFormat
-                          displayType={'text'}
-                          value={latestTrade.amount}
-                          fixedDecimalScale={true}
-                          decimalScale={EOS_TOKEN.precision}
-                        />
+                        <NumberFormat displayType={'text'} value={latestTrade.amount} fixedDecimalScale={true} decimalScale={EOS_TOKEN.precision} />
                       </td>
                     </tr>
                   )
