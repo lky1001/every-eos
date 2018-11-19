@@ -1,5 +1,7 @@
 import { decorate, observable, action } from 'mobx'
 import eosAgent from '../EosAgent'
+import ApiServerAgent from '../ApiServerAgent'
+import { loginUserMutation } from '../graphql/query/user'
 
 class AccountStore {
   loginStateObserveble
@@ -57,6 +59,12 @@ class AccountStore {
 
       this.isLogin = true
       this.loginStateObserveble.set(true)
+
+      // async
+      ApiServerAgent.mutate({
+        mutation: loginUserMutation,
+        variables: { account: this.loginAccountInfo.account_name }
+      })
 
       return true
     } else {
@@ -117,9 +125,7 @@ class AccountStore {
     const loginAccountInfo = await eosAgent.getAccount(scatterAccount.name)
 
     if (loginAccountInfo) {
-      this.liquid = loginAccountInfo.core_liquid_balance
-        ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0])
-        : 0
+      this.liquid = loginAccountInfo.core_liquid_balance ? parseFloat(loginAccountInfo.core_liquid_balance.split(' ')[0]) : 0
       this.cpu = {
         max: parseFloat(loginAccountInfo.cpu_limit.max),
         used: parseFloat(loginAccountInfo.cpu_limit.used),
