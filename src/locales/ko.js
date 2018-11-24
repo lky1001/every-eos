@@ -72,6 +72,6 @@ export default {
   Staked: '스테이킹 EOS',
   Used: '사용중',
   Max: '최대값',
-  'TAKER FEE': '구매 수수료',
-  'MAKER FEE': '판매 수수료'
+  'Taker Fee': '구매 수수료',
+  'Maker Fee': '판매 수수료'
 }

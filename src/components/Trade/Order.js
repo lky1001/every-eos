@@ -5,6 +5,7 @@ import Swal from 'sweetalert2'
 import withReactContent from 'sweetalert2-react-content'
 import { withAlert } from 'react-alert'
 import { FormattedMessage } from 'react-intl'
+import Popup from 'reactjs-popup'
 import ColorsConstant from '../Colors/ColorsConstant'
 import { RightAlignCol, InfoIcon } from '../Common/Common'
 import {
@@ -441,15 +442,20 @@ class Order extends Component {
                 </Col>
               </OrderRowPanel>
               <OrderAmountRow>
-                <div>
-                  <FormattedMessage id="TOTAL" />
-                  {' : '}
-                  {(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)}
-                  <InfoIcon className={'ion-ios-information'} />
-                  <FormattedMessage id="TAKER FEE" />
-                  {' : '}
-                  {token.taker_fee} %
-                </div>
+                <FormattedMessage id="TOTAL" />
+                {' : '}
+                {(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)}
+
+                <Popup
+                  trigger={<InfoIcon className={'ion-ios-information'} />}
+                  position="top"
+                  on="hover">
+                  <div>
+                    <FormattedMessage id="Taker Fee" />
+                    {' : '}
+                    {token.taker_fee} %
+                  </div>
+                </Popup>
               </OrderAmountRow>
 
               <OrderRowPanel>
@@ -510,12 +516,16 @@ class Order extends Component {
                   {' : '}
                   {(this.state.sellPrice * this.state.sellQty).toFixed(EOS_TOKEN.precision)}
 
-                  <InfoIcon className={'ion-ios-information'} />
-                  <div>
-                    <FormattedMessage id="MAKER FEE" />
-                    {' : '}
-                    {token.maker_fee} %
-                  </div>
+                  <Popup
+                    trigger={<InfoIcon className={'ion-ios-information'} />}
+                    position="top"
+                    on="hover">
+                    <div>
+                      <FormattedMessage id="Maker Fee" />
+                      {' : '}
+                      {token.maker_fee} %
+                    </div>
+                  </Popup>
                 </div>
               </OrderAmountRow>
               <OrderRowPanel>
