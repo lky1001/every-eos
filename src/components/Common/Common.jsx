@@ -90,6 +90,11 @@ export const PriceRow = styled.p`
 export const PriceIcon = styled.em`
   color: ${props => props.color};
 `
+
+export const InfoIcon = styled.em`
+  color: ${props => props.color};
+`
+
 export const Text = styled.span`
   color: ${props => props.color};
 `

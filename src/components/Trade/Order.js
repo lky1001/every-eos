@@ -6,7 +6,7 @@ import withReactContent from 'sweetalert2-react-content'
 import { withAlert } from 'react-alert'
 import { FormattedMessage } from 'react-intl'
 import ColorsConstant from '../Colors/ColorsConstant'
-import { RightAlignCol } from '../Common/Common'
+import { RightAlignCol, InfoIcon } from '../Common/Common'
 import {
   EOS_TOKEN,
   SCATTER_ERROR_LOCKED,
@@ -441,9 +441,13 @@ class Order extends Component {
                 </Col>
               </OrderRowPanel>
               <OrderAmountRow>
-                <FormattedMessage id="TOTAL" />
-                {' : '}
-                {(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)}
+                <div>
+                  <FormattedMessage id="TOTAL" />
+                  {' : '}
+                  {(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)}
+
+                  <InfoIcon style={{ paddingLeft: 16 }} className={'ion-ios-information'} />
+                </div>
               </OrderAmountRow>
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
@@ -498,9 +502,13 @@ class Order extends Component {
                 </Col>
               </OrderRowPanel>
               <OrderAmountRow>
-                <FormattedMessage id="TOTAL" />
-                {' : '}
-                {(this.state.sellPrice * this.state.sellQty).toFixed(EOS_TOKEN.precision)}
+                <div>
+                  <FormattedMessage id="TOTAL" />
+                  {' : '}
+                  {(this.state.sellPrice * this.state.sellQty).toFixed(EOS_TOKEN.precision)}
+
+                  <InfoIcon style={{ paddingLeft: 16 }} className={'ion-ios-information'} />
+                </div>
               </OrderAmountRow>
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
