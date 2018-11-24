@@ -71,5 +71,7 @@ export default {
   Stake: 'Stake',
   Staked: 'Staked',
   Used: 'Used',
-  Max: 'Max'
+  Max: 'Max',
+  'TAKER FEE': 'TAKER FEE',
+  'MAKER FEE': 'MAKER FEE'
 }

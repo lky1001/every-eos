@@ -445,10 +445,13 @@ class Order extends Component {
                   <FormattedMessage id="TOTAL" />
                   {' : '}
                   {(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)}
-
-                  <InfoIcon style={{ paddingLeft: 16 }} className={'ion-ios-information'} />
+                  <InfoIcon className={'ion-ios-information'} />
+                  <FormattedMessage id="TAKER FEE" />
+                  {' : '}
+                  {token.taker_fee} %
                 </div>
               </OrderAmountRow>
+
               <OrderRowPanel>
                 <OrderColPanel sm="3" />
                 <Col sm="9">
@@ -507,7 +510,12 @@ class Order extends Component {
                   {' : '}
                   {(this.state.sellPrice * this.state.sellQty).toFixed(EOS_TOKEN.precision)}
 
-                  <InfoIcon style={{ paddingLeft: 16 }} className={'ion-ios-information'} />
+                  <InfoIcon className={'ion-ios-information'} />
+                  <div>
+                    <FormattedMessage id="MAKER FEE" />
+                    {' : '}
+                    {token.maker_fee} %
+                  </div>
                 </div>
               </OrderAmountRow>
               <OrderRowPanel>

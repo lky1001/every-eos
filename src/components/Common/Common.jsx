@@ -92,6 +92,9 @@ export const PriceIcon = styled.em`
 `
 
 export const InfoIcon = styled.em`
+  padding-left: 16px;
+  cursor: pointer;
+  font-size: 1.75rem;
   color: ${props => props.color};
 `
 
