@@ -448,7 +448,7 @@ class Order extends Component {
 
                 <Popup
                   trigger={<InfoIcon className={'ion-ios-information'} />}
-                  position="top"
+                  position="top center"
                   on="hover">
                   <div>
                     <FormattedMessage id="Taker Fee" />
@@ -518,7 +518,7 @@ class Order extends Component {
 
                   <Popup
                     trigger={<InfoIcon className={'ion-ios-information'} />}
-                    position="top"
+                    position="top center"
                     on="hover">
                     <div>
                       <FormattedMessage id="Maker Fee" />

@@ -21,7 +21,8 @@ const LatestTradeListTitle = styled.div`
   border-top: 1px solid rgb(217, 217, 217);
 `
 const OrderTypeText = styled.span`
-  color: ${props => (props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red)};
+  color: ${props =>
+    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
 `
 
 class LatestTradeList extends Component {
@@ -56,7 +57,6 @@ class LatestTradeList extends Component {
   render() {
     const { tradeStore, latestTradesError, latestTradesLoading, latestTradesList } = this.props
 
-    console.log(latestTradesList)
     return (
       <Fragment>
         <LatestTradeListTitle className="table-responsive">
@@ -88,12 +88,18 @@ class LatestTradeList extends Component {
                   return (
                     <tr key={idx}>
                       <td style={{ width: '27%' }}>
-                        <a href={`https://www.eosuite.app/blockexplorers/${latestTrade.transaction_id}`} target="_blank">
+                        <a
+                          href={`https://www.eosuite.app/blockexplorers/${
+                            latestTrade.transaction_id
+                          }`}
+                          target="_blank">
                           {latestTrade.transaction_id.substring(0, 12)}....
                         </a>
                       </td>
                       <td style={{ width: '21%', textAlign: 'center' }}>
-                        <OrderTypeText buy={latestTrade.order.type === 'BUY'} sell={latestTrade.order.type === 'SELL'}>
+                        <OrderTypeText
+                          buy={latestTrade.order.type === 'BUY'}
+                          sell={latestTrade.order.type === 'SELL'}>
                           <FormattedMessage id={latestTrade.order.type} />
                         </OrderTypeText>
                       </td>
@@ -107,7 +113,12 @@ class LatestTradeList extends Component {
                         />
                       </td>
                       <td style={{ width: '25%' }}>
-                        <NumberFormat displayType={'text'} value={latestTrade.amount} fixedDecimalScale={true} decimalScale={EOS_TOKEN.precision} />
+                        <NumberFormat
+                          displayType={'text'}
+                          value={latestTrade.amount}
+                          fixedDecimalScale={true}
+                          decimalScale={EOS_TOKEN.precision}
+                        />
                       </td>
                     </tr>
                   )

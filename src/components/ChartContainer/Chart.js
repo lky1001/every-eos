@@ -33,6 +33,7 @@ class Chart extends PureComponent {
 
   initChart = () => {
     const { token } = this.props
+    if (!token) return
 
     const widgetOptions = {
       debug: false,
