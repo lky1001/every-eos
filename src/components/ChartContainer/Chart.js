@@ -1,4 +1,5 @@
-import * as React from 'react'
+import React, { PureComponent } from 'react'
+import { withRouter } from 'react-router'
 import './index.css'
 import { widget } from '../../charting_library/charting_library.min'
 import { ChartAPIContainer } from './api'
@@ -9,7 +10,7 @@ function getLanguageFromURL() {
   return results === null ? null : decodeURIComponent(results[1].replace(/\+/g, ' '))
 }
 
-export class ChartContainer extends React.PureComponent {
+class Chart extends PureComponent {
   static defaultProps = {
     symbol: 'EveryEX:KARMA/EOS',
     interval: '30',
@@ -26,9 +27,24 @@ export class ChartContainer extends React.PureComponent {
 
   chartWidget = null
 
-  componentDidMount() {
+  constructor(props) {
+    super(props)
+
+    this.locationChangeListener = this.props.history.listen(async (location, action) => {
+      if (location.pathname.indexOf('/trades/') < 0) {
+        return
+      }
+
+      this.initChart()
+
+      this.forceUpdate()
+    })
+
+    this.initChart()
+  }
+
+  initChart = () => {
     const { token } = this.props
-    if (!token) return
 
     const widgetOptions = {
       debug: false,
@@ -82,6 +98,12 @@ export class ChartContainer extends React.PureComponent {
     })
   }
 
+  componentWillUnmount = () => {
+    if (this.locationChangeListener) {
+      this.locationChangeListener()
+    }
+  }
+
   componentWillUnmount() {
     if (this.chartWidget !== null) {
       this.chartWidget.remove()
@@ -93,3 +115,5 @@ export class ChartContainer extends React.PureComponent {
     return <div id={this.props.containerId} className={'ChartContainer'} />
   }
 }
+
+export default withRouter(Chart)
