@@ -27,9 +27,7 @@ class Chart extends PureComponent {
 
   chartWidget = null
 
-  constructor(props) {
-    super(props)
-
+  componentDidMount = async () => {
     this.locationChangeListener = this.props.history.listen(async (location, action) => {
       if (location.pathname.indexOf('/trades/') < 0) {
         return
