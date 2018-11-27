@@ -166,9 +166,7 @@ export const latestTradesQuery = gql`
       transaction_id
       token_price
       amount
-      order {
-        type
-      }
+      order_type
     }
   }
 `

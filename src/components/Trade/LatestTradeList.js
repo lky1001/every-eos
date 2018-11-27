@@ -98,9 +98,9 @@ class LatestTradeList extends Component {
                       </td>
                       <td style={{ width: '21%', textAlign: 'center' }}>
                         <OrderTypeText
-                          buy={latestTrade.order.type === 'BUY'}
-                          sell={latestTrade.order.type === 'SELL'}>
-                          <FormattedMessage id={latestTrade.order.type} />
+                          buy={latestTrade.order_type === 'BUY'}
+                          sell={latestTrade.order_type === 'SELL'}>
+                          <FormattedMessage id={latestTrade.order_type} />
                         </OrderTypeText>
                       </td>
                       <td style={{ width: '31%' }}>
