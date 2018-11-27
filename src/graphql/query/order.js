@@ -167,6 +167,7 @@ export const latestTradesQuery = gql`
       token_price
       amount
       order_type
+      created
     }
   }
 `

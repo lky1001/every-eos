@@ -3,7 +3,12 @@ import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { Text, HeaderTable, TokenPrice, PriceIcon, PriceRow, PriceBack } from '../Common/Common'
 
-import { ORDER_PAGE_LIMIT, GET_ORDER_LIST_INTERVAL, ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED } from '../../constants/Values'
+import {
+  ORDER_PAGE_LIMIT,
+  GET_ORDER_LIST_INTERVAL,
+  ORDER_STATUS_NOT_DEAL,
+  ORDER_STATUS_PARTIAL_DEALED
+} from '../../constants/Values'
 import { isNumber } from 'util'
 import ColorsConstant from '../Colors/ColorsConstant'
 import styled from 'styled-components'
@@ -89,9 +94,9 @@ class OrderList extends Component {
 
     return (
       <Fragment>
-        <HeaderTable className="table order-list-table">
+        <HeaderTable className="table order-list-table" background={ColorsConstant.grayLighter}>
           <thead>
-            <tr>
+            <tr style={{ height: '46px' }}>
               <th style={{ width: '30%' }}>
                 <FormattedMessage id="Price(EOS)" />
               </th>
@@ -136,7 +141,10 @@ class OrderList extends Component {
                       </AmountColumn>
                       <BaseColumn>
                         <PriceRow>
-                          {Math.abs(o.token_price.toFixed(token.precision) * o.stacked_amount.toFixed(token.precision)).toFixed(token.precision)}
+                          {Math.abs(
+                            o.token_price.toFixed(token.precision) *
+                              o.stacked_amount.toFixed(token.precision)
+                          ).toFixed(token.precision)}
                         </PriceRow>
                       </BaseColumn>
                     </BaseRow>
@@ -146,13 +154,26 @@ class OrderList extends Component {
           </Table>
         </div>
 
-        <TokenPrice className="table-responsive" style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}>
-          <Text color={token.last_price - token.last_previous_price > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}>{`${
-            token.last_price
-          }`}</Text>{' '}
+        <TokenPrice
+          className="table-responsive"
+          style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}>
+          <Text
+            color={
+              token.last_price - token.last_previous_price > 0
+                ? ColorsConstant.Thick_green
+                : ColorsConstant.Thick_red
+            }>{`${token.last_price}`}</Text>{' '}
           <PriceIcon
-            className={token.last_price - token.last_previous_price > 0 ? 'ion-arrow-up-c' : 'ion-arrow-down-c'}
-            color={token.last_price - token.last_previous_price > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}
+            className={
+              token.last_price - token.last_previous_price > 0
+                ? 'ion-arrow-up-c'
+                : 'ion-arrow-down-c'
+            }
+            color={
+              token.last_price - token.last_previous_price > 0
+                ? ColorsConstant.Thick_green
+                : ColorsConstant.Thick_red
+            }
           />
         </TokenPrice>
 
@@ -187,7 +208,10 @@ class OrderList extends Component {
                       </AmountColumn>
                       <BaseColumn>
                         <PriceRow>
-                          {Math.abs(o.token_price.toFixed(token.precision) * o.stacked_amount.toFixed(token.precision)).toFixed(token.precision)}
+                          {Math.abs(
+                            o.token_price.toFixed(token.precision) *
+                              o.stacked_amount.toFixed(token.precision)
+                          ).toFixed(token.precision)}
                         </PriceRow>
                       </BaseColumn>
                     </BaseRow>

@@ -104,6 +104,7 @@ export const Text = styled.span`
 
 export const HeaderTable = styled.table`
   margin-bottom: 0 !important;
+  background: ${props => props.background};
 `
 
 export const TokenPrice = styled.div`

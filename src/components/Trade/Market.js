@@ -6,6 +6,7 @@ import { withRouter } from 'react-router'
 import { HeaderTable, PriceRow, TableMdRow } from '../Common/Common'
 import { Scrollbars } from 'react-custom-scrollbars'
 import { EOS_TOKEN } from '../../constants/Values'
+import ColorsConstant from '../Colors/ColorsConstant.js'
 import styled from 'styled-components'
 
 const BaseColumn = styled.td`
@@ -41,9 +42,9 @@ class Market extends Component {
 
     return (
       <Fragment>
-        <HeaderTable className="table order-list-table">
+        <HeaderTable className="table order-list-table" background={ColorsConstant.grayLighter}>
           <thead>
-            <tr>
+            <tr style={{ height: '46px' }}>
               <th style={{ width: '10%' }} />
               <th style={{ width: '45%', textAlign: 'left' }}>
                 <FormattedMessage id="Market" />
@@ -71,7 +72,11 @@ class Market extends Component {
                           className="msg-display clickable"
                           onClick={() => this.goTrade(t.symbol)}>
                           <FavoriteColumn>
-                            <em data-pack="default" className="ion-android-star-outline" />
+                            <em
+                              data-pack="default"
+                              className="ion-android-star-outline"
+                              style={{ fontSize: '1.5rem', textAlign: 'center' }}
+                            />
                           </FavoriteColumn>
                           <PairColumn style={{ textAlign: 'left' }}>
                             <PriceRow>
