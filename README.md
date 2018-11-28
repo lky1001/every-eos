@@ -46,12 +46,16 @@ $ npm run build or yarn build
 - Token Open Orders
 - My Open Orders
 - My Order History
+- Latest Trades
+- Trading Chart
+- Cancel Transaction
+- Favorites in Main Page
 
 ## TODO
 
 - Wallet
 - Clear cache as soon as logout scatter
-- Cancel Result( Unexpected Result like already partial dealt, all dealt or cancelled)
+- Favorites in Trading Page
 
 ## License
 
