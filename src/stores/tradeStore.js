@@ -413,34 +413,6 @@ class TradeStore {
     })
   }
 
-  getPollingOrderByTxId = (txid, account_name) => {
-    if (!txid) return
-    let isDone = false
-    // todo - move to component
-    const pollingId = setInterval(async () => {
-      const pollingOrder = await this.getPollingOrder(txid)
-
-      if (!isDone && pollingOrder && pollingOrder.data && pollingOrder.data.order) {
-        isDone = true
-        clearInterval(pollingId)
-        const arrivedOrderByTxId = toJS(pollingOrder.data.order)
-
-        if (
-          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
-          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
-        ) {
-          this.setOrdersHistoryPage(1)
-          this.getOrdersHistory(account_name)
-        } else {
-          this.getOpenOrders(
-            account_name,
-            JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
-          )
-        }
-      }
-    }, 1000)
-  }
-
   getlatestTrades = async tokenId => {
     this.latestTrades = await graphql({
       client: ApiServerAgent,
@@ -517,7 +489,6 @@ decorate(TradeStore, {
   getOrdersHistory: action,
   setOrdersHistoryPage: action,
   getOpenOrders: action,
-  getPollingOrderByTxId: action,
   clearOrdersHistory: action,
   clearOpenOrders: action,
   getChartDatas: action,

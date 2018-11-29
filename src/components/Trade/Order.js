@@ -8,17 +8,21 @@ import { FormattedMessage } from 'react-intl'
 import Popup from 'reactjs-popup'
 import ColorsConstant from '../Colors/ColorsConstant'
 import { RightAlignCol, InfoIcon } from '../Common/Common'
+import { toJS } from 'mobx'
+
 import {
   EOS_TOKEN,
   SCATTER_ERROR_LOCKED,
   SCATTER_ERROR_REJECT_TRANSACTION_BY_USER,
   EOSIO_SERVER_ERROR,
-  EOSIO_SERVER_ERROR_CPU_LIMIT
+  EOSIO_SERVER_ERROR_CPU_LIMIT,
+  ORDER_STATUS_NOT_DEAL,
+  ORDER_STATUS_PARTIAL_DEALED,
+  ORDER_STATUS_ALL_DEALED,
+  ORDER_STATUS_CANCELLED
 } from '../../constants/Values'
 
 import styled from 'styled-components'
-
-const CustomSwal = withReactContent(Swal)
 
 const OrderTabPanel = styled(TabPanel)`
   font-size: 1.25rem;
@@ -198,7 +202,7 @@ class Order extends Component {
       const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
       if (result) {
-        tradeStore.getPollingOrderByTxId(
+        this.getPollingOrderByTxId(
           result.transaction_id,
           accountStore.loginAccountInfo.account_name
         )
@@ -207,6 +211,37 @@ class Order extends Component {
     } catch (e) {
       this.handleError(e)
     }
+  }
+
+  getPollingOrderByTxId = async (txid, account_name) => {
+    if (!txid) return
+    let isDone = false
+
+    const { tradeStore } = this.props
+    const { getPollingOrder, setOrdersHistoryPage, getOrdersHistory, getOpenOrders } = tradeStore
+
+    const pollingId = setInterval(async () => {
+      const pollingOrder = await getPollingOrder(txid)
+
+      if (!isDone && pollingOrder && pollingOrder.data && pollingOrder.data.order) {
+        isDone = true
+        clearInterval(pollingId)
+        const arrivedOrderByTxId = toJS(pollingOrder.data.order)
+
+        if (
+          arrivedOrderByTxId.status === ORDER_STATUS_ALL_DEALED ||
+          arrivedOrderByTxId.status === ORDER_STATUS_CANCELLED
+        ) {
+          setOrdersHistoryPage(1)
+          getOrdersHistory(account_name)
+        } else {
+          getOpenOrders(
+            account_name,
+            JSON.stringify([ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED])
+          )
+        }
+      }
+    }, 1000)
   }
 
   onBuyMarketClick = async () => {
@@ -253,7 +288,7 @@ class Order extends Component {
       const result = await eosioStore.buyToken(EOS_TOKEN.contract, data)
 
       if (result) {
-        tradeStore.getPollingOrderByTxId(
+        this.getPollingOrderByTxId(
           result.transaction_id,
           accountStore.loginAccountInfo.account_name
         )
@@ -311,7 +346,7 @@ class Order extends Component {
       const result = await eosioStore.buyToken(token.contract, data)
 
       if (result) {
-        tradeStore.getPollingOrderByTxId(
+        this.getPollingOrderByTxId(
           result.transaction_id,
           accountStore.loginAccountInfo.account_name
         )
@@ -360,7 +395,7 @@ class Order extends Component {
       const result = await eosioStore.buyToken(token.contract, data)
 
       if (result) {
-        tradeStore.getPollingOrderByTxId(
+        this.getPollingOrderByTxId(
           result.transaction_id,
           accountStore.loginAccountInfo.account_name
         )
@@ -388,7 +423,6 @@ class Order extends Component {
   render() {
     const { token, accountStore } = this.props
 
-    console.log('토큰', token)
     return (
       <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
         <TabList>
