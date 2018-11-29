@@ -388,6 +388,7 @@ class Order extends Component {
   render() {
     const { token, accountStore } = this.props
 
+    console.log('토큰', token)
     return (
       <Tabs selectedIndex={this.state.tabIndex} onSelect={tabIndex => this.setState({ tabIndex })}>
         <TabList>

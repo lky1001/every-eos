@@ -8,6 +8,8 @@ const tokenFragment = gql`
     market
     precision
     contract
+    maker_fee
+    taker_fee
     last_price
     last_previous_price
     last_day_price
@@ -35,6 +37,8 @@ export const findTokenQuery = gql`
       market
       precision
       contract
+      maker_fee
+      taker_fee
       last_price
       last_previous_price
       last_day_price
