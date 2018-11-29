@@ -120,11 +120,11 @@ class LatestTradeList extends Component {
                             )
                           }>
                           <LinkColumn>
-                            {/* <em
+                            <em
                               data-pack="default"
                               className="ion-android-star-outline"
                               style={{ fontSize: '1.5rem', textAlign: 'center' }}
-                            /> */}
+                            />
                           </LinkColumn>
                           <PriceColumn>
                             <PriceRow
