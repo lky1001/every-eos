@@ -72,7 +72,8 @@ class HomePage extends Component {
             display: 'flex',
             justifyContent: 'center',
             alignItems: 'center'
-          }}>
+          }}
+        >
           <div
             className="container "
             style={{
@@ -80,7 +81,8 @@ class HomePage extends Component {
               display: 'flex',
               justifyContent: 'center',
               alignItems: 'center'
-            }}>
+            }}
+          >
             {noticesList.slice(0, 3).map((n, i) => {
               return (
                 <Grid
@@ -88,10 +90,11 @@ class HomePage extends Component {
                   style={{
                     width: '365px',
                     height: '24px'
-                  }}>
+                  }}
+                >
                   <a>
                     <Row>
-                      <Col xs={10}>
+                      <Col xs={9}>
                         <LinesEllipsis
                           text={n.title}
                           maxLine="1"
@@ -100,7 +103,7 @@ class HomePage extends Component {
                           basedOn="letters"
                         />
                       </Col>
-                      <Col xs={2}>{`${new Date(n.created).getMonth()} - ${new Date(
+                      <Col xs={3}>{`${new Date(n.created).getMonth()} - ${new Date(
                         n.created
                       ).getDay()}`}</Col>
                     </Row>

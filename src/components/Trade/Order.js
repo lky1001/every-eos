@@ -484,11 +484,12 @@ class Order extends Component {
                 <Popup
                   trigger={<InfoIcon className={'ion-ios-information'} />}
                   position="top center"
-                  on="hover">
+                  on="hover"
+                >
                   <div>
                     <FormattedMessage id="Taker Fee" />
                     {' : '}
-                    {token.taker_fee} %
+                    {token.taker_fee * 100} %
                   </div>
                 </Popup>
               </OrderAmountRow>
@@ -554,11 +555,12 @@ class Order extends Component {
                   <Popup
                     trigger={<InfoIcon className={'ion-ios-information'} />}
                     position="top center"
-                    on="hover">
+                    on="hover"
+                  >
                     <div>
                       <FormattedMessage id="Maker Fee" />
                       {' : '}
-                      {token.maker_fee} %
+                      {token.maker_fee * 100} %
                     </div>
                   </Popup>
                 </div>

@@ -11,18 +11,12 @@ export class ChartAPIContainer {
   }
 
   onReady(cb) {
-    console.log('=====onReady running')
     setTimeout(() => cb(config), 0)
   }
 
-  searchSymbols(userInput, exchange, symbolType, onResultReadyCallback) {
-    console.log('====Search Symbols running')
-  }
-  resolveSymbol(symbolName, onSymbolResolvedCallback, onResolveErrorCallback) {
-    // expects a symbolInfo object in response
-    console.log('======resolveSymbol running')
-    // console.log('resolveSymbol:',{symbolName})
+  searchSymbols(userInput, exchange, symbolType, onResultReadyCallback) {}
 
+  resolveSymbol(symbolName, onSymbolResolvedCallback, onResolveErrorCallback) {
     var split_data = symbolName.split(/[:/]/)
     var symbol_stub = {
       name: symbolName,
@@ -47,17 +41,11 @@ export class ChartAPIContainer {
     }
     setTimeout(function() {
       onSymbolResolvedCallback(symbol_stub)
-      console.log('Resolving that symbol....', symbol_stub)
     }, 0)
 
     // onResolveErrorCallback('Not feeling it today')
   }
   getBars(symbolInfo, resolution, from, to, onHistoryCallback, onErrorCallback, firstDataRequest) {
-    console.log('=====getBars running')
-
-    console.log('레졸루션 보자', resolution)
-    // console.log('function args',arguments)
-    // console.log(`Requesting bars between ${new Date(from * 1000).toISOString()} and ${new Date(to * 1000).toISOString()}`)
     historyProvider
       .getBars(symbolInfo, resolution, from, to, firstDataRequest)
       .then(bars => {
@@ -78,28 +66,19 @@ export class ChartAPIContainer {
     onRealtimeCallback,
     subscribeUID,
     onResetCacheNeededCallback
-  ) {
-    console.log('=====subscribeBars runnning')
-  }
-  unsubscribeBars(subscriberUID) {
-    console.log('=====unsubscribeBars running')
-  }
+  ) {}
+  unsubscribeBars(subscriberUID) {}
   calculateHistoryDepth(resolution, resolutionBack, intervalBack) {
     //optional
-    console.log('=====calculateHistoryDepth running')
     // while optional, this makes sure we request 24 hours of minute data at a time
     // CryptoCompare's minute data endpoint will throw an error if we request data beyond 7 days in the past, and return no data
     return resolution < 60 ? { resolutionBack: 'D', intervalBack: '1' } : undefined
   }
   getMarks(symbolInfo, startDate, endDate, onDataCallback, resolution) {
     //optional
-    console.log('=====getMarks running')
   }
   getTimeScaleMarks(symbolInfo, startDate, endDate, onDataCallback, resolution) {
     //optional
-    console.log('=====getTimeScaleMarks running')
   }
-  getServerTime(cb) {
-    console.log('=====getServerTime running')
-  }
+  getServerTime(cb) {}
 }

@@ -31,6 +31,10 @@ class Chart extends PureComponent {
     this.initChart()
   }
 
+  componentDidUpdate = async () => {
+    this.initChart()
+  }
+
   initChart = () => {
     const { token } = this.props
     if (!token) return
