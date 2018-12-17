@@ -59,13 +59,13 @@ class LatestTradeList extends PureComponent {
     };
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const { tradeStore, token } = this.props;
 
-    tradeStore.getlatestTrades(token.id);
+    await tradeStore.getlatestTrades(token.id);
 
     const latestTradeIntervalId = setInterval(async () => {
-      tradeStore.getlatestTrades(token.id);
+      await tradeStore.getlatestTrades(token.id);
     }, GET_LAST_TRADE_INTERVAL);
 
     this.setState({

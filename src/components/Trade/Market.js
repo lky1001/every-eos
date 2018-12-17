@@ -1,48 +1,83 @@
-import React, { Component, Fragment } from 'react'
-import { Row, Col, Table } from 'react-bootstrap'
-import NumberFormat from 'react-number-format'
-import { FormattedMessage } from 'react-intl'
-import { withRouter } from 'react-router'
-import { HeaderTable, PriceRow, TableMdRow } from '../Common/Common'
-import { Scrollbars } from 'react-custom-scrollbars'
-import { EOS_TOKEN } from '../../constants/Values'
-import ColorsConstant from '../Colors/ColorsConstant.js'
-import styled from 'styled-components'
+import React, { Component, Fragment } from 'react';
+import { Row, Col, Table } from 'react-bootstrap';
+import NumberFormat from 'react-number-format';
+import { FormattedMessage } from 'react-intl';
+import { withRouter } from 'react-router';
+import { HeaderTable, PriceRow, TableMdRow } from '../Common/Common';
+import { Scrollbars } from 'react-custom-scrollbars';
+import { EOS_TOKEN } from '../../constants/Values';
+import ColorsConstant from '../Colors/ColorsConstant.js';
+import { withCookies, Cookies } from 'react-cookie';
+import styled from 'styled-components';
 
 const BaseColumn = styled.td`
   text-align: left;
-`
+`;
 
 const FavoriteColumn = styled(BaseColumn)`
   width: 10%;
-`
+`;
 
 const PairColumn = styled(BaseColumn)`
   width: 45%;
   text-align: left;
-`
+`;
 
 const LastPriceColumn = styled(BaseColumn)`
   width: 25%;
   text-align: right;
-`
+`;
 
 const ChangeColumn = styled(BaseColumn)`
   width: 20%;
   text-align: right;
-`
+`;
 
 class Market extends Component {
-  goTrade = symbol => {
-    this.props.history.push('/trades/' + symbol)
+  constructor(props) {
+    super(props);
+
+    const { cookies } = props;
+
+    this.state = {
+      favorites: cookies.get('favorites') || []
+    };
   }
 
+  goTrade = symbol => {
+    this.props.history.push('/trades/' + symbol);
+  };
+
+  handleFavorite = symbol => {
+    const { cookies } = this.props;
+    const { favorites } = this.state;
+
+    const targetIndex = favorites.indexOf(symbol);
+    let newFavorites = [];
+
+    if (targetIndex !== -1) {
+      newFavorites = favorites.filter(f => f !== symbol);
+    } else {
+      newFavorites = favorites.concat(symbol);
+    }
+
+    cookies.set('favorites', newFavorites, { path: '/' });
+    this.setState({ favorites: newFavorites });
+  };
+
   render() {
-    const { tokens } = this.props
+    const { tokens } = this.props;
+    const { favorites } = this.state;
+    const favoriteTokens = tokens.filter(t =>
+      favorites.some(f => f === t.symbol)
+    );
 
     return (
       <Fragment>
-        <HeaderTable className="table order-list-table" background={ColorsConstant.grayLighter}>
+        <HeaderTable
+          className="table order-list-table"
+          background={ColorsConstant.grayLighter}
+        >
           <thead>
             <tr style={{ height: '46px' }}>
               <th style={{ width: '10%' }} />
@@ -70,12 +105,27 @@ class Market extends Component {
                         <TableMdRow
                           key={idx}
                           className="msg-display clickable"
-                          onClick={() => this.goTrade(t.symbol)}>
-                          <FavoriteColumn>
+                          onClick={e => this.goTrade(t.symbol)}
+                        >
+                          <FavoriteColumn
+                            onClick={e => {
+                              e.stopPropagation();
+                              this.handleFavorite(t.symbol);
+                            }}
+                          >
                             <em
                               data-pack="default"
-                              className="ion-android-star-outline"
-                              style={{ fontSize: '1.5rem', textAlign: 'center' }}
+                              className={
+                                favoriteTokens.some(
+                                  target => target.symbol === t.symbol
+                                )
+                                  ? 'ion-android-star'
+                                  : 'ion-android-star-outline'
+                              }
+                              style={{
+                                fontSize: '1.5rem',
+                                textAlign: 'center'
+                              }}
                             />
                           </FavoriteColumn>
                           <PairColumn style={{ textAlign: 'left' }}>
@@ -86,7 +136,8 @@ class Market extends Component {
                           <LastPriceColumn>
                             <PriceRow
                               up={t.last_price - t.last_previous_price > 0}
-                              down={t.last_price - t.last_previous_price < 0}>
+                              down={t.last_price - t.last_previous_price < 0}
+                            >
                               <NumberFormat
                                 displayType={'text'}
                                 suffix=" EOS"
@@ -101,15 +152,20 @@ class Market extends Component {
                           <ChangeColumn>
                             <PriceRow
                               up={t.last_price - t.last_day_price > 0}
-                              down={t.last_price - t.last_day_price < 0}>
+                              down={t.last_price - t.last_day_price < 0}
+                            >
                               <NumberFormat
                                 displayType={'text'}
-                                prefix={t.last_price - t.last_day_price < 0 ? '-' : ''}
+                                prefix={
+                                  t.last_price - t.last_day_price < 0 ? '-' : ''
+                                }
                                 suffix="%"
                                 value={
                                   t.last_price - t.last_day_price === 0
                                     ? 0
-                                    : (Math.abs(t.last_day_price - t.last_price) /
+                                    : (Math.abs(
+                                        t.last_day_price - t.last_price
+                                      ) /
                                         t.last_day_price) *
                                       100
                                 }
@@ -119,7 +175,7 @@ class Market extends Component {
                             </PriceRow>
                           </ChangeColumn>
                         </TableMdRow>
-                      )
+                      );
                     })}
                 </tbody>
               </Table>
@@ -127,8 +183,8 @@ class Market extends Component {
           </Row>
         </Scrollbars>
       </Fragment>
-    )
+    );
   }
 }
 
-export default withRouter(Market)
+export default withRouter(withCookies(Market));
