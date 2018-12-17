@@ -64,8 +64,8 @@ class LatestTradeList extends PureComponent {
 
     await tradeStore.getlatestTrades(token.id);
 
-    const latestTradeIntervalId = setInterval(async () => {
-      await tradeStore.getlatestTrades(token.id);
+    const latestTradeIntervalId = setInterval(() => {
+      tradeStore.getlatestTrades(token.id);
     }, GET_LAST_TRADE_INTERVAL);
 
     this.setState({
@@ -118,57 +118,56 @@ class LatestTradeList extends PureComponent {
             <Col xs={12} md={12} style={{ padding: '0px' }}>
               <Table className="order-list-table responsive hover">
                 <tbody>
-                  {!latestTradesLoading &&
-                    latestTradesList.map((latestTrade, idx) => {
-                      return (
-                        <TableMdRow
-                          key={idx}
-                          className="msg-display clickable"
-                          onClick={() =>
-                            this.exploreTransaction(
-                              `https://www.eosuite.app/blockexplorers/${
-                                latestTrade.transaction_id
-                              }`
-                            )
-                          }
-                        >
-                          <LinkColumn />
-                          <PriceColumn>
-                            <PriceRow
-                              up={latestTrade.order_type === 'BUY'}
-                              down={latestTrade.order_type === 'SELL'}
-                            >
-                              <NumberFormat
-                                displayType={'text'}
-                                value={latestTrade.token_price}
-                                fixedDecimalScale={true}
-                                decimalScale={EOS_TOKEN.precision}
-                              />
-                            </PriceRow>
-                          </PriceColumn>
-                          <AmountColumn>
-                            <PriceRow>
-                              <NumberFormat
-                                value={latestTrade.amount}
-                                displayType={'text'}
-                                thousandSeparator={true}
-                              />
-                            </PriceRow>
-                          </AmountColumn>
+                  {latestTradesList.map((latestTrade, idx) => {
+                    return (
+                      <TableMdRow
+                        key={idx}
+                        className="msg-display clickable"
+                        onClick={() =>
+                          this.exploreTransaction(
+                            `https://www.eosuite.app/blockexplorers/${
+                              latestTrade.transaction_id
+                            }`
+                          )
+                        }
+                      >
+                        <LinkColumn />
+                        <PriceColumn>
+                          <PriceRow
+                            up={latestTrade.order_type === 'BUY'}
+                            down={latestTrade.order_type === 'SELL'}
+                          >
+                            <NumberFormat
+                              displayType={'text'}
+                              value={latestTrade.token_price}
+                              fixedDecimalScale={true}
+                              decimalScale={EOS_TOKEN.precision}
+                            />
+                          </PriceRow>
+                        </PriceColumn>
+                        <AmountColumn>
+                          <PriceRow>
+                            <NumberFormat
+                              value={latestTrade.amount}
+                              displayType={'text'}
+                              thousandSeparator={true}
+                            />
+                          </PriceRow>
+                        </AmountColumn>
 
-                          {/* 데이터 포맷 간단하게 11-24 12:22:15 이런식으로 TODO... */}
-                          <DateColumn>
-                            {`${new Date(
-                              Date.parse(latestTrade.created)
-                            ).getMonth() + 1}-${new Date(
-                              Date.parse(latestTrade.created)
-                            ).getDay() + 1} ${new Date(
-                              Date.parse(latestTrade.created)
-                            ).toLocaleTimeString()}`}
-                          </DateColumn>
-                        </TableMdRow>
-                      );
-                    })}
+                        {/* 데이터 포맷 간단하게 11-24 12:22:15 이런식으로 TODO... */}
+                        <DateColumn>
+                          {`${new Date(
+                            Date.parse(latestTrade.created)
+                          ).getMonth() + 1}-${new Date(
+                            Date.parse(latestTrade.created)
+                          ).getDay() + 1} ${new Date(
+                            Date.parse(latestTrade.created)
+                          ).toLocaleTimeString()}`}
+                        </DateColumn>
+                      </TableMdRow>
+                    );
+                  })}
                 </tbody>
               </Table>
             </Col>

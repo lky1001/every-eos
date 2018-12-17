@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react';
+import React, { PureComponent, Fragment } from 'react';
 import { Row, Col, Table } from 'react-bootstrap';
 import NumberFormat from 'react-number-format';
 import { FormattedMessage } from 'react-intl';
@@ -33,7 +33,7 @@ const ChangeColumn = styled(BaseColumn)`
   text-align: right;
 `;
 
-class Market extends Component {
+class Market extends PureComponent {
   constructor(props) {
     super(props);
 
