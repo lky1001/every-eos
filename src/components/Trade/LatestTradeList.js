@@ -64,8 +64,8 @@ class LatestTradeList extends PureComponent {
 
     await tradeStore.getlatestTrades(token.id);
 
-    const latestTradeIntervalId = setInterval(() => {
-      tradeStore.getlatestTrades(token.id);
+    const latestTradeIntervalId = setInterval(async () => {
+      await tradeStore.getlatestTrades(token.id);
     }, GET_LAST_TRADE_INTERVAL);
 
     this.setState({
@@ -74,6 +74,7 @@ class LatestTradeList extends PureComponent {
   };
 
   componentWillUnmount = () => {
+    console.log('componentWillUnmount', this.state.latestTradeIntervalId);
     if (this.state.latestTradeIntervalId > 0) {
       clearInterval(this.state.latestTradeIntervalId);
     }
@@ -86,8 +87,8 @@ class LatestTradeList extends PureComponent {
   render() {
     const {
       tradeStore,
-      latestTradesError,
-      latestTradesLoading,
+      // latestTradesError,
+      // latestTradesLoading,
       latestTradesList
     } = this.props;
 

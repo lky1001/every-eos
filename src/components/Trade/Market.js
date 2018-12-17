@@ -68,9 +68,12 @@ class Market extends PureComponent {
   render() {
     const { tokens } = this.props;
     const { favorites } = this.state;
-    const favoriteTokens = tokens.filter(t =>
-      favorites.some(f => f === t.symbol)
-    );
+
+    let favoriteTokens = [];
+
+    if (tokens) {
+      favoriteTokens = tokens.filter(t => favorites.some(f => f === t.symbol));
+    }
 
     return (
       <Fragment>

@@ -439,6 +439,8 @@ class TradeStore {
       query: latestTradesQuery,
       variables: { token_id: tokenId }
     });
+
+    console.log('getlatestTrades');
   };
 
   get latestTradesError() {
@@ -456,7 +458,9 @@ class TradeStore {
 
   get latestTradesList() {
     return (
-      (this.latestTrades.data && toJS(this.latestTrades.data.latestTrades)) ||
+      (this.latestTrades &&
+        this.latestTrades.data &&
+        toJS(this.latestTrades.data.latestTrades)) ||
       []
     );
   }

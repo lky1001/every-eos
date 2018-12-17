@@ -1,91 +1,93 @@
-import React, { Component } from 'react'
-import { inject, observer } from 'mobx-react'
-import { compose } from 'recompose'
-import { withRouter } from 'react-router'
-import Chart from '../components/ChartContainer/Chart'
+import React, { Component } from 'react';
+import { inject, observer } from 'mobx-react';
+import { compose } from 'recompose';
+import { withRouter } from 'react-router';
+import Chart from '../components/ChartContainer/Chart';
 
-import { NoPaddingCol, NoMarginPaddingCol } from '../components/Common/Common'
-import { Grid, Row, Col } from 'react-bootstrap'
-import TokenInfo from '../components/Trade/TokenInfo'
-import TokenThumbnailInfo from '../components/Trade/TokenThumbnailInfo'
-import Resource from '../components/Trade/Resource'
-import OrderList from '../components/Trade/OrderList'
-import Order from '../components/Trade/Order'
+import { NoPaddingCol, NoMarginPaddingCol } from '../components/Common/Common';
+import { Grid, Row, Col } from 'react-bootstrap';
+import TokenInfo from '../components/Trade/TokenInfo';
+import TokenThumbnailInfo from '../components/Trade/TokenThumbnailInfo';
+import Resource from '../components/Trade/Resource';
+import OrderList from '../components/Trade/OrderList';
+import Order from '../components/Trade/Order';
 
-import Market from '../components/Trade/Market'
-import LatestTradeList from '../components/Trade/LatestTradeList'
-import OrderHistory from '../components/Trade/OrderHistory'
-import OpenOrder from '../components/Trade/OpenOrder'
-import Loader from 'react-loader-spinner'
-import ColorsConstant from '../components/Colors/ColorsConstant'
+import Market from '../components/Trade/Market';
+import LatestTradeList from '../components/Trade/LatestTradeList';
+import OrderHistory from '../components/Trade/OrderHistory';
+import OpenOrder from '../components/Trade/OpenOrder';
+import Loader from 'react-loader-spinner';
+import ColorsConstant from '../components/Colors/ColorsConstant';
 
 class TradePage extends Component {
   constructor(props) {
-    super(props)
-    const { token } = this.props.match.params
+    super(props);
+    const { token } = this.props.match.params;
 
     this.state = {
       token: token,
       chartIntervalId: 0
-    }
+    };
 
-    this.locationChangeListener = this.props.history.listen(async (location, action) => {
-      if (location.pathname.indexOf('/trades/') < 0) {
-        return
+    this.locationChangeListener = this.props.history.listen(
+      async (location, action) => {
+        if (location.pathname.indexOf('/trades/') < 0) {
+          return;
+        }
+
+        const token = location.pathname.replace('/trades/', '');
+        const { marketStore, tradeStore } = this.props;
+
+        this.state = {
+          token: token
+        };
+
+        tradeStore.setTokenSymbol(token);
+        await marketStore.getTokenBySymbol(token);
+
+        this.forceUpdate();
       }
-
-      const token = location.pathname.replace('/trades/', '')
-      const { marketStore, tradeStore } = this.props
-
-      this.state = {
-        token: token
-      }
-
-      tradeStore.setTokenSymbol(token)
-      await marketStore.getTokenBySymbol(token)
-
-      this.forceUpdate()
-    })
+    );
   }
 
   componentDidMount = async () => {
-    const { marketStore, tradeStore, accountStore } = this.props
+    const { marketStore, tradeStore, accountStore } = this.props;
 
-    tradeStore.setTokenSymbol(this.state.token)
-    await marketStore.getTokenBySymbol(this.state.token)
+    tradeStore.setTokenSymbol(this.state.token);
+    await marketStore.getTokenBySymbol(this.state.token);
 
     this.disposer = accountStore.subscribeLoginState(changed => {
       if (changed.oldValue !== changed.newValue) {
-        this.forceUpdate()
+        this.forceUpdate();
       }
-    })
-  }
+    });
+  };
 
   componentWillUnmount = () => {
     if (this.disposer) {
-      this.disposer()
+      this.disposer();
     }
 
     if (this.locationChangeListener) {
-      this.locationChangeListener()
+      this.locationChangeListener();
     }
-  }
+  };
 
   render() {
-    const { accountStore, marketStore, tradeStore, eosioStore } = this.props
+    const { accountStore, marketStore, tradeStore, eosioStore } = this.props;
     const token = marketStore.token
       ? marketStore.token.data
         ? marketStore.token.data.token
         : null
-      : null
+      : null;
 
     const tokens = marketStore.tokens
       ? marketStore.tokens.data
         ? marketStore.tokens.data.tokens
         : null
-      : null
+      : null;
 
-    const height = '90px'
+    const height = '90px';
 
     return (
       <section>
@@ -96,12 +98,14 @@ class TradePage extends Component {
                 height,
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}>
+              }}
+            >
               <Col
                 md={3}
                 style={{
                   borderRight: ColorsConstant.Trade_border_style
-                }}>
+                }}
+              >
                 <TokenThumbnailInfo
                   marketStore={marketStore}
                   symbol={token.symbol}
@@ -109,9 +113,16 @@ class TradePage extends Component {
                 />
               </Col>
               <Col md={6}>
-                <TokenInfo marketStore={marketStore} symbol={token.symbol} height={height} />
+                <TokenInfo
+                  marketStore={marketStore}
+                  symbol={token.symbol}
+                  height={height}
+                />
               </Col>
-              <Col md={3} style={{ borderLeft: ColorsConstant.Trade_border_style }}>
+              <Col
+                md={3}
+                style={{ borderLeft: ColorsConstant.Trade_border_style }}
+              >
                 <Resource accountStore={accountStore} height={height} />
               </Col>
             </Row>
@@ -120,8 +131,14 @@ class TradePage extends Component {
                 height: '674px',
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}>
-              <NoPaddingCol className="col-md-3" showBorderRight showBorderTop showBorderBottom>
+              }}
+            >
+              <NoPaddingCol
+                className="col-md-3"
+                showBorderRight
+                showBorderTop
+                showBorderBottom
+              >
                 <OrderList
                   token={token}
                   tradeStore={tradeStore}
@@ -135,16 +152,22 @@ class TradePage extends Component {
                     height: '380px',
                     background: 'white',
                     borderTop: ColorsConstant.Trade_border_style
-                  }}>
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
-                    <Chart token={token} accountStore={accountStore} tradeStore={tradeStore} />
+                    <Chart
+                      token={token}
+                      accountStore={accountStore}
+                      tradeStore={tradeStore}
+                    />
                   </NoMarginPaddingCol>
                 </Row>
                 <Row
                   style={{
                     height: '280px',
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <Order
                       token={token}
@@ -160,19 +183,29 @@ class TradePage extends Component {
                   style={{
                     height: '380px',
                     background: 'white'
-                  }}>
-                  <NoPaddingCol className="col-md-12" showBorderLeft showBorderTop showBorderBottom>
+                  }}
+                >
+                  <NoPaddingCol
+                    className="col-md-12"
+                    showBorderLeft
+                    showBorderTop
+                    showBorderBottom
+                  >
                     <Market tokens={tokens} />
                   </NoPaddingCol>
                 </Row>
                 <Row>
-                  <NoPaddingCol className="col-md-12" showBorderLeft showBorderBottom>
+                  <NoPaddingCol
+                    className="col-md-12"
+                    showBorderLeft
+                    showBorderBottom
+                  >
                     <LatestTradeList
                       token={token}
                       tradeStore={tradeStore}
                       latestTradesList={tradeStore.latestTradesList}
-                      latestTradesLoading={tradeStore.latestTradesLoading}
-                      latestTradesError={tradeStore.latestTradesError}
+                      // latestTradesLoading={tradeStore.latestTradesLoading}
+                      // latestTradesError={tradeStore.latestTradesError}
                     />
                   </NoPaddingCol>
                 </Row>
@@ -182,12 +215,14 @@ class TradePage extends Component {
               style={{
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}>
+              }}
+            >
               <Col xs={12} md={12}>
                 <Row
                   style={{
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <OpenOrder
                       accountStore={accountStore}
@@ -203,14 +238,17 @@ class TradePage extends Component {
                 <Row
                   style={{
                     background: 'white'
-                  }}>
+                  }}
+                >
                   <NoMarginPaddingCol xs={12}>
                     <OrderHistory
                       accountStore={accountStore}
                       tradeStore={tradeStore}
                       ordersHistoryList={tradeStore.ordersHistoryList}
                       ordersHistoryCount={tradeStore.ordersHistoryCount}
-                      ordersHistoryTotalCount={tradeStore.ordersHistoryTotalCount}
+                      ordersHistoryTotalCount={
+                        tradeStore.ordersHistoryTotalCount
+                      }
                       ordersHistoryLoading={tradeStore.ordersHistoryLoading}
                       ordersHistoryError={tradeStore.ordersHistoryError}
                       ordersHistoryPage={tradeStore.ordersHistoryPage}
@@ -233,12 +271,13 @@ class TradePage extends Component {
               margin: 'auto',
               paddingTop: '20px',
               paddingBottom: '0px'
-            }}>
+            }}
+          >
             <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
           </div>
         )}
       </section>
-    )
+    );
   }
 }
 
@@ -247,4 +286,4 @@ export default withRouter(
     inject('marketStore', 'eosioStore', 'tradeStore', 'accountStore'),
     observer
   )(TradePage)
-)
+);
