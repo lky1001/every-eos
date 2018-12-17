@@ -1,13 +1,13 @@
-import React, { PureComponent, Fragment } from 'react';
-import styled from 'styled-components';
-import { GET_LAST_TRADE_INTERVAL } from '../../constants/Values';
-import { FormattedMessage } from 'react-intl';
-import NumberFormat from 'react-number-format';
-import { Table, Row, Col } from 'reactstrap';
-import { Scrollbars } from 'react-custom-scrollbars';
-import { HeaderTable, PriceRow, TableMdRow } from '../Common/Common';
-import { EOS_TOKEN } from '../../constants/Values';
-import ColorsConstant from '../Colors/ColorsConstant.js';
+import React, { PureComponent, Fragment } from 'react'
+import styled from 'styled-components'
+import { GET_LAST_TRADE_INTERVAL } from '../../constants/Values'
+import { FormattedMessage } from 'react-intl'
+import NumberFormat from 'react-number-format'
+import { Table, Row, Col } from 'reactstrap'
+import { Scrollbars } from 'react-custom-scrollbars'
+import { HeaderTable, PriceRow, TableMdRow } from '../Common/Common'
+import { EOS_TOKEN } from '../../constants/Values'
+import ColorsConstant from '../Colors/ColorsConstant.js'
 
 const LatestTradeListTitle = styled.div`
   height: 44px;
@@ -19,85 +19,92 @@ const LatestTradeListTitle = styled.div`
   overflow: hidden;
   border-bottom: 1px solid rgb(217, 217, 217);
   border-top: 1px solid rgb(217, 217, 217);
-`;
+`
 const OrderTypeText = styled.span`
   color: ${props =>
-    props.buy
-      ? ColorsConstant.Thick_green
-      : props.sell && ColorsConstant.Thick_red};
-`;
+    props.buy ? ColorsConstant.Thick_green : props.sell && ColorsConstant.Thick_red};
+`
 
 const BaseColumn = styled.td`
   text-align: left;
-`;
+`
 
 const LinkColumn = styled(BaseColumn)`
   width: 10%;
-`;
+`
 
 const PriceColumn = styled(BaseColumn)`
   width: 20%;
   text-align: right;
-`;
+`
 
 const AmountColumn = styled(BaseColumn)`
   width: 30%;
   text-align: right;
-`;
+`
 
 const DateColumn = styled(BaseColumn)`
   width: 40%;
   text-align: right;
-`;
+`
 
 class LatestTradeList extends PureComponent {
   constructor(props) {
-    super(props);
+    super(props)
 
     this.state = {
-      latestTradeIntervalId: 0
-    };
+      latestTradeIntervalId: 0,
+      symbol: undefined
+    }
   }
 
-  componentDidMount = async () => {
-    const { tradeStore, token } = this.props;
+  componentWillUnmount = () => {
+    this.clearLastTradeInterval()
+  }
 
-    await tradeStore.getlatestTrades(token.id);
+  startLastTradeInterval = async () => {
+    const { tradeStore, token } = this.props
 
     const latestTradeIntervalId = setInterval(async () => {
-      await tradeStore.getlatestTrades(token.id);
-    }, GET_LAST_TRADE_INTERVAL);
+      await tradeStore.getlatestTrades(token.id)
+    }, GET_LAST_TRADE_INTERVAL)
 
     this.setState({
-      latestTradeIntervalId: latestTradeIntervalId
-    });
-  };
+      latestTradeIntervalId: latestTradeIntervalId,
+      symbol: token.symbol
+    })
 
-  componentWillUnmount = () => {
-    console.log('componentWillUnmount', this.state.latestTradeIntervalId);
+    await tradeStore.getlatestTrades(token.id)
+  }
+
+  clearLastTradeInterval = () => {
+    console.log('clearLastTradeInterval', this.state.latestTradeIntervalId)
     if (this.state.latestTradeIntervalId > 0) {
-      clearInterval(this.state.latestTradeIntervalId);
+      clearInterval(this.state.latestTradeIntervalId)
     }
-  };
+  }
 
   exploreTransaction = url => {
-    window.open(url);
-  };
+    window.open(url)
+  }
 
   render() {
     const {
       tradeStore,
       // latestTradesError,
       // latestTradesLoading,
-      latestTradesList
-    } = this.props;
+      latestTradesList,
+      token
+    } = this.props
+
+    if (token.symbol !== this.state.symbol) {
+      this.clearLastTradeInterval()
+      this.startLastTradeInterval()
+    }
 
     return (
       <Fragment>
-        <HeaderTable
-          className="table order-list-table"
-          background={ColorsConstant.grayLighter}
-        >
+        <HeaderTable className="table order-list-table" background={ColorsConstant.grayLighter}>
           <thead>
             <tr style={{ height: '46px' }}>
               <th style={{ width: '10%' }} />
@@ -126,18 +133,14 @@ class LatestTradeList extends PureComponent {
                         className="msg-display clickable"
                         onClick={() =>
                           this.exploreTransaction(
-                            `https://www.eosuite.app/blockexplorers/${
-                              latestTrade.transaction_id
-                            }`
+                            `https://www.eosuite.app/blockexplorers/${latestTrade.transaction_id}`
                           )
-                        }
-                      >
+                        }>
                         <LinkColumn />
                         <PriceColumn>
                           <PriceRow
                             up={latestTrade.order_type === 'BUY'}
-                            down={latestTrade.order_type === 'SELL'}
-                          >
+                            down={latestTrade.order_type === 'SELL'}>
                             <NumberFormat
                               displayType={'text'}
                               value={latestTrade.token_price}
@@ -158,16 +161,14 @@ class LatestTradeList extends PureComponent {
 
                         {/* 데이터 포맷 간단하게 11-24 12:22:15 이런식으로 TODO... */}
                         <DateColumn>
-                          {`${new Date(
-                            Date.parse(latestTrade.created)
-                          ).getMonth() + 1}-${new Date(
+                          {`${new Date(Date.parse(latestTrade.created)).getMonth() + 1}-${new Date(
                             Date.parse(latestTrade.created)
                           ).getDay() + 1} ${new Date(
                             Date.parse(latestTrade.created)
                           ).toLocaleTimeString()}`}
                         </DateColumn>
                       </TableMdRow>
-                    );
+                    )
                   })}
                 </tbody>
               </Table>
@@ -245,8 +246,8 @@ class LatestTradeList extends PureComponent {
       //     </Table>
       //   </Scrollbars>
       // </Fragment>
-    );
+    )
   }
 }
 
-export default LatestTradeList;
+export default LatestTradeList
