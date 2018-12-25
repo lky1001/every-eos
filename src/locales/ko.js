@@ -56,7 +56,6 @@ export default {
   Token: '토큰',
   Frozen: '위탁',
   'EOS valuation': 'EOS 평가액',
-  Exchange: '거래소',
   Move: '이동',
   'Account Resource': '계정 자원',
   'Today Changed': '금일 변동',

@@ -56,7 +56,6 @@ export default {
   Token: 'Token',
   Frozen: 'Frozen',
   'EOS valuation': 'EOS valuation',
-  Exchange: 'Exchange',
   Move: 'Move',
   'Account Resource': 'Account Resource',
   'Today Changed': 'Today Changed',
