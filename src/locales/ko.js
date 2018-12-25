@@ -30,6 +30,7 @@ export default {
   SignIn: '로그인',
   SignOut: '로그아웃',
   LANG: '언어',
+  'Entrusted Account': '위탁 계정',
   BALANCE: '잔액',
   Orders: '주문 기록',
   'No Data': '기록 없음',

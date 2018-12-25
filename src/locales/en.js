@@ -20,6 +20,7 @@ export default {
   Type: 'Type',
   Price: 'Price',
   Average: 'Average',
+  'Entrusted Account': 'Entrusted Account',
   Dealed: 'Dealed',
   Total: 'Total',
   Status: 'Status',
