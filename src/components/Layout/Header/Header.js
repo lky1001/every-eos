@@ -94,7 +94,7 @@ class Header extends Component {
         <nav>
           <h2 className="header-title">
             <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
-              <img src="favicon.png" alt="yo!" style={{ width: '27px', marginTop: '-4px' }} />{' '}
+              <img src="/favicon.png" alt="yo!" style={{ width: '27px', marginTop: '-4px' }} />{' '}
               EVERYEOS Beta
             </Link>
           </h2>
