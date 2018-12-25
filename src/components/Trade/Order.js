@@ -209,7 +209,8 @@ class Order extends Component {
 
         const html =
           'You <b>transaction</b> id is below, ' +
-          `<a href=//eospark.com/tx/${result.transaction_id}>${result.transaction_id}</a> `
+          `<a href=//eospark.com/tx/${result.transaction_id} target=_blank
+          rel=noopener noreferrer>${result.transaction_id}</a> `
 
         Swal({
           title: 'Buy Sucess!',
@@ -304,7 +305,8 @@ class Order extends Component {
 
         const html =
           'You <b>transaction</b> id is below, ' +
-          `<a href=//eospark.com/tx/${result.transaction_id}>${result.transaction_id}</a> `
+          `<a href=//eospark.com/tx/${result.transaction_id} target=_blank
+          rel=noopener noreferrer>${result.transaction_id}</a> `
 
         Swal({
           title: 'Buy Sucess!',
@@ -372,7 +374,8 @@ class Order extends Component {
 
         const html =
           'You <b>transaction</b> id is below, ' +
-          `<a href=//eospark.com/tx/${result.transaction_id}>${result.transaction_id}</a> `
+          `<a href=//eospark.com/tx/${result.transaction_id} target=_blank
+          rel=noopener noreferrer>${result.transaction_id}</a> `
 
         Swal({
           title: 'Sell Sucess!',
@@ -430,7 +433,8 @@ class Order extends Component {
         )
         const html =
           'You <b>transaction</b> id is below, ' +
-          `<a href=//eospark.com/tx/${result.transaction_id}>${result.transaction_id}</a> `
+          `<a href=//eospark.com/tx/${result.transaction_id} target=_blank
+          rel=noopener noreferrer>${result.transaction_id}</a> `
 
         Swal({
           title: 'Sell Sucess!',

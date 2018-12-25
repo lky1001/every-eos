@@ -100,13 +100,23 @@ class Header extends Component {
           </h2>
           <h6 className="header-title" style={{ fontSize: '15px', marginLeft: '30px' }}>
             <Link to="/trades/karma" style={{ color: 'white', textDecoration: 'none' }}>
-              <FormattedMessage id="EXCHANGE" />
+              <FormattedMessage id="Exchange" />
             </Link>
           </h6>
           <h6 className="header-title" style={{ fontSize: '15px' }}>
             <Link to="/markets" style={{ color: 'white', textDecoration: 'none' }}>
-              <FormattedMessage id="MARKET" />
+              <FormattedMessage id="Market" />
             </Link>
+          </h6>
+
+          <h6 className="header-title" style={{ fontSize: '15px' }}>
+            <a
+              href="https://eospark.com/account/everyeosbank"
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'white', textDecoration: 'none' }}>
+              <FormattedMessage id="Entrusted Account" />
+            </a>
           </h6>
 
           <ul className="pull-right">
