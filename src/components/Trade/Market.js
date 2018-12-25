@@ -152,7 +152,9 @@ class Market extends PureComponent {
                                 prefix={t.last_price - t.last_day_price < 0 ? '-' : ''}
                                 suffix="%"
                                 value={
-                                  t.last_price - t.last_day_price === 0
+                                  t.last_day_price === 0
+                                    ? 0
+                                    : t.last_price - t.last_day_price === 0
                                     ? 0
                                     : (Math.abs(t.last_day_price - t.last_price) /
                                         t.last_day_price) *
