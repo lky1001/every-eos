@@ -206,7 +206,16 @@ class Order extends Component {
           result.transaction_id,
           accountStore.loginAccountInfo.account_name
         )
-        this.props.alert.show('Success(' + result.transaction_id + ')')
+
+        const html =
+          'You <b>transaction</b> id is below, ' +
+          `<a href=//eospark.com/tx/${result.transaction_id}>${result.transaction_id}</a> `
+
+        Swal({
+          title: 'Buy Sucess!',
+          type: 'success',
+          html
+        })
       }
     } catch (e) {
       this.handleError(e)
@@ -292,7 +301,17 @@ class Order extends Component {
           result.transaction_id,
           accountStore.loginAccountInfo.account_name
         )
-        this.props.alert.show('Success(' + result.transaction_id + ')')
+
+        const html =
+          'You <b>transaction</b> id is below, ' +
+          `<a href=//eospark.com/tx/${result.transaction_id}>${result.transaction_id}</a> `
+
+        Swal({
+          title: 'Buy Sucess!',
+          type: 'success',
+          html
+        })
+        // this.props.alert.show('Success(' + result.transaction_id + ')')
       }
     } catch (e) {
       this.handleError(e)
@@ -350,7 +369,17 @@ class Order extends Component {
           result.transaction_id,
           accountStore.loginAccountInfo.account_name
         )
-        this.props.alert.show('Success(' + result.transaction_id + ')')
+
+        const html =
+          'You <b>transaction</b> id is below, ' +
+          `<a href=//eospark.com/tx/${result.transaction_id}>${result.transaction_id}</a> `
+
+        Swal({
+          title: 'Sell Sucess!',
+          type: 'success',
+          html
+        })
+        // this.props.alert.show('Success(' + result.transaction_id + ')')
       }
     } catch (e) {
       this.handleError(e)
@@ -399,7 +428,16 @@ class Order extends Component {
           result.transaction_id,
           accountStore.loginAccountInfo.account_name
         )
-        this.props.alert.show('Success(' + result.transaction_id + ')')
+        const html =
+          'You <b>transaction</b> id is below, ' +
+          `<a href=//eospark.com/tx/${result.transaction_id}>${result.transaction_id}</a> `
+
+        Swal({
+          title: 'Sell Sucess!',
+          type: 'success',
+          html
+        })
+        // this.props.alert.show('Success(' + result.transaction_id + ')')
       }
     } catch (e) {
       this.handleError(e)
