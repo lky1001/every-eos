@@ -95,7 +95,7 @@ class Header extends Component {
           <h2 className="header-title">
             <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
               <img src="favicon.png" alt="yo!" style={{ width: '27px', marginTop: '-4px' }} />{' '}
-              EVERYEOS
+              EVERYEOS Beta
             </Link>
           </h2>
           <h6 className="header-title" style={{ fontSize: '15px', marginLeft: '30px' }}>
