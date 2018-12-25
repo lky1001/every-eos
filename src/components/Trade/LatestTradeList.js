@@ -78,7 +78,6 @@ class LatestTradeList extends PureComponent {
   }
 
   clearLastTradeInterval = () => {
-    console.log('clearLastTradeInterval', this.state.latestTradeIntervalId)
     if (this.state.latestTradeIntervalId > 0) {
       clearInterval(this.state.latestTradeIntervalId)
     }
