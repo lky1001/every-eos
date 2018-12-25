@@ -51,7 +51,7 @@ export const SCATTER_ERROR_LOCKED = 423
 export const EOSIO_SERVER_ERROR = 500
 export const EOSIO_SERVER_ERROR_CPU_LIMIT = 3080004
 
-export const ORDER_PAGE_LIMIT = 10
+export const ORDER_PAGE_LIMIT = 30
 
 export const ORDER_TYPE_BUY = 'BUY'
 export const ORDER_TYPE_SELL = 'SELL'

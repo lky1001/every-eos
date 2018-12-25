@@ -44,11 +44,16 @@ class OrderList extends Component {
     super(props)
 
     this.state = {
-      ordersIntervalId: 0
+      ordersIntervalId: 0,
+      symbol: undefined
     }
   }
 
-  componentDidMount = () => {
+  componentWillUnmount = () => {
+    this.clearBuySellOrdersInterval()
+  }
+
+  startBuySellOrdersInterval = async () => {
     const { tradeStore, token } = this.props
 
     tradeStore.getBuyOrders(token.id, ORDER_PAGE_LIMIT)
@@ -60,11 +65,12 @@ class OrderList extends Component {
     }, GET_ORDER_LIST_INTERVAL)
 
     this.setState({
-      ordersIntervalId: ordersIntervalId
+      ordersIntervalId: ordersIntervalId,
+      symbol: token.symbol
     })
   }
 
-  componentWillUnmount = () => {
+  clearBuySellOrdersInterval = () => {
     if (this.state.ordersIntervalId > 0) {
       clearInterval(this.state.ordersIntervalId)
     }
@@ -78,18 +84,23 @@ class OrderList extends Component {
   render() {
     const { token, buyOrdersList, sellOrdersList } = this.props
 
+    if (token.symbol !== this.state.symbol) {
+      this.clearBuySellOrdersInterval()
+      this.startBuySellOrdersInterval()
+    }
+
     const sellMax =
       sellOrdersList.length > 0
         ? sellOrdersList.reduce((prev, curr) => {
-          return Math.max(prev, curr.stacked_amount)
-        }, 0)
+            return Math.max(prev, curr.stacked_amount)
+          }, 0)
         : 0.0
 
     const buyMax =
       buyOrdersList.length > 0
         ? buyOrdersList.reduce((prev, curr) => {
-          return Math.max(prev, curr.stacked_amount)
-        }, 0)
+            return Math.max(prev, curr.stacked_amount)
+          }, 0)
         : 0.0
 
     return (

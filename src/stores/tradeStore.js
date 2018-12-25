@@ -1,23 +1,23 @@
-import { decorate, observable, set, toJS, computed, action } from 'mobx';
-import graphql from 'mobx-apollo';
-import ApiServerAgent from '../ApiServerAgent';
-import { format, subDays } from 'date-fns';
+import { decorate, observable, set, toJS, computed, action } from 'mobx'
+import graphql from 'mobx-apollo'
+import ApiServerAgent from '../ApiServerAgent'
+import { format, subDays } from 'date-fns'
 import {
   orderQuery,
   ordersForAccountQuery,
   stackedOrdersQuery,
   latestTradesQuery
-} from '../graphql/query/order';
+} from '../graphql/query/order'
 
-import { barChartQuery } from '../graphql/query/bars';
+import { barChartQuery } from '../graphql/query/bars'
 import {
   getTypeFilter,
   getStatusFilter,
   typeOptions,
   pageSizeOptions,
   statusOptions
-} from '../utils/OrderSearchFilter';
-import { cancelOrderMutation } from '../graphql/mutation/order';
+} from '../utils/OrderSearchFilter'
+import { cancelOrderMutation } from '../graphql/mutation/order'
 import {
   ORDER_PAGE_LIMIT,
   ORDER_TYPE_BUY,
@@ -26,12 +26,12 @@ import {
   ORDER_STATUS_PARTIAL_DEALED,
   ORDER_STATUS_ALL_DEALED,
   ORDER_STATUS_CANCELLED
-} from '../constants/Values';
+} from '../constants/Values'
 
 class TradeStore {
-  tokenSymbol = '';
-  price = 0.0;
-  amount = 0.0;
+  tokenSymbol = ''
+  price = 0.0
+  amount = 0.0
 
   buyOrders = {
     data: {
@@ -39,7 +39,7 @@ class TradeStore {
     },
     loading: false,
     error: null
-  };
+  }
 
   sellOrders = {
     data: {
@@ -47,7 +47,7 @@ class TradeStore {
     },
     loading: false,
     error: null
-  };
+  }
 
   ordersHistory = {
     data: {
@@ -58,7 +58,7 @@ class TradeStore {
     },
     loading: false,
     error: null
-  };
+  }
 
   openOrders = {
     data: {
@@ -69,7 +69,7 @@ class TradeStore {
     },
     loading: false,
     error: null
-  };
+  }
 
   chartDatas = {
     data: {
@@ -77,7 +77,7 @@ class TradeStore {
     },
     loading: false,
     error: null
-  };
+  }
 
   latestTrades = {
     data: {
@@ -85,20 +85,20 @@ class TradeStore {
     },
     loading: true,
     error: null
-  };
+  }
 
   constructor() {
-    const initialTokenId = 1;
-    this.initOrdersHistoryFilter();
+    const initialTokenId = 1
+    this.initOrdersHistoryFilter()
 
     set(this, {
       get order() {
         return graphql({
           client: ApiServerAgent,
           query: orderQuery
-        });
+        })
       }
-    });
+    })
 
     set(this, {
       get buyOrders() {
@@ -110,9 +110,9 @@ class TradeStore {
             type: ORDER_TYPE_BUY,
             limit: ORDER_PAGE_LIMIT
           }
-        });
+        })
       }
-    });
+    })
 
     set(this, {
       get sellOrders() {
@@ -124,80 +124,80 @@ class TradeStore {
             type: ORDER_TYPE_SELL,
             limit: ORDER_PAGE_LIMIT
           }
-        });
+        })
       }
-    });
+    })
 
     set(this, {
       get chartDatas() {}
-    });
+    })
 
     set(this, {
       get ordersHistory() {}
-    });
+    })
 
     set(this, {
       get openOrders() {}
-    });
+    })
 
-    this.price = observable.box(0.0);
+    this.price = observable.box(0.0)
   }
 
   initOrdersHistoryFilter = () => {
-    const today = new Date();
-    this.tokenSymbolForSearch = '';
-    this.ordersHistoryPage = 1;
-    this.ordersHistoryFrom = subDays(today, 30);
-    this.ordersHistoryTo = today;
-    this.ordersHistoryPageSize = pageSizeOptions[0];
-    this.ordersHistoryType = typeOptions[0];
-    this.ordersHistoryStatus = statusOptions[0];
-  };
+    const today = new Date()
+    this.tokenSymbolForSearch = ''
+    this.ordersHistoryPage = 1
+    this.ordersHistoryFrom = subDays(today, 30)
+    this.ordersHistoryTo = today
+    this.ordersHistoryPageSize = pageSizeOptions[0]
+    this.ordersHistoryType = typeOptions[0]
+    this.ordersHistoryStatus = statusOptions[0]
+  }
 
   initExchangeOrdersHistoryFilter = () => {
-    this.initOrdersHistoryFilter();
-    this.ordersHistoryStatus = statusOptions[2];
-  };
+    this.initOrdersHistoryFilter()
+    this.ordersHistoryStatus = statusOptions[2]
+  }
 
   setTokenSymbol = symbol => {
-    this.tokenSymbol = symbol;
-  };
+    this.tokenSymbol = symbol
+  }
 
   setTokenSymbolForSearch = symbol => {
-    this.tokenSymbolForSearch = symbol;
-  };
+    this.tokenSymbolForSearch = symbol
+  }
 
   setPrice = price => {
-    this.price.set(price);
-  };
+    this.price.set(price)
+  }
 
   setWatchPrice = observer => {
-    return this.price.observe(observer);
-  };
+    return this.price.observe(observer)
+  }
 
   setAmount = amount => {
-    this.amount = amount;
-  };
+    this.amount = amount
+  }
 
   setOrdersHistoryPageSize = newPageSize => {
-    this.ordersHistoryPageSize = newPageSize;
-  };
+    this.ordersHistoryPageSize = newPageSize
+  }
 
   setOrdersHistoryType = newType => {
-    this.ordersHistoryType = newType;
-  };
+    this.ordersHistoryType = newType
+  }
 
   setOrdersHistoryStatus = newStatus => {
-    this.ordersHistoryStatus = newStatus;
-  };
+    this.ordersHistoryStatus = newStatus
+  }
 
   setOrdersHistoryFrom = newFrom => {
-    this.ordersHistoryFrom = newFrom;
-  };
+    this.ordersHistoryFrom = newFrom
+  }
 
   setOrdersHistoryTo = newTo => {
-    this.ordersHistoryTo = newTo;
-  };
+    this.ordersHistoryTo = newTo
+  }
 
   getChartDatas = async (statistic_type, token_id, resolution, from, to) => {
     this.chartDatas = await graphql({
@@ -210,35 +210,31 @@ class TradeStore {
         from: from,
         to: to
       }
-    });
-  };
+    })
+  }
 
   getBuyOrders = async (token_id, limit) => {
     this.buyOrders = await graphql({
       client: ApiServerAgent,
       query: stackedOrdersQuery,
       variables: { token_id: token_id, type: ORDER_TYPE_BUY, limit: limit }
-    });
-  };
+    })
+  }
 
   get buyOrdersError() {
-    return (this.buyOrders.error && this.buyOrders.error.message) || null;
+    return (this.buyOrders.error && this.buyOrders.error.message) || null
   }
 
   get buyOrdersLoading() {
-    return this.buyOrders.loading;
+    return this.buyOrders.loading
   }
 
   get buyOrdersList() {
-    return (
-      (this.buyOrders.data && toJS(this.buyOrders.data.stackedOrders)) || []
-    );
+    return (this.buyOrders.data && toJS(this.buyOrders.data.stackedOrders)) || []
   }
 
   get buyOrdersCount() {
-    return this.buyOrders.data.stackedOrders
-      ? this.buyOrders.data.stackedOrders.length
-      : 0;
+    return this.buyOrders.data.stackedOrders ? this.buyOrders.data.stackedOrders.length : 0
   }
 
   getSellOrders = async (token_id, limit) => {
@@ -246,27 +242,23 @@ class TradeStore {
       client: ApiServerAgent,
       query: stackedOrdersQuery,
       variables: { token_id: token_id, type: ORDER_TYPE_SELL, limit: limit }
-    });
-  };
+    })
+  }
 
   get sellOrdersError() {
-    return (this.sellOrders.error && this.sellOrders.error.message) || null;
+    return (this.sellOrders.error && this.sellOrders.error.message) || null
   }
 
   get sellOrdersLoading() {
-    return this.sellOrders.loading;
+    return this.sellOrders.loading
   }
 
   get sellOrdersList() {
-    return (
-      (this.sellOrders.data && toJS(this.sellOrders.data.stackedOrders)) || []
-    );
+    return (this.sellOrders.data && toJS(this.sellOrders.data.stackedOrders)) || []
   }
 
   get sellOrdersCount() {
-    return this.sellOrders.data.stackedOrders
-      ? this.sellOrders.data.stackedOrders.length
-      : 0;
+    return this.sellOrders.data.stackedOrders ? this.sellOrders.data.stackedOrders.length : 0
   }
 
   getOrdersHistory = async account_name => {
@@ -284,13 +276,13 @@ class TradeStore {
           from: this.ordersHistoryFrom,
           to: this.ordersHistoryTo
         }
-      });
+      })
     }
-  };
+  }
 
   setOrdersHistoryPage = async page => {
-    this.ordersHistoryPage = page;
-  };
+    this.ordersHistoryPage = page
+  }
 
   clearOrdersHistory = () => {
     if (
@@ -299,22 +291,19 @@ class TradeStore {
       this.ordersHistory.data.ordersForAccount &&
       this.ordersHistory.data.ordersForAccount.orders
     ) {
-      this.ordersHistory.data.ordersForAccount.orders = [];
-      this.ordersHistory.data.ordersForAccount.totalCount = 0;
+      this.ordersHistory.data.ordersForAccount.orders = []
+      this.ordersHistory.data.ordersForAccount.totalCount = 0
     }
-  };
+  }
 
   get ordersHistoryError() {
     return (
-      (this.ordersHistory &&
-        this.ordersHistory.error &&
-        this.ordersHistory.error.message) ||
-      null
-    );
+      (this.ordersHistory && this.ordersHistory.error && this.ordersHistory.error.message) || null
+    )
   }
 
   get ordersHistoryLoading() {
-    return this.ordersHistory ? this.ordersHistory.loading : false;
+    return this.ordersHistory ? this.ordersHistory.loading : false
   }
 
   get ordersHistoryList() {
@@ -325,15 +314,13 @@ class TradeStore {
         this.ordersHistory.data.ordersForAccount.orders &&
         toJS(this.ordersHistory.data.ordersForAccount.orders)) ||
       []
-    );
+    )
   }
 
   get ordersHistoryTotalCount() {
-    return this.ordersHistory &&
-      this.ordersHistory.data &&
-      this.ordersHistory.data.ordersForAccount
+    return this.ordersHistory && this.ordersHistory.data && this.ordersHistory.data.ordersForAccount
       ? this.ordersHistory.data.ordersForAccount.totalCount
-      : 0;
+      : 0
   }
 
   get ordersHistoryCount() {
@@ -342,7 +329,7 @@ class TradeStore {
       this.ordersHistory.data.ordersForAccount &&
       this.ordersHistory.data.ordersForAccount.orders
       ? this.ordersHistory.data.ordersForAccount.orders.length
-      : 0;
+      : 0
   }
 
   getOpenOrders = async (account_name, status, limit, page) => {
@@ -355,8 +342,8 @@ class TradeStore {
         limit: limit,
         page: page
       }
-    });
-  };
+    })
+  }
 
   clearOpenOrders = () => {
     if (
@@ -365,22 +352,17 @@ class TradeStore {
       this.openOrders.data.ordersForAccount &&
       this.openOrders.data.ordersForAccount.orders
     ) {
-      this.openOrders.data.ordersForAccount.orders = [];
-      this.openOrders.data.ordersForAccount.totalCount = 0;
+      this.openOrders.data.ordersForAccount.orders = []
+      this.openOrders.data.ordersForAccount.totalCount = 0
     }
-  };
+  }
 
   get openOrdersError() {
-    return (
-      (this.openOrders &&
-        this.openOrders.error &&
-        this.openOrders.error.message) ||
-      null
-    );
+    return (this.openOrders && this.openOrders.error && this.openOrders.error.message) || null
   }
 
   get openOrdersLoading() {
-    return this.openOrders ? this.openOrders.loading : false;
+    return this.openOrders ? this.openOrders.loading : false
   }
 
   get openOrdersList() {
@@ -391,7 +373,7 @@ class TradeStore {
         this.openOrders.data.ordersForAccount.orders &&
         toJS(this.openOrders.data.ordersForAccount.orders)) ||
       []
-    );
+    )
   }
 
   get openOrdersCount() {
@@ -400,15 +382,13 @@ class TradeStore {
       this.openOrders.data.ordersForAccount &&
       this.openOrders.data.ordersForAccount.orders
       ? this.openOrders.data.ordersForAccount.orders.length
-      : 0;
+      : 0
   }
 
   get openOrdersTotalCount() {
-    return this.openOrders &&
-      this.openOrders.data &&
-      this.openOrders.data.ordersForAccount
+    return this.openOrders && this.openOrders.data && this.openOrders.data.ordersForAccount
       ? this.openOrders.data.ordersForAccount.totalCount
-      : 0;
+      : 0
   }
 
   cancelOrder = async (data, signature) => {
@@ -416,12 +396,12 @@ class TradeStore {
       return await ApiServerAgent.mutate({
         mutation: cancelOrderMutation,
         variables: { data: data, signature: signature }
-      });
+      })
     } catch (err) {
-      console.error(err.message);
-      return false;
+      console.error(err.message)
+      return false
     }
-  };
+  }
 
   getPollingOrder = txid => {
     return graphql({
@@ -430,39 +410,30 @@ class TradeStore {
       variables: {
         transaction_id: txid
       }
-    });
-  };
+    })
+  }
 
   getlatestTrades = async tokenId => {
     this.latestTrades = await graphql({
       client: ApiServerAgent,
       query: latestTradesQuery,
       variables: { token_id: tokenId }
-    });
-
-    console.log('getlatestTrades');
-  };
+    })
+  }
 
   get latestTradesError() {
-    return (
-      (this.latestTrades &&
-        this.latestTrades.error &&
-        this.latestTrades.error.message) ||
-      null
-    );
+    return (this.latestTrades && this.latestTrades.error && this.latestTrades.error.message) || null
   }
 
   get latestTradesLoading() {
-    return this.latestTrades ? this.latestTrades.loading : false;
+    return this.latestTrades ? this.latestTrades.loading : false
   }
 
   get latestTradesList() {
     return (
-      (this.latestTrades &&
-        this.latestTrades.data &&
-        toJS(this.latestTrades.data.latestTrades)) ||
+      (this.latestTrades && this.latestTrades.data && toJS(this.latestTrades.data.latestTrades)) ||
       []
-    );
+    )
   }
 }
 
@@ -528,6 +499,6 @@ decorate(TradeStore, {
   test: action,
   initOrdersHistoryFilter: action,
   initExchangeOrdersHistoryFilter: action
-});
+})
 
-export default new TradeStore();
+export default new TradeStore()

@@ -88,7 +88,7 @@ class Order extends Component {
     }
   }
 
-  componentWillMount = () => {
+  componentDidMount = () => {
     const { tradeStore, accountStore } = this.props
     this.disposer = tradeStore.setWatchPrice(changed => {
       this.setState({
@@ -429,9 +429,9 @@ class Order extends Component {
           <Tab>
             <FormattedMessage id="Limit Order" />
           </Tab>
-          <Tab>
+          {/* <Tab>
             <FormattedMessage id="Market Order" />
-          </Tab>
+          </Tab> */}
         </TabList>
 
         <OrderTabPanel>
@@ -484,8 +484,7 @@ class Order extends Component {
                 <Popup
                   trigger={<InfoIcon className={'ion-ios-information'} />}
                   position="top center"
-                  on="hover"
-                >
+                  on="hover">
                   <div>
                     <FormattedMessage id="Taker Fee" />
                     {' : '}
@@ -555,8 +554,7 @@ class Order extends Component {
                   <Popup
                     trigger={<InfoIcon className={'ion-ios-information'} />}
                     position="top center"
-                    on="hover"
-                  >
+                    on="hover">
                     <div>
                       <FormattedMessage id="Maker Fee" />
                       {' : '}
@@ -577,7 +575,7 @@ class Order extends Component {
           </Row>
         </OrderTabPanel>
 
-        <OrderTabPanel>
+        {/* <OrderTabPanel>
           <Row>
             <Col sm="6">
               <OrderRowPanel>
@@ -650,7 +648,7 @@ class Order extends Component {
               </OrderRowPanel>
             </Col>
           </Row>
-        </OrderTabPanel>
+        </OrderTabPanel> */}
       </Tabs>
     )
   }

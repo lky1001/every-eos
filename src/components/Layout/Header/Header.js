@@ -95,7 +95,7 @@ class Header extends Component {
           <h2 className="header-title">
             <Link to="/" style={{ color: 'white', textDecoration: 'none' }}>
               <img src="favicon.png" alt="yo!" style={{ width: '27px', marginTop: '-4px' }} />{' '}
-              EVERYEOS beta
+              EVERYEOS
             </Link>
           </h2>
           <h6 className="header-title" style={{ fontSize: '15px', marginLeft: '30px' }}>
@@ -145,14 +145,12 @@ class Header extends Component {
               id="basic-nav-dropdown"
               pullRight
               componentClass="li"
-              style={{ paddingTop: '3px' }}
-            >
+              style={{ paddingTop: '3px' }}>
               <Dropdown.Toggle
                 useAnchor
                 noCaret
                 className="has-badge ripple"
-                style={{ fontSize: '16px' }}
-              >
+                style={{ fontSize: '16px' }}>
                 <FormattedMessage id="LANG" />
               </Dropdown.Toggle>
               <Dropdown.Menu className="md-dropdown-menu">
@@ -164,8 +162,7 @@ class Header extends Component {
                       <a
                         key={idx}
                         role="menuitem"
-                        onClick={() => this.changeLang(this.state.location + '?' + temp)}
-                      >
+                        onClick={() => this.changeLang(this.state.location + '?' + temp)}>
                         <span style={{ fontSize: '13px' }}>{locale}</span>
                       </a>
                     </li>

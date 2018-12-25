@@ -66,7 +66,7 @@ class Market extends PureComponent {
 
   render() {
     const { tokens } = this.props
-    const { favorites, goTo } = this.state
+    const { favorites } = this.state
 
     let favoriteTokens = []
 
