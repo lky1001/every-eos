@@ -4,6 +4,7 @@ import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import '../Common/React-tabs.scss'
 import { Table, Button } from 'react-bootstrap'
 import { Scrollbars } from 'react-custom-scrollbars'
+import { withAlert } from 'react-alert'
 import {
   HeaderTable,
   TableLgRow,
@@ -93,7 +94,7 @@ class OpenOrder extends Component {
       const result = await tradeStore.cancelOrder(data, signature)
 
       if (result && result.data.cancelOrder) {
-        alert('cancel success')
+        this.props.alert.show('cancel success')
         this.getOpenOrders()
         this.loadRecentOrderHistory()
       }
@@ -181,11 +182,11 @@ class OpenOrder extends Component {
                         <OrderBaseColumn>
                           {o.status === ORDER_STATUS_PARTIAL_DEALED
                             ? Math.round(
-                              o.orderDetails.reduce(
-                                (acc, curr) => acc + curr.amount * curr.token_price,
-                                0
-                              ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                            ).toFixed(4) + ' EOS'
+                                o.orderDetails.reduce(
+                                  (acc, curr) => acc + curr.amount * curr.token_price,
+                                  0
+                                ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                              ).toFixed(4) + ' EOS'
                             : '-'}
                         </OrderBaseColumn>
                         <OrderBaseColumn>{o.total_amount}</OrderBaseColumn>
@@ -247,4 +248,4 @@ class OpenOrder extends Component {
   }
 }
 
-export default OpenOrder
+export default withAlert(OpenOrder)
