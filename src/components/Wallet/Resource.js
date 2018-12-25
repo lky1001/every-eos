@@ -74,11 +74,21 @@ class Resource extends Component {
                         </ResourceText>
                         <ResourceText>
                           <FormattedMessage id="Used" /> :{' '}
-                          <NumberFormat displayType={'text'} suffix=" us" value={accountStore.cpu.used} thousandSeparator={true} />
+                          <NumberFormat
+                            displayType={'text'}
+                            suffix=" us"
+                            value={accountStore.cpu.used}
+                            thousandSeparator={true}
+                          />
                         </ResourceText>
                         <ResourceText>
                           <FormattedMessage id="Max" /> :{' '}
-                          <NumberFormat displayType={'text'} suffix=" us" value={accountStore.cpu.max} thousandSeparator={true} />
+                          <NumberFormat
+                            displayType={'text'}
+                            suffix=" us"
+                            value={accountStore.cpu.max}
+                            thousandSeparator={true}
+                          />
                         </ResourceText>
                       </Col>
                     </Row>
@@ -121,11 +131,21 @@ class Resource extends Component {
                         </ResourceText>
                         <ResourceText>
                           <FormattedMessage id="Used" /> :{' '}
-                          <NumberFormat displayType={'text'} suffix=" bytes" value={accountStore.net.used} thousandSeparator={true} />
+                          <NumberFormat
+                            displayType={'text'}
+                            suffix=" bytes"
+                            value={accountStore.net.used}
+                            thousandSeparator={true}
+                          />
                         </ResourceText>
                         <ResourceText>
                           <FormattedMessage id="Max" /> :{' '}
-                          <NumberFormat displayType={'text'} suffix=" bytes" value={accountStore.net.max} thousandSeparator={true} />
+                          <NumberFormat
+                            displayType={'text'}
+                            suffix=" bytes"
+                            value={accountStore.net.max}
+                            thousandSeparator={true}
+                          />
                         </ResourceText>
                       </Col>
                     </Row>

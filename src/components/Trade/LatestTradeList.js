@@ -132,7 +132,7 @@ class LatestTradeList extends PureComponent {
                         className="msg-display clickable"
                         onClick={() =>
                           this.exploreTransaction(
-                            `https://www.eosuite.app/blockexplorers/${latestTrade.transaction_id}`
+                            `https://eospark.com/tx/${latestTrade.transaction_id}`
                           )
                         }>
                         <LinkColumn />
