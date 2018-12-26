@@ -640,7 +640,7 @@ class Order extends Component {
                   <div>
                     <FormattedMessage id="Taker Fee" />
                     {' : '}
-                    {token.taker_fee * 100} %
+                    {(token.taker_fee * 100).toFixed(1)} %
                   </div>
                 </Popup>
               </OrderAmountRow>
@@ -718,7 +718,7 @@ class Order extends Component {
                     <div>
                       <FormattedMessage id="Maker Fee" />
                       {' : '}
-                      {token.maker_fee * 100} %
+                      {(token.maker_fee * 100).toFixed(1)} %
                     </div>
                   </Popup>
                 </div>
