@@ -219,12 +219,7 @@ class Order extends Component {
 
     let html = memo;
     let successHtml;
-
-    const swalWithBootstrapButtons = Swal.mixin({
-      confirmButtonClass: 'btn btn-success',
-      cancelButtonClass: 'btn btn-danger',
-      buttonsStyling: false
-    });
+    let failHtml = '<b>Transaction</b> failed';
 
     Swal({
       title: 'Confirmation',
@@ -256,14 +251,20 @@ class Order extends Component {
       },
       allowOutsideClick: () => !Swal.isLoading()
     }).then(result => {
-      if (result.value.isSuccess === true) {
-        Swal({
-          title: 'Buy Sucess!',
-          type: 'success',
-          successHtml
-        });
-      } else {
-        swalWithBootstrapButtons('Failed', 'Transaction failed.', 'error');
+      if (result.value) {
+        if (result.value.isSuccess) {
+          Swal({
+            title: 'Buy Sucess!',
+            type: 'success',
+            successHtml
+          });
+        } else {
+          Swal({
+            title: 'Failed!',
+            type: 'error',
+            failHtml
+          });
+        }
       }
     });
   };
@@ -375,7 +376,6 @@ class Order extends Component {
           type: 'success',
           html
         });
-        // this.props.alert.show('Success(' + result.transaction_id + ')')
       }
     } catch (e) {
       this.handleError(e);
@@ -434,30 +434,56 @@ class Order extends Component {
       memo: JSON.stringify(memo)
     };
 
-    try {
-      const result = await eosioStore.buyToken(token.contract, data);
+    let html = memo;
+    let successHtml;
+    let failHtml = '<b>Transaction</b> failed';
 
-      if (result) {
-        this.getPollingOrderByTxId(
-          result.transaction_id,
-          accountStore.loginAccountInfo.account_name
-        );
+    Swal({
+      title: 'Confirmation',
+      html,
+      showCancelButton: true,
+      confirmButtonText: 'Confirm',
+      showLoaderOnConfirm: true,
+      preConfirm: async () => {
+        try {
+          const result = await eosioStore.buyToken(token.contract, data);
 
-        const html =
-          'You <b>transaction</b> id is below, ' +
-          `<a href=//eospark.com/tx/${result.transaction_id} target=_blank
+          if (result) {
+            this.getPollingOrderByTxId(
+              result.transaction_id,
+              accountStore.loginAccountInfo.account_name
+            );
+
+            successHtml =
+              'You <b>transaction</b> id is below, ' +
+              `<a href=//eospark.com/tx/${result.transaction_id} target=_blank
           rel=noopener noreferrer>${result.transaction_id}</a> `;
 
-        Swal({
-          title: 'Sell Sucess!',
-          type: 'success',
-          html
-        });
-        // this.props.alert.show('Success(' + result.transaction_id + ')')
+            await sleep(2000);
+            return { isSuccess: true };
+          }
+        } catch (err) {
+          return { err, isSuccess: false };
+        }
+      },
+      allowOutsideClick: () => !Swal.isLoading()
+    }).then(result => {
+      if (result.value) {
+        if (result.value.isSuccess) {
+          Swal({
+            title: 'Buy Sucess!',
+            type: 'success',
+            successHtml
+          });
+        } else {
+          Swal({
+            title: 'Failed!',
+            type: 'error',
+            failHtml
+          });
+        }
       }
-    } catch (e) {
-      this.handleError(e);
-    }
+    });
   };
 
   onSellMarketClick = async () => {
