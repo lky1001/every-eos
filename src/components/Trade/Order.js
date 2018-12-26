@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Row, Col, InputGroup, InputGroupAddon, Input, Button } from 'reactstrap'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import Swal from 'sweetalert2'
@@ -73,7 +73,7 @@ const OrderButton = styled(Button)`
   }
 `
 
-class Order extends Component {
+class Order extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -217,12 +217,13 @@ class Order extends Component {
       memo: JSON.stringify(memo)
     }
 
-    let html = memo
+    let html = `BUY ${tokenQty} <b>${token.symbol}</b>`
     let successHtml
     let failHtml = '<b>Transaction</b> failed'
 
     Swal({
       title: 'Confirmation',
+      type: 'warning',
       html,
       showCancelButton: true,
       confirmButtonText: 'Confirm',
@@ -256,13 +257,13 @@ class Order extends Component {
           Swal({
             title: 'Buy Sucess!',
             type: 'success',
-            successHtml
+            html: successHtml
           })
         } else {
           Swal({
             title: 'Failed!',
             type: 'error',
-            failHtml
+            html: failHtml
           })
         }
       }
@@ -408,12 +409,13 @@ class Order extends Component {
       memo: JSON.stringify(memo)
     }
 
-    let html = memo
+    let html = `SELL ${tokenQty} <b>${token.symbol}</b>`
     let successHtml
     let failHtml = '<b>Transaction</b> failed'
 
     Swal({
       title: 'Confirmation',
+      type: 'warning',
       html,
       showCancelButton: true,
       confirmButtonText: 'Confirm',
@@ -447,13 +449,13 @@ class Order extends Component {
           Swal({
             title: 'Buy Sucess!',
             type: 'success',
-            successHtml
+            html: successHtml
           })
         } else {
           Swal({
             title: 'Failed!',
             type: 'error',
-            failHtml
+            html: failHtml
           })
         }
       }
@@ -597,8 +599,7 @@ class Order extends Component {
                 <Popup
                   trigger={<InfoIcon className={'ion-ios-information'} />}
                   position="top center"
-                  on="hover"
-                >
+                  on="hover">
                   <div>
                     <FormattedMessage id="Taker Fee" />
                     {' : '}
@@ -668,8 +669,7 @@ class Order extends Component {
                   <Popup
                     trigger={<InfoIcon className={'ion-ios-information'} />}
                     position="top center"
-                    on="hover"
-                  >
+                    on="hover">
                     <div>
                       <FormattedMessage id="Maker Fee" />
                       {' : '}

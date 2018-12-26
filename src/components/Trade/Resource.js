@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import StyledProgressbar from '../StyledProgressbar'
 
@@ -22,7 +22,7 @@ const TokenSymbolText = styled.small`
   font-size: 1.5rem;
 `
 
-class Resource extends Component {
+class Resource extends PureComponent {
   render() {
     const { accountStore, height } = this.props
     const cpuUsageRate = ((accountStore.cpu.used / accountStore.cpu.max) * 100).toFixed(2)

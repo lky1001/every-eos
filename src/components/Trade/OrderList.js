@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { Text, HeaderTable, TokenPrice, PriceIcon, PriceRow, PriceBack } from '../Common/Common'
@@ -39,7 +39,7 @@ const NoOrderColumn = styled.div`
   border-top: 1px solid rgba(0, 0, 0, 0.045);
 `
 
-class OrderList extends Component {
+class OrderList extends PureComponent {
   constructor(props) {
     super(props)
 

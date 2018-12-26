@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { Row, Col, Grid } from 'react-bootstrap'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant'
@@ -13,7 +13,7 @@ const TokenInfoTitle = styled.h6`
 const TokenSmallSymbol = styled.small`
   font-size: 1.25rem;
 `
-class TokenThumbnailInfo extends Component {
+class TokenThumbnailInfo extends PureComponent {
   componentDidMount = async () => {
     const { symbol, marketStore } = this.props
 

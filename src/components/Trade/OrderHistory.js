@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import { FormattedMessage } from 'react-intl'
 import { Table } from 'react-bootstrap'
@@ -23,7 +23,7 @@ import {
   SellTypeColumn
 } from '../Common/Common'
 
-class OrderHistory extends Component {
+class OrderHistory extends PureComponent {
   componentDidMount = () => {
     const { accountStore, tradeStore } = this.props
 
@@ -156,15 +156,15 @@ class OrderHistory extends Component {
                             ? o.orderDetails.length === 0
                               ? 0
                               : Math.round(
-                                o.orderDetails.reduce(
-                                  (acc, curr) => acc + curr.amount * curr.token_price,
-                                  0
-                                ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                              ).toFixed(4) + ' EOS'
+                                  o.orderDetails.reduce(
+                                    (acc, curr) => acc + curr.amount * curr.token_price,
+                                    0
+                                  ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
+                                ).toFixed(4) + ' EOS'
                             : o.status === ORDER_STATUS_CANCELLED
-                              ? o.orderDetails.length === 0
-                                ? 0
-                                : Math.round(
+                            ? o.orderDetails.length === 0
+                              ? 0
+                              : Math.round(
                                   o.orderDetails
                                     .filter(
                                       od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
@@ -179,7 +179,7 @@ class OrderHistory extends Component {
                                       )
                                       .reduce((acc, curr) => acc + curr.amount, 0)
                                 ).toFixed(4) + ' EOS'
-                              : '-'}
+                            : '-'}
                         </OrderBaseColumn>
                         <OrderBaseColumn>{o.total_amount}</OrderBaseColumn>
                         <OrderBaseColumn>{o.deal_amount}</OrderBaseColumn>
@@ -188,22 +188,22 @@ class OrderHistory extends Component {
                             ? o.orderDetails.length === 0
                               ? 0
                               : Math.round(
-                                o.orderDetails.reduce(
-                                  (acc, curr) => acc + curr.amount * curr.token_price,
-                                  0
-                                )
-                              ).toFixed(4) + ' EOS'
+                                  o.orderDetails.reduce(
+                                    (acc, curr) => acc + curr.amount * curr.token_price,
+                                    0
+                                  )
+                                ).toFixed(4) + ' EOS'
                             : o.status === ORDER_STATUS_CANCELLED
-                              ? o.orderDetails.length === 0
-                                ? 0
-                                : Math.round(
+                            ? o.orderDetails.length === 0
+                              ? 0
+                              : Math.round(
                                   o.orderDetails
                                     .filter(
                                       od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
                                     )
                                     .reduce((acc, curr) => acc + curr.amount * curr.token_price, 0)
                                 ).toFixed(4) + ' EOS'
-                              : '-'}
+                            : '-'}
                         </OrderBaseColumn>
                         <OrderBaseColumn>
                           <FormattedMessage id={o.status} />

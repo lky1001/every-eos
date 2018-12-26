@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import NumberFormat from 'react-number-format'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
@@ -14,10 +14,15 @@ const TokenInfoTitle = styled.h6`
 
 const TokenSymbolText = styled.small`
   font-size: 1.5rem;
-  color: ${props => (props.up ? ColorsConstant.Thick_green : props.down ? ColorsConstant.Thick_red : ColorsConstant.Thick_normal)};
+  color: ${props =>
+    props.up
+      ? ColorsConstant.Thick_green
+      : props.down
+      ? ColorsConstant.Thick_red
+      : ColorsConstant.Thick_normal};
 `
 
-class TokenInfo extends Component {
+class TokenInfo extends PureComponent {
   componentDidMount = async () => {
     const { symbol, marketStore } = this.props
 
@@ -38,13 +43,14 @@ class TokenInfo extends Component {
               display: 'flex',
               alignItems: 'center',
               justifyContent: 'space-around'
-            }}
-          >
+            }}>
             <div>
               <TokenInfoTitle>
                 <FormattedMessage id="Last Price" />
               </TokenInfoTitle>
-              <TokenSymbolText up={token.last_price - token.last_previous_price > 0} down={token.last_price - token.last_previous_price < 0}>
+              <TokenSymbolText
+                up={token.last_price - token.last_previous_price > 0}
+                down={token.last_price - token.last_previous_price < 0}>
                 <NumberFormat
                   displayType={'text'}
                   suffix=" EOS"
@@ -59,7 +65,13 @@ class TokenInfo extends Component {
                 <FormattedMessage id="Today Changed" />
               </TokenInfoTitle>
               <TokenSymbolText up={todayChanged > 0} down={todayChanged < 0}>
-                <NumberFormat displayType={'text'} suffix=" EOS" value={todayChanged} fixedDecimalScale={true} decimalScale={EOS_TOKEN.precision} />
+                <NumberFormat
+                  displayType={'text'}
+                  suffix=" EOS"
+                  value={todayChanged}
+                  fixedDecimalScale={true}
+                  decimalScale={EOS_TOKEN.precision}
+                />
               </TokenSymbolText>
             </div>
             <div>

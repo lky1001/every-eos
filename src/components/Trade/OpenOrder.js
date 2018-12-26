@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { PureComponent } from 'react'
 import { FormattedMessage } from 'react-intl'
 import { Tab, Tabs, TabList, TabPanel } from 'react-tabs'
 import '../Common/React-tabs.scss'
@@ -24,7 +24,7 @@ import eosAgent from '../../EosAgent'
 import { format } from 'date-fns'
 import Loader from 'react-loader-spinner'
 
-class OpenOrder extends Component {
+class OpenOrder extends PureComponent {
   componentDidMount = () => {
     const { accountStore, tradeStore } = this.props
 

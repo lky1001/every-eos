@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { GET_BALANCE_INTERVAL } from '../../constants/Values'
 import { FormattedMessage } from 'react-intl'
 import { Table } from 'reactstrap'
@@ -44,7 +44,7 @@ const TradeWalletTitle = styled.div`
   border-top: 1px solid rgb(217, 217, 217);
 `
 
-class Wallet extends Component {
+class Wallet extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -84,11 +84,17 @@ class Wallet extends Component {
   getWalletBalace = async () => {
     const { accountStore, marketStore, eosioStore } = this.props
 
-    const tokens = marketStore.tokens ? (marketStore.tokens.data ? marketStore.tokens.data.tokens : null) : null
+    const tokens = marketStore.tokens
+      ? marketStore.tokens.data
+        ? marketStore.tokens.data.tokens
+        : null
+      : null
 
     let tokenBalance = []
 
-    const accountName = accountStore.loginAccountInfo ? accountStore.loginAccountInfo.account_name : null
+    const accountName = accountStore.loginAccountInfo
+      ? accountStore.loginAccountInfo.account_name
+      : null
 
     if (accountName && tokens) {
       // eos
@@ -155,8 +161,7 @@ class Wallet extends Component {
               className="table-responsive"
               style={{
                 background: 'white'
-              }}
-            >
+              }}>
               <Table className="order-list-table">
                 <tbody>
                   {accountStore.isLogin &&

@@ -1,7 +1,7 @@
 import { decorate, observable, set, toJS, computed, action } from 'mobx'
 import graphql from 'mobx-apollo'
 import ApiServerAgent from '../ApiServerAgent'
-import { format, subDays } from 'date-fns'
+import { format, subDays, addDays } from 'date-fns'
 import {
   orderQuery,
   ordersForAccountQuery,
@@ -148,7 +148,7 @@ class TradeStore {
     this.tokenSymbolForSearch = ''
     this.ordersHistoryPage = 1
     this.ordersHistoryFrom = subDays(today, 30)
-    this.ordersHistoryTo = today
+    this.ordersHistoryTo = addDays(today, 1)
     this.ordersHistoryPageSize = pageSizeOptions[0]
     this.ordersHistoryType = typeOptions[0]
     this.ordersHistoryStatus = statusOptions[0]
