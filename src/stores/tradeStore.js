@@ -87,7 +87,8 @@ class TradeStore {
     error: null
   }
 
-  constructor() {
+  constructor(rootStore) {
+    this.root = rootStore
     const initialTokenId = 1
     this.initOrdersHistoryFilter()
 
@@ -501,4 +502,4 @@ decorate(TradeStore, {
   initExchangeOrdersHistoryFilter: action
 })
 
-export default new TradeStore()
+export default TradeStore

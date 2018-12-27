@@ -5,6 +5,10 @@ class EosioStore {
   everyeoswalletAccount = 'everyeosbank'
   info = null
 
+  constructor(rootStore) {
+    this.root = rootStore
+  }
+
   getInfo = async () => {
     try {
       const eosInfo = await eosAgent.getInfo()
@@ -65,4 +69,4 @@ decorate(EosioStore, {
   getInfo: action
 })
 
-export default new EosioStore()
+export default EosioStore

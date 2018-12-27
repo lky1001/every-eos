@@ -12,7 +12,9 @@ class NoticeStore {
     error: null
   }
 
-  constructor() {
+  constructor(rootStore) {
+    this.root = rootStore
+
     set(this, {
       get notices() {
         return graphql({
@@ -56,4 +58,4 @@ decorate(NoticeStore, {
   getNotices: action
 })
 
-export default new NoticeStore()
+export default NoticeStore

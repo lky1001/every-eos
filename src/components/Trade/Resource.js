@@ -1,7 +1,7 @@
 import React, { PureComponent, Fragment } from 'react'
 import { FormattedMessage } from 'react-intl'
 import StyledProgressbar from '../StyledProgressbar'
-
+import { inject, observer } from 'mobx-react'
 import { Row, Col } from 'react-bootstrap'
 
 import styled from 'styled-components'
@@ -24,14 +24,20 @@ const TokenSymbolText = styled.small`
 
 class Resource extends PureComponent {
   render() {
-    const { accountStore, height } = this.props
-    const cpuUsageRate = ((accountStore.cpu.used / accountStore.cpu.max) * 100).toFixed(2)
-    const netUsageRate = ((accountStore.net.used / accountStore.net.max) * 100).toFixed(2)
-    const ramUsageRate = ((accountStore.ram.used / accountStore.ram.max) * 100).toFixed(2)
+    const { isLogin, liquid, cpu, net, ram, height } = this.props
+    let cpuUsageRate
+    let netUsageRate
+    let ramUsageRate
+
+    if (isLogin) {
+      cpuUsageRate = ((cpu.used / cpu.max) * 100).toFixed(2)
+      netUsageRate = ((net.used / net.max) * 100).toFixed(2)
+      ramUsageRate = ((ram.used / ram.max) * 100).toFixed(2)
+    }
 
     return (
       <Fragment>
-        {!accountStore.isLogin ? (
+        {!isLogin ? (
           <Row className="show-grid" style={{ height: '90px' }}>
             <Col xs={12} className="text-center" style={{ margin: 'auto' }}>
               <h6 className="m0">
@@ -51,7 +57,7 @@ class Resource extends PureComponent {
               <TokenInfoTitle>
                 <FormattedMessage id="BALANCE" />
               </TokenInfoTitle>
-              <TokenSymbolText>{`${accountStore.liquid} EOS`}</TokenSymbolText>
+              <TokenSymbolText>{`${liquid} EOS`}</TokenSymbolText>
             </div>
 
             <div>
@@ -84,4 +90,10 @@ class Resource extends PureComponent {
   }
 }
 
-export default Resource
+export default inject(({ accountStore }) => ({
+  isLogin: accountStore.isLogin,
+  liquid: accountStore.liquid,
+  cpu: accountStore.cpu,
+  net: accountStore.net,
+  ram: accountStore.ram
+}))(observer(Resource))

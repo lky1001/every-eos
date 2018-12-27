@@ -19,7 +19,9 @@ class MarketStore {
     error: null
   }
 
-  constructor() {
+  constructor(rootStore) {
+    this.root = rootStore
+
     set(this, {
       get tokens() {
         return graphql({ client: ApiServerAgent, query: tokensQuery })
@@ -85,4 +87,4 @@ decorate(MarketStore, {
   getTokenBySymbol: action
 })
 
-export default new MarketStore()
+export default MarketStore

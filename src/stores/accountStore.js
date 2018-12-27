@@ -42,8 +42,8 @@ class AccountStore {
   myVoteProducers = []
   isProxy = 0
   proxy = ''
-
-  constructor() {
+  constructor(rootStore) {
+    this.root = rootStore
     this.loginStateObserveble = observable.box(false)
   }
 
@@ -241,4 +241,4 @@ decorate(AccountStore, {
   subscribeLoginState: action
 })
 
-export default new AccountStore()
+export default AccountStore
