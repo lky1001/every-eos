@@ -155,7 +155,7 @@ class OrderHistory extends PureComponent {
                           {o.status === ORDER_STATUS_ALL_DEALED
                             ? o.orderDetails.length === 0
                               ? 0
-                              : Math.round(
+                              : (
                                   o.orderDetails.reduce(
                                     (acc, curr) => acc + curr.amount * curr.token_price,
                                     0
@@ -164,7 +164,7 @@ class OrderHistory extends PureComponent {
                             : o.status === ORDER_STATUS_CANCELLED
                             ? o.orderDetails.length === 0
                               ? 0
-                              : Math.round(
+                              : (
                                   o.orderDetails
                                     .filter(
                                       od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
@@ -173,11 +173,11 @@ class OrderHistory extends PureComponent {
                                       (acc, curr) => acc + curr.amount * curr.token_price,
                                       0
                                     ) /
-                                    o.orderDetails
-                                      .filter(
-                                        od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                      )
-                                      .reduce((acc, curr) => acc + curr.amount, 0)
+                                  o.orderDetails
+                                    .filter(
+                                      od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
+                                    )
+                                    .reduce((acc, curr) => acc + curr.amount, 0)
                                 ).toFixed(4) + ' EOS'
                             : '-'}
                         </OrderBaseColumn>

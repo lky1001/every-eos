@@ -181,7 +181,7 @@ class OpenOrder extends PureComponent {
                         <OrderBaseColumn>{o.token_price.toFixed(4)} EOS</OrderBaseColumn>
                         <OrderBaseColumn>
                           {o.status === ORDER_STATUS_PARTIAL_DEALED
-                            ? Math.round(
+                            ? (
                                 o.orderDetails.reduce(
                                   (acc, curr) => acc + curr.amount * curr.token_price,
                                   0

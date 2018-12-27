@@ -76,28 +76,20 @@ class OrdersHistoryView extends Component {
                         {o.status === ORDER_STATUS_ALL_DEALED
                           ? o.orderDetails.length === 0
                             ? 0
-                            : Math.round(
-                              o.orderDetails.reduce(
+                            : o.orderDetails.reduce(
                                 (acc, curr) => acc + curr.amount * curr.token_price,
                                 0
                               ) / o.orderDetails.reduce((acc, curr) => acc + curr.amount, 0)
-                            )
                           : o.status === ORDER_STATUS_CANCELLED
-                            ? o.orderDetails.length === 0
-                              ? 0
-                              : Math.round(
-                                o.orderDetails
-                                  .filter(
-                                    od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                  )
-                                  .reduce((acc, curr) => acc + curr.amount * curr.token_price, 0) /
-                                  o.orderDetails
-                                    .filter(
-                                      od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED
-                                    )
-                                    .reduce((acc, curr) => acc + curr.amount, 0)
-                              )
-                            : '-'}
+                          ? o.orderDetails.length === 0
+                            ? 0
+                            : o.orderDetails
+                                .filter(od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED)
+                                .reduce((acc, curr) => acc + curr.amount * curr.token_price, 0) /
+                              o.orderDetails
+                                .filter(od => od.deal_status === ORDER_DETAIL_DEAL_STATUS_CANCELLED)
+                                .reduce((acc, curr) => acc + curr.amount, 0)
+                          : '-'}
                       </Header6>
                     </td>
                     <td>
