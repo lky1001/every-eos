@@ -128,17 +128,21 @@ class Order extends PureComponent {
       })
     })
 
-    this.disposerAccount = accountStore.subscribeLoginState(async changed => {
-      if (changed.oldValue !== changed.newValue) {
-        if (changed.newValue) {
-          await this.getTokenBalance()
-        } else {
-          this.setState({
-            tokenBalance: 0.0
-          })
-        }
+    this.disposerToken = tradeStore.setWatchToken(this.tokenListener)
+
+    this.disposerAccount = accountStore.subscribeLoginState(this.tokenListener)
+  }
+
+  tokenListener = async changed => {
+    if (changed.oldValue !== changed.newValue) {
+      if (changed.newValue) {
+        await this.getTokenBalance()
+      } else {
+        this.setState({
+          tokenBalance: 0.0
+        })
       }
-    })
+    }
   }
 
   getTokenBalance = async () => {
