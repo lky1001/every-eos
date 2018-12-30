@@ -72,5 +72,8 @@ export default {
   Used: '사용중',
   Max: '최대값',
   'Taker Fee': '구매 수수료',
-  'Maker Fee': '판매 수수료'
+  'Maker Fee': '판매 수수료',
+  'Trade Price': '거래 가격',
+  'Trade Amount': '수량',
+  'Trade Date': '날짜'
 }

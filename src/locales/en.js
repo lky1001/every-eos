@@ -72,5 +72,8 @@ export default {
   Used: 'Used',
   Max: 'Max',
   'Taker Fee': 'Taker Fee',
-  'Maker Fee': 'Maker Fee'
+  'Maker Fee': 'Maker Fee',
+  'Trade Price': 'Price',
+  'Trade Amount': 'Amount',
+  'Trade Date': 'Date'
 }

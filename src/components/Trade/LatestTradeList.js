@@ -88,13 +88,7 @@ class LatestTradeList extends PureComponent {
   }
 
   render() {
-    const {
-      tradeStore,
-      // latestTradesError,
-      // latestTradesLoading,
-      latestTradesList,
-      token
-    } = this.props
+    const { latestTradesList, token } = this.props
 
     if (token.symbol !== this.state.symbol) {
       this.clearLastTradeInterval()
@@ -108,13 +102,13 @@ class LatestTradeList extends PureComponent {
             <tr style={{ height: '46px' }}>
               <th style={{ width: '10%' }} />
               <th style={{ width: '20%', textAlign: 'right' }}>
-                <FormattedMessage id="Price" />
+                <FormattedMessage id="Trade Price" />
               </th>
               <th style={{ width: '30%', textAlign: 'right' }}>
-                <FormattedMessage id="Amount" />
+                <FormattedMessage id="Trade Amount" />
               </th>
               <th style={{ width: '40%', textAlign: 'right' }}>
-                <FormattedMessage id="Date" />
+                <FormattedMessage id="Trade Date" />
               </th>
             </tr>
           </thead>
@@ -126,6 +120,8 @@ class LatestTradeList extends PureComponent {
               <Table className="order-list-table responsive hover">
                 <tbody>
                   {latestTradesList.map((latestTrade, idx) => {
+                    const tradeTime = new Date(Date.parse(latestTrade.created))
+
                     return (
                       <TableMdRow
                         key={idx}
@@ -134,12 +130,14 @@ class LatestTradeList extends PureComponent {
                           this.exploreTransaction(
                             `https://eospark.com/tx/${latestTrade.transaction_id}`
                           )
-                        }>
+                        }
+                      >
                         <LinkColumn />
                         <PriceColumn>
                           <PriceRow
                             up={latestTrade.order_type === 'BUY'}
-                            down={latestTrade.order_type === 'SELL'}>
+                            down={latestTrade.order_type === 'SELL'}
+                          >
                             <NumberFormat
                               displayType={'text'}
                               value={latestTrade.token_price}
@@ -160,11 +158,8 @@ class LatestTradeList extends PureComponent {
 
                         {/* 데이터 포맷 간단하게 11-24 12:22:15 이런식으로 TODO... */}
                         <DateColumn>
-                          {`${new Date(Date.parse(latestTrade.created)).getMonth() + 1}-${new Date(
-                            Date.parse(latestTrade.created)
-                          ).getDay() + 1} ${new Date(
-                            Date.parse(latestTrade.created)
-                          ).toLocaleTimeString()}`}
+                          {`${tradeTime.getMonth() +
+                            1}-${tradeTime.getDate()} ${tradeTime.toLocaleTimeString()}`}
                         </DateColumn>
                       </TableMdRow>
                     )
