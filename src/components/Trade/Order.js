@@ -128,38 +128,44 @@ class Order extends PureComponent {
       })
     })
 
-    this.disposerToken = tradeStore.setWatchToken(this.tokenListener)
-
-    this.disposerAccount = accountStore.subscribeLoginState(this.tokenListener)
+    this.disposerAccount = accountStore.subscribeLoginState(async changed => {
+      if (changed.oldValue !== changed.newValue) {
+        if (changed.newValue) {
+          await this.getTokenBalance()
+        } else {
+          this.setState({
+            tokenBalance: 0.0
+          })
+        }
+      }
+    })
   }
 
-  tokenListener = async changed => {
-    if (changed.oldValue !== changed.newValue) {
-      if (changed.newValue) {
-        await this.getTokenBalance()
-      } else {
-        this.setState({
-          tokenBalance: 0.0
-        })
-      }
-    }
+  componentDidUpdate = async () => {
+    await this.getTokenBalance()
   }
 
   getTokenBalance = async () => {
     const { accountStore, eosioStore, token } = this.props
 
-    const tokenBalance = await eosioStore.getCurrencyBalance({
-      code: token.contract,
-      account: accountStore.loginAccountInfo.account_name,
-      symbol: token.symbol
-    })
-
-    if (tokenBalance.length > 0) {
-      const balance = tokenBalance[0].split(' ')[0]
-
-      this.setState({
-        tokenBalance: parseFloat(balance)
+    if (accountStore.loginAccountInfo) {
+      const tokenBalance = await eosioStore.getCurrencyBalance({
+        code: token.contract,
+        account: accountStore.loginAccountInfo.account_name,
+        symbol: token.symbol
       })
+
+      if (tokenBalance.length > 0) {
+        const balance = tokenBalance[0].split(' ')[0]
+
+        this.setState({
+          tokenBalance: parseFloat(balance)
+        })
+      } else {
+        this.setState({
+          tokenBalance: 0.0
+        })
+      }
     }
   }
 

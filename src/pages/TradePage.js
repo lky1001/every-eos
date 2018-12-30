@@ -42,9 +42,7 @@ class TradePage extends Component {
       }
 
       tradeStore.setTokenSymbol(token)
-      tradeStore.setWatchToken(token)
       await marketStore.getTokenBySymbol(token, getTodayNoon().getTime())
-
       this.forceUpdate()
     })
   }

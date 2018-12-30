@@ -33,7 +33,6 @@ class TradeStore {
   price = 0.0
   qty = 0.0
   amount = 0.0
-  token = ''
 
   buyOrders = {
     data: {
@@ -145,7 +144,6 @@ class TradeStore {
 
     this.price = observable.box(0.0)
     this.qty = observable.box(0.0)
-    this.token = observable.box('')
   }
 
   initOrdersHistoryFilter = () => {
@@ -186,10 +184,6 @@ class TradeStore {
 
   setWatchQty = observer => {
     return this.qty.observe(observer)
-  }
-
-  setWatchToken = observer => {
-    return this.token.observe(observer)
   }
 
   setAmount = amount => {
@@ -505,7 +499,6 @@ decorate(TradeStore, {
   setOrdersHistoryTo: action,
   setWatchPrice: action,
   setWatchQty: action,
-  setWatchToken: action,
   getBuyOrders: action,
   getSellOrders: action,
   getOrdersHistory: action,
