@@ -113,10 +113,17 @@ class Order extends PureComponent {
       sellQty: this.state.tokenBalance
     })
 
-    this.disposer = tradeStore.setWatchPrice(changed => {
+    this.disposerPrice = tradeStore.setWatchPrice(changed => {
       this.setState({
         buyPrice: parseFloat(changed.newValue),
         sellPrice: parseFloat(changed.newValue)
+      })
+    })
+
+    this.disposerQty = tradeStore.setWatchQty(changed => {
+      this.setState({
+        buyQty: parseFloat(changed.newValue),
+        sellQty: parseFloat(changed.newValue)
       })
     })
 
@@ -152,8 +159,12 @@ class Order extends PureComponent {
   }
 
   componentWillUnmount = () => {
-    if (this.disposer) {
-      this.disposer()
+    if (this.disposerPrice) {
+      this.disposerPrice()
+    }
+
+    if (this.disposerQty) {
+      this.disposerQty()
     }
 
     if (this.disposerAccount) {
@@ -599,7 +610,8 @@ class Order extends PureComponent {
                 <Popup
                   trigger={<InfoIcon className={'ion-ios-information'} />}
                   position="top center"
-                  on="hover">
+                  on="hover"
+                >
                   <div>
                     <FormattedMessage id="Taker Fee" />
                     {' : '}
@@ -669,7 +681,8 @@ class Order extends PureComponent {
                   <Popup
                     trigger={<InfoIcon className={'ion-ios-information'} />}
                     position="top center"
-                    on="hover">
+                    on="hover"
+                  >
                     <div>
                       <FormattedMessage id="Maker Fee" />
                       {' : '}

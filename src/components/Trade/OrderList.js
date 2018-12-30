@@ -3,7 +3,12 @@ import { Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { Text, HeaderTable, TokenPrice, PriceIcon, PriceRow, PriceBack } from '../Common/Common'
 
-import { ORDER_PAGE_LIMIT, GET_ORDER_LIST_INTERVAL, ORDER_STATUS_NOT_DEAL, ORDER_STATUS_PARTIAL_DEALED } from '../../constants/Values'
+import {
+  ORDER_PAGE_LIMIT,
+  GET_ORDER_LIST_INTERVAL,
+  ORDER_STATUS_NOT_DEAL,
+  ORDER_STATUS_PARTIAL_DEALED
+} from '../../constants/Values'
 import { isNumber } from 'util'
 import ColorsConstant from '../Colors/ColorsConstant'
 import styled from 'styled-components'
@@ -71,9 +76,10 @@ class OrderList extends PureComponent {
     }
   }
 
-  onOrderListClick = price => {
+  onOrderListClick = (price, qty) => {
     const { tradeStore } = this.props
     tradeStore.setPrice(price)
+    tradeStore.setQty(qty)
   }
 
   render() {
@@ -133,7 +139,10 @@ class OrderList extends PureComponent {
                   const width = (o.stacked_amount / sellMax) * 100
 
                   return (
-                    <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                    <BaseRow
+                      key={i}
+                      onClick={this.onOrderListClick.bind(this, o.token_price, o.stacked_amount)}
+                    >
                       <BaseColumn>
                         <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
                       </BaseColumn>
@@ -146,7 +155,9 @@ class OrderList extends PureComponent {
                         </PriceRow>
                       </AmountColumn>
                       <BaseColumn>
-                        <PriceRow>{Math.abs(o.token_price * o.stacked_amount).toFixed(token.precision)}</PriceRow>
+                        <PriceRow>
+                          {Math.abs(o.token_price * o.stacked_amount).toFixed(token.precision)}
+                        </PriceRow>
                       </BaseColumn>
                     </BaseRow>
                   )
@@ -155,13 +166,28 @@ class OrderList extends PureComponent {
           </Table>
         </div>
 
-        <TokenPrice className="table-responsive" style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}>
-          <Text color={token.last_price - token.last_previous_price > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}>{`${
-            token.last_price
-          }`}</Text>{' '}
+        <TokenPrice
+          className="table-responsive"
+          style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}
+        >
+          <Text
+            color={
+              token.last_price - token.last_previous_price > 0
+                ? ColorsConstant.Thick_green
+                : ColorsConstant.Thick_red
+            }
+          >{`${token.last_price}`}</Text>{' '}
           <PriceIcon
-            className={token.last_price - token.last_previous_price > 0 ? 'ion-arrow-up-c' : 'ion-arrow-down-c'}
-            color={token.last_price - token.last_previous_price > 0 ? ColorsConstant.Thick_green : ColorsConstant.Thick_red}
+            className={
+              token.last_price - token.last_previous_price > 0
+                ? 'ion-arrow-up-c'
+                : 'ion-arrow-down-c'
+            }
+            color={
+              token.last_price - token.last_previous_price > 0
+                ? ColorsConstant.Thick_green
+                : ColorsConstant.Thick_red
+            }
           />
         </TokenPrice>
 
@@ -182,7 +208,10 @@ class OrderList extends PureComponent {
                   const width = (o.stacked_amount / buyMax) * 100
 
                   return (
-                    <BaseRow key={i} onClick={this.onOrderListClick.bind(this, o.token_price)}>
+                    <BaseRow
+                      key={i}
+                      onClick={this.onOrderListClick.bind(this, o.token_price, o.stacked_amount)}
+                    >
                       <BaseColumn>
                         <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
                       </BaseColumn>
@@ -195,7 +224,9 @@ class OrderList extends PureComponent {
                         </PriceRow>
                       </AmountColumn>
                       <BaseColumn>
-                        <PriceRow>{Math.abs(o.token_price * o.stacked_amount).toFixed(token.precision)}</PriceRow>
+                        <PriceRow>
+                          {Math.abs(o.token_price * o.stacked_amount).toFixed(token.precision)}
+                        </PriceRow>
                       </BaseColumn>
                     </BaseRow>
                   )
