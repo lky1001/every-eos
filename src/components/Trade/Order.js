@@ -7,6 +7,7 @@ import { withAlert } from 'react-alert'
 import { FormattedMessage } from 'react-intl'
 import Popup from 'reactjs-popup'
 import ColorsConstant from '../Colors/ColorsConstant'
+import { getTodayNoon } from '../../utils/timezoneHelper'
 import { RightAlignCol, InfoIcon } from '../Common/Common'
 import { toJS } from 'mobx'
 
@@ -92,7 +93,7 @@ class Order extends PureComponent {
   componentDidMount = async () => {
     const { tradeStore, accountStore, marketStore, token } = this.props
 
-    await marketStore.getTokenBySymbol(token.symbol)
+    await marketStore.getTokenBySymbol(token.symbol, getTodayNoon().getTime())
 
     if (accountStore.loginAccountInfo) {
       await this.getTokenBalance()
@@ -266,7 +267,7 @@ class Order extends PureComponent {
       if (result.value) {
         if (result.value.isSuccess) {
           Swal({
-            title: 'Buy Sucess!',
+            title: 'Buy Registered!',
             type: 'success',
             html: successHtml
           })
@@ -458,7 +459,7 @@ class Order extends PureComponent {
       if (result.value) {
         if (result.value.isSuccess) {
           Swal({
-            title: 'Buy Sucess!',
+            title: 'Sell Registered!',
             type: 'success',
             html: successHtml
           })

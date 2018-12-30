@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react'
 import NumberFormat from 'react-number-format'
 import { FormattedMessage } from 'react-intl'
 import styled from 'styled-components'
+import { getTodayNoon } from '../../utils/timezoneHelper'
 import ColorsConstant from '../Colors/ColorsConstant'
 import { EOS_TOKEN } from '../../constants/Values'
 
@@ -26,7 +27,7 @@ class TokenInfo extends PureComponent {
   componentDidMount = async () => {
     const { symbol, marketStore } = this.props
 
-    await marketStore.getTokenBySymbol(symbol)
+    await marketStore.getTokenBySymbol(symbol, getTodayNoon().getTime())
   }
 
   render() {

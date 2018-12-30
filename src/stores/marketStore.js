@@ -29,15 +29,19 @@ class MarketStore {
     })
   }
 
-  getTokens = async () => {
-    this.tokens = await graphql({ client: ApiServerAgent, query: tokensQuery })
+  getTokens = async from => {
+    this.tokens = await graphql({
+      client: ApiServerAgent,
+      query: tokensQuery,
+      variables: { from: from }
+    })
   }
 
-  getTokenBySymbol = async symbol => {
+  getTokenBySymbol = async (symbol, from) => {
     this.token = await graphql({
       client: ApiServerAgent,
       query: findTokenQuery,
-      variables: { symbol: symbol }
+      variables: { symbol: symbol, from: from }
     })
   }
 

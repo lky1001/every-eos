@@ -2,6 +2,7 @@ import React, { PureComponent, Fragment } from 'react'
 import { Row, Col, Grid } from 'react-bootstrap'
 import styled from 'styled-components'
 import ColorsConstant from '../Colors/ColorsConstant'
+import { getTodayNoon } from '../../utils/timezoneHelper'
 import Img from 'react-image'
 
 const TokenInfoTitle = styled.h6`
@@ -17,7 +18,7 @@ class TokenThumbnailInfo extends PureComponent {
   componentDidMount = async () => {
     const { symbol, marketStore } = this.props
 
-    await marketStore.getTokenBySymbol(symbol)
+    await marketStore.getTokenBySymbol(symbol, getTodayNoon().getTime())
   }
 
   render() {

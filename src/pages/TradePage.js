@@ -11,7 +11,7 @@ import TokenThumbnailInfo from '../components/Trade/TokenThumbnailInfo'
 import Resource from '../components/Trade/Resource'
 import OrderList from '../components/Trade/OrderList'
 import Order from '../components/Trade/Order'
-
+import { getTodayNoon } from '../utils/timezoneHelper'
 import Market from '../components/Trade/Market'
 import LatestTradeList from '../components/Trade/LatestTradeList'
 import OrderHistory from '../components/Trade/OrderHistory'
@@ -42,7 +42,7 @@ class TradePage extends Component {
       }
 
       tradeStore.setTokenSymbol(token)
-      await marketStore.getTokenBySymbol(token)
+      await marketStore.getTokenBySymbol(token, getTodayNoon().getTime())
 
       this.forceUpdate()
     })
@@ -52,7 +52,7 @@ class TradePage extends Component {
     const { marketStore, tradeStore, accountStore } = this.props
 
     tradeStore.setTokenSymbol(this.state.token)
-    await marketStore.getTokenBySymbol(this.state.token)
+    await marketStore.getTokenBySymbol(this.state.token, getTodayNoon().getTime())
 
     this.disposer = accountStore.subscribeLoginState(changed => {
       if (changed.oldValue !== changed.newValue) {
@@ -96,14 +96,12 @@ class TradePage extends Component {
                 height,
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}
-            >
+              }}>
               <Col
                 md={3}
                 style={{
                   borderRight: ColorsConstant.Trade_border_style
-                }}
-              >
+                }}>
                 <TokenThumbnailInfo
                   marketStore={marketStore}
                   symbol={token.symbol}
@@ -122,8 +120,7 @@ class TradePage extends Component {
                 height: '674px',
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}
-            >
+              }}>
               <NoPaddingCol className="col-md-3" showBorderRight showBorderTop showBorderBottom>
                 <OrderList
                   token={token}
@@ -138,8 +135,7 @@ class TradePage extends Component {
                     height: '380px',
                     background: 'white',
                     borderTop: ColorsConstant.Trade_border_style
-                  }}
-                >
+                  }}>
                   <NoMarginPaddingCol xs={12}>
                     <Chart token={token} accountStore={accountStore} tradeStore={tradeStore} />
                   </NoMarginPaddingCol>
@@ -148,8 +144,7 @@ class TradePage extends Component {
                   style={{
                     height: '280px',
                     background: 'white'
-                  }}
-                >
+                  }}>
                   <NoMarginPaddingCol xs={12}>
                     <Order
                       token={token}
@@ -166,8 +161,7 @@ class TradePage extends Component {
                   style={{
                     height: '380px',
                     background: 'white'
-                  }}
-                >
+                  }}>
                   <NoPaddingCol className="col-md-12" showBorderLeft showBorderTop showBorderBottom>
                     <Market tokens={tokens} />
                   </NoPaddingCol>
@@ -189,14 +183,12 @@ class TradePage extends Component {
               style={{
                 borderLeft: ColorsConstant.Trade_border_style,
                 borderRight: ColorsConstant.Trade_border_style
-              }}
-            >
+              }}>
               <Col xs={12} md={12}>
                 <Row
                   style={{
                     background: 'white'
-                  }}
-                >
+                  }}>
                   <NoMarginPaddingCol xs={12}>
                     <OpenOrder
                       accountStore={accountStore}
@@ -212,8 +204,7 @@ class TradePage extends Component {
                 <Row
                   style={{
                     background: 'white'
-                  }}
-                >
+                  }}>
                   <NoMarginPaddingCol xs={12}>
                     <OrderHistory
                       accountStore={accountStore}
@@ -243,8 +234,7 @@ class TradePage extends Component {
               margin: 'auto',
               paddingTop: '20px',
               paddingBottom: '0px'
-            }}
-          >
+            }}>
             <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
           </div>
         )}

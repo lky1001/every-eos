@@ -10,6 +10,8 @@ import ColorsConstant from '../Colors/ColorsConstant.js'
 import { withCookies, Cookies } from 'react-cookie'
 import { Tabs, Icon } from 'antd'
 import Loader from 'react-loader-spinner'
+import { format } from 'date-fns'
+import { getTodayNoon } from '../../utils/timezoneHelper'
 import './MarketView.scss'
 
 const TabPane = Tabs.TabPane
@@ -32,8 +34,10 @@ class MarketView extends Component {
     const { marketStore } = this.props
 
     const id = setInterval(async () => {
-      await marketStore.getTokens()
-    }, 2000)
+      const currentDate = getTodayNoon()
+
+      await marketStore.getTokens(currentDate.getTime())
+    }, 5000)
 
     this.setState({
       intervalId: id
@@ -71,12 +75,13 @@ class MarketView extends Component {
     const { marketStore } = this.props
     const { favorites } = this.state
     const { tokenList } = marketStore
+
     const operations = (
       <div
         style={{
           fontSize: '14px',
           padding: '8px'
-        }}>{`${new Date().toLocaleDateString()} 00:00 기준`}</div>
+        }}>{`${format(new Date(), 'MM/DD/YYYY 00:00')} 기준`}</div>
     )
 
     const favoriteTokens = tokenList.filter(t => favorites.some(f => f === t.symbol))
@@ -165,9 +170,9 @@ class MarketView extends Component {
                                   <td className="va-middle text-right">
                                     <Header6
                                       color={
-                                        todayChanged > 0
-                                          ? ColorsConstant.Thick_green
-                                          : ColorsConstant.Thick_red
+                                        todayChanged < 0
+                                          ? ColorsConstant.Thick_red
+                                          : ColorsConstant.Thick_green
                                       }>
                                       {token.last_price.toFixed(4)}
                                     </Header6>
@@ -175,9 +180,9 @@ class MarketView extends Component {
                                   <td className="va-middle text-center">
                                     <Header6
                                       color={
-                                        todayChanged > 0
-                                          ? ColorsConstant.Thick_green
-                                          : ColorsConstant.Thick_red
+                                        todayChanged < 0
+                                          ? ColorsConstant.Thick_red
+                                          : ColorsConstant.Thick_green
                                       }>
                                       {todayChanged.toFixed(4)}
                                     </Header6>
@@ -280,9 +285,9 @@ class MarketView extends Component {
                                 <td className="va-middle text-right">
                                   <Header6
                                     color={
-                                      todayChanged > 0
-                                        ? ColorsConstant.Thick_green
-                                        : ColorsConstant.Thick_red
+                                      todayChanged < 0
+                                        ? ColorsConstant.Thick_red
+                                        : ColorsConstant.Thick_green
                                     }>
                                     {token.last_price.toFixed(4)}
                                   </Header6>
@@ -290,9 +295,9 @@ class MarketView extends Component {
                                 <td className="va-middle text-center">
                                   <Header6
                                     color={
-                                      todayChanged > 0
-                                        ? ColorsConstant.Thick_green
-                                        : ColorsConstant.Thick_red
+                                      todayChanged < 0
+                                        ? ColorsConstant.Thick_red
+                                        : ColorsConstant.Thick_green
                                     }>
                                     {todayChanged.toFixed(4)}
                                   </Header6>
