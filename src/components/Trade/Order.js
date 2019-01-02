@@ -9,8 +9,8 @@ import Popup from 'reactjs-popup'
 import ColorsConstant from '../Colors/ColorsConstant'
 import { getTodayNoon } from '../../utils/timezoneHelper'
 import { RightAlignCol, InfoIcon } from '../Common/Common'
+import Slider from 'rc-slider'
 import { toJS } from 'mobx'
-
 import {
   EOS_TOKEN,
   SCATTER_ERROR_LOCKED,
@@ -25,14 +25,33 @@ import {
 
 import styled from 'styled-components'
 import { sleep } from '../../utils/sleepHelper'
+/* eslint react/no-multi-comp: 0, max-len: 0 */
+import 'rc-slider/assets/index.css'
 
+const railStyle = {
+  backgroundColor: ColorsConstant.grayLighter,
+  height: 6
+}
+
+const minimumTrackStyle = { backgroundColor: ColorsConstant.primary, height: 6 }
+const handleStyle = {
+  borderColor: ColorsConstant.primary,
+  height: 16,
+  width: 16,
+  marginLeft: -8,
+  marginTop: -5,
+  backgroundColor: 'white'
+}
+const HandSlider = styled(Slider)`
+  cursor: pointer;
+`
 const OrderTabPanel = styled(TabPanel)`
   font-size: 1.25rem;
 `
 
 const OrderRowPanel = styled(Row)`
   height: 40px;
-  margin: 12px;
+  margin: 14px;
   align-items: center;
 `
 
@@ -81,9 +100,9 @@ class Order extends PureComponent {
     this.state = {
       tabIndex: 0,
       buyPrice: 0.1,
-      buyQty: 0.0001,
+      buyQty: 0,
       sellPrice: 0.1,
-      sellQty: 0.0001,
+      sellQty: 0,
       buyMarketTotalEos: 0.1,
       sellMarketAmount: 0.0001,
       tokenBalance: 0.0
@@ -557,6 +576,18 @@ class Order extends PureComponent {
     }
   }
 
+  onBuySliderChange = value => {
+    this.setState({
+      buyQty: value
+    })
+  }
+
+  onSellSliderChange = value => {
+    this.setState({
+      sellQty: value
+    })
+  }
+
   render() {
     const { token, accountStore } = this.props
 
@@ -574,7 +605,7 @@ class Order extends PureComponent {
         <OrderTabPanel>
           <Row>
             <Col sm="6">
-              <OrderRowPanel style={{ height: '25px' }}>
+              <OrderRowPanel style={{ height: '32px' }}>
                 <PrimaryOrderColPanel sm="5" buy="true">
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
@@ -613,6 +644,24 @@ class Order extends PureComponent {
                   </InputGroup>
                 </Col>
               </OrderRowPanel>
+
+              <OrderRowPanel>
+                <OrderColPanel sm="3" />
+                <Col sm="9">
+                  <div style={{ width: '100%' }}>
+                    <HandSlider
+                      defaultValue={0}
+                      min={0}
+                      max={this.state.tokenBalance}
+                      onChange={v => this.onBuySliderChange(v)}
+                      railStyle={railStyle}
+                      minimumTrackStyle={minimumTrackStyle}
+                      handleStyle={handleStyle}
+                    />
+                  </div>
+                </Col>
+              </OrderRowPanel>
+
               <OrderAmountRow>
                 <FormattedMessage id="TOTAL" />
                 {' : '}
@@ -621,8 +670,7 @@ class Order extends PureComponent {
                 <Popup
                   trigger={<InfoIcon className={'ion-ios-information'} />}
                   position="top center"
-                  on="hover"
-                >
+                  on="hover">
                   <div>
                     <FormattedMessage id="Taker Fee" />
                     {' : '}
@@ -642,7 +690,7 @@ class Order extends PureComponent {
             </Col>
 
             <Col sm="6">
-              <OrderRowPanel style={{ height: '25px' }}>
+              <OrderRowPanel style={{ height: '32px' }}>
                 <PrimaryOrderColPanel sm="5" sell="true">
                   <FormattedMessage id="Available" />
                 </PrimaryOrderColPanel>
@@ -683,6 +731,24 @@ class Order extends PureComponent {
                   </InputGroup>
                 </Col>
               </OrderRowPanel>
+
+              <OrderRowPanel>
+                <OrderColPanel sm="3" />
+                <Col sm="9">
+                  <div style={{ width: '100%' }}>
+                    <HandSlider
+                      defaultValue={0}
+                      min={0}
+                      max={this.state.tokenBalance}
+                      onChange={v => this.onSellSliderChange(v)}
+                      railStyle={railStyle}
+                      minimumTrackStyle={minimumTrackStyle}
+                      handleStyle={handleStyle}
+                    />
+                  </div>
+                </Col>
+              </OrderRowPanel>
+
               <OrderAmountRow>
                 <div>
                   <FormattedMessage id="TOTAL" />
@@ -692,8 +758,7 @@ class Order extends PureComponent {
                   <Popup
                     trigger={<InfoIcon className={'ion-ios-information'} />}
                     position="top center"
-                    on="hover"
-                  >
+                    on="hover">
                     <div>
                       <FormattedMessage id="Maker Fee" />
                       {' : '}

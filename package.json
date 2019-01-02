@@ -62,6 +62,7 @@
     "raf": "3.4.0",
     "rc-queue-anim": "^1.6.7",
     "rc-scroll-anim": "^2.5.6",
+    "rc-slider": "^8.6.4",
     "rc-tween-one": "^2.2.14",
     "react": "^16.5.2",
     "react-addons-css-transition-group": "^15.6.2",

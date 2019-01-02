@@ -114,8 +114,8 @@ class LatestTradeList extends PureComponent {
           </thead>
         </HeaderTable>
 
-        <Scrollbars style={{ height: '380px' }}>
-          <Row style={{ height: '380px', margin: '0px' }}>
+        <Scrollbars style={{ height: '320px' }}>
+          <Row style={{ height: '320px', margin: '0px' }}>
             <Col xs={12} md={12} style={{ padding: '0px' }}>
               <Table className="order-list-table responsive hover">
                 <tbody>
@@ -130,14 +130,12 @@ class LatestTradeList extends PureComponent {
                           this.exploreTransaction(
                             `https://eospark.com/tx/${latestTrade.transaction_id}`
                           )
-                        }
-                      >
+                        }>
                         <LinkColumn />
                         <PriceColumn>
                           <PriceRow
                             up={latestTrade.order_type === 'BUY'}
-                            down={latestTrade.order_type === 'SELL'}
-                          >
+                            down={latestTrade.order_type === 'SELL'}>
                             <NumberFormat
                               displayType={'text'}
                               value={latestTrade.token_price}

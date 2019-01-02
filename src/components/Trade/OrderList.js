@@ -1,8 +1,8 @@
 import React, { PureComponent, Fragment } from 'react'
-import { Table } from 'react-bootstrap'
+import { Row, Col, Table } from 'react-bootstrap'
 import { FormattedMessage } from 'react-intl'
 import { Text, HeaderTable, TokenPrice, PriceIcon, PriceRow, PriceBack } from '../Common/Common'
-
+import { Scrollbars } from 'react-custom-scrollbars'
 import {
   ORDER_PAGE_LIMIT,
   GET_ORDER_LIST_INTERVAL,
@@ -122,61 +122,66 @@ class OrderList extends PureComponent {
             </tr>
           </thead>
         </HeaderTable>
-        <div className="table-responsive">
-          <Table className="order-list-table">
-            <tbody>
-              {(!sellOrdersList || sellOrdersList.length === 0) && (
-                <BaseRow>
-                  <BaseColumn>
-                    <NoOrderColumn>
-                      <FormattedMessage id="No Orders" />
-                    </NoOrderColumn>
-                  </BaseColumn>
-                </BaseRow>
-              )}
-              {sellOrdersList &&
-                sellOrdersList.map((o, i) => {
-                  const width = (o.stacked_amount / sellMax) * 100
 
-                  return (
-                    <BaseRow
-                      key={i}
-                      onClick={this.onOrderListClick.bind(this, o.token_price, o.stacked_amount)}
-                    >
+        <Scrollbars style={{ height: '320px' }}>
+          <Row style={{ height: '320px', margin: '0px' }}>
+            <Col xs={12} md={12} style={{ padding: '0px' }}>
+              <Table className="order-list-table responsive hover">
+                <tbody>
+                  {(!sellOrdersList || sellOrdersList.length === 0) && (
+                    <BaseRow>
                       <BaseColumn>
-                        <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
-                      </BaseColumn>
-                      <AmountColumn>
-                        <PriceBack width={width} down>
-                          -
-                        </PriceBack>
-                        <PriceRow position="absolute" right="18px">
-                          {o.stacked_amount.toFixed(4)}
-                        </PriceRow>
-                      </AmountColumn>
-                      <BaseColumn>
-                        <PriceRow>
-                          {Math.abs(o.token_price * o.stacked_amount).toFixed(token.precision)}
-                        </PriceRow>
+                        <NoOrderColumn>
+                          <FormattedMessage id="No Orders" />
+                        </NoOrderColumn>
                       </BaseColumn>
                     </BaseRow>
-                  )
-                })}
-            </tbody>
-          </Table>
-        </div>
+                  )}
+                  {sellOrdersList &&
+                    sellOrdersList.map((o, i) => {
+                      const width = (o.stacked_amount / sellMax) * 100
 
+                      return (
+                        <BaseRow
+                          key={i}
+                          onClick={this.onOrderListClick.bind(
+                            this,
+                            o.token_price,
+                            o.stacked_amount
+                          )}>
+                          <BaseColumn>
+                            <PriceRow down>{o.token_price.toFixed(4)}</PriceRow>
+                          </BaseColumn>
+                          <AmountColumn>
+                            <PriceBack width={width} down>
+                              -
+                            </PriceBack>
+                            <PriceRow position="absolute" right="18px">
+                              {o.stacked_amount.toFixed(4)}
+                            </PriceRow>
+                          </AmountColumn>
+                          <BaseColumn>
+                            <PriceRow>
+                              {Math.abs(o.token_price * o.stacked_amount).toFixed(token.precision)}
+                            </PriceRow>
+                          </BaseColumn>
+                        </BaseRow>
+                      )
+                    })}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        </Scrollbars>
         <TokenPrice
           className="table-responsive"
-          style={{ borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}
-        >
+          style={{ height: '46px', borderTop: 'solid 1px rgba(162, 162, 162, 0.16)' }}>
           <Text
             color={
               token.last_price - token.last_previous_price > 0
                 ? ColorsConstant.Thick_green
                 : ColorsConstant.Thick_red
-            }
-          >{`${token.last_price}`}</Text>{' '}
+            }>{`${token.last_price}`}</Text>{' '}
           <PriceIcon
             className={
               token.last_price - token.last_previous_price > 0
@@ -191,49 +196,56 @@ class OrderList extends PureComponent {
           />
         </TokenPrice>
 
-        <div className="table-responsive">
-          <Table className="order-list-table">
-            <tbody>
-              {(!buyOrdersList || buyOrdersList.length === 0) && (
-                <BaseRow>
-                  <BaseColumn>
-                    <NoOrderColumn>
-                      <FormattedMessage id="No Orders" />
-                    </NoOrderColumn>
-                  </BaseColumn>
-                </BaseRow>
-              )}
-              {buyOrdersList &&
-                buyOrdersList.map((o, i) => {
-                  const width = (o.stacked_amount / buyMax) * 100
-
-                  return (
-                    <BaseRow
-                      key={i}
-                      onClick={this.onOrderListClick.bind(this, o.token_price, o.stacked_amount)}
-                    >
+        <Scrollbars style={{ height: '320px' }}>
+          <Row style={{ height: '320px', margin: '0px' }}>
+            <Col xs={12} md={12} style={{ padding: '0px' }}>
+              <Table className="order-list-table responsive hover">
+                <tbody>
+                  {(!buyOrdersList || buyOrdersList.length === 0) && (
+                    <BaseRow>
                       <BaseColumn>
-                        <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
-                      </BaseColumn>
-                      <AmountColumn>
-                        <PriceBack up width={width}>
-                          -
-                        </PriceBack>
-                        <PriceRow position="absolute" right="18px">
-                          {o.stacked_amount.toFixed(4)}
-                        </PriceRow>
-                      </AmountColumn>
-                      <BaseColumn>
-                        <PriceRow>
-                          {Math.abs(o.token_price * o.stacked_amount).toFixed(token.precision)}
-                        </PriceRow>
+                        <NoOrderColumn>
+                          <FormattedMessage id="No Orders" />
+                        </NoOrderColumn>
                       </BaseColumn>
                     </BaseRow>
-                  )
-                })}
-            </tbody>
-          </Table>
-        </div>
+                  )}
+                  {buyOrdersList &&
+                    buyOrdersList.map((o, i) => {
+                      const width = (o.stacked_amount / buyMax) * 100
+
+                      return (
+                        <BaseRow
+                          key={i}
+                          onClick={this.onOrderListClick.bind(
+                            this,
+                            o.token_price,
+                            o.stacked_amount
+                          )}>
+                          <BaseColumn>
+                            <PriceRow up>{o.token_price.toFixed(4)}</PriceRow>
+                          </BaseColumn>
+                          <AmountColumn>
+                            <PriceBack up width={width}>
+                              -
+                            </PriceBack>
+                            <PriceRow position="absolute" right="18px">
+                              {o.stacked_amount.toFixed(4)}
+                            </PriceRow>
+                          </AmountColumn>
+                          <BaseColumn>
+                            <PriceRow>
+                              {Math.abs(o.token_price * o.stacked_amount).toFixed(token.precision)}
+                            </PriceRow>
+                          </BaseColumn>
+                        </BaseRow>
+                      )
+                    })}
+                </tbody>
+              </Table>
+            </Col>
+          </Row>
+        </Scrollbars>
       </Fragment>
     )
   }
