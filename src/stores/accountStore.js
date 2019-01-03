@@ -1,7 +1,9 @@
 import { decorate, observable, action } from 'mobx'
+import graphql from 'mobx-apollo'
 import eosAgent from '../EosAgent'
 import ApiServerAgent from '../ApiServerAgent'
 import { loginUserMutation } from '../graphql/mutation/user'
+import { getFrozenBalance } from '../graphql/query/token'
 
 class AccountStore {
   loginStateObserveble
@@ -215,6 +217,14 @@ class AccountStore {
 
     return balance[0].split(' ')[0]
   }
+
+  getFrozenBalance = async () => {
+    return await graphql({
+      client: ApiServerAgent,
+      query: getFrozenBalance,
+      variables: { account: this.loginAccountInfo.account_name }
+    })
+  }
 }
 
 decorate(AccountStore, {
@@ -238,7 +248,8 @@ decorate(AccountStore, {
   login: action,
   logout: action,
   loadAccountInfo: action,
-  subscribeLoginState: action
+  subscribeLoginState: action,
+  getFrozenBalance: action
 })
 
 export default AccountStore

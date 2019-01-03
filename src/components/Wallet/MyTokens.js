@@ -1,4 +1,6 @@
 import React, { Component, Fragment } from 'react'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
 import { ShadowedCard, MarketHeader } from '../Common/Common'
 import { FormattedMessage } from 'react-intl'
 import { Row, Col } from 'react-bootstrap'
@@ -118,7 +120,8 @@ class MyTokens extends Component {
               id: token.id,
               name: token.name,
               symbol: token.symbol,
-              balance: balance.length > 0 ? balance[0].split(' ')[0] : 0.0
+              balance: balance.length > 0 ? balance[0].split(' ')[0] : 0.0,
+              frozen: 0.0
             }
           })
       )
@@ -134,6 +137,8 @@ class MyTokens extends Component {
           return true
         }
       })
+
+      const frozenTokens = await accountStore.getFrozenBalance()
 
       this.setState({
         tokens: filterTokens
@@ -195,8 +200,8 @@ class MyTokens extends Component {
                     <tr key={idx}>
                       <td style={{ textAlign: 'left', fontSize: '15px' }}>{token.name}</td>
                       <td style={{ fontSize: '15px' }}>{token.balance}</td>
-                      <td style={{ fontSize: '15px' }}>0.0000</td>
-                      <td style={{ fontSize: '15px' }}>1.000</td>
+                      <td style={{ fontSize: '15px' }}>{token.frozen}</td>
+                      <td style={{ fontSize: '15px' }}>-</td>
                       <td style={{ fontSize: '15px' }}>
                         <Link to={'/trades/' + token.symbol}>
                           <FormattedMessage id="Move" />
