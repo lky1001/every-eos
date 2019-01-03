@@ -33,7 +33,7 @@ const railStyle = {
   height: 6
 }
 
-const minimumTrackStyle = { backgroundColor: ColorsConstant.primary, height: 6 }
+const trackStyle = { backgroundColor: ColorsConstant.primary, height: 6 }
 const handleStyle = {
   borderColor: ColorsConstant.primary,
   height: 16,
@@ -129,8 +129,8 @@ class Order extends PureComponent {
     this.setState({
       buyPrice: lastPrice,
       sellPrice: lastPrice,
-      buyQty: accountStore.liquid / lastPrice,
-      sellQty: this.state.tokenBalance
+      buyQty: 0,
+      sellQty: 0
     })
 
     this.disposerPrice = tradeStore.setWatchPrice(changed => {
@@ -160,9 +160,20 @@ class Order extends PureComponent {
     })
   }
 
-  componentDidUpdate = async () => {
-    await this.getTokenBalance()
+  componentWillReceiveProps = nextProps => {
+    if (this.props.token && nextProps.token) {
+      if (this.props.token.symbol !== nextProps.token.symbol) {
+        this.setState({
+          buyQty: 0,
+          sellQty: 0
+        })
+      }
+    }
   }
+
+  // componentDidUpdate = async () => {
+  //   await this.getTokenBalance()
+  // }
 
   getTokenBalance = async () => {
     const { accountStore, eosioStore, token } = this.props
@@ -650,12 +661,12 @@ class Order extends PureComponent {
                 <Col sm="9">
                   <div style={{ width: '100%' }}>
                     <HandSlider
-                      defaultValue={0}
+                      value={this.state.buyQty}
                       min={0}
-                      max={this.state.tokenBalance}
+                      max={Math.floor(accountStore.liquid / this.state.buyPrice)}
                       onChange={v => this.onBuySliderChange(v)}
                       railStyle={railStyle}
-                      minimumTrackStyle={minimumTrackStyle}
+                      trackStyle={trackStyle}
                       handleStyle={handleStyle}
                     />
                   </div>
@@ -666,6 +677,7 @@ class Order extends PureComponent {
                 <FormattedMessage id="TOTAL" />
                 {' : '}
                 {(this.state.buyPrice * this.state.buyQty).toFixed(EOS_TOKEN.precision)}
+                {' EOS'}
 
                 <Popup
                   trigger={<InfoIcon className={'ion-ios-information'} />}
@@ -737,12 +749,12 @@ class Order extends PureComponent {
                 <Col sm="9">
                   <div style={{ width: '100%' }}>
                     <HandSlider
-                      defaultValue={0}
+                      value={this.state.sellQty}
                       min={0}
-                      max={this.state.tokenBalance}
+                      max={Math.floor(this.state.tokenBalance)}
                       onChange={v => this.onSellSliderChange(v)}
                       railStyle={railStyle}
-                      minimumTrackStyle={minimumTrackStyle}
+                      trackStyle={trackStyle}
                       handleStyle={handleStyle}
                     />
                   </div>
@@ -754,7 +766,7 @@ class Order extends PureComponent {
                   <FormattedMessage id="TOTAL" />
                   {' : '}
                   {(this.state.sellPrice * this.state.sellQty).toFixed(EOS_TOKEN.precision)}
-
+                  {' EOS'}
                   <Popup
                     trigger={<InfoIcon className={'ion-ios-information'} />}
                     position="top center"
