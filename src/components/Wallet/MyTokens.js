@@ -83,15 +83,9 @@ class MyTokens extends Component {
   getWalletBalance = async () => {
     const { accountStore, marketStore, eosioStore } = this.props
 
-    const tokens = marketStore.tokens
-      ? marketStore.tokens.data
-        ? marketStore.tokens.data.tokens
-        : null
-      : null
+    const tokens = marketStore.tokens ? (marketStore.tokens.data ? marketStore.tokens.data.tokens : null) : null
 
-    const accountName = accountStore.loginAccountInfo
-      ? accountStore.loginAccountInfo.account_name
-      : null
+    const accountName = accountStore.loginAccountInfo ? accountStore.loginAccountInfo.account_name : null
 
     const searchKeyword = this.state.searchKeyword
     const hideNoBalace = this.state.hideNoBalace
@@ -140,6 +134,16 @@ class MyTokens extends Component {
 
       const frozenTokens = await accountStore.getFrozenBalance()
 
+      const result = filterTokens.map(token => {
+        const t = frozenTokens.find(frozenToken => frozenToken.symbol === token.symbol)
+
+        if (t) {
+          token.frozen = t.frozen
+        }
+
+        return token
+      })
+
       this.setState({
         tokens: filterTokens
       })
@@ -155,12 +159,7 @@ class MyTokens extends Component {
         <div className="card-body">
           <Row>
             <Col xs={6}>
-              <input
-                type="text"
-                className="form-control form-control-lg"
-                placeholder="Enter Symbol"
-                onChange={this.handleChange}
-              />
+              <input type="text" className="form-control form-control-lg" placeholder="Enter Symbol" onChange={this.handleChange} />
             </Col>
             <Col xs={6} className="text-right">
               <label className="checkbox checkbox-inline" style={{ fontSize: '15px' }}>
