@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from 'react'
+import React, { PureComponent, Fragment } from 'react'
 import { ShadowedCard, MarketHeader } from '../Common/Common'
 import { FormattedMessage } from 'react-intl'
 import { Row, Col } from 'react-bootstrap'
@@ -7,7 +7,7 @@ import Loader from 'react-loader-spinner'
 import { GET_BALANCE_INTERVAL } from '../../constants/Values'
 import _ from 'lodash'
 
-class MyTokens extends Component {
+class MyTokens extends PureComponent {
   constructor(props) {
     super(props)
 
@@ -95,6 +95,8 @@ class MyTokens extends Component {
     const hideNoBalace = this.state.hideNoBalace
 
     if (accountName && tokens) {
+      await accountStore.getFrozenAmountTokens(accountName)
+
       const tokenBalance = await Promise.all(
         tokens
           .filter(token => {
@@ -142,6 +144,9 @@ class MyTokens extends Component {
   }
 
   render() {
+    const { accountStore } = this.props
+    const frozenTokens = accountStore.frozenAmountTokensList || []
+
     return (
       <ShadowedCard>
         <h5 className="card-heading pb0">
@@ -195,7 +200,11 @@ class MyTokens extends Component {
                     <tr key={idx}>
                       <td style={{ textAlign: 'left', fontSize: '15px' }}>{token.name}</td>
                       <td style={{ fontSize: '15px' }}>{token.balance}</td>
-                      <td style={{ fontSize: '15px' }}>0.0000</td>
+                      <td style={{ fontSize: '15px' }}>
+                        {frozenTokens.find(t => t.token_id === token.id)
+                          ? frozenTokens.find(t => t.token_id === token.id).frozen_amount.toFixed(4)
+                          : '0.0000'}
+                      </td>
                       <td style={{ fontSize: '15px' }}>1.000</td>
                       <td style={{ fontSize: '15px' }}>
                         <Link to={'/trades/' + token.symbol}>
@@ -214,8 +223,7 @@ class MyTokens extends Component {
                         margin: 'auto',
                         paddingTop: '20px',
                         paddingBottom: '0px'
-                      }}
-                    >
+                      }}>
                       <Loader type="ThreeDots" color="#448AFF" height={40} width={40} />
                     </div>
                   </td>

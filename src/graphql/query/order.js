@@ -42,6 +42,7 @@ const orderFragment = gql`
   }
   ${orderDetailFragment}
 `
+
 // export const ordersQuery = gql`
 //   {
 //     orders {
@@ -102,6 +103,15 @@ export const ordersQuery = gql`
     }
   }
   ${orderDetailFragment}
+`
+
+export const frozenAmountTokensQuery = gql`
+  query($account_name: String!) {
+    frozenAmountTokens(account_name: $account_name) {
+      token_id
+      frozen_amount
+    }
+  }
 `
 
 export const ordersForAccountQuery = gql`

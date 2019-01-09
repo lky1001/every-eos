@@ -1,8 +1,9 @@
-import { decorate, observable, action } from 'mobx'
+import { decorate, observable, set, toJS, action, computed } from 'mobx'
 import eosAgent from '../EosAgent'
 import ApiServerAgent from '../ApiServerAgent'
 import { loginUserMutation } from '../graphql/mutation/user'
-
+import graphql from 'mobx-apollo'
+import { frozenAmountTokensQuery } from '../graphql/query/order'
 class AccountStore {
   loginStateObserveble
 
@@ -35,6 +36,15 @@ class AccountStore {
     cpuWeight: 0.0,
     netWeight: 0.0
   }
+
+  frozenAmountTokens = {
+    data: {
+      frozenAmountTokens: null
+    },
+    loading: false,
+    error: null
+  }
+
   selfStake = 0.0
   delegatedStake = 0.0
   totalStake = 0.0
@@ -42,9 +52,16 @@ class AccountStore {
   myVoteProducers = []
   isProxy = 0
   proxy = ''
+
   constructor(rootStore) {
     this.root = rootStore
     this.loginStateObserveble = observable.box(false)
+
+    set(this, {
+      get frozenAmountTokens() {
+        return graphql({ client: ApiServerAgent, query: frozenAmountTokensQuery })
+      }
+    })
   }
 
   subscribeLoginState = subscriber => {
@@ -215,6 +232,34 @@ class AccountStore {
 
     return balance[0].split(' ')[0]
   }
+
+  getFrozenAmountTokens = async account_name => {
+    this.frozenAmountTokens = await graphql({
+      client: ApiServerAgent,
+      query: frozenAmountTokensQuery,
+      variables: { account_name }
+    })
+  }
+
+  get frozenAmountTokensError() {
+    return (this.frozenAmountTokens.error && this.frozenAmountTokens.error.message) || null
+  }
+
+  get frozenAmountTokensLoading() {
+    return this.frozenAmountTokens.loading
+  }
+
+  get frozenAmountTokensList() {
+    return (
+      (this.frozenAmountTokens.data && toJS(this.frozenAmountTokens.data.frozenAmountTokens)) || []
+    )
+  }
+
+  get frozenAmountTokensCount() {
+    return this.frozenAmountTokens.data.frozenAmountTokens
+      ? this.frozenAmountTokens.data.frozenAmountTokens.length
+      : 0
+  }
 }
 
 decorate(AccountStore, {
@@ -235,10 +280,16 @@ decorate(AccountStore, {
   myVoteProducers: observable,
   isProxy: observable,
   proxy: observable,
+  frozenAmountTokens: observable,
+  frozenAmountTokensError: computed,
+  frozenAmountTokensLoading: computed,
+  frozenAmountTokensList: computed,
+  frozenAmountTokensCount: computed,
   login: action,
   logout: action,
   loadAccountInfo: action,
-  subscribeLoginState: action
+  subscribeLoginState: action,
+  getFrozenAmountTokens: action
 })
 
 export default AccountStore
