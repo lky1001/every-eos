@@ -60,3 +60,13 @@ export const findTokenQuery = gql`
     }
   }
 `
+
+export const getFrozenBalance = gql`
+  query {
+    getFrozenBalance {
+      contract
+      symbol
+      balance
+    }
+  }
+`

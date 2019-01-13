@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 import React, { PureComponent, Fragment } from 'react'
+=======
+import React, { Component, Fragment } from 'react'
+import { inject, observer } from 'mobx-react'
+import { compose } from 'recompose'
+>>>>>>> 1efa0e71f2b241536661611be77cfa9af5c30e66
 import { ShadowedCard, MarketHeader } from '../Common/Common'
 import { FormattedMessage } from 'react-intl'
 import { Row, Col } from 'react-bootstrap'
@@ -81,15 +87,9 @@ class MyTokens extends PureComponent {
   getWalletBalance = async () => {
     const { accountStore, marketStore, eosioStore } = this.props
 
-    const tokens = marketStore.tokens
-      ? marketStore.tokens.data
-        ? marketStore.tokens.data.tokens
-        : null
-      : null
+    const tokens = marketStore.tokens ? (marketStore.tokens.data ? marketStore.tokens.data.tokens : null) : null
 
-    const accountName = accountStore.loginAccountInfo
-      ? accountStore.loginAccountInfo.account_name
-      : null
+    const accountName = accountStore.loginAccountInfo ? accountStore.loginAccountInfo.account_name : null
 
     const searchKeyword = this.state.searchKeyword
     const hideNoBalace = this.state.hideNoBalace
@@ -120,7 +120,8 @@ class MyTokens extends PureComponent {
               id: token.id,
               name: token.name,
               symbol: token.symbol,
-              balance: balance.length > 0 ? balance[0].split(' ')[0] : 0.0
+              balance: balance.length > 0 ? balance[0].split(' ')[0] : 0.0,
+              frozen: 0.0
             }
           })
       )
@@ -135,6 +136,18 @@ class MyTokens extends PureComponent {
         } else {
           return true
         }
+      })
+
+      const frozenTokens = await accountStore.getFrozenBalance()
+
+      const result = filterTokens.map(token => {
+        const t = frozenTokens.find(frozenToken => frozenToken.symbol === token.symbol)
+
+        if (t) {
+          token.frozen = t.frozen
+        }
+
+        return token
       })
 
       this.setState({
@@ -155,12 +168,7 @@ class MyTokens extends PureComponent {
         <div className="card-body">
           <Row>
             <Col xs={6}>
-              <input
-                type="text"
-                className="form-control form-control-lg"
-                placeholder="Enter Symbol"
-                onChange={this.handleChange}
-              />
+              <input type="text" className="form-control form-control-lg" placeholder="Enter Symbol" onChange={this.handleChange} />
             </Col>
             <Col xs={6} className="text-right">
               <label className="checkbox checkbox-inline" style={{ fontSize: '15px' }}>
@@ -200,12 +208,17 @@ class MyTokens extends PureComponent {
                     <tr key={idx}>
                       <td style={{ textAlign: 'left', fontSize: '15px' }}>{token.name}</td>
                       <td style={{ fontSize: '15px' }}>{token.balance}</td>
+<<<<<<< HEAD
                       <td style={{ fontSize: '15px' }}>
                         {frozenTokens.find(t => t.token_id === token.id)
                           ? frozenTokens.find(t => t.token_id === token.id).frozen_amount.toFixed(4)
                           : '0.0000'}
                       </td>
                       <td style={{ fontSize: '15px' }}>1.000</td>
+=======
+                      <td style={{ fontSize: '15px' }}>{token.frozen}</td>
+                      <td style={{ fontSize: '15px' }}>-</td>
+>>>>>>> 1efa0e71f2b241536661611be77cfa9af5c30e66
                       <td style={{ fontSize: '15px' }}>
                         <Link to={'/trades/' + token.symbol}>
                           <FormattedMessage id="Move" />
